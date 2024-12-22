@@ -17,10 +17,8 @@
     background-color: #D5ECFE;
 }
 
-.row .slide-bar {
-    width: 20%;
-    border-right: 2px solid rgb(223, 218, 218);
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+.slide-bar .nav-pills {
+    padding-left: 15px;
 }
 
 hr {
@@ -34,6 +32,9 @@ hr {
     margin-right: 1px;
 }
 
+.row .logo-app {
+    padding-left: 15px;
+}
 
 .row .logo-app .inner-title {
     margin-top: 15px;
