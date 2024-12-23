@@ -100,8 +100,8 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f4f4f4; /* Nền xám nhạt khi lướt qua */
-  color: #fc5185; /* Màu chữ hồng khi lướt qua */
+  background-color: #f4f4f4 !important; /* Nền xám nhạt khi lướt qua */
+  color: #fc5185 !important; /* Màu chữ hồng khi lướt qua */
 }
 
 .nav-link::after {
@@ -110,4 +110,9 @@
   margin-left: 5px; /* Khoảng cách giữa chữ và mũi tên */
   margin-top: 5px;
   color: inherit; /* Giữ màu sắc giống với chữ */
+}
+
+#btn-dangnhap:hover {
+  background-color: #fddde6; /* Màu pastel */
+  color: #fc5185; /* Giữ màu chữ hồng */
 }
