@@ -1,0 +1,35 @@
+.row {
+    margin: 0;
+}
+
+.row .section_left {
+    width: 20%;
+    /* padding-left: 15px; */
+    /* padding */
+    border-right: 2px solid rgb(223, 218, 218);
+    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: sticky;
+}
+
+.row .section_right {
+    flex-grow: 1;
+    background-color: #FFFFFF;
+
+}
+
+.section_right .header {
+    justify-content: space-between;
+    border-bottom: 2px solid rgb(223, 218, 218);
+    margin-top: -2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+}
+
+.footer {
+    font-size: 18px;
+}
+
+.content {
+    background-color: #EFEFEF;
+}
