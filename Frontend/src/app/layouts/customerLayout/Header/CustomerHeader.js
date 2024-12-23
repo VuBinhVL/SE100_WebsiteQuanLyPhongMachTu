@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../styles/Customer/CustomerLayout/CustomerHeader.css";
+import "../Header/CustomerHeader.css";
 import logo from "../../../assets/images/logo_phongkham.png";
 
 export default function CustomerHeader() {

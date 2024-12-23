@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../styles/Customer/CustomerLayout/CustomerFooter.css";
+import "../Footer/CustomerFooter.css";
 export default function CustomerFooter() {
   return (
     <footer className="customer-footer" id="footer">
