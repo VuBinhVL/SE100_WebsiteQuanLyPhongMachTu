@@ -55,10 +55,6 @@ export default function Navigation() {
                                         <span><GoDotFill className="icon_Bullet_point" /></span>
                                         Patiens
                                     </button>
-                                    <button className="itemAuthorizations itemOfListUsers my-2 py-2">
-                                        <span><GoDotFill className="icon_Bullet_point" /></span>
-                                        Authorization
-                                    </button>
                                 </div>
                             </div>
                         </div>

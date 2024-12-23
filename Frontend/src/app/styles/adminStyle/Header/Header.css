@@ -1,3 +1,10 @@
  .icon_header {
      color: #348F6C;
  }
+
+
+
+ .dropdown-menu .dropdown-item:active {
+     background-color: #348F6C;
+     color: white;
+ }

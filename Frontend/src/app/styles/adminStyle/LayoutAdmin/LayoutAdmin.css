@@ -2,15 +2,6 @@
     margin: 0;
 }
 
-.row .section_left {
-    width: 20%;
-    /* padding-left: 15px; */
-    /* padding */
-    border-right: 2px solid rgb(223, 218, 218);
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    position: sticky;
-}
 
 .row .section_right {
     flex-grow: 1;
@@ -22,14 +13,51 @@
     justify-content: space-between;
     border-bottom: 2px solid rgb(223, 218, 218);
     margin-top: -2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     position: sticky;
 }
 
-.footer {
-    font-size: 18px;
+
+.row .content {
+    background-color: #EFEFEF;
+    /* padding-bottom: 10px !important; */
+
 }
 
-.content {
+.row .section_left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 20%;
+    /* Đảm bảo chiều rộng phù hợp */
+    z-index: 10;
+    border-right: 2px solid rgb(223, 218, 218);
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.section_right .header {
+    position: fixed;
+    top: 0;
+    left: 20%;
+    /* Tương ứng chiều rộng của navigation */
+    width: 80%;
+    z-index: 10;
+    background-color: #FFFFFF;
+}
+
+.row .content {
+    margin-top: 71px;
+    margin-left: 20%;
+    padding: 20px;
+    width: 80%;
     background-color: #EFEFEF;
+    min-height: calc(100vh - 60px);
+    overflow-y: auto;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.row .section_right .footer {
+    margin-left: 20%;
+    font-size: 18px;
 }
