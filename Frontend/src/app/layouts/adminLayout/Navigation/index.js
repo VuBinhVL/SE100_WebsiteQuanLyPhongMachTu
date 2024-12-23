@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../../styles/adminStyle/Navigation/Navigation.css";
+import "./Navigation.css";
 import { FaUser } from "react-icons/fa";
 import { LiaBookSolid } from "react-icons/lia";
 import { GiMedicines } from "react-icons/gi";
@@ -8,6 +8,7 @@ import { RxDashboard } from "react-icons/rx";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
+import { NavLink } from "react-router-dom"
 export default function Navigation() {
     const [checkClick, setCheckClick] = useState(false);
     const handleCheckClick = () => {
@@ -27,10 +28,10 @@ export default function Navigation() {
                 <hr className="text-secondary mt-3"></hr>
                 <ul className="nav nav-pills flex-column">
                     <li className="nav-item text-black fs-5 py-2 py-sm-0">
-                        <a href="#" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
+                        <NavLink to="/" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
                             <RxDashboard className="icon icon-dashboard" />
                             <span className="ms-4">Dashboard</span>
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="nav-item text-black fs-5 py-2 py-sm-0">
                         <a className="Parent nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page" data-bs-toggle="collapse"
@@ -46,37 +47,37 @@ export default function Navigation() {
                         <div className="collapse" id="collapseExample">
                             <div className="card card-body">
                                 <div className="listUsers d-flex flex-column">
-                                    <button className="itemStaffs itemOfListUsers my-2 py-2" >
+                                    <NavLink to="Staff" className="itemStaffs itemOfListUsers my-2 py-2" >
                                         <span><GoDotFill className="icon_Bullet_point" /></span>
                                         Staffs
-                                    </button>
+                                    </NavLink>
 
-                                    <button className="itemPatiens itemOfListUsers my-2 py-2">
+                                    <NavLink to="Patien" className="itemPatiens itemOfListUsers my-2 py-2">
                                         <span><GoDotFill className="icon_Bullet_point" /></span>
                                         Patiens
-                                    </button>
+                                    </NavLink>
                                 </div>
                             </div>
                         </div>
                     </li>
 
                     <li className="nav-item text-black fs-5 py-2 py-sm-0">
-                        <a href="#" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
+                        <NavLink to="ExaminationForm" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
                             <FaClipboardList className="fs-5 icon-medicalExaminationForm icon" />
                             <span className="ms-4">Examination Forms</span>
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="nav-item text-black fs-5 py-2 py-sm-0">
-                        <a href="#" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
+                        <NavLink to="MedicalShift" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
                             <LiaBookSolid className="fs-4 icon-examination icon" />
                             <span className="ms-3">Medical Shifts</span>
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="nav-item text-black fs-5 py-2 py-sm-0">
-                        <a href="#" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
+                        <NavLink to="Medicine" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
                             <GiMedicines className="fs-4 icon-medicine icon" />
                             <span className="ms-3">Medicines</span>
-                        </a>
+                        </NavLink>
                     </li>
                 </ul>
 

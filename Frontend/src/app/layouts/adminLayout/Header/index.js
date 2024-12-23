@@ -1,6 +1,6 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
-import "../../../styles/adminStyle/Header/Header.css"
+import "./Header.css"
 import { FaUserCog } from "react-icons/fa";
 import { GrLogout } from "react-icons/gr";
 export default function Header() {
@@ -27,7 +27,6 @@ export default function Header() {
                             <span><GrLogout className="me-2 fs-5 icon_logout" /></span>
                             Log out
                         </a>
-
                     </div>
                 </div>
             </div>
