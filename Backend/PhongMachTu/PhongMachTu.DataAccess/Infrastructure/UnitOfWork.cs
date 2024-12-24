@@ -9,7 +9,7 @@ namespace PhongMachTu.DataAccess.Infrastructure
 
 	public interface IUnitOfWork
 	{
-		Task Commit();
+		Task CommitAsync();
 	}
 
 
@@ -24,7 +24,7 @@ namespace PhongMachTu.DataAccess.Infrastructure
 		}
 		public PhongMachTuContext DbContext => dbContext ?? (dbContext = dbFactory.Init());
 
-		public async Task Commit()
+		public async Task CommitAsync()
 		{
 			await DbContext.SaveChangesAsync();
 		}

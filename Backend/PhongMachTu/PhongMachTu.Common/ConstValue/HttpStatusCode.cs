@@ -14,6 +14,8 @@ namespace PhongMachTu.Common.ConstValue
 
 		public static readonly int Unauthorized = 401;
 
+		public static readonly int Forbidden = 403;
+
 		public static readonly int NotFound = 404;
 
 		public static readonly int InternalServerError = 500;

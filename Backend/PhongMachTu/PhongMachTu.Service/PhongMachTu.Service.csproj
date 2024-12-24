@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PhongMachTu.Common\PhongMachTu.Common.csproj" />
+    <ProjectReference Include="..\PhongMachTu.DataAccess\PhongMachTu.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -2,6 +2,7 @@
 using PhongMachTu.DataAccess;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.DataAccess.Repositories;
+using PhongMachTu.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,9 @@ builder.Services.AddScoped<IThuocRepository, ThuocRepository>();
 builder.Services.AddScoped<ITrangThaiLichKhamRepository, TrangThaiLichKhamRepository>();
 builder.Services.AddScoped<IVaiTroRepository, VaiTroRepository>();
 
+//Đăng ký service
+builder.Services.AddScoped<IDonViTinhService, DonViTinhService>();
+
 
 // Add services to the container.
 
@@ -57,8 +61,34 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
 
-app.MapControllers();
 
+app.UseEndpoints(endpoints =>
+{
+	// Đăng ký cho API Controllers
+	endpoints.MapControllers();
+
+	// Đăng ký cho area CUSTOMER
+	endpoints.MapAreaControllerRoute(
+		name: "customer_area",
+		areaName: "CUSTOMER",
+		pattern: "CUSTOMER/{controller=Home}/{action=Index}/{id?}"
+	);
+
+	// Đăng ký cho area ADMIN
+	endpoints.MapAreaControllerRoute(
+		name: "admin_area",
+		areaName: "ADMIN",
+		pattern: "ADMIN/{controller=Home}/{action=Index}/{id?}"
+	);
+
+	// Route mặc định
+	endpoints.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=Home}/{action=Index}/{id?}"
+	);
+});
 app.Run();

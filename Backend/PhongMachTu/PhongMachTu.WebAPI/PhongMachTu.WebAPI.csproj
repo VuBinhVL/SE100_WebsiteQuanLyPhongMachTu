@@ -15,7 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhongMachTu.Common\PhongMachTu.Common.csproj" />
     <ProjectReference Include="..\PhongMachTu.DataAccess\PhongMachTu.DataAccess.csproj" />
+    <ProjectReference Include="..\PhongMachTu.Service\PhongMachTu.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Customer\" />
   </ItemGroup>
 
 </Project>
