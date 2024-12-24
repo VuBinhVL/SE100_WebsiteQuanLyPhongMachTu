@@ -1,18 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../pages/Admin/Home/Home";
 import PageNotFound from "../layouts/adminLayout/PageNotFound";
-import LayoutAdmin from "../layouts/adminLayout";
+import CustomerFooter from "../layouts/customerLayout/Footer";
+import CustomerHeader from "../layouts/customerLayout/Header/CustomerHeader";
+import CustomerHome from "../pages/Customer/CustomerHome";
 
 export default function MainRoutes() {
   return (
     <BrowserRouter>
+      <CustomerHeader />
       <Routes>
-        <Route path="/" element={<LayoutAdmin />}>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
+        <Route path="/" element={<CustomerHome />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <CustomerFooter />
     </BrowserRouter>
   );
 }

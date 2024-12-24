@@ -1,0 +1,45 @@
+.staff-card {
+  background-color: #ffffff; /* Nền trắng */
+  border: 1px solid #ddd; /* Viền mờ */
+  border-radius: 10px; /* Bo góc */
+  text-align: clenter;
+  padding: 20px;
+  width: 250px; /* Chiều rộng cố định */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: moveRight 10s linear infinite; /* Áp dụng animation */
+}
+
+.staff-card:hover {
+  transform: translateY(-5px); /* Nâng lên khi hover */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn */
+}
+
+.staff-card-avatar img {
+  width: 80px; /* Kích thước ảnh đại diện */
+  height: 80px;
+  border-radius: 50%; /* Bo tròn */
+  object-fit: cover; /* Đảm bảo ảnh luôn nằm trong khung */
+  margin-bottom: 15px;
+}
+
+.staff-card-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333333; /* Màu chữ tên */
+  margin-bottom: 10px;
+}
+
+.staff-card-role,
+.staff-card-specialty {
+  font-size: 0.9rem;
+  color: #555555; /* Màu chữ mô tả */
+  line-height: 1.4;
+  text-align: left;
+}
+
+.staff-card-role strong,
+.staff-card-specialty strong {
+  font-weight: bold;
+  color: #333333; /* Đậm hơn cho tiêu đề */
+}

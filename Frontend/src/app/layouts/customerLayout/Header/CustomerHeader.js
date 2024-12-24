@@ -1,6 +1,6 @@
 import React from "react";
 import "../Header/CustomerHeader.css";
-import logo from "../../../assets/images/logo_phongkham.png";
+import logo from "../../../assets/images/clinic_logo.png";
 
 export default function CustomerHeader() {
   return (
