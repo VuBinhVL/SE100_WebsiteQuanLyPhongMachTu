@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using PhongMachTu.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+//Add DbContext
+builder.Services.AddDbContext<PhongMachTuContext>(options =>
+	options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnectString")));
 
 // Add services to the container.
 

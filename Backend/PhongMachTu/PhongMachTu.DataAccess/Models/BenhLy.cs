@@ -23,7 +23,7 @@ namespace PhongMachTu.DataAccess.Models
 		[Required]
 		public int GiaThamKhao {  get; set; }
 		[MaxLength(1000)]
-		public string? Image {  get; set; }
+		public string? Images {  get; set; }
 
 		[Required]
 		public int NhomBenhId {  get; set; }

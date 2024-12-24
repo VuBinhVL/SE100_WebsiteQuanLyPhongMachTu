@@ -16,6 +16,10 @@ namespace PhongMachTu.DataAccess.Models
 		[Required]
 		[MaxLength(300)]
 		public string? TenThuoc {  get; set; }
+
+		[MaxLength(500)]
+		public string? Images {  get; set; }
+
 		[Required]
 		public int SoLuongTon {  get; set; }
 		[Required]
