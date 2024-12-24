@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PhongMachTu.DataAccess;
+using PhongMachTu.DataAccess.Infrastructure;
+using PhongMachTu.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,35 @@ var builder = WebApplication.CreateBuilder(args);
 //Add DbContext
 builder.Services.AddDbContext<PhongMachTuContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnectString")));
+
+// Đăng ký DbFactory và UnitOfWork
+builder.Services.AddScoped<IDbFactory, DbFactory>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Đăng ký Repository
+builder.Services.AddScoped<IBenhLyRepository, BenhLyRepository>();
+builder.Services.AddScoped<ICaKhamRepository, CaKhamRepository>();
+builder.Services.AddScoped<IChiTietDonThuocRepository, ChiTietDonThuocRepository>();
+builder.Services.AddScoped<IChiTietHoSoBenhAnRepository, ChiTietHoSoBenhAnRepository>();
+builder.Services.AddScoped<IChiTietKhamBenhRepository, ChiTietKhamBenhRepository>();
+builder.Services.AddScoped<IChiTietPhieuNhapThuocRepository, ChiTietPhieuNhapThuocRepository>();
+builder.Services.AddScoped<IChiTietXetNghiemRepository, ChiTietXetNghiemRepository>();
+builder.Services.AddScoped<IChucNangRepository, ChucNangRepository>();
+builder.Services.AddScoped<IChupChieuRepository, ChupChieuRepository>();
+builder.Services.AddScoped<IDonViTinhRepository, DonViTinhRepository>();
+builder.Services.AddScoped<IHoSoBenhAnRepository, HoSoBenhAnRepository>();
+builder.Services.AddScoped<ILichKhamRepository, LichKhamRepository>();
+builder.Services.AddScoped<ILoaiThuocRepository, LoaiThuocRepository>();
+builder.Services.AddScoped<ILoaiXetNghiemRepository, LoaiXetNghiemRepository>();
+builder.Services.AddScoped<INguoiDungRepository, NguoiDungRepository>();
+builder.Services.AddScoped<INhomBenhRepository, NhomBenhRepository>();
+builder.Services.AddScoped<IPhieuKhamBenhRepository, PhieuKhamBenhRepository>();
+builder.Services.AddScoped<IPhieuNhapThuocRepository, PhieuNhapThuocRepository>();
+builder.Services.AddScoped<ISuChoPhepRepository, SuChoPhepRepository>();
+builder.Services.AddScoped<IThuocRepository, ThuocRepository>();
+builder.Services.AddScoped<ITrangThaiLichKhamRepository, TrangThaiLichKhamRepository>();
+builder.Services.AddScoped<IVaiTroRepository, VaiTroRepository>();
+
 
 // Add services to the container.
 

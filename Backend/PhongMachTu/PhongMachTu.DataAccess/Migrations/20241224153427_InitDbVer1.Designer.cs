@@ -12,7 +12,7 @@ using PhongMachTu.DataAccess;
 namespace PhongMachTu.DataAccess.Migrations
 {
     [DbContext(typeof(PhongMachTuContext))]
-    [Migration("20241224142220_InitDbVer1")]
+    [Migration("20241224153427_InitDbVer1")]
     partial class InitDbVer1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
