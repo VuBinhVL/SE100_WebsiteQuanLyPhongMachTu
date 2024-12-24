@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../Header/CustomerHeader.css";
 import logo from "../../../assets/images/clinic_logo.png";
 
@@ -6,12 +7,16 @@ export default function CustomerHeader() {
   return (
     <header className="customer-header">
       <div className="logo">
-        <img className="logo-img" src={logo} alt="Logo phòng khám"></img>
+        <Link to="/">
+          <img className="logo-img" src={logo} alt="Logo phòng khám"></img>
+        </Link>
       </div>
       <nav className="header-nav">
         <ul className="nav-list">
           <li className="nav-item">
-            <a></a>Trang chủ
+            <Link to="/" className="nav-links">
+              Trang chủ
+            </Link>
           </li>
           <li className="nav-item dropdown">
             <a href="#" className="nav-link">
@@ -32,10 +37,14 @@ export default function CustomerHeader() {
           </li>
 
           <li className="nav-item">
-            <a href=""></a>Bác sĩ
+            <Link to="/" className="nav-links">
+              Bác sĩ
+            </Link>{" "}
           </li>
           <li className="nav-item">
-            <a></a>Bài viết
+            <Link to="/" className="nav-links">
+              Bài viết
+            </Link>
           </li>
           <li className="nav-item" id="btn-dangnhap">
             <a></a>Đăng nhập

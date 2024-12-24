@@ -20,6 +20,7 @@
 .logo-img {
   width: 70px;
   height: 60px;
+  cursor: pointer; /* Con trỏ dạng tay chỉ */
 }
 
 /* Style cho navigation */
@@ -40,11 +41,14 @@
   font-weight: bold;
   cursor: pointer;
 }
-.nav-item:hover {
-  color: #fc5185;
+/* Các danh mục khác dịch vụ */
+.nav-links {
+  text-decoration: none;
+  color: #0056b3;
 }
-.nav-item:active {
-  color: #fc5185; /* Giữ màu hồng khi nhấn */
+
+.nav-links:hover {
+  color: #fc5185;
 }
 
 /* Nút đăng nhập */
@@ -53,6 +57,11 @@
   border: 1.5px solid #fc5185;
   border-radius: 30px;
   padding: 0px 10px;
+}
+
+#btn-dangnhap:hover {
+  background-color: #fddde6; /* Màu pastel */
+  color: #fc5185; /* Giữ màu chữ hồng */
 }
 
 /* Phần dịch vụ */
@@ -110,9 +119,4 @@
   margin-left: 5px; /* Khoảng cách giữa chữ và mũi tên */
   margin-top: 5px;
   color: inherit; /* Giữ màu sắc giống với chữ */
-}
-
-#btn-dangnhap:hover {
-  background-color: #fddde6; /* Màu pastel */
-  color: #fc5185; /* Giữ màu chữ hồng */
 }
