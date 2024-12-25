@@ -64,5 +64,13 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
         }
 
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteLoaiXetNghiemAsync(int? id)
+        {
+            var rs = await _loaiXetNghiemService.DeleteLoaiXetNghiemByIdAsync(id ?? -1);
+            return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+        }
+
     }
 }

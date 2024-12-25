@@ -17,24 +17,30 @@ namespace PhongMachTu.Service
         Task<List<LoaiXetNghiem>> GetAllAsync();
         Task<ResponeMessage> AddLoaiXetNghiemAsync(Request_AddLoaiXetNghiemDTO data);
         Task<ResponeMessage> UpdateLoaiXetNghiemAsync(Request_UpdateLoaiXetNghiemDTO data);
+        Task<ResponeMessage> DeleteLoaiXetNghiemByIdAsync(int? id);
+
     }
 
     public class LoaiXetNghiemService : ILoaiXetNghiemService
     {
         private readonly ILoaiXetNghiemRepository _loaiXetNghiemRepository;
+        private readonly IDonViTinhRepository _donViTinhRepository;
+        private readonly IChiTietXetNghiemRepository _chiTietXetNghiemRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public LoaiXetNghiemService(ILoaiXetNghiemRepository loaiXetNghiemRepository,IUnitOfWork unitOfWork)
+        public LoaiXetNghiemService(ILoaiXetNghiemRepository loaiXetNghiemRepository,IDonViTinhRepository donViTinhRepository, IChiTietXetNghiemRepository chiTietXetNghiemRepository, IUnitOfWork unitOfWork)
         {
             _loaiXetNghiemRepository = loaiXetNghiemRepository;
+            _chiTietXetNghiemRepository = chiTietXetNghiemRepository;
+            _donViTinhRepository=donViTinhRepository;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponeMessage> AddLoaiXetNghiemAsync(Request_AddLoaiXetNghiemDTO data)
         {
 
-            var findDonViTinh = await _loaiXetNghiemRepository.GetSingleByIdAsync(data.DonViTinhId);
-            if(findDonViTinh == null)
+            var findDonViTinh = await _donViTinhRepository.GetSingleByIdAsync(data.DonViTinhId);
+            if (findDonViTinh == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Đơn vị tính không hợp lệ");
             }
@@ -49,6 +55,25 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Thêm loại xét nghiệm thành công");
         }
 
+        public async Task<ResponeMessage> DeleteLoaiXetNghiemByIdAsync(int? id)
+        {
+            var findLoaiXetNghiem = await _loaiXetNghiemRepository.GetSingleByIdAsync(id??-1);
+            if (findLoaiXetNghiem == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy loại xét nghiệm");
+            }
+
+            var chiTietXetNghiems = await _chiTietXetNghiemRepository.FindAsync(c=>c.LoaiXetNghiemId==id);
+            if (chiTietXetNghiems.Any())
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không thể xóa do có phiếu khám bệnh đã dùng loại xét nghiệm này");
+            }
+
+            _loaiXetNghiemRepository.Delete(findLoaiXetNghiem);
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Xóa loại xét nghiệm thành công");
+        }
+
         public async Task<List<LoaiXetNghiem>> GetAllAsync()
         {
             var rs = await _loaiXetNghiemRepository.GetAllWithIncludeAsync(l=>l.DonViTinh);
@@ -57,17 +82,22 @@ namespace PhongMachTu.Service
 
         public async Task<ResponeMessage> UpdateLoaiXetNghiemAsync(Request_UpdateLoaiXetNghiemDTO data)
         {
-            var findDonViTinh = await _loaiXetNghiemRepository.GetSingleByIdAsync(data.DonViTinhId);
+            var findDonViTinh = await _donViTinhRepository.GetSingleByIdAsync(data.DonViTinhId);
             if (findDonViTinh == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Đơn vị tính không hợp lệ");
             }
 
-            findDonViTinh.TenXetNghiem = data.TenXetNghiem;
-            findDonViTinh.DonViTinhId = data.DonViTinhId;
-            findDonViTinh.GiaThamKhao=data.GiaThamKhao;
+            var findLoaiXetNghiem = await _loaiXetNghiemRepository.GetSingleByIdAsync(data.Id);
+            if (findLoaiXetNghiem == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy loại xét nghiệm");
+            }
+            findLoaiXetNghiem.TenXetNghiem = data.TenXetNghiem;
+            findLoaiXetNghiem.DonViTinhId = data.DonViTinhId;
+            findLoaiXetNghiem.GiaThamKhao=data.GiaThamKhao;
 
-            _loaiXetNghiemRepository.Update(findDonViTinh);
+            _loaiXetNghiemRepository.Update(findLoaiXetNghiem);
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Cập nhật thông tin loại xét nghiệm thành công");
         }
