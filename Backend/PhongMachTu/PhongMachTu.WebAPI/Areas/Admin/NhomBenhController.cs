@@ -8,7 +8,7 @@ using PhongMachTu.Service;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
-    [Route("api/quanli-nhombenh")]
+    [Route("api/quan-li-nhom-benh")]
     [ApiController]
     public class NhomBenhController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             _nhomBenhService = nhomBenhService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllAsync()
         {
             var rs = await _nhomBenhService.GetAllAsync();
@@ -38,7 +38,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("get")]
         public async Task<IActionResult> GetNhomBenhByIdAsync(int? id)
         {
             var rs = await _nhomBenhService.GetByIdAsync(id ?? -1);

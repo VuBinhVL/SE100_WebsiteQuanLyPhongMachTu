@@ -7,7 +7,7 @@ using PhongMachTu.Service;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
 	[Area("ADMIN")]
-	[Route("api/quanli-donvitinh")]
+	[Route("api/quan-li-don-vi-tinh")]
 	[ApiController]
 	public class DonViTinhController : ControllerBase
 	{
@@ -17,7 +17,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
 			_donViTinhService = donViTinhService;
 		}
 
-		[HttpGet("getall")]
+		[HttpGet("")]
 		public async Task<IActionResult> GetAllAsync()
 		{
 			var rs = await _donViTinhService.GetAllAsync();
@@ -38,7 +38,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
 		}
 
 
-		[HttpGet("getbyid")]
+		[HttpGet("get")]
 		public async Task<IActionResult> GetDonViTinhByIdAsync(int ? id)
 		{
 			var rs = await _donViTinhService.GetByIdAsync(id??-1);
