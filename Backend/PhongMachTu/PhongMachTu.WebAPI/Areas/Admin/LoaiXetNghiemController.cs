@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
+using PhongMachTu.Common.DTOs.Request.BenhLy;
+using PhongMachTu.Common.DTOs.Request.LoaiXetNghiem;
+using PhongMachTu.Common.DTOs.Request.NhanVien;
 using PhongMachTu.DataAccess.Models;
 using PhongMachTu.Service;
 
@@ -31,5 +34,21 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
 
         }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddLoaiXetNghiemAsync([FromBody] Request_AddLoaiXetNghiemDTO request)
+        {
+            try
+            {
+                var rs = await _loaiXetNghiemService.AddLoaiXetNghiemAsync(request);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+            }
+        }
+
+
     }
 }
