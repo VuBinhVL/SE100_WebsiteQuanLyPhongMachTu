@@ -83,7 +83,7 @@ namespace PhongMachTu.DataAccess
 			.HasKey(cd => new { cd.ChucNangId, cd.NguoiDungId });
 
 			modelBuilder.Entity<ChiTietHoSoBenhAn>()
-			.HasKey(cd => new { cd.HoSoBenhAnId, cd.BenhLyId });
+			.HasKey(cd => new { cd.HoSoBenhAnId, cd.ChiTietKhamBenhId });
 
 			modelBuilder.Entity<ChiTietXetNghiem>()
 			.HasKey(cd => new { cd.ChiTietKhamBenhId, cd.LoaiXetNghiemId });

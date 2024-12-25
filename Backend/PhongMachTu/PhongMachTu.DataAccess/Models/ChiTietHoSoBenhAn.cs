@@ -17,12 +17,6 @@ namespace PhongMachTu.DataAccess.Models
 		public HoSoBenhAn ?HoSoBenhAn { get; set; }
 
 		[Required]
-		public int BenhLyId {  get; set; }
-		[Required]
-		[ForeignKey(nameof(BenhLyId))]
-		public BenhLy ? BenhLy {  get; set; }
-
-		[Required]
 		public int ChiTietKhamBenhId {  get; set; }
 		[Required]
 		[ForeignKey(nameof(ChiTietKhamBenhId))]
