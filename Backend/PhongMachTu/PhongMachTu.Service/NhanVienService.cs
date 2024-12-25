@@ -11,14 +11,16 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PhongMachTu.Common.Security;
 using PhongMachTu.DataAccess.Infrastructure;
+using PhongMachTu.Common.DTOs.Respone.NhanVien;
+using PhongMachTu.Common.Mapper;
 namespace PhongMachTu.Service
 {
     public interface INhanVienService
     {
        Task<ResponeMessage> AddNhanVienAsync(Request_AddNhanVienDTO data);
        Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data);
+        Task<List<Respone_NhanVienDTO>> GetAllAsync();
     }
-
 
     public class NhanVienService : INhanVienService
     {
@@ -68,6 +70,17 @@ namespace PhongMachTu.Service
 
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Thêm nhân viên thành công");
+        }
+
+        public async Task<List<Respone_NhanVienDTO>> GetAllAsync()
+        {
+            List<Respone_NhanVienDTO> list = new List<Respone_NhanVienDTO>();
+            var rs = await _nguoiDungRepository.GetAllWithIncludeAsync(u=>u.ChuyenMon);
+            foreach (var r in rs)
+            {
+                list.Add(NhanVienMapper.Map_NguoiDungModel_To_Respone_NhanVienDTO(r));
+            }
+            return list;
         }
 
         public async Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data)

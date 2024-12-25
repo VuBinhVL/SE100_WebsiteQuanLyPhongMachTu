@@ -20,6 +20,21 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             _nhanVienService = nhanVienService;
         }
 
+        [HttpGet("")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            try
+            {
+                var rs = await _nhanVienService.GetAllAsync();
+                return StatusCode(HttpStatusCode.Ok, rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+            }
+           
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddNhanVienAsync([FromBody] Request_AddNhanVienDTO request)
         {
