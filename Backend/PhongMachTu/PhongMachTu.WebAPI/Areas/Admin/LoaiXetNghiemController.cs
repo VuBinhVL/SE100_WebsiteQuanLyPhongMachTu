@@ -50,5 +50,19 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         }
 
 
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateLoaiXetNghiemAsync([FromBody] Request_UpdateLoaiXetNghiemDTO request)
+        {
+            try
+            {
+                var rs = await _loaiXetNghiemService.UpdateLoaiXetNghiemAsync(request);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+            }
+        }
+
     }
 }

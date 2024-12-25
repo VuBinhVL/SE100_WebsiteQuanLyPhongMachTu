@@ -14,8 +14,9 @@ namespace PhongMachTu.Service
 {
     public interface ILoaiXetNghiemService
     {
-        Task<ResponeMessage> AddLoaiXetNghiemAsync(Request_AddLoaiXetNghiemDTO data);
         Task<List<LoaiXetNghiem>> GetAllAsync();
+        Task<ResponeMessage> AddLoaiXetNghiemAsync(Request_AddLoaiXetNghiemDTO data);
+        Task<ResponeMessage> UpdateLoaiXetNghiemAsync(Request_UpdateLoaiXetNghiemDTO data);
     }
 
     public class LoaiXetNghiemService : ILoaiXetNghiemService
@@ -52,6 +53,23 @@ namespace PhongMachTu.Service
         {
             var rs = await _loaiXetNghiemRepository.GetAllWithIncludeAsync(l=>l.DonViTinh);
             return rs.ToList();
+        }
+
+        public async Task<ResponeMessage> UpdateLoaiXetNghiemAsync(Request_UpdateLoaiXetNghiemDTO data)
+        {
+            var findDonViTinh = await _loaiXetNghiemRepository.GetSingleByIdAsync(data.DonViTinhId);
+            if (findDonViTinh == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Đơn vị tính không hợp lệ");
+            }
+
+            findDonViTinh.TenXetNghiem = data.TenXetNghiem;
+            findDonViTinh.DonViTinhId = data.DonViTinhId;
+            findDonViTinh.GiaThamKhao=data.GiaThamKhao;
+
+            _loaiXetNghiemRepository.Update(findDonViTinh);
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Cập nhật thông tin loại xét nghiệm thành công");
         }
     }
 }
