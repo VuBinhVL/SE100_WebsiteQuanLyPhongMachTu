@@ -30,18 +30,27 @@ namespace PhongMachTu.Service
         private readonly INguoiDungRepository _nguoiDungRepository;
         private readonly ICaKhamRepository _caKhamRepository;
         private readonly ISuChoPhepRepository _suChoPhepRepository;
+        private readonly INhomBenhRepository _nhomBenhRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public NhanVienService(INguoiDungRepository nguoiDungRepository,ICaKhamRepository caKhamRepository,ISuChoPhepRepository suChoPhepRepository ,IUnitOfWork unitOfWork)
+        public NhanVienService(INguoiDungRepository nguoiDungRepository,ICaKhamRepository caKhamRepository,ISuChoPhepRepository suChoPhepRepository,INhomBenhRepository nhomBenhRepository ,IUnitOfWork unitOfWork)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _caKhamRepository = caKhamRepository;
             _suChoPhepRepository = suChoPhepRepository;
+            _nhomBenhRepository = nhomBenhRepository;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponeMessage> AddNhanVienAsync(Request_AddNhanVienDTO data)
         {
+
+            var checkNhomBenh = await _nhomBenhRepository.GetSingleByIdAsync(data.ChuyenMonId??-1);
+            if (checkNhomBenh == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Chuyên môn không tồn tại");
+            }
+
 
             var checkEmail = (await _nguoiDungRepository.FindAsync(u => u.Email == data.Email)).FirstOrDefault();
             if (checkEmail != null)
@@ -120,6 +129,11 @@ namespace PhongMachTu.Service
 
         public async Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data)
         {
+            var checkNhomBenh = await _nhomBenhRepository.GetSingleByIdAsync(data.ChuyenMonId ?? -1);
+            if (checkNhomBenh == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Chuyên môn không tồn tại");
+            }
 
             var findNhanVien = await _nguoiDungRepository.GetSingleByIdAsync(data.Id);
             if (findNhanVien == null)
