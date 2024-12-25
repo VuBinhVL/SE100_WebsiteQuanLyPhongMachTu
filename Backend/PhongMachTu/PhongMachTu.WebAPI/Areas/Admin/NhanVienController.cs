@@ -63,6 +63,13 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
             }
         }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteNhanVienAsync(int? id)
+        {
+            var rs = await _nhanVienService.DeleteNhanVienByIdAsync(id ?? -1);
+            return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+        }
     }
     
 }
