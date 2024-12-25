@@ -14,7 +14,7 @@ namespace PhongMachTu.Common.DTOs.Request.BenhLy
 
         public string? TrieuChung { get; set; }
 
-        public int? GiaThamKhao { get; set; }
+        public int GiaThamKhao { get; set; }
     
         public string? Images { get; set; }
     }

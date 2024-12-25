@@ -81,8 +81,14 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
-            var findNhomBenh = await _nhomBenhRepository.GetSingleByIdAsync(request.Id ?? -1);
-            if (findNhomBenh == null)
+            var findNhomBenh = (await _nhomBenhRepository.GetAllAsync()).Where(d => d.TenNhomBenh.Trim().ToLower() == request.TenNhomBenh.Trim().ToLower()).FirstOrDefault();
+            if (findNhomBenh != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Tên nhóm bệnh này đã có rồi");
+            }
+
+            var findNhomBenhbyId = await _nhomBenhRepository.GetSingleByIdAsync(request.Id ?? -1);
+            if (findNhomBenhbyId == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
