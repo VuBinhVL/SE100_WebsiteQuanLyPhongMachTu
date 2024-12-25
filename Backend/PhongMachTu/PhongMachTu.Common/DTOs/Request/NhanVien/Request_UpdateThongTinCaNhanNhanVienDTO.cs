@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace PhongMachTu.Common.DTOs.Request.NhanVien
 {
-    public class Request_AddNhanVienDTO
+    public class Request_UpdateThongTinCaNhanNhanVienDTO
     {
+        public int Id {  get; set; }
+
         [Required(ErrorMessage = "Họ tên không được để trống")]
         [MinLength(6, ErrorMessage = "Họ tên ít nhất 6 kí tự")]
         [MaxLength(300, ErrorMessage = "Họ tên không được vượt quá 300 kí tự")]
@@ -27,7 +29,7 @@ namespace PhongMachTu.Common.DTOs.Request.NhanVien
         [MaxLength(300, ErrorMessage = "Email không được vượt quá 300 kí tự")]
         public string? Email { get; set; }
         public string? DiaChi { get; set; }
-        public string? Image {  get; set; }
+        public string? Image { get; set; }
 
     }
 }

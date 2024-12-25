@@ -16,6 +16,7 @@ namespace PhongMachTu.Service
     public interface INhanVienService
     {
        Task<ResponeMessage> AddNhanVienAsync(Request_AddNhanVienDTO data);
+       Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data);
     }
 
 
@@ -55,11 +56,11 @@ namespace PhongMachTu.Service
                 SoDienThoai = data.SoDienThoai,
                 Email = data.Email,
                 DiaChi = data.DiaChi,
+                Image = data.Image==null? "no_img.png":data.Image,
 
                 //dữ liệu generate
                 TenTaiKhoan = JsonConvert.SerializeObject(new string[] { data.SoDienThoai, data.Email }).ToString(),
                 MatKhau = EncryptionHelper.Encrypt("123456"),
-                Image = "no_img.png",
                 VaiTroId = 2
             };
 
@@ -67,6 +68,46 @@ namespace PhongMachTu.Service
 
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Thêm nhân viên thành công");
+        }
+
+        public async Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data)
+        {
+
+            var findNhanVien = await _nguoiDungRepository.GetSingleByIdAsync(data.Id);
+            if(findNhanVien == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy nhân viên");
+            }
+
+            var checkEmail = (await _nguoiDungRepository.FindAsync(u => u.Email == data.Email && u.Id!=data.Id)).FirstOrDefault();
+            if (checkEmail != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Email đã có người sử dụng");
+            }
+
+            var checkSDT = (await _nguoiDungRepository.FindAsync(u => u.SoDienThoai == data.SoDienThoai && u.Id != data.Id)).FirstOrDefault();
+            if (checkSDT != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Số điện thoại đã có người sử dụng");
+            }
+
+            //dữ liệu từ request
+            findNhanVien.HoTen = data.HoTen;
+            findNhanVien.GioiTinh = data.GioiTinh;
+            findNhanVien.NgaySinh = data.NgaySinh;
+            findNhanVien.ChuyenMonId = data.ChuyenMonId;
+            findNhanVien.SoDienThoai = data.SoDienThoai;
+            findNhanVien.Email = data.Email;
+            findNhanVien.DiaChi = data.DiaChi;
+            if (data.Image != null)
+            {
+                findNhanVien.Image=data.Image;
+            }
+            findNhanVien.TenTaiKhoan = JsonConvert.SerializeObject(new string[] { data.SoDienThoai, data.Email }).ToString();
+
+            _nguoiDungRepository.Update(findNhanVien);
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin nhân viên thành công");
         }
     }
 }

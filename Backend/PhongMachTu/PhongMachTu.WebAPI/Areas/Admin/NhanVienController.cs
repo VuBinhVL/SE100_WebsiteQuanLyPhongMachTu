@@ -33,5 +33,21 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
             }
         }
+
+
+        [HttpPut("update-thong-tin-ca-nhan")]
+        public async Task<IActionResult> UpdateThongTinCaNhanNhanVienAsync([FromBody] Request_UpdateThongTinCaNhanNhanVienDTO request)
+        {
+            try
+            {
+                var rs = await _nhanVienService.UpdateThongTinCaNhanNhanVienAsync(request);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+            }
+        }
     }
+    
 }
