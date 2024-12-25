@@ -43,6 +43,7 @@ builder.Services.AddScoped<IVaiTroRepository, VaiTroRepository>();
 builder.Services.AddScoped<IDonViTinhService, DonViTinhService>();
 builder.Services.AddScoped<INhomBenhService, NhomBenhService>();
 builder.Services.AddScoped<IBenhLyService, BenhLyService>();
+builder.Services.AddScoped<ILoaiThuocService, LoaiThuocService>();
 
 
 // Add services to the container.

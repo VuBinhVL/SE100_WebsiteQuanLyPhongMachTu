@@ -93,7 +93,7 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
-            findNhomBenh.TenNhomBenh = request.TenNhomBenh;
+            findNhomBenhbyId.TenNhomBenh = request.TenNhomBenh;
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Sửa tên nhóm bệnh thành công");
         }

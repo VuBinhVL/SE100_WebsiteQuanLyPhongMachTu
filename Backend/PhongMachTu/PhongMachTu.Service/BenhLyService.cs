@@ -97,10 +97,10 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
-            findBenhLy.TenBenhLy = request.TenBenhLy;
-            findBenhLy.TrieuTrung = request.TrieuChung;
-            findBenhLy.GiaThamKhao = request.GiaThamKhao;
-            findBenhLy.Images = request.Images;
+            findBenhLybyID.TenBenhLy = request.TenBenhLy;
+            findBenhLybyID.TrieuTrung = request.TrieuChung;
+            findBenhLybyID.GiaThamKhao = request.GiaThamKhao;
+            findBenhLybyID.Images = request.Images;
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Sửa tên bệnh lý thành công");
         }
