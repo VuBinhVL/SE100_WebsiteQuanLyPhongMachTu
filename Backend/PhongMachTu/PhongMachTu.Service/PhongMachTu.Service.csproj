@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PhongMachTu.Common\PhongMachTu.Common.csproj" />
     <ProjectReference Include="..\PhongMachTu.DataAccess\PhongMachTu.DataAccess.csproj" />
   </ItemGroup>

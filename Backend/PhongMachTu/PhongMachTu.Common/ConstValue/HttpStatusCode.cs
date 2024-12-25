@@ -20,5 +20,8 @@ namespace PhongMachTu.Common.ConstValue
 
 		public static readonly int InternalServerError = 500;
 
-	}
+		public static readonly string MsgHeThongGapSuCo = "Hệ thống đang gặp sự cố, vui lòng thử lại";
+
+
+    }
 }
