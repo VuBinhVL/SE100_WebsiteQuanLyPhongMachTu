@@ -8,7 +8,7 @@ using PhongMachTu.Service;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
-    [Route("api/quanli-loaithuoc")]
+    [Route("api/quan-li-loai-thuoc")]
     [ApiController]
     public class LoaiThuocController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             _loaiThuocService = loaiThuocService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllAsync()
         {
             var rs = await _loaiThuocService.GetAllAsync();

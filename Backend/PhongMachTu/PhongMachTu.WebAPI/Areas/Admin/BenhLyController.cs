@@ -8,7 +8,7 @@ using PhongMachTu.Service;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
-    [Route("api/quanli-benhly")]
+    [Route("api/quan-li-benh-ly")]
     [ApiController]
     public class BenhLyController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             _benhLyService = benhLyService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllAsync()
         {
             var rs = await _benhLyService.GetAllAsync();
