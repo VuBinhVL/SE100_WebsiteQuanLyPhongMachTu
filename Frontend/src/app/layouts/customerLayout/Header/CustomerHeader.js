@@ -37,7 +37,7 @@ export default function CustomerHeader() {
           </li>
 
           <li className="nav-item">
-            <Link to="/" className="nav-links">
+            <Link to="/doctors" className="nav-links">
               Bác sĩ
             </Link>{" "}
           </li>
