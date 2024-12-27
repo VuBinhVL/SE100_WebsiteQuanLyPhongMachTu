@@ -6,6 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { FaUserShield } from "react-icons/fa";
 import { GrCircleInformation } from "react-icons/gr";
 import AddStaff from "../../../../components/Admin/StaffManagement/AddStaff/AddStaff";
+import DetailStaff from "../../../../components/Admin/StaffManagement/DetailStaff/DetailStaff";
 export default function Staff() {
     return (
         <div className="Home">
@@ -71,14 +72,13 @@ export default function Staff() {
                                         <a href="#">
                                             <FaUserShield className="icon_authorise icon_action" />
                                         </a>
-                                        <a href="#">
+                                        {/* <a href="#">
                                             <GrCircleInformation className=" icon_information icon_action" />
-                                        </a>
+                                        </a> */}
+                                        <DetailStaff />
                                         <a href="#">
                                             <MdDelete className="icon_delete icon_action" />
                                         </a>
-
-
                                     </div>
                                 </td>
 
