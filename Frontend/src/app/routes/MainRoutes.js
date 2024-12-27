@@ -20,19 +20,26 @@ export default function MainRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LayoutAdmin />}>
-          {/* <Route path="/" element={<CustomerHome />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/doctors" element={<Doctor />} /> */}
-          <Route path="/DashBoard" element={<DashBoard />} />
-          <Route path="Staff" element={<Staff />} />
-          <Route path="Patien" element={<Patien />} />
-          <Route path="ExaminationForm" element={<ExaminationForm />} />
-          <Route path="MedicalShift" element={<MedicalShift />} />
-          <Route path="Medicine" element={<Medicine />} />
-          <Route path="*" element={<PageNotFound />} />
+        {/* Layout khách hàng */}
+        <Route path="/" element={<LayoutCustomer />}>
+          <Route index element={<CustomerHome />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="doctors" element={<Doctor />} />
         </Route>
+
+        {/* Layout quản trị viên */}
+        <Route path="/admin" element={<LayoutAdmin />}>
+          <Route index element={<DashBoard />} />
+          <Route path="staff" element={<Staff />} />
+          <Route path="patien" element={<Patien />} />
+          <Route path="examinationform" element={<ExaminationForm />} />
+          <Route path="medicalshift" element={<MedicalShift />} />
+          <Route path="medicine" element={<Medicine />} />
+        </Route>
+
+        {/* Trang không tìm thấy */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );
