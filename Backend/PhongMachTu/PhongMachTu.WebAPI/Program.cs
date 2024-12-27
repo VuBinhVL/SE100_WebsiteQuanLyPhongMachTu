@@ -46,6 +46,7 @@ builder.Services.AddScoped<INhomBenhService, NhomBenhService>();
 builder.Services.AddScoped<IBenhLyService, BenhLyService>();
 builder.Services.AddScoped<INhanVienService, NhanVienService>();
 builder.Services.AddScoped<IBenhNhanService, BenhNhanService>();
+builder.Services.AddScoped<INguoiDungService, NguoiDungService>();
 
 
 // Add services to the container.
