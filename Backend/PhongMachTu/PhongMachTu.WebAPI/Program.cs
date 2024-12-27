@@ -45,6 +45,7 @@ builder.Services.AddScoped<IDonViTinhService, DonViTinhService>();
 builder.Services.AddScoped<INhomBenhService, NhomBenhService>();
 builder.Services.AddScoped<IBenhLyService, BenhLyService>();
 builder.Services.AddScoped<INhanVienService, NhanVienService>();
+builder.Services.AddScoped<IBenhNhanService, BenhNhanService>();
 
 
 // Add services to the container.
@@ -62,10 +63,15 @@ builder.Services.AddControllers()
                 );
 
             // Tùy chỉnh JSON trả về
+            //var response = new
+            //{
+            //    message="valid-by-modelstate",
+            //    errors 
+            //};
+            
             var response = new
             {
-                message="valid-by-modelstate",
-                errors 
+                message = errors.Any() ? errors.First().Value[0] : "Có lỗi xảy ra"
             };
 
             return new BadRequestObjectResult(response);
