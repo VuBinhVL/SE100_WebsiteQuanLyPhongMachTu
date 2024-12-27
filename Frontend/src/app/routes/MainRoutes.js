@@ -14,14 +14,18 @@ import CustomerHome from "../pages/Customer/CustomerHome";
 import Doctor from "../pages/Customer/Doctor";
 import Register from "../pages/Other/Register/Register";
 import Login from "../pages/Other/Login";
+import LayoutCustomer from "../layouts/customerLayout";
 
 export default function MainRoutes() {
   return (
     <BrowserRouter>
-      <CustomerHeader />
       <Routes>
         <Route path="/" element={<LayoutAdmin />}>
-          <Route path="/" element={<DashBoard />} />
+          {/* <Route path="/" element={<CustomerHome />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/doctors" element={<Doctor />} /> */}
+          <Route path="/DashBoard" element={<DashBoard />} />
           <Route path="Staff" element={<Staff />} />
           <Route path="Patien" element={<Patien />} />
           <Route path="ExaminationForm" element={<ExaminationForm />} />
@@ -29,14 +33,7 @@ export default function MainRoutes() {
           <Route path="Medicine" element={<Medicine />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
-        {/* <Route path="/" element={<CustomerHome />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<PageNotFound />} />
-        <Route path="/doctors" element={<Doctor />} /> */}
-
       </Routes>
-      <CustomerFooter />
     </BrowserRouter>
   );
 }

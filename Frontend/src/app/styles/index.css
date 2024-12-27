@@ -1,11 +1,12 @@
 * {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
+
 /* Đảm bảo không có thanh cuộn ngang */
-body,
+/* body,
 html {
-  margin: 0 auto; /* Căn giữa */
+  margin: 0 auto;
   padding: 0;
-  overflow-x: hidden; /* Loại bỏ thanh cuộn ngang */
+  overflow-x: hidden;
   max-width: 1300px;
-}
+} */
