@@ -1,0 +1,34 @@
+.service-card {
+  background-color: #348f6c; /* Nền xanh dương */
+  color: #ffffff; /* Chữ trắng */
+  border: 1px solid #ffffff; /* Viền trắng */
+  border-radius: 10px; /* Bo góc */
+  padding: 20px;
+  text-align: center;
+  width: 250px; /* Chiều rộng cố định */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px); /* Nâng lên khi hover */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn */
+}
+
+.service-card-img img {
+  width: 50px; /* Kích thước img */
+  height: 50px;
+  margin-bottom: 15px;
+}
+
+.service-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.service-card-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #e0e0e0; /* Màu chữ mô tả */
+}
