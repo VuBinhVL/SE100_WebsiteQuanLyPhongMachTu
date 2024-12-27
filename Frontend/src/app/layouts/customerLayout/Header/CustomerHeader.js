@@ -47,7 +47,9 @@ export default function CustomerHeader() {
             </Link>
           </li>
           <li className="nav-item" id="btn-dangnhap">
-            <a></a>Đăng nhập
+            <Link to="/register" className="nav-links">
+              Đăng nhập
+            </Link>
           </li>
         </ul>
       </nav>
