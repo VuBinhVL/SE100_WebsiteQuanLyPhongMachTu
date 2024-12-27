@@ -5,6 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { FaUserShield } from "react-icons/fa";
 import { GrCircleInformation } from "react-icons/gr";
+import AddStaff from "../../../../components/Admin/StaffManagement/AddStaff/AddStaff";
 export default function Staff() {
     return (
         <div className="Home">
@@ -39,10 +40,11 @@ export default function Staff() {
                     </div>
 
                     {/* <!-- Button căn phải --> */}
-                    <button className="Add col-2 rounded-2 d-flex align-items-center justify-content-center">
+                    {/* <button className="Add col-2 rounded-2 d-flex align-items-center justify-content-center">
                         <span><IoMdAddCircleOutline className="fs-4 me-2" /></span>
                         Add Staff
-                    </button>
+                    </button> */}
+                    <AddStaff />
                 </div>
                 {/* table */}
                 <div className="contain_Table mx-0 col-12 bg-white rounded-2">
