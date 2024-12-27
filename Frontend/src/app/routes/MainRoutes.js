@@ -16,6 +16,8 @@ import Register from "../pages/Other/Register/Register";
 import Login from "../pages/Other/Login";
 import LayoutCustomer from "../layouts/customerLayout";
 
+
+
 export default function MainRoutes() {
   return (
     <BrowserRouter>
