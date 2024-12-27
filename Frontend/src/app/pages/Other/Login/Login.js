@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Textbox from "../../../components/Other/Textbox"; // Đường dẫn tới component
+import SuccessMessageBox from "../../../components/MessageBox/SuccessMessageBox"; // Đường dẫn tới SuccessMessageBox
 import "./Login.css";
 import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y tá
 import usernameIcon from "../../../assets/icons/user.png"; // Icon Tên đăng nhập
@@ -9,6 +10,17 @@ import logo from "../../../assets/images/clinic4.png";
 import "../../../styles/index.css";
 
 export default function Login() {
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  // const handleLogin = () => {
+  //   // Giả lập logic kiểm tra đăng nhập thành công
+  //   // Thay phần này bằng API hoặc logic thực tế
+  //   const isLoginSuccess = true; // Thay giá trị này bằng kết quả kiểm tra
+
+  //   if (isLoginSuccess) {
+  //     setShowSuccessMessage(true);
+  //   }
+  // };
   return (
     <div className="register-page">
       <div className="register-left">
@@ -43,6 +55,15 @@ export default function Login() {
           </div>
         </div>
       </div>
+
+      {/* Hiển thị thông báo thành công */}
+      {/* {showSuccessMessage && (
+        <SuccessMessageBox
+          title="Đăng nhập thành công!"
+          description="Chào mừng bạn trở lại hệ thống quản lý phòng mạch tư."
+          onClose={() => setShowSuccessMessage(false)} // Ẩn thông báo khi nhấn nút "Done"
+        />
+      )} */}
     </div>
   );
 }
