@@ -6,6 +6,7 @@ import CustomerHeader from "../layouts/customerLayout/Header/CustomerHeader";
 import CustomerHome from "../pages/Customer/CustomerHome";
 import Doctor from "../pages/Customer/Doctor";
 import Register from "../pages/Other/Register/Register";
+import Login from "../pages/Other/Login";
 
 export default function MainRoutes() {
   return (
@@ -14,6 +15,7 @@ export default function MainRoutes() {
       <Routes>
         <Route path="/" element={<CustomerHome />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/doctors" element={<Doctor />} />
       </Routes>
