@@ -1,6 +1,6 @@
 /* Tổng thể trang chủ */
 .homepage {
-  background-color: #004caa; /* Nền xanh */
+  background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px;
 }
@@ -56,7 +56,6 @@
 
 /* Nút đăng ký */
 .btn-primary:hover {
-  background-color: #ff749e; /* Màu nền đậm hơn khi hover */
   transform: scale(1.05); /* Phóng to nhẹ */
   transform: translateY(-2px); /* Di chuyển nhẹ lên trên */
   box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.3); /* Hiệu ứng đổ bóng */
@@ -64,8 +63,6 @@
 
 /* Nút tìm hiểu thêm */
 .btn-outline-primary:hover {
-  background-color: #ffffff; /* Màu nền trắng */
-  color: #fc5185; /* Màu chữ hồng */
   transform: scale(1.05); /* Phóng to nhẹ */
   box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.3); /* Hiệu ứng đổ bóng */
 }
@@ -120,7 +117,7 @@
 
 /* Phần điều trị */
 .homepage-treatment {
-  background-color: #004caa; /* Nền xanh */
+  background-color: #348f6c; /* Nền xanh */
   padding: 50px 20px;
   text-align: center;
   color: #ffffff;
@@ -174,7 +171,7 @@
 
 /* Phần đặt lịch hẹn */
 .homepage-booking {
-  background-color: #004caa; /* Nền xanh */
+  background-color: #348f6c; /* Nền xanh */
   display: flex;
   align-items: center;
   justify-content: space-between;

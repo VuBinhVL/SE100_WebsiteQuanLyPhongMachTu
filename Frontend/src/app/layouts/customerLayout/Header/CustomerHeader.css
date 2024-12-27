@@ -37,31 +37,31 @@
 
 .nav-item {
   margin: 0 20px;
-  color: #0056b3;
+  color: #348f6c;
   font-weight: bold;
   cursor: pointer;
 }
 /* Các danh mục khác dịch vụ */
 .nav-links {
   text-decoration: none;
-  color: #0056b3;
+  color: #348f6c;
 }
 
 .nav-links:hover {
-  color: #fc5185;
+  color: #ffa07a;
 }
 
 /* Nút đăng nhập */
 #btn-dangnhap {
-  color: #fc5185;
-  border: 1.5px solid #fc5185;
+  color: #348f6c;
+  border: 1.5px solid #348f6c;
   border-radius: 30px;
   padding: 0px 10px;
 }
 
 #btn-dangnhap:hover {
   background-color: #fddde6; /* Màu pastel */
-  color: #fc5185; /* Giữ màu chữ hồng */
+  color: #ffa07a; /* Giữ màu chữ hồng */
 }
 
 /* Phần dịch vụ */
@@ -71,11 +71,11 @@
 
 .nav-item.dropdown .nav-link {
   text-decoration: none;
-  color: #0056b3;
+  color: #348f6c;
 }
 
 .nav-item.dropdown .nav-link:hover {
-  color: #fc5185;
+  color: #ffa07a;
 }
 
 /* Hiển thị menu con khi lướt chuột qua */
@@ -109,8 +109,7 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f4f4f4 !important; /* Nền xám nhạt khi lướt qua */
-  color: #fc5185 !important; /* Màu chữ hồng khi lướt qua */
+  color: #ffa07a !important; /* Màu cam nhạt khi lướt qua */
 }
 
 .nav-link::after {

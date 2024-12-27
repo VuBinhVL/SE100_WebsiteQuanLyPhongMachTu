@@ -117,8 +117,9 @@ export default function CustomerHome() {
               text="Đăng kí khám"
               variant="primary"
               style={{
-                backgroundColor: "#fc5185",
+                backgroundColor: "#FF8C5E",
                 color: "#ffffff",
+                border: "1px solid #ffffff",
                 fontWeight: 500,
               }}
               onClick={() => console.log("Đăng kí khám")}
@@ -214,8 +215,9 @@ export default function CustomerHome() {
             text="Đăng kí khám"
             variant="primary"
             style={{
-              backgroundColor: "#fc5185",
+              backgroundColor: "#FF8C5E",
               color: "#ffffff",
+              border: "1px solid #ffffff",
               fontWeight: 500,
             }}
             onClick={() => console.log("Đăng kí khám")}
