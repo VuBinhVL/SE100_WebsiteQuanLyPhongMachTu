@@ -19,6 +19,7 @@
 
 .slide-bar .nav-pills {
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 hr {
@@ -104,3 +105,12 @@ hr {
     color: #348F6C;
     font-size: 22px;
 }
+
+/* .nav-item .active_NavLink:active {
+    background-color: #D5ECFE !important;
+    border-radius: 10px;
+} */
+/* NavLink {
+    background-color: #D5ECFE !important;
+    border-radius: 10px;
+} */

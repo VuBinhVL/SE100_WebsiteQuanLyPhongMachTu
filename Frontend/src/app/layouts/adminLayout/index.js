@@ -1,7 +1,7 @@
 import React from "react";
 import Navigation from "./Navigation";
 import Header from "./Header";
-import "../../styles/adminStyle/LayoutAdmin/LayoutAdmin.css"
+import "./LayoutAdmin.css"
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 export default function LayoutAdmin() {
