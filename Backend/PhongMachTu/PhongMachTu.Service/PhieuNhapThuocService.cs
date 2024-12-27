@@ -26,34 +26,129 @@ namespace PhongMachTu.Service
         private readonly IPhieuNhapThuocRepository _phieuNhapThuocRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IThuocRepository _thuocRepository;
+        private readonly ILoaiThuocRepository _loaiThuocRepository;
         private readonly INguoiDungRepository _nguoiDungRepository;
         private readonly IChiTietPhieuNhapThuocRepository _chiTietPhieuNhapThuocRepository;
 
-        public PhieuNhapThuocService(IPhieuNhapThuocRepository phieuNhapThuocRepository, IUnitOfWork unitOfWork, IThuocRepository thuocRepository, INguoiDungRepository nguoiDungRepository,IChiTietPhieuNhapThuocRepository chiTietPhieuNhapThuocRepository)
+        public PhieuNhapThuocService(IPhieuNhapThuocRepository phieuNhapThuocRepository, IUnitOfWork unitOfWork, IThuocRepository thuocRepository,
+            INguoiDungRepository nguoiDungRepository,IChiTietPhieuNhapThuocRepository chiTietPhieuNhapThuocRepository, ILoaiThuocRepository loaiThuocRepository)
         {
             _phieuNhapThuocRepository = phieuNhapThuocRepository;
             _unitOfWork = unitOfWork;
             _thuocRepository = thuocRepository;
             _nguoiDungRepository = nguoiDungRepository;
             _chiTietPhieuNhapThuocRepository = chiTietPhieuNhapThuocRepository;
+            _loaiThuocRepository = loaiThuocRepository;
         }
         public async Task<ResponeMessage> AddPhieuNhapThuoc(Request_AddPhieuNhapThuocDTO phieuNhapThuoc)
         {
-            if (phieuNhapThuoc == null)
+            if (phieuNhapThuoc == null || string.IsNullOrEmpty(phieuNhapThuoc.TenThuoc) || phieuNhapThuoc.LoaiThuocId == null || phieuNhapThuoc.HanSuDung  == null ||
+              phieuNhapThuoc.SoLuong == null || phieuNhapThuoc.DonGia == null || phieuNhapThuoc.NgayNhap == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
+            var findThuocCu = (await _thuocRepository.GetAllAsync())
+                .Where(d => d.TenThuoc.Trim().ToLower() == phieuNhapThuoc.TenThuoc.Trim().ToLower())
+                .FirstOrDefault();
 
-
-            await _phieuNhapThuocRepository.AddAsync(new PhieuNhapThuoc()
+            if (findThuocCu != null && findThuocCu.HanSuDung == phieuNhapThuoc.HanSuDung && findThuocCu.GiaNhap == phieuNhapThuoc.DonGia)
             {
-                NgayNhap = phieuNhapThuoc.NgayNhap
-            });
-            await _unitOfWork.CommitAsync();
+                // Tạo và lưu PhieuNhapThuoc
+                if (phieuNhapThuoc.NgayNhap <= DateTime.Now)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Ngày nhập phải lớn hơn thời điểm nhập");
+                }
+                var newPhieuNhapThuoc = new PhieuNhapThuoc
+                {
+                    NgayNhap = phieuNhapThuoc.NgayNhap
+                };
+                await _phieuNhapThuocRepository.AddAsync(newPhieuNhapThuoc);
+                await _unitOfWork.CommitAsync();
 
-            return new ResponeMessage(HttpStatusCode.Ok, "Thêm phiếu nhập thuốc thành công");
+                // Tạo ChiTietPhieuNhapThuoc liên kết với PhieuNhapThuoc vừa thêm
+                if(phieuNhapThuoc.SoLuong <= 0)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Số lượng nhập phải lớn hơn 0");
+                }
+                else if (phieuNhapThuoc.DonGia <= 0)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Đơn giá phải lớn hơn 0");
+                }
+
+                var chiTiet = new ChiTietPhieuNhapThuoc
+                {
+                    PhieuNhapThuocId = newPhieuNhapThuoc.Id,
+                    ThuocId = findThuocCu.Id,
+                    SoLuong = phieuNhapThuoc.SoLuong,
+                    DonGia = findThuocCu.GiaNhap
+                };
+                await _chiTietPhieuNhapThuocRepository.AddAsync(chiTiet);
+
+                // Cập nhật số lượng tồn
+                findThuocCu.SoLuongTon += phieuNhapThuoc.SoLuong;
+                _thuocRepository.Update(findThuocCu);
+            }
+            else
+            {
+                // Tạo mới Thuoc
+                if (phieuNhapThuoc.HanSuDung <= DateTime.Now)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Hạn sử dụng phải lớn hơn thời điểm nhập");
+                }
+                else if (phieuNhapThuoc.SoLuong <= 0)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Số lượng nhập phải lớn hơn 0");
+                }
+                else if (phieuNhapThuoc.DonGia <= 0)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Đơn giá phải lớn hơn 0");
+                }
+                var findloaiThuocID = (await _loaiThuocRepository.GetAllAsync()).Where(p => p.Id == phieuNhapThuoc.LoaiThuocId).FirstOrDefault();
+                if(findloaiThuocID == null)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Loại thuốc không tồn tại");
+                }
+                var newThuoc = new Thuoc
+                {
+                    TenThuoc = phieuNhapThuoc.TenThuoc,
+                    HanSuDung = phieuNhapThuoc.HanSuDung,
+                    Images = phieuNhapThuoc.Images,
+                    SoLuongTon = phieuNhapThuoc.SoLuong,
+                    GiaNhap = phieuNhapThuoc.DonGia,
+                    GiaBan = 0, // Đặt giá bán = 0, nếu có bảng tham số sửa sau
+                    LoaiThuocId = phieuNhapThuoc.LoaiThuocId
+                };
+                await _thuocRepository.AddAsync(newThuoc);
+                await _unitOfWork.CommitAsync();
+
+                // Tạo và lưu PhieuNhapThuoc
+                if (phieuNhapThuoc.NgayNhap <= DateTime.Now)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Ngày nhập phải lớn hơn thời điểm nhập");
+                }
+                var newPhieuNhapThuoc = new PhieuNhapThuoc
+                {
+                    NgayNhap = phieuNhapThuoc.NgayNhap
+                };
+                await _phieuNhapThuocRepository.AddAsync(newPhieuNhapThuoc);
+                await _unitOfWork.CommitAsync();
+
+                // Tạo ChiTietPhieuNhapThuoc liên kết với cả Thuoc và PhieuNhapThuoc
+                var chiTiet = new ChiTietPhieuNhapThuoc
+                {
+                    PhieuNhapThuocId = newPhieuNhapThuoc.Id,
+                    ThuocId = newThuoc.Id,
+                    SoLuong = phieuNhapThuoc.SoLuong,
+                    DonGia = phieuNhapThuoc.DonGia
+                };
+                await _chiTietPhieuNhapThuocRepository.AddAsync(chiTiet);
+            }
+
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Thêm Thuốc thành công");
         }
+
 
 
         public async Task<List<PhieuNhapThuoc>> GetAllAsync()
