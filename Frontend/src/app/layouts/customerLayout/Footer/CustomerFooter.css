@@ -1,0 +1,66 @@
+/* Tổng thể footer */
+.customer-footer {
+  background-color: #348f6c;
+  padding: 20px 40px;
+  border-top: 1px solid #ddd;
+}
+
+/* Container chính của footer */
+#footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Các phần trong footer */
+#footer-about,
+#footer-contact,
+#footer-working-hours {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Tiêu đề trong footer */
+#about-heading,
+#contact-heading,
+#working-hours-heading {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+/* Nội dung trong footer */
+#about-text,
+#contact-list,
+#working-hours-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* Mục trong danh sách */
+.footer-item {
+  margin-bottom: 5px;
+}
+
+/* Liên kết trong danh sách */
+.footer-item a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-item a:hover {
+  text-decoration: underline;
+}
+
+/* Phần bản quyền */
+#footer-copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #ffffff;
+}

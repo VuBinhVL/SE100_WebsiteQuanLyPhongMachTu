@@ -1,0 +1,53 @@
+/* Tổng thể card */
+.doctor_card {
+  width: 300px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hiệu ứng khi hover */
+.doctor_card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Ảnh bác sĩ */
+.doctor_card .doctor-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.doctor_card .doctor-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Thông tin bác sĩ */
+.doctor_card .doctor-info {
+  padding: 15px;
+}
+
+.doctor_card .doctor-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.doctor_card .doctor-details {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  color: #555555;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.6;
+}
