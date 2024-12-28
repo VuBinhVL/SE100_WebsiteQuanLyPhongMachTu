@@ -37,7 +37,6 @@ export default function MainRoutes() {
           <Route path="medicalshift" element={<MedicalShift />} />
           <Route path="medicine" element={<Medicine />} />
         </Route>
-
         {/* Trang không tìm thấy */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
