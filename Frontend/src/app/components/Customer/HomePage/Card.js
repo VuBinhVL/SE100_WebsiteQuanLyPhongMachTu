@@ -4,7 +4,7 @@ import "./Card.css";
 
 export default function Card({ img, title, description }) {
   return (
-    <div className="card">
+    <div className="item_card_serivce">
       <div className="card-img">
         <img src={img} alt={title} />
       </div>

@@ -5,6 +5,13 @@
 
 .Navigation_admin .nav-pills li a:focus {
     background-color: #D5ECFE;
+    /* Màu nền khi focus */
+    text-decoration: none;
+}
+
+.Navigation_admin .nav-pills li a.active {
+    background-color: #D5ECFE;
+    /* Màu nền khi active */
     text-decoration: none;
 }
 
@@ -108,12 +115,3 @@
     color: #348F6C;
     font-size: 22px;
 }
-
-/* .nav-item .active_NavLink:active {
-    background-color: #D5ECFE !important;
-    border-radius: 10px;
-} */
-/* NavLink {
-    background-color: #D5ECFE !important;
-    border-radius: 10px;
-} */

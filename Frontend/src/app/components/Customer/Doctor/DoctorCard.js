@@ -3,7 +3,7 @@ import "./DoctorCard.css";
 
 export default function DoctorCard({ image, name, details }) {
   return (
-    <div className="doctor-card">
+    <div className="doctor_card">
       <div className="doctor-image-container">
         <img src={image} alt={name} className="doctor-image" />
       </div>

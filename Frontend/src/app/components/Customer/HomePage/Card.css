@@ -1,34 +1,45 @@
-.card {
-  background-color: #ffffff; /* Nền trắng */
-  border-radius: 10px; /* Bo góc */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+.item_card_serivce {
+  background-color: #ffffff;
+  /* Nền trắng */
+  border-radius: 10px;
+  /* Bo góc */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng */
   padding: 20px;
   text-align: center;
-  width: 390px; /* Chiều rộng cố định */
-  margin: 10px auto; /* Căn giữa */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng hover */
+  width: 390px;
+  /* Chiều rộng cố định */
+  margin: 10px auto;
+  /* Căn giữa */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Hiệu ứng hover */
 }
 
-.card:hover {
-  transform: translateY(-5px); /* Nâng lên khi hover */
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn */
+.item_card_serivce:hover {
+  transform: translateY(-5px);
+  /* Nâng lên khi hover */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  /* Đổ bóng đậm hơn */
 }
 
-.card-img img {
-  width: 70px; /* Kích thước icon */
+.item_card_serivce .card-img img {
+  width: 70px;
+  /* Kích thước icon */
   height: 70px;
   margin-bottom: 15px;
 }
 
-.card-title {
+.item_card_serivce .card-title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333333; /* Màu chữ tiêu đề */
+  color: #333333;
+  /* Màu chữ tiêu đề */
   margin-bottom: 10px;
 }
 
-.card-description {
+.item_card_serivce .card-description {
   font-size: 0.9rem;
-  color: #666666; /* Màu chữ mô tả */
+  color: #666666;
+  /* Màu chữ mô tả */
   line-height: 1.4;
 }
