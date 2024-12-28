@@ -73,9 +73,7 @@ export default function Navigation() {
                         </li>
                         <li className="nav-item text-black fs-5 py-2 py-sm-0">
                             <NavLink to="Medicine" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
-                                <GiMedicines className="fs-4 icon-medicine icon" style={{
-                                    fontSize: 100
-                                }} />
+                                <GiMedicines className="fs-4 icon-medicine icon " />
                                 <span className="ms-3">Medicines</span>
                             </NavLink>
                         </li>
