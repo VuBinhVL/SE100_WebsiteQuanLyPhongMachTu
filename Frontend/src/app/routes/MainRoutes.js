@@ -30,8 +30,7 @@ export default function MainRoutes() {
 
         {/* Layout quản trị viên */}
         <Route path="/admin" element={<LayoutAdmin />}>
-          {/* <Route index element={<DashBoard />} /> */}
-          <Route path="/admin" element={<DashBoard />} />
+          <Route index element={<DashBoard />} />
           <Route path="staff" element={<Staff />} />
           <Route path="patien" element={<Patien />} />
           <Route path="examinationform" element={<ExaminationForm />} />

@@ -27,7 +27,7 @@ export default function Navigation() {
                     <hr className="text-secondary mt-3"></hr>
                     <ul className="nav nav-pills flex-column">
                         <li className="nav-item text-black fs-5 py-2 py-sm-0">
-                            <NavLink to="/" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
+                            <NavLink to="/admin" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page" end>
                                 <RxDashboard className="icon icon-dashboard" />
                                 <span className="ms-4">Dashboard</span>
                             </NavLink>
@@ -73,7 +73,9 @@ export default function Navigation() {
                         </li>
                         <li className="nav-item text-black fs-5 py-2 py-sm-0">
                             <NavLink to="Medicine" className="nav-link d-flex align-items-center text-black fs-5 my-2" aria-current="page">
-                                <GiMedicines className="fs-4 icon-medicine icon" />
+                                <GiMedicines className="fs-4 icon-medicine icon" style={{
+                                    fontSize: 100
+                                }} />
                                 <span className="ms-3">Medicines</span>
                             </NavLink>
                         </li>
