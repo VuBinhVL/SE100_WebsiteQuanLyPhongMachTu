@@ -8,8 +8,6 @@ import Patien from "../pages/Admin/UsersManagement/Patiens";
 import ExaminationForm from "../pages/Admin/ExaminationFormsManagement";
 import MedicalShift from "../pages/Admin/MedicalShiftsManagement";
 import Medicine from "../pages/Admin/MedicinesManagement";
-import CustomerFooter from "../layouts/customerLayout/Footer";
-import CustomerHeader from "../layouts/customerLayout/Header/CustomerHeader";
 import CustomerHome from "../pages/Customer/CustomerHome";
 import Doctor from "../pages/Customer/Doctor";
 import Register from "../pages/Other/Register/Register";
@@ -32,7 +30,8 @@ export default function MainRoutes() {
 
         {/* Layout quản trị viên */}
         <Route path="/admin" element={<LayoutAdmin />}>
-          <Route index element={<DashBoard />} />
+          {/* <Route index element={<DashBoard />} /> */}
+          <Route path="/admin" element={<DashBoard />} />
           <Route path="staff" element={<Staff />} />
           <Route path="patien" element={<Patien />} />
           <Route path="examinationform" element={<ExaminationForm />} />
