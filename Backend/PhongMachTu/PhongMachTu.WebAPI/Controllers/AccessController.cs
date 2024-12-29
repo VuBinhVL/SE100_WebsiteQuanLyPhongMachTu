@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.BenhNhan;
 using PhongMachTu.Common.DTOs.Request.NguoiDung;
 using PhongMachTu.Service;
@@ -30,7 +31,12 @@ namespace PhongMachTu.WebAPI.Controllers
         public async Task<IActionResult> LoginAsync(Request_LoginDTO data)
         {
             var rs = await _nguoiDungService.LoginAsync(data);
-            return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            if(rs.HttpStatusCode==HttpStatusCode.BadRequest)
+            {
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+
+            return StatusCode(rs.HttpStatusCode, new { roleName = rs.Message, token = rs.Token });
         }
     }
 }

@@ -1,9 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using PhongMachTu.Common.ConstValue;
+using PhongMachTu.Common.Helpers;
+using PhongMachTu.Common.MyMiddlewares;
 using PhongMachTu.DataAccess;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.DataAccess.Repositories;
 using PhongMachTu.Service;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,8 +59,91 @@ builder.Services.AddScoped<ILoaiThuocService, LoaiThuocService>();
 builder.Services.AddScoped<IPhieuNhapThuocService, PhieuNhapThuocService>();
 builder.Services.AddScoped<ICaKhamService, CaKhamService>();
 
-// Add services to the container.
+//bổ trợ phần token
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<TokenStore>();
 
+
+//add jwt
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true, // Yêu cầu Kiểm tra Issuer
+        ValidateAudience = false, // Không cần Kiểm tra Audience
+        ValidateLifetime = true, // Yêu cầu Kiểm tra thời hạn của token
+        ClockSkew = TimeSpan.Zero, // Loại bỏ thời gian lệch,check thời hạn thêm chính xác
+        ValidateIssuerSigningKey = true, // Yêu cầu Kiểm tra Signature
+        ValidIssuer = builder.Configuration["Jwt:Issuer"], // Cấu hình Issuer
+       // ValidAudience = builder.Configuration["Jwt:Audience"], // Cấu hình Audience
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])) ,
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                //context.Response.Headers.Add("Token-Expired", "true");
+            }
+            return Task.CompletedTask;
+        }
+    };
+});
+
+//add AddPolicy cho phân quyền
+builder.Services.AddAuthorization(options =>
+{
+    //chỉnh sửa thông tin nhân viên
+    options.AddPolicy(Const_ChucNang.Quan_Ly_Nhan_Vien_Edit, policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            var role = context.User.FindFirst("VaiTro")?.Value;
+
+            if(role== Const_VaiTro.Chu_Phong_Mach)
+            {
+                return true;
+            }
+
+            var permissions = context.User.Claims
+                .Where(c => c.Type == "SuChoPhep")
+                .Select(c => c.Value);
+            return role == Const_VaiTro.Nhan_Vien
+                   && permissions.Contains(Const_ChucNang.Quan_Ly_Nhan_Vien_Edit);
+        });
+    });
+
+    //xóa nhân viên
+    options.AddPolicy(Const_ChucNang.Quan_Ly_Nhan_Vien_Delete, policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            var role = context.User.FindFirst("VaiTro")?.Value;
+            if (role == Const_VaiTro.Chu_Phong_Mach)
+            {
+                return true;
+            }
+
+            var permissions = context.User.Claims
+                .Where(c => c.Type == "SuChoPhep")
+                .Select(c => c.Value);
+            return  role == Const_VaiTro.Nhan_Vien
+                   && permissions.Contains(Const_ChucNang.Quan_Ly_Nhan_Vien_Delete);
+        });
+    });
+
+    //nao viết tiếp hihi
+});
+
+
+// Add services to the container.
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
@@ -120,6 +210,9 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+
+app.UseAuthentication();
+app.UseMiddleware<TokenValidationMiddleware>();//phải dùng cái này ở dưới authen vì authen có nhiệm vụ handle token
 app.UseAuthorization();
 
 

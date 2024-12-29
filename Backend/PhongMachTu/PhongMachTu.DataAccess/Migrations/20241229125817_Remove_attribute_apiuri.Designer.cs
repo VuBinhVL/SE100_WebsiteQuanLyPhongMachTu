@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhongMachTu.DataAccess;
 
@@ -11,9 +12,10 @@ using PhongMachTu.DataAccess;
 namespace PhongMachTu.DataAccess.Migrations
 {
     [DbContext(typeof(PhongMachTuContext))]
-    partial class PhongMachTuContextModelSnapshot : ModelSnapshot
+    [Migration("20241229125817_Remove_attribute_apiuri")]
+    partial class Remove_attribute_apiuri
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -18,9 +18,5 @@ namespace PhongMachTu.DataAccess.Models
 		[Required]
 		[MaxLength(300)]
 		public string? TenChucNang { get; set; }
-
-		[Required]
-		[MaxLength(300)]
-		public string? ApiUri { get; set; }
 	}
 }
