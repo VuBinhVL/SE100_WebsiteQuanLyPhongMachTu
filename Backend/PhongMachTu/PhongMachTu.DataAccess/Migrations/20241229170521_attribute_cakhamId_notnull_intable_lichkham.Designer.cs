@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhongMachTu.DataAccess;
 
@@ -11,9 +12,10 @@ using PhongMachTu.DataAccess;
 namespace PhongMachTu.DataAccess.Migrations
 {
     [DbContext(typeof(PhongMachTuContext))]
-    partial class PhongMachTuContextModelSnapshot : ModelSnapshot
+    [Migration("20241229170521_attribute_cakhamId_notnull_intable_lichkham")]
+    partial class attribute_cakhamId_notnull_intable_lichkham
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,9 +316,6 @@ namespace PhongMachTu.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BenhNhanId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CaKhamId")
                         .HasColumnType("int");
 
@@ -327,8 +326,6 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BenhNhanId");
 
                     b.HasIndex("CaKhamId");
 
@@ -529,9 +526,6 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasColumnType("float");
 
                     b.Property<int>("SoLanHuyLichKhamToiDaChoPhep")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SoPhutNgungDangKyTruocKetThuc")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -769,12 +763,6 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.LichKham", b =>
                 {
-                    b.HasOne("PhongMachTu.DataAccess.Models.NguoiDung", "BenhNhan")
-                        .WithMany()
-                        .HasForeignKey("BenhNhanId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("PhongMachTu.DataAccess.Models.CaKham", "CaKham")
                         .WithMany("LichKhams")
                         .HasForeignKey("CaKhamId")
@@ -786,8 +774,6 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasForeignKey("TrangThaiLichKhamId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("BenhNhan");
 
                     b.Navigation("CaKham");
 

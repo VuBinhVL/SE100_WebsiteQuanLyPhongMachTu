@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using PhongMachTu.Common.ConstValue;
@@ -22,6 +23,7 @@ namespace PhongMachTu.Service
     public interface INguoiDungService
     {
         Task<Respone_Login> LoginAsync(Request_LoginDTO data);
+        Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext);
     }
 
     public class NguoiDungService : INguoiDungService
@@ -40,6 +42,12 @@ namespace PhongMachTu.Service
             _vaiTroRepository = vaiTroRepository;
             _suChoPhepRepository = suChoPhepRepository;
             _tokenStore = tokenStore;
+        }
+
+        public async Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext)
+        {
+            var userId =int.Parse( httpContext.User.FindFirst("UserId")?.Value);   
+            return await _nguoiDungRepository.GetSingleByIdAsync(userId);
         }
 
         public async Task<Respone_Login> LoginAsync(Request_LoginDTO data)

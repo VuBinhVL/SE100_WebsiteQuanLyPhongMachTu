@@ -30,7 +30,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
 
         }
@@ -45,7 +45,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
 
@@ -60,7 +60,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
 
