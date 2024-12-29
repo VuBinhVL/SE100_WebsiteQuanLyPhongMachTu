@@ -98,6 +98,21 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             var rs = await _nhanVienService.DeleteNhanVienByIdAsync(id ?? -1);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
+
+
+        [HttpPut("phan-quyen")]
+        public async Task<IActionResult>PhanQuyenAsync(Request_PhanQuyenDTO data)
+        {
+            try
+            {
+                var rs = await _nhanVienService.PhanQuyenAsync(data);
+                return StatusCode(rs.HttpStatusCode,rs.Message);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new {message = "Có lỗi xảy ra từ hệ thống"});
+            }
+        }
     }
     
 }

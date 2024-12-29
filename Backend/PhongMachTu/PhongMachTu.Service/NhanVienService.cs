@@ -14,6 +14,7 @@ using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.Common.DTOs.Respone.NhanVien;
 using PhongMachTu.Common.Mapper;
 using System.Security.Cryptography.X509Certificates;
+using PhongMachTu.Common.Helpers;
 namespace PhongMachTu.Service
 {
     public interface INhanVienService
@@ -23,6 +24,7 @@ namespace PhongMachTu.Service
         Task<List<Respone_NhanVienDTO>> GetAllAsync();
         Task<ResponeMessage> DeleteNhanVienByIdAsync(int? id);
         Task<NguoiDung> GetNhanVienByIdAsync(int? id);
+        Task<ResponeMessage> PhanQuyenAsync(Request_PhanQuyenDTO data);
     }
 
     public class NhanVienService : INhanVienService
@@ -31,14 +33,18 @@ namespace PhongMachTu.Service
         private readonly ICaKhamRepository _caKhamRepository;
         private readonly ISuChoPhepRepository _suChoPhepRepository;
         private readonly INhomBenhRepository _nhomBenhRepository;
+        private readonly IChucNangRepository _chucNangRepository;
+        private readonly TokenStore _tokenStore;
         private readonly IUnitOfWork _unitOfWork;
 
-        public NhanVienService(INguoiDungRepository nguoiDungRepository,ICaKhamRepository caKhamRepository,ISuChoPhepRepository suChoPhepRepository,INhomBenhRepository nhomBenhRepository ,IUnitOfWork unitOfWork)
+        public NhanVienService(INguoiDungRepository nguoiDungRepository,ICaKhamRepository caKhamRepository,ISuChoPhepRepository suChoPhepRepository,INhomBenhRepository nhomBenhRepository ,IChucNangRepository chucNangRepository,TokenStore tokenStore,IUnitOfWork unitOfWork)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _caKhamRepository = caKhamRepository;
             _suChoPhepRepository = suChoPhepRepository;
             _nhomBenhRepository = nhomBenhRepository;
+            _chucNangRepository = chucNangRepository;
+            _tokenStore = tokenStore;
             _unitOfWork = unitOfWork;
         }
 
@@ -131,6 +137,47 @@ namespace PhongMachTu.Service
         public async Task<NguoiDung> GetNhanVienByIdAsync(int? id)
         {
             return (await _nguoiDungRepository.GetSingleWithIncludesAsync(u => u.Id==id , u=>u.ChuyenMon));
+        }
+
+        public async Task<ResponeMessage> PhanQuyenAsync(Request_PhanQuyenDTO data)
+        {
+            var findNhanVien = (await _nguoiDungRepository.FindAsync(n => n.Id == data.NhanVienId && n.VaiTroId == Const_VaiTro.VaiTro_Nhan_VienId)).FirstOrDefault();
+            if (findNhanVien == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Nhân viên không hợp lệ");
+            }
+
+
+            var findSuChoPheps = await _suChoPhepRepository.FindAsync(s => s.NguoiDungId == data.NhanVienId);
+            foreach (var item in findSuChoPheps)
+            {
+                if (!data.ChucNangIds.Contains(item.ChucNangId))
+                {
+                    _suChoPhepRepository.Delete(item);
+                }
+            }
+
+            foreach (var idChucNang in data.ChucNangIds)
+            {
+                var findChucNang = await _chucNangRepository.GetSingleByIdAsync(idChucNang);
+                if (findChucNang == null)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Một trong các chức năng đã chọn không tồn tại");
+                }
+
+                var findSuChoPhep = findSuChoPheps.Where(s => s.ChucNangId == idChucNang).FirstOrDefault();
+                if (findSuChoPhep == null)
+                {
+                    await _suChoPhepRepository.AddAsync(new SuChoPhep()
+                    {
+                        NguoiDungId = data.NhanVienId,
+                        ChucNangId = idChucNang
+                    });
+                }
+            }
+            _tokenStore.RevokeToken(data.NhanVienId);
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, $"Phân quyền cho nhân viên {findNhanVien.HoTen} thành công");
         }
 
         public async Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data)
