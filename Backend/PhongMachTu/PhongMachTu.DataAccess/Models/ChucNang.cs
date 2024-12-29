@@ -21,6 +21,6 @@ namespace PhongMachTu.DataAccess.Models
 
 		[Required]
 		[MaxLength(300)]
-		public string? Url { get; set; }
+		public string? ApiUri { get; set; }
 	}
 }

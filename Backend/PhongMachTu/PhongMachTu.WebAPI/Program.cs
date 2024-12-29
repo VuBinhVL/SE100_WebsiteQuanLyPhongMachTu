@@ -47,7 +47,9 @@ builder.Services.AddScoped<IBenhLyService, BenhLyService>();
 builder.Services.AddScoped<INhanVienService, NhanVienService>();
 builder.Services.AddScoped<IBenhNhanService, BenhNhanService>();
 builder.Services.AddScoped<INguoiDungService, NguoiDungService>();
-
+builder.Services.AddScoped<ILoaiThuocService, LoaiThuocService>();
+builder.Services.AddScoped<IPhieuNhapThuocService, PhieuNhapThuocService>();
+builder.Services.AddScoped<ICaKhamService, CaKhamService>();
 
 // Add services to the container.
 
@@ -85,7 +87,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-//hỗ trợ chạy be,fe trên local được đồng thời
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -95,7 +96,6 @@ builder.Services.AddCors(options =>
                .AllowAnyMethod(); // Cho phép bất kỳ phương thức HTTP nào
     });
 });
-//hỗ trợ chạy be,fe trên local được đồng thời
 
 
 

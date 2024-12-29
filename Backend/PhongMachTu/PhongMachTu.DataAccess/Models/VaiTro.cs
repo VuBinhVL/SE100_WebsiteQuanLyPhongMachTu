@@ -18,9 +18,5 @@ namespace PhongMachTu.DataAccess.Models
 		[Required]
 		[MaxLength(300)]
 		public string? TenVaiTro { get; set; }
-
-		[Required]
-		[MaxLength(1000)]
-		public string? UrlsDefault {  get; set; }
 	}
 }
