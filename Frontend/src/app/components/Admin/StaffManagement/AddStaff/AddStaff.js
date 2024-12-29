@@ -44,8 +44,8 @@ export default function AddStaff() {
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
                                     <label htmlFor="gender" className="form-label col-4 custom-bold">Gender:</label>
-                                    <select id="gender" name="gender" className="form-control rounded-3 ">
-                                        <option hidden disabled selected>Enter your gender</option>
+                                    <select id="gender" name="gender" className="form-control rounded-3 " defaultValue={'DEFAULT'}>
+                                        <option value="DEFAULT" hidden disabled selected>Enter your gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -57,8 +57,8 @@ export default function AddStaff() {
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
                                     <label htmlFor="specialization" className="form-label col-4 custom-bold">Specialization:</label>
-                                    <select id="specialization" name="specialization" className="form-control rounded-3">
-                                        <option hidden disabled selected>Enter your specialization</option>
+                                    <select id="specialization" name="specialization" className="form-control rounded-3" defaultValue={'DEFAULT'}>
+                                        <option value="DEFAULT" hidden disabled selected>Enter your specialization</option>
                                         <option value="doctor">Doctor</option>
                                         <option value="nurse">Nurse</option>
                                     </select>

@@ -49,21 +49,27 @@ export default function DetailStaff() {
                                             </div>
                                             <div className="form-group mb-3 d-flex align-items-center position-relative">
                                                 <label htmlFor="gender" className="form-label col-4 custom-bold">Gender:</label>
-                                                <select id="gender" name="gender" className="form-control rounded-3 ">
-                                                    <option hidden disabled selected>Enter your gender</option>
+                                                <select
+                                                    id="gender"
+                                                    name="gender"
+                                                    className="form-control rounded-3"
+                                                    defaultValue="DEFAULT"
+                                                >
+                                                    <option value="DEFAULT" hidden disabled>Enter your gender</option>
                                                     <option value="male">Male</option>
                                                     <option value="female">Female</option>
                                                 </select>
                                                 <IoIosArrowDown className="position-absolute end-0 me-3" />
                                             </div>
+
                                             <div className="form-group mb-3 d-flex align-items-center">
                                                 <label htmlFor="birthday" className="form-label col-4 custom-bold">Date of birth:</label>
                                                 <input type="date" id="birthday" name="birthday" className="form-control rounded-3" />
                                             </div>
                                             <div className="form-group mb-3 d-flex align-items-center position-relative">
                                                 <label htmlFor="specialization" className="form-label col-4 custom-bold">Specialization:</label>
-                                                <select id="specialization" name="specialization" className="form-control rounded-3">
-                                                    <option hidden disabled selected>Enter your specialization</option>
+                                                <select id="specialization" name="specialization" className="form-control rounded-3" defaultValue={'DEFAULT'}>
+                                                    <option value="DEFAULT" hidden disabled selected>Enter your specialization</option>
                                                     <option value="doctor">Doctor</option>
                                                     <option value="nurse">Nurse</option>
                                                 </select>

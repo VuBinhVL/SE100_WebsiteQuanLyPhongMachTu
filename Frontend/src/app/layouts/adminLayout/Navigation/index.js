@@ -14,7 +14,7 @@ export default function Navigation() {
     const handleCheckClick = () => {
         setCheckClick(!checkClick);
     }
-    console.log(checkClick)
+    // console.log(checkClick)
     return (
         <div className="Navigation_admin">
             <div className="slide-bar bg-white  min-vh-100 d-flex justify-content-between flex-column">
