@@ -39,6 +39,7 @@ builder.Services.AddScoped<ISuChoPhepRepository, SuChoPhepRepository>();
 builder.Services.AddScoped<IThuocRepository, ThuocRepository>();
 builder.Services.AddScoped<ITrangThaiLichKhamRepository, TrangThaiLichKhamRepository>();
 builder.Services.AddScoped<IVaiTroRepository, VaiTroRepository>();
+builder.Services.AddScoped<IThamSoRepository, ThamSoRepository>();
 
 //Đăng ký service
 builder.Services.AddScoped<IDonViTinhService, DonViTinhService>();
