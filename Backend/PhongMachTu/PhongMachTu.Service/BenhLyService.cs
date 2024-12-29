@@ -54,7 +54,11 @@ namespace PhongMachTu.Service
 
             await _benhLyRepository.AddAsync(new BenhLy()
             {
-                TenBenhLy = benhly.TenBenhLy
+                TenBenhLy = benhly.TenBenhLy,
+                TrieuTrung = benhly.TrieuChung,
+                GiaThamKhao = benhly.GiaThamKhao,
+                Images = benhly.Images,
+                NhomBenhId = benhly.NhomBenhId
             });
             await _unitOfWork.CommitAsync();
 
@@ -81,14 +85,22 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
+            var findBenhLy = (await _benhLyRepository.GetAllAsync()).Where(d => d.TenBenhLy.Trim().ToLower() == request.TenBenhLy.Trim().ToLower()).FirstOrDefault();
+            if (findBenhLy != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Tên bệnh lý này đã có rồi");
+            }
 
-            var findBenhLy = await _benhLyRepository.GetSingleByIdAsync(request.Id ?? -1);
-            if (findBenhLy == null)
+            var findBenhLybyID = await _benhLyRepository.GetSingleByIdAsync(request.Id ?? -1);
+            if (findBenhLybyID == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
-            findBenhLy.TenBenhLy = request.TenBenhLy;
+            findBenhLybyID.TenBenhLy = request.TenBenhLy;
+            findBenhLybyID.TrieuTrung = request.TrieuChung;
+            findBenhLybyID.GiaThamKhao = request.GiaThamKhao;
+            findBenhLybyID.Images = request.Images;
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Sửa tên bệnh lý thành công");
         }

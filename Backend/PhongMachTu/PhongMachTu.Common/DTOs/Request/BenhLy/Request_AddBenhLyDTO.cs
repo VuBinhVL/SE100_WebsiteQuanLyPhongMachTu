@@ -14,9 +14,11 @@ namespace PhongMachTu.Common.DTOs.Request.BenhLy
         [Required]
         public string? TrieuChung { get; set; }
         [Required]
-        public int? GiaThamKhao { get; set; }
+        public int GiaThamKhao { get; set; }
         [Required]
         public string? Images { get; set; }
-        
+        [Required]
+        public int NhomBenhId { get; set; }
+
     }
 }
