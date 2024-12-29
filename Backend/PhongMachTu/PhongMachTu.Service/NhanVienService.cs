@@ -22,7 +22,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data);
         Task<List<Respone_NhanVienDTO>> GetAllAsync();
         Task<ResponeMessage> DeleteNhanVienByIdAsync(int? id);
-
+        Task<NguoiDung> GetNhanVienByIdAsync(int? id);
     }
 
     public class NhanVienService : INhanVienService
@@ -119,12 +119,17 @@ namespace PhongMachTu.Service
         public async Task<List<Respone_NhanVienDTO>> GetAllAsync()
         {
             List<Respone_NhanVienDTO> list = new List<Respone_NhanVienDTO>();
-            var rs = await _nguoiDungRepository.GetAllWithIncludeAsync(u => u.ChuyenMon);
+            var rs =( await _nguoiDungRepository.GetAllWithIncludeAsync(u => u.ChuyenMon)).Where(u=>u.VaiTroId!=3);
             foreach (var r in rs)
             {
                 list.Add(NhanVienMapper.Map_NguoiDungModel_To_Respone_NhanVienDTO(r));
             }
             return list;
+        }
+
+        public async Task<NguoiDung> GetNhanVienByIdAsync(int? id)
+        {
+            return (await _nguoiDungRepository.GetSingleWithIncludesAsync(u => u.Id==id , u=>u.ChuyenMon));
         }
 
         public async Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data)

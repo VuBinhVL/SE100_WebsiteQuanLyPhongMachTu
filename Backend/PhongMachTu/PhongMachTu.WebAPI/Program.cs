@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Add DbContext
 builder.Services.AddDbContext<PhongMachTuContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnectString")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnectString")));
 
 // Đăng ký DbFactory và UnitOfWork
 builder.Services.AddScoped<IDbFactory, DbFactory>();
@@ -69,7 +69,7 @@ builder.Services.AddControllers()
             //    message="valid-by-modelstate",
             //    errors 
             //};
-            
+
             var response = new
             {
                 message = errors.Any() ? errors.First().Value[0] : "Có lỗi xảy ra"
@@ -84,13 +84,35 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+//hỗ trợ chạy be,fe trên local được đồng thời
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin() // Cho phép bất kỳ nguồn gốc nào
+               .AllowAnyHeader() // Cho phép bất kỳ header nào
+               .AllowAnyMethod(); // Cho phép bất kỳ phương thức HTTP nào
+    });
+});
+//hỗ trợ chạy be,fe trên local được đồng thời
+
+
+
+
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    //hỗ trợ chạy be,fe trên local được đồng thời
+    app.UseCors(); // Áp dụng CORS
+    //hỗ trợ chạy be,fe trên local được đồng thời
 }
 
 app.UseHttpsRedirection();
@@ -102,27 +124,27 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-	// Đăng ký cho API Controllers
-	endpoints.MapControllers();
+    // Đăng ký cho API Controllers
+    endpoints.MapControllers();
 
-	// Đăng ký cho area CUSTOMER
-	endpoints.MapAreaControllerRoute(
-		name: "customer_area",
-		areaName: "CUSTOMER",
-		pattern: "CUSTOMER/{controller=Home}/{action=Index}/{id?}"
-	);
+    // Đăng ký cho area CUSTOMER
+    endpoints.MapAreaControllerRoute(
+        name: "customer_area",
+        areaName: "CUSTOMER",
+        pattern: "CUSTOMER/{controller=Home}/{action=Index}/{id?}"
+    );
 
-	// Đăng ký cho area ADMIN
-	endpoints.MapAreaControllerRoute(
-		name: "admin_area",
-		areaName: "ADMIN",
-		pattern: "ADMIN/{controller=Home}/{action=Index}/{id?}"
-	);
+    // Đăng ký cho area ADMIN
+    endpoints.MapAreaControllerRoute(
+        name: "admin_area",
+        areaName: "ADMIN",
+        pattern: "ADMIN/{controller=Home}/{action=Index}/{id?}"
+    );
 
-	// Route mặc định
-	endpoints.MapControllerRoute(
-		name: "default",
-		pattern: "{controller=Home}/{action=Index}/{id?}"
-	);
+    // Route mặc định
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
 });
 app.Run();

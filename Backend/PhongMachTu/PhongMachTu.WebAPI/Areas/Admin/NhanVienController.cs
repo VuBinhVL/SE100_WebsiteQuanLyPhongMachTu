@@ -25,7 +25,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             try
             {
-                var rs = await _nhanVienService.GetAllAsync();
+                var rs = (await _nhanVienService.GetAllAsync());
                 return StatusCode(HttpStatusCode.Ok, rs);
             }
             catch (Exception ex)
@@ -33,6 +33,28 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
             }
            
+        }
+
+        [HttpGet("detail")]
+        public async Task<IActionResult> GetUserByIdAsync(int id)
+        {
+            try
+            {
+                var rs = await _nhanVienService.GetNhanVienByIdAsync(id);
+                if (rs == null)
+                {
+                    return StatusCode(HttpStatusCode.NotFound, new { message = $"Không tìm thấy nhân viên có id là {id}" });
+                }
+                else
+                {
+                    return StatusCode(HttpStatusCode.Ok, rs);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+            }
+
         }
 
         [HttpPost("add")]

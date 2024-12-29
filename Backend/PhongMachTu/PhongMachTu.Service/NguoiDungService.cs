@@ -30,20 +30,24 @@ namespace PhongMachTu.Service
         {
             var nguoidungs = await _nguoiDungRepository.GetAllAsync();
             var nguoiDung = nguoidungs.Where(u => ParseHelpers.ParseTaiKhoan(u.TenTaiKhoan).Contains(data.TenTaiKhoan)).FirstOrDefault();
-            if(nguoiDung==null|| nguoiDung.MatKhau != EncryptionHelper.Encrypt(data.MatKhau))
+            if (nguoiDung == null || nguoiDung.MatKhau != EncryptionHelper.Encrypt(data.MatKhau))
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Tên tài khoản hoặc mật khẩu không đúng");
             }
-            string url = "";
-            if (nguoiDung.VaiTroId == 3)//nhân viên
+            string roleName = "";
+            if (nguoiDung.VaiTroId == 1)
             {
-                url = "/";
+                roleName = "Chủ Phòng Mạch";
             }
-            else 
+            else if (nguoiDung.VaiTroId == 2)
             {
-                url = "/admin";
+                roleName = "Nhân Viên";
             }
-            return new ResponeMessage(HttpStatusCode.Ok,  url);
+            else
+            {
+                roleName = "Bệnh Nhân";
+            }
+            return new ResponeMessage(HttpStatusCode.Ok, roleName);
         }
     }
 }
