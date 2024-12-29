@@ -7,7 +7,7 @@ using PhongMachTu.Service;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
 	[Area("ADMIN")]
-	[Route("api/quan-li-don-vi-tinh")]
+	[Route("api/admin/quan-li-don-vi-tinh")]
 	[ApiController]
 	public class DonViTinhController : ControllerBase
 	{

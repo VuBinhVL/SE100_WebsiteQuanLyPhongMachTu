@@ -12,7 +12,7 @@ using System.Diagnostics;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
-    [Route("api/quan-li-nhan-vien")]
+    [Route("api/admin/quan-li-nhan-vien")]
     [ApiController]
   //  [Authorize]
     public class NhanVienController : ControllerBase
