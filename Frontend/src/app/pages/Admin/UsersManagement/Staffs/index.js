@@ -13,31 +13,38 @@ export default function Staff() {
     const [listSpecialization, setListSpecialization] = useState([]);
     const [dataSearch, setDataSearch] = useState("");
     const [filterSpecialization, setFilterSpecialization] = useState("DEFAULT");
+    const [isReload, setIsReload] = useState(false);
 
     // Lấy danh sách nhân viên
     useEffect(() => {
         const uri = "/api/quan-li-nhan-vien";
         fetchGet(
             uri,
-            (response) => {
-                setListStaff(response);
+            (sus) => {
+                setListStaff(sus);
             },
-            (error) => {
-                alert(error.message);
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
             }
         );
     }, []);
 
-    // Lấy danh sách chuyên môn
+    //gọi api lấy chuyên môn (nhóm bệnh)
     useEffect(() => {
         const uri = "/api/quan-li-nhom-benh";
         fetchGet(
             uri,
-            (response) => {
-                setListSpecialization(response);
+            (sus) => {
+                setListSpecialization(sus);
             },
-            (error) => {
-                alert(error.message);
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
             }
         );
     }, []);
@@ -84,6 +91,9 @@ export default function Staff() {
 
         setListStaffShow(filteredList);
     };
+    const reload = () => {
+        setIsReload(!isReload);
+    }
 
     return (
         <div className="Staff_Management">
@@ -145,7 +155,7 @@ export default function Staff() {
                                         <div className="list_Action">
                                             <FaUserShield className="icon_authorise icon_action" />
                                             <DetailStaff />
-                                            <DeleteStaff />
+                                            <DeleteStaff reload={reload} item={item} setListStaff={setListStaff} listStaff={listStaff} />
                                         </div>
                                     </td>
                                 </tr>
@@ -186,3 +196,4 @@ export default function Staff() {
         </div>
     );
 }
+
