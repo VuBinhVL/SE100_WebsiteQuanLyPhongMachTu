@@ -79,7 +79,8 @@ namespace PhongMachTu.Service
                 //dữ liệu generate
                 TenTaiKhoan = JsonConvert.SerializeObject(new string[] { data.SoDienThoai, data.Email }).ToString(),
                 MatKhau = EncryptionHelper.Encrypt("123456"),
-                VaiTroId = 2
+                VaiTroId = 2,
+                IsLock=false
             };
 
             await _nguoiDungRepository.AddAsync(nhanVien);

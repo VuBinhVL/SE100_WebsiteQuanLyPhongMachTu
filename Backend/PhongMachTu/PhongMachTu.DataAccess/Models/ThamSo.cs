@@ -9,18 +9,14 @@ using System.Threading.Tasks;
 namespace PhongMachTu.DataAccess.Models
 {
 
-	[Table("VaiTros")]
-	public class VaiTro
-	{
-		[Key]
-		public int Id { get; set; }
 
-		[Required]
-		[MaxLength(300)]
-		public string? TenVaiTro { get; set; }
+    [Table("ThamSos")]
+    public class ThamSo
+    {
+        [Required]
+        public int SoLanHuyLichKhamToiDaChoPhep { get; set; }
 
         [Required]
-        [MaxLength(1000)]
-        public string? ChucNangIdsDefault { get; set; }
+        public double HeSoBan {  get; set; }
     }
 }

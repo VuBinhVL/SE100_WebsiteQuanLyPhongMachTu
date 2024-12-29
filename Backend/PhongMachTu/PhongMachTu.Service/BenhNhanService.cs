@@ -69,6 +69,7 @@ namespace PhongMachTu.Service
             nguoiDung.NgaySinh = null;
             nguoiDung.ChuyenMonId = null;
             nguoiDung.VaiTroId = 3;
+            nguoiDung.IsLock = false;   
 
             await _nguoiDungRepository.AddAsync(nguoiDung);
             await _unitOfWork.CommitAsync();

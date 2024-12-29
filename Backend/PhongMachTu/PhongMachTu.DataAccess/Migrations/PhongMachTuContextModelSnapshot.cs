@@ -414,6 +414,9 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasDefaultValue("no_img.png");
 
+                    b.Property<bool>("IsLock")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MatKhau")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -522,9 +525,6 @@ namespace PhongMachTu.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("GiaBan")
-                        .HasColumnType("int");
-
                     b.Property<int>("GiaNhap")
                         .HasColumnType("int");
 
@@ -583,6 +583,11 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ChucNangIdsDefault")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("TenVaiTro")
                         .IsRequired()

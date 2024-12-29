@@ -22,8 +22,6 @@ namespace PhongMachTu.DataAccess.Models
 		public int SoLuongTon {  get; set; }
 		[Required]
 		public int GiaNhap {  get; set; }
-		[Required]
-		public int GiaBan {  get; set; }
         [Required]
         public DateTime NgaySanXuat { get; set; }
         [Required]

@@ -116,7 +116,7 @@ namespace PhongMachTu.Service
                     Images = phieuNhapThuoc.Images,
                     SoLuongTon = phieuNhapThuoc.SoLuong,
                     GiaNhap = phieuNhapThuoc.DonGia,
-                    GiaBan = 0, // Đặt giá bán = 0, nếu có bảng tham số sửa sau
+                    //GiaBan = 0, // Đặt giá bán = 0, nếu có bảng tham số sửa sau
                     LoaiThuocId = phieuNhapThuoc.LoaiThuocId
                 };
                 await _thuocRepository.AddAsync(newThuoc);
