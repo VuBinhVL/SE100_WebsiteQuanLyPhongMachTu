@@ -32,6 +32,7 @@ namespace PhongMachTu.DataAccess
 		public DbSet<Thuoc>? Thuocs { get; set; }
 		public DbSet<TrangThaiLichKham>? TrangThaiLichKhams { get; set; }
 		public DbSet<VaiTro>? VaiTros { get; set; }
+		public DbSet<ThamSo>? ThamSos { get; set; }
 
 		//bổ trợ DI
 		public PhongMachTuContext(DbContextOptions<PhongMachTuContext> options) : base(options)

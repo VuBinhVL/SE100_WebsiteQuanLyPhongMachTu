@@ -13,6 +13,9 @@ namespace PhongMachTu.DataAccess.Models
     [Table("ThamSos")]
     public class ThamSo
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         public int SoLanHuyLichKhamToiDaChoPhep { get; set; }
 
