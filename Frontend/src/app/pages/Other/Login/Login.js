@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Textbox from "../../../components/Other/Textbox"; // Đường dẫn tới component
-import SuccessMessageBox from "../../../components/MessageBox/SuccessMessageBox"; // Đường dẫn tới SuccessMessageBox
+import { showSuccessMessageBox } from "../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox"; // Đường dẫn tới hàm hiển thị MessageBox
 import "./Login.css";
 import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y tá
 import usernameIcon from "../../../assets/icons/user.png"; // Icon Tên đăng nhập
@@ -10,12 +10,12 @@ import logo from "../../../assets/images/clinic4.png";
 import "../../../styles/index.css";
 import { fetchPost } from "../../../lib/httpHandler";
 import { useNavigate } from "react-router-dom";
-export default function Login() {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
+export default function Login() {
   const [tenTaiKhoan, setTenTaiKhoan] = useState("");
   const [matKhau, setMatKhau] = useState("");
   const navigate = useNavigate();
+
   const handleLogin = () => {
     const dataSend = {
       tenTaiKhoan,
@@ -27,7 +27,7 @@ export default function Login() {
       uri,
       dataSend,
       (sus) => {
-        alert(sus.message);
+        showSuccessMessageBox("Đăng nhập thành công");
         if (sus.message === "Bệnh Nhân") {
           navigate("/");
         } else {
@@ -35,10 +35,10 @@ export default function Login() {
         }
       },
       (fail) => {
-        alert(fail.message);
+        showSuccessMessageBox(fail.message);
       },
       () => {
-        alert("Có lỗi xảy ra");
+        showSuccessMessageBox("Có lỗi xảy ra");
       }
     );
   };
@@ -84,15 +84,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-
-      {/* Hiển thị thông báo thành công */}
-      {/* {showSuccessMessage && (
-        <SuccessMessageBox
-          title="Đăng nhập thành công!"
-          description="Chào mừng bạn trở lại hệ thống quản lý phòng mạch tư."
-          onClose={() => setShowSuccessMessage(false)} // Ẩn thông báo khi nhấn nút "Done"
-        />
-      )} */}
     </div>
   );
 }
