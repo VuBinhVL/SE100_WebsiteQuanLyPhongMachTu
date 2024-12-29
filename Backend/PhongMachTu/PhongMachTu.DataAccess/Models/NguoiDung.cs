@@ -40,6 +40,9 @@ namespace PhongMachTu.DataAccess.Models
 		public string? GioiTinh {  get; set; }
 
 		[Required]
+		public bool IsLock { get; set; }
+
+        [Required]
 		[Phone]
 		[MaxLength(30)]
 		public string? SoDienThoai {  get; set; }

@@ -38,7 +38,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("get")]
         public async Task<IActionResult> GetNhomBenhByIdAsync(int? id)
         {
             var rs = await _nhomBenhService.GetByIdAsync(id ?? -1);

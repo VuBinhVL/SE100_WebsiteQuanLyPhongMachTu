@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PhongMachTu.DataAccess.Migrations
 {
-    public partial class InitDbVer1 : Migration
+    public partial class InitDbVer2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenChucNang = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
+                    ApiUri = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,7 +95,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenVaiTro = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    UrlsDefault = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
+                    ChucNangIdsDefault = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,7 +132,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     Images = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true, defaultValue: "[\"no_img.png\"]"),
                     SoLuongTon = table.Column<int>(type: "int", nullable: false),
                     GiaNhap = table.Column<int>(type: "int", nullable: false),
-                    GiaBan = table.Column<int>(type: "int", nullable: false),
+                    NgaySanXuat = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HanSuDung = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LoaiThuocId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -181,6 +181,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     Email = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     DiaChi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GioiTinh = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsLock = table.Column<bool>(type: "bit", nullable: false),
                     SoDienThoai = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     NgaySinh = table.Column<DateTime>(type: "datetime2", nullable: true),
                     VaiTroId = table.Column<int>(type: "int", nullable: false),
@@ -396,17 +397,11 @@ namespace PhongMachTu.DataAccess.Migrations
                 columns: table => new
                 {
                     HoSoBenhAnId = table.Column<int>(type: "int", nullable: false),
-                    BenhLyId = table.Column<int>(type: "int", nullable: false),
                     ChiTietKhamBenhId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChiTietHoSoBenhAns", x => new { x.HoSoBenhAnId, x.BenhLyId });
-                    table.ForeignKey(
-                        name: "FK_ChiTietHoSoBenhAns_BenhLys_BenhLyId",
-                        column: x => x.BenhLyId,
-                        principalTable: "BenhLys",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_ChiTietHoSoBenhAns", x => new { x.HoSoBenhAnId, x.ChiTietKhamBenhId });
                     table.ForeignKey(
                         name: "FK_ChiTietHoSoBenhAns_ChiTietKhamBenhs_ChiTietKhamBenhId",
                         column: x => x.ChiTietKhamBenhId,
@@ -479,11 +474,6 @@ namespace PhongMachTu.DataAccess.Migrations
                 name: "IX_ChiTietDonThuocs_ThuocId",
                 table: "ChiTietDonThuocs",
                 column: "ThuocId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChiTietHoSoBenhAns_BenhLyId",
-                table: "ChiTietHoSoBenhAns",
-                column: "BenhLyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChiTietHoSoBenhAns_ChiTietKhamBenhId",

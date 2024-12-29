@@ -12,8 +12,8 @@ using PhongMachTu.DataAccess;
 namespace PhongMachTu.DataAccess.Migrations
 {
     [DbContext(typeof(PhongMachTuContext))]
-    [Migration("20241224153427_InitDbVer1")]
-    partial class InitDbVer1
+    [Migration("20241229082402_FixDBVer2_ThemKeyChoBang_ThamSo")]
+    partial class FixDBVer2_ThemKeyChoBang_ThamSo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,15 +125,10 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<int>("HoSoBenhAnId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BenhLyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ChiTietKhamBenhId")
                         .HasColumnType("int");
 
-                    b.HasKey("HoSoBenhAnId", "BenhLyId");
-
-                    b.HasIndex("BenhLyId");
+                    b.HasKey("HoSoBenhAnId", "ChiTietKhamBenhId");
 
                     b.HasIndex("ChiTietKhamBenhId");
 
@@ -228,12 +223,12 @@ namespace PhongMachTu.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("TenChucNang")
+                    b.Property<string>("ApiUri")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("TenChucNang")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
@@ -421,6 +416,9 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasDefaultValue("no_img.png");
 
+                    b.Property<bool>("IsLock")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MatKhau")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -521,7 +519,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.ToTable("SuChoPheps");
                 });
 
-            modelBuilder.Entity("PhongMachTu.DataAccess.Models.Thuoc", b =>
+            modelBuilder.Entity("PhongMachTu.DataAccess.Models.ThamSo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -529,8 +527,24 @@ namespace PhongMachTu.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("GiaBan")
+                    b.Property<double>("HeSoBan")
+                        .HasColumnType("float");
+
+                    b.Property<int>("SoLanHuyLichKhamToiDaChoPhep")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ThamSos");
+                });
+
+            modelBuilder.Entity("PhongMachTu.DataAccess.Models.Thuoc", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("GiaNhap")
                         .HasColumnType("int");
@@ -546,6 +560,9 @@ namespace PhongMachTu.DataAccess.Migrations
 
                     b.Property<int>("LoaiThuocId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("NgaySanXuat")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SoLuongTon")
                         .HasColumnType("int");
@@ -588,15 +605,15 @@ namespace PhongMachTu.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ChucNangIdsDefault")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("TenVaiTro")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("UrlsDefault")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
 
@@ -645,12 +662,6 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.ChiTietHoSoBenhAn", b =>
                 {
-                    b.HasOne("PhongMachTu.DataAccess.Models.BenhLy", "BenhLy")
-                        .WithMany()
-                        .HasForeignKey("BenhLyId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("PhongMachTu.DataAccess.Models.ChiTietKhamBenh", "ChiTietKhamBenh")
                         .WithMany()
                         .HasForeignKey("ChiTietKhamBenhId")
@@ -662,8 +673,6 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasForeignKey("HoSoBenhAnId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("BenhLy");
 
                     b.Navigation("ChiTietKhamBenh");
 
