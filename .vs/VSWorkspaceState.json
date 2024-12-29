@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Backend",
+    "\\Backend\\PhongMachTu",
+    "\\Backend\\PhongMachTu\\PhongMachTu.Common",
+    "\\Backend\\PhongMachTu\\PhongMachTu.WebAPI"
   ],
+  "SelectedNode": "\\Backend\\PhongMachTu\\PhongMachTu.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Staff.css"
-import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { FaUserShield } from "react-icons/fa";
 import { GrCircleInformation } from "react-icons/gr";
 import AddStaff from "../../../../components/Admin/StaffManagement/AddStaff/AddStaff";
 import DetailStaff from "../../../../components/Admin/StaffManagement/DetailStaff/DetailStaff";
+import DeleteStaff from "../../../../components/Admin/StaffManagement/DeleteStaff/DeleteStaff";
+import { fetchGet } from "../../../../lib/httpHandler";
 export default function Staff() {
+    const [listStaff, setListStaff] = useState([]);
+    useEffect(() => {
+        const uri = "/api/quan-li-nhan-vien";
+        fetchGet(
+            uri,
+            (sus) => {
+                setData(sus);
+            },
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
+            }
+        );
+    }, []);
     return (
-        <div className="Home">
+        <div className="Staff_Management">
             <div className="title py-3 fs-5 mb-2">
                 Total number of doctors: 4
             </div>
@@ -20,7 +37,7 @@ export default function Staff() {
                         <div className="contain_Search position-relative col-4 me-3">
                             <input
                                 className="search rounded-2 px-3"
-                                placeholder="Nhập tên hoặc số điện thoại"
+                                placeholder="Enter your name or phone number"
                             ></input>
                             <IoIosSearch className="icon_search translate-middle-y text-secondary" />
                         </div>
@@ -32,19 +49,13 @@ export default function Staff() {
                             id="cars"
                         >
                             <option value="DEFAULT" disabled hidden>
-                                Lọc theo chuyên môn
+                                Filter by specialization
                             </option>
                             <option value="volvo">Tim mạch</option>
                             <option value="saab">Gan</option>
                             <option value="opel">Thận</option>
                         </select>
                     </div>
-
-                    {/* <!-- Button căn phải --> */}
-                    {/* <button className="Add col-2 rounded-2 d-flex align-items-center justify-content-center">
-                        <span><IoMdAddCircleOutline className="fs-4 me-2" /></span>
-                        Add Staff
-                    </button> */}
                     <AddStaff />
                 </div>
                 {/* table */}
@@ -72,13 +83,8 @@ export default function Staff() {
                                         <a href="#">
                                             <FaUserShield className="icon_authorise icon_action" />
                                         </a>
-                                        {/* <a href="#">
-                                            <GrCircleInformation className=" icon_information icon_action" />
-                                        </a> */}
                                         <DetailStaff />
-                                        <a href="#">
-                                            <MdDelete className="icon_delete icon_action" />
-                                        </a>
+                                        <DeleteStaff />
                                     </div>
                                 </td>
 
@@ -100,7 +106,6 @@ export default function Staff() {
                                         <a href="#">
                                             <MdDelete className="icon_delete icon_action" />
                                         </a>
-
 
                                     </div>
                                 </td>
