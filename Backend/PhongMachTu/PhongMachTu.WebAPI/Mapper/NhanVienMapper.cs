@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhongMachTu.Common.Mapper
+namespace PhongMachTu.WebAPI.Mapper
 {
     public static class NhanVienMapper
     {

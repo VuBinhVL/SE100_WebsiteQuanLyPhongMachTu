@@ -33,5 +33,21 @@ namespace PhongMachTu.WebAPI.Areas.Customer
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+
+        [HttpGet("hien-thi-ca-kham-da-dang-ky")]
+        public async Task<IActionResult> HienThiCaKhamDaDangKyAsync()
+        {
+            try
+            {
+                var result = await _caKhamService.GetCaKhamDaDangKyAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
     }
 }

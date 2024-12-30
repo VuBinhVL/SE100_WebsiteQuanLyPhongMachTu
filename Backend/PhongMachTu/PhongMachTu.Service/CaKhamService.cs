@@ -21,6 +21,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> UpdateCaKham(Request_UpdateCaKhamDTO? request);
         Task<ResponeMessage> DeleteCaKham(int id);
         Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data,HttpContext httpContext);
+        Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
     }
     public class CaKhamService : ICaKhamService
     {
@@ -191,6 +192,12 @@ namespace PhongMachTu.Service
                 .AddMinutes(-soPhutNgungDangKyTruocKetThuc);
 
             return thoiGianHienTai <= thoiDiemNgungDangKy;
+        }
+
+
+        public async Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync()
+        {
+            return await _caKhamRepository.GetCaKhamDaDangKyAsync();
         }
     }
 }
