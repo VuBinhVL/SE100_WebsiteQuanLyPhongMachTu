@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Textbox from "../../../components/Other/Textbox"; // Đường dẫn tới component
 import "./Register.css";
 import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y tá
@@ -36,6 +37,14 @@ export default function Register() {
               placeholder="Mật khẩu"
               type="password"
             />
+            <div className="form-links">
+              <Link to="/login" className="form-link">
+                Đăng nhập
+              </Link>
+              <Link to="/forget-password" className="form-link">
+                Quên mật khẩu
+              </Link>
+            </div>
             <button className="submit-button">Tạo tài khoản</button>
           </div>
         </div>

@@ -13,6 +13,7 @@ import Doctor from "../pages/Customer/Doctor";
 import Register from "../pages/Other/Register/Register";
 import Login from "../pages/Other/Login";
 import LayoutCustomer from "../layouts/customerLayout";
+import ForgetPassword from "../pages/Other/ForgetPassword";
 
 export default function MainRoutes() {
   return (
@@ -23,6 +24,7 @@ export default function MainRoutes() {
           <Route index element={<CustomerHome />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="doctors" element={<Doctor />} />
         </Route>
 

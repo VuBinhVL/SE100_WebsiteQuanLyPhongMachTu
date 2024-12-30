@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Textbox from "../../../components/Other/Textbox"; // Đường dẫn tới component
-import { showSuccessMessageBox } from "../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox"; // Đường dẫn tới hàm hiển thị MessageBox
-import { showYesNoMessageBox } from "../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox"; // Đường dẫn tới hàm hiển thị MessageBox
 import { showErrorMessageBox } from "../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // Đường dẫn tới hàm hiển thị MessageBox
-
-import "./Login.css";
-import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y tá
-import usernameIcon from "../../../assets/icons/user.png"; // Icon Tên đăng nhập
-import passwordIcon from "../../../assets/icons/password.png"; // Icon Mật khẩu
-import logo from "../../../assets/images/clinic4.png";
-import "../../../styles/index.css";
-import { fetchPost } from "../../../lib/httpHandler";
+import Textbox from "../../../components/Other/Textbox"; // Đường dẫn tới component
 import { useNavigate } from "react-router-dom";
+import passwordIcon from "../../../assets/icons/password.png"; // Icon Mật khẩu
+import usernameIcon from "../../../assets/icons/user.png"; // Icon Tên đăng nhập
+import logo from "../../../assets/images/clinic4.png";
+import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y tá
+import { fetchPost } from "../../../lib/httpHandler";
+import "../../../styles/index.css";
+import "./Login.css";
 
 export default function Login() {
   const [tenTaiKhoan, setTenTaiKhoan] = useState("");
@@ -30,16 +27,7 @@ export default function Login() {
       uri,
       dataSend,
       async (sus) => {
-        showYesNoMessageBox("Bạn có muốn đăng nhập không?").then((result) => {
-          if (result) {
-            console.log("User chọn YES. Thực hiện hành động xóa...");
-            // Thực hiện tiếp hành động
-            navigate("/admin");
-          } else {
-            console.log("User chọn NO. Dừng lại...");
-            // Dừng lại không làm gì
-          }
-        });
+        navigate("/admin");
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -51,16 +39,16 @@ export default function Login() {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-left">
-        <h1 className="register-title">HỆ THỐNG PHÒNG MẠCH TƯ</h1>
-        <div className="register-image">
+    <div className="login-page">
+      <div className="login-left">
+        <h1 className="login-title">HỆ THỐNG PHÒNG MẠCH TƯ</h1>
+        <div className="login-image">
           {/* Đặt ảnh tại đây */}
           <img src={logo} alt="Phòng mạch tư" />
         </div>
       </div>
-      <div className="register-right">
-        <div className="register-form">
+      <div className="login-right">
+        <div className="login-form">
           <div className="form-header">
             <h3 className="form-title">ĐĂNG NHẬP</h3>
             <img src={nurseIcon} alt="Nurse Icon" className="nurse-icon" />
@@ -81,7 +69,7 @@ export default function Login() {
               <Link to="/register" className="form-link">
                 Tạo tài khoản
               </Link>
-              <Link to="/forgot-password" className="form-link">
+              <Link to="/forget-password" className="form-link">
                 Quên mật khẩu
               </Link>
             </div>
