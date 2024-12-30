@@ -1,0 +1,71 @@
+.yes-no-message-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.yes-no-message-box .message-content {
+  background: #ffffff;
+  width: 400px;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.yes-no-message-box .message-icon img {
+  width: 80px;
+  margin-bottom: 15px;
+}
+
+.yes-no-message-box .message-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
+}
+.yes-no-message-box .button-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.yes-no-message-box .button-group .yes-button {
+  flex: 1;
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.yes-no-message-box .button-group .no-button {
+  flex: 1;
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.yes-no-message-box .button-group .yes-button:hover {
+  background-color: #45a049;
+}
+
+.yes-no-message-box .no-button:hover {
+  background-color: #e53935;
+}
