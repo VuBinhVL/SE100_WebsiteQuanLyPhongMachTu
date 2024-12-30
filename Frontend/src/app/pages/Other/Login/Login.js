@@ -21,13 +21,17 @@ export default function Login() {
       tenTaiKhoan,
       matKhau,
     };
-    console.log(dataSend);
     const uri = "/api/login";
     fetchPost(
       uri,
       dataSend,
-      async (sus) => {
-        navigate("/admin");
+      (sus) => {
+        if (sus.roleName === "Bệnh Nhân") {
+          navigate("/");
+        } else {
+          navigate("/admin");
+        }
+        localStorage.setItem("user", JSON.stringify(sus));
       },
       (fail) => {
         showErrorMessageBox(fail.message);
