@@ -16,7 +16,20 @@ namespace PhongMachTu.DataAccess.Models
 		[Required]
 		public int SoThuTu {  get; set; }
 
-		[Required]
+
+        [Required]
+        public int CaKhamId { get; set; }
+        [ForeignKey(nameof(CaKhamId))]
+        [Required]
+        public CaKham? CaKham { get; set; }
+
+        [Required]
+        public int BenhNhanId { get; set; }
+        [ForeignKey(nameof(BenhNhanId))]
+        [Required]
+        public NguoiDung? BenhNhan { get; set; }
+
+        [Required]
 		public int TrangThaiLichKhamId {  get; set; }
 		[Required]
 		[ForeignKey(nameof(TrangThaiLichKhamId))]

@@ -1,4 +1,5 @@
-﻿using PhongMachTu.Common.ConstValue;
+﻿using Microsoft.AspNetCore.Http;
+using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.DataAccess.Infrastructure;
@@ -19,6 +20,7 @@ namespace PhongMachTu.Service
         Task<CaKham> GetByIdAsync(int id);
         Task<ResponeMessage> UpdateCaKham(Request_UpdateCaKhamDTO? request);
         Task<ResponeMessage> DeleteCaKham(int id);
+        Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data,HttpContext httpContext);
     }
     public class CaKhamService : ICaKhamService
     {
@@ -26,13 +28,17 @@ namespace PhongMachTu.Service
         private readonly ILichKhamRepository _lichKhamRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly INguoiDungRepository _bacSiRepository;
+        private readonly INguoiDungService _nguoiDungService;
+        private readonly IThamSoRepository _thamSoRepository;
 
-        public CaKhamService(ICaKhamRepository caKhamRepository, IUnitOfWork unitOfWork, INguoiDungRepository bacSiRepository, ILichKhamRepository lichKhamRepository)
+        public CaKhamService(ICaKhamRepository caKhamRepository, IUnitOfWork unitOfWork, INguoiDungRepository bacSiRepository, ILichKhamRepository lichKhamRepository,INguoiDungService nguoiDungService, IThamSoRepository thamSoRepository)
         {
             _caKhamRepository = caKhamRepository;
             _unitOfWork = unitOfWork;
             _bacSiRepository = bacSiRepository;
             _lichKhamRepository = lichKhamRepository;
+            _nguoiDungService = nguoiDungService;
+            _thamSoRepository = thamSoRepository;
         }
         public async Task<ResponeMessage> AddCaKham(Request_AddCaKhamDTO caKham)
         {
@@ -81,12 +87,12 @@ namespace PhongMachTu.Service
         public async Task<ResponeMessage> UpdateCaKham(Request_UpdateCaKhamDTO? request)
         {
             if (request == null ||
-     string.IsNullOrEmpty(request.TenCaKham) ||
-     request.ThoiGianBatDau == default ||
-     request.ThoiGianKetThuc == default ||
-     request.NgayKham == default ||
-     request.SoLuongBenhNhanToiDa <= 0 ||
-     request.BacSiId == null)
+             string.IsNullOrEmpty(request.TenCaKham) ||
+             request.ThoiGianBatDau == default ||
+             request.ThoiGianKetThuc == default ||
+             request.NgayKham == default ||
+             request.SoLuongBenhNhanToiDa <= 0 ||
+             request.BacSiId == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
@@ -132,5 +138,59 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Xóa ca khám thành công");
         }
 
+        public async Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data, HttpContext httpContext)
+        {
+            var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (nguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+            var findCaKham = (await _caKhamRepository.FindAsync(c => c.Id == data.CaKhamId && c.BacSiId != null)).FirstOrDefault();
+            if (findCaKham == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám cần đăng ký");
+            }
+
+            var findLichKhams = await _lichKhamRepository.FindAsync(l => l.CaKhamId == data.CaKhamId);
+
+
+            if (findCaKham.SoLuongBenhNhanToiDa<=findLichKhams.Count())
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Xin lỗi.Ca khám hiện đang quá tải");
+            }
+
+            var findLichKhamByBenhNhanId = findLichKhams.Where(p => p.BenhNhanId == nguoiDung.Id).FirstOrDefault();
+            if(findLichKhamByBenhNhanId != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Bạn đã đăng ký ca khám này rồi");
+            }
+
+            var thamSo = await _thamSoRepository.GetSingleByIdAsync(1);
+
+            if (!ConThoiHanDangKy(findCaKham, thamSo.SoPhutNgungDangKyTruocKetThuc))
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Xin lỗi, thời gian mở đăng ký cho ca khám này đã hết");
+            }
+            await _lichKhamRepository.AddAsync(new LichKham()
+            {
+                SoThuTu= findLichKhams.Count() + 1,
+                CaKhamId = data.CaKhamId,
+                TrangThaiLichKhamId = Const_TrangThaiLichKham.Dang_Cho,
+                BenhNhanId = nguoiDung.Id,
+            });
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, $"Đăng ký ca khám thành công, số thứ tự của bạn là {findLichKhams.Count() + 1}");
+        }
+
+        public bool ConThoiHanDangKy(CaKham cakham, int soPhutNgungDangKyTruocKetThuc)
+        {
+            DateTime thoiGianHienTai = DateTime.Now;
+
+            DateTime thoiDiemNgungDangKy = cakham.NgayKham.Date
+                .Add(cakham.ThoiGianKetThuc)
+                .AddMinutes(-soPhutNgungDangKyTruocKetThuc);
+
+            return thoiGianHienTai <= thoiDiemNgungDangKy;
+        }
     }
 }

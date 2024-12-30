@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhongMachTu.DataAccess;
 
@@ -11,9 +12,10 @@ using PhongMachTu.DataAccess;
 namespace PhongMachTu.DataAccess.Migrations
 {
     [DbContext(typeof(PhongMachTuContext))]
-    partial class PhongMachTuContextModelSnapshot : ModelSnapshot
+    [Migration("20241229172453_add_attribute_NguoiDungId_in_lichkham")]
+    partial class add_attribute_NguoiDungId_in_lichkham
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -529,9 +531,6 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasColumnType("float");
 
                     b.Property<int>("SoLanHuyLichKhamToiDaChoPhep")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SoPhutNgungDangKyTruocKetThuc")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

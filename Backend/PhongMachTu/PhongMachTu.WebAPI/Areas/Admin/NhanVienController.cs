@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.NhanVien;
 using PhongMachTu.Common.DTOs.Respone;
+using PhongMachTu.Common.Helpers;
 using PhongMachTu.DataAccess.Repositories;
 using PhongMachTu.Service;
 using System.Diagnostics;
@@ -10,8 +12,9 @@ using System.Diagnostics;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
-    [Route("api/quan-li-nhan-vien")]
+    [Route("api/admin/quan-li-nhan-vien")]
     [ApiController]
+  //  [Authorize]
     public class NhanVienController : ControllerBase
     {
         private readonly INhanVienService _nhanVienService;
@@ -30,12 +33,13 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
            
         }
 
         [HttpGet("detail")]
+      //  [Authorize(Policy = Const_ChucNang.Quan_Ly_Nhan_Vien_Edit)]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
             try
@@ -52,7 +56,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
 
         }
@@ -67,12 +71,13 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch(Exception ex) 
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
 
 
         [HttpPut("update-thong-tin-ca-nhan")]
+     //   [Authorize(Policy = Const_ChucNang.Quan_Ly_Nhan_Vien_Edit)]
         public async Task<IActionResult> UpdateThongTinCaNhanNhanVienAsync([FromBody] Request_UpdateThongTinCaNhanNhanVienDTO request)
         {
             try
@@ -82,15 +87,31 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(HttpStatusCode.InternalServerError, new { message = HttpStatusCode.MsgHeThongGapSuCo });
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
 
         [HttpDelete("delete")]
+      //  [Authorize(Policy = Const_ChucNang.Quan_Ly_Nhan_Vien_Delete)]
         public async Task<IActionResult> DeleteNhanVienAsync(int? id)
         {
             var rs = await _nhanVienService.DeleteNhanVienByIdAsync(id ?? -1);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+        }
+
+
+        [HttpPut("phan-quyen")]
+        public async Task<IActionResult>PhanQuyenAsync(Request_PhanQuyenDTO data)
+        {
+            try
+            {
+                var rs = await _nhanVienService.PhanQuyenAsync(data);
+                return StatusCode(rs.HttpStatusCode,rs.Message);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new {message = "Có lỗi xảy ra từ hệ thống"});
+            }
         }
     }
     

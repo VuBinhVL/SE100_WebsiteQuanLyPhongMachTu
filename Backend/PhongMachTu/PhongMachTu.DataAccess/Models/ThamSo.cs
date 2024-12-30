@@ -21,5 +21,8 @@ namespace PhongMachTu.DataAccess.Models
 
         [Required]
         public double HeSoBan {  get; set; }
+
+        [Required]
+        public int SoPhutNgungDangKyTruocKetThuc { get; set; }//ví dụ = 15, thời gian kết thúc ca khám là 9h thì từ 8h45 đổ lên k cho đăng ký nữa
     }
 }

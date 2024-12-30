@@ -51,7 +51,12 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Số điện thoại đã có người sử dụng");
             }
-
+            
+            var checkUserName = (await _nguoiDungRepository.FindAsync(u => u.TenTaiKhoan == data.TenTaiKhoan)).FirstOrDefault();
+            if (checkUserName != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Tên tài khoản đã tồn tại");
+            }
             //dữ liệu từ request
             var nguoiDung = new NguoiDung()
             {

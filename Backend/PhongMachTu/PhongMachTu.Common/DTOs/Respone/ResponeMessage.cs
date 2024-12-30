@@ -14,8 +14,7 @@ namespace PhongMachTu.Common.DTOs.Respone
 			this.HttpStatusCode = httpStatusCode;
 			this.Message = msg;
 		}
-		public int HttpStatusCode {  get; set; }
+        public int HttpStatusCode {  get; set; }
 		public string ?Message { get; set; }
-
 	}
 }

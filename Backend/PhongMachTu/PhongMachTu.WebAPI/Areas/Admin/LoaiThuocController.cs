@@ -8,7 +8,7 @@ using PhongMachTu.Service;
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
-    [Route("api/quan-li-loai-thuoc")]
+    [Route("api/admin/quan-li-loai-thuoc")]
     [ApiController]
     public class LoaiThuocController : ControllerBase
     {
