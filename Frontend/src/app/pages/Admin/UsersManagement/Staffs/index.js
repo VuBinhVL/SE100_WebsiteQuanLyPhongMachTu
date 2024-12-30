@@ -13,11 +13,10 @@ export default function Staff() {
     const [listSpecialization, setListSpecialization] = useState([]);
     const [dataSearch, setDataSearch] = useState("");
     const [filterSpecialization, setFilterSpecialization] = useState("DEFAULT");
-    const [isReload, setIsReload] = useState(false);
 
     // Lấy danh sách nhân viên
     useEffect(() => {
-        const uri = "/api/quan-li-nhan-vien";
+        const uri = "/api/admin/quan-li-nhan-vien";
         fetchGet(
             uri,
             (sus) => {
@@ -34,7 +33,7 @@ export default function Staff() {
 
     //gọi api lấy chuyên môn (nhóm bệnh)
     useEffect(() => {
-        const uri = "/api/quan-li-nhom-benh";
+        const uri = "/api/admin/quan-li-nhom-benh";
         fetchGet(
             uri,
             (sus) => {
@@ -91,9 +90,6 @@ export default function Staff() {
 
         setListStaffShow(filteredList);
     };
-    const reload = () => {
-        setIsReload(!isReload);
-    }
 
     return (
         <div className="Staff_Management">
@@ -122,14 +118,14 @@ export default function Staff() {
                                 Filter by specialization
                             </option>
                             <option value="Tất cả">Tất cả</option>
-                            {listSpecialization.map((item) => (
+                            {listSpecialization && listSpecialization.length > 0 && listSpecialization.map((item) => (
                                 <option key={item.id} value={item.tenNhomBenh}>
                                     {item.tenNhomBenh}
                                 </option>
                             ))}
                         </select>
                     </div>
-                    <AddStaff />
+                    <AddStaff setListStaff={setListStaff} listStaff={listStaff} />
                 </div>
                 <div className="contain_Table mx-0 col-12 bg-white rounded-2">
                     <table className="table table-hover">
@@ -155,7 +151,7 @@ export default function Staff() {
                                         <div className="list_Action">
                                             <FaUserShield className="icon_authorise icon_action" />
                                             <DetailStaff />
-                                            <DeleteStaff reload={reload} item={item} setListStaff={setListStaff} listStaff={listStaff} />
+                                            <DeleteStaff item={item} setListStaff={setListStaff} listStaff={listStaff} />
                                         </div>
                                     </td>
                                 </tr>

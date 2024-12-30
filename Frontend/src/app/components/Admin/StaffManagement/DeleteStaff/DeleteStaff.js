@@ -4,11 +4,11 @@ import { MdDelete } from "react-icons/md";
 import { fetchDelete } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 function DeleteStaff(props) {
-    const { reload, setListStaff, listStaff } = props;
+    const { setListStaff, listStaff } = props;
     const { item } = props;
-
+    console.log(">>>>>.check item id", item)
     const handleDelete = () => {
-        const uri = `/api/quan-li-nhan-vien/delete?id=${item.id}`;
+        const uri = `/api/admin/quan-li-nhan-vien/delete?id=${item.id}`;
         fetchDelete(
             uri, "",
             (sus) => {

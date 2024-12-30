@@ -6,11 +6,11 @@
     font-weight: 500;
 }
 
-.contain_img .inner_img {
+.modal .contain_img .inner_img {
     width: 150px;
     height: 150px;
-    margin-bottom: 15px;
     object-fit: cover;
+    object-position: top;
 }
 
 /* CSS mặc định cho các button */

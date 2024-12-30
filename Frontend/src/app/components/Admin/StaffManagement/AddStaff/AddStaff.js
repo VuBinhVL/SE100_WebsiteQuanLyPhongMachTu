@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react"
 import "./AddStaff.css"
-export default function AddStaff() {
-    const [imageSrc, setImageSrc] = useState("https://www.shutterstock.com/image-photo/happy-female-doctor-stethoscope-on-600nw-2527451925.jpg");
-
+import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
+import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
+export default function AddStaff(props) {
+    const { listStaff, setListStaff } = props
+    const [imageSrc, setImageSrc] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqScpaGRkZogbiI3N0AN-v7Ski-NmF7zn28jpTMgc3Umpr1ctwB8imBIpwOjbPd7TQW9A&usqp=CAU");
+    const [specialization, setSpecialization] = useState([]);
+    // const [dataFilter, setDataFilter] = useState("DEFAULT");
+    const [dataForm, setDataForm] = useState({})
+    //gọi api lấy chuyên môn (nhóm bệnh)
+    useEffect(() => {
+        const uri = "/api/admin/quan-li-nhom-benh";
+        fetchGet(
+            uri,
+            (sus) => {
+                setSpecialization(sus);
+            },
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
+            }
+        );
+    }, []);
     const handleSlectImage = () => {
         const fileInput = document.getElementById("fileInput")
         fileInput.click();
@@ -15,11 +36,135 @@ export default function AddStaff() {
         if (file) {
             const reader = new FileReader(); // Sử dụng FileReader để đọc file
             reader.onload = (e) => {
+                const imageUrl = e.target.result;
                 setImageSrc(e.target.result); // Cập nhật URL ảnh
+                setDataForm({
+                    ...dataForm, image: imageUrl
+                })
             };
             reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
         }
     };
+    const handleChange = (e) => {
+        const value = e.target.value;
+        const name = e.target.name;
+        setDataForm({
+            ...dataForm, [name]: value
+        })
+    }
+    // hàm lấy lại listStaff
+
+    // Hàm lấy danh sách nhân viên
+    const fetchStaffList = () => {
+        const uri = "/api/admin/quan-li-nhan-vien";
+        fetchGet(
+            uri,
+            (data) => {
+                setListStaff(data); // Cập nhật danh sách nhân viên
+            },
+            (fail) => {
+                alert("Failed to fetch staff list: " + fail.message);
+            },
+            () => {
+                alert("An error occurred while fetching staff list.");
+            }
+        );
+    };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const { hoTen, gioiTinh, ngaySinh, chuyenMonId, soDienThoai, email, diaChi, image } = dataForm;
+
+        // Validate dữ liệu trước khi gửi
+        if (!hoTen || !gioiTinh || !ngaySinh || !chuyenMonId || !soDienThoai || !email || !diaChi || !image) {
+            alert("Please fill in all the required fields!");
+            return;
+        }
+
+        if (!email.endsWith("@gmail.com")) {
+            alert("Email must end with @gmail.com");
+            return;
+        }
+
+        // Kiểm tra tính duy nhất của số điện thoại và email
+        for (const element of listStaff) {
+            if (element.soDienThoai === soDienThoai) {
+                alert("Phone number already exists");
+                return;
+            }
+            if (element.email === email) {
+                alert("Email already exists");
+                return;
+            }
+        }
+
+        addStaff();
+    };
+
+    const getIdSpecialization = () => {
+        const { chuyenMonId } = dataForm;
+        const specializationItem = specialization.find(element => element.tenNhomBenh === chuyenMonId);
+        return specializationItem ? specializationItem.id : null; // Trả về null nếu không tìm thấy
+    };
+    // hàm clear data được fill trong modal
+    const handleClearData = () => {
+        // Clear data
+        setDataForm({});
+        setImageSrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqScpaGRkZogbiI3N0AN-v7Ski-NmF7zn28jpTMgc3Umpr1ctwB8imBIpwOjbPd7TQW9A&usqp=CAU");
+        const inputs = document.querySelectorAll('#staticBackdrop input, #staticBackdrop select');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        const selects = document.querySelectorAll('#staticBackdrop select');
+        selects.forEach(select => {
+            select.value = 'DEFAULT';
+        });
+    };
+    const addStaff = async () => {
+        const uri = "/api/admin/quan-li-nhan-vien/add"
+        const idOfSpecialization = getIdSpecialization();
+        if (!idOfSpecialization) {
+            alert("Specialization not found!");
+            return;
+        }
+        const newDataFormClient = { ...dataForm }; //data này chứa tên chuyên môn
+        const newDataFormServer = { ...dataForm, chuyenMonId: idOfSpecialization }; //data này chứa id để đẩy lên server
+        newDataFormServer.image = "a.png";
+        newDataFormClient.image = "a.png";
+        //Lấy tên chuyên môn
+        const tenChuyenMon = newDataFormClient.chuyenMonId;
+
+        // Chuyển đổi key từ `chuyenMonId` sang `tenChuyenMon` để phù hợp với `listStaff`
+        const transformedData = {
+            ...newDataFormClient,
+            tenChuyenMon: tenChuyenMon, // Thêm key `tenChuyenMon`
+        };
+        delete transformedData.chuyenMonId; // Xóa key `chuyenMonId` khỏi đối tượng
+        await fetchPost(
+            uri,
+            newDataFormServer,
+            (sus) => {
+                // // Đóng modal
+                // alert(sus.message);
+                showSuccessMessageBox(sus.message)
+                // Lấy phần tử button cancel
+                const btnCancel = document.querySelector('.btn-close');
+                btnCancel.click();
+
+                // Clear data
+                handleClearData()
+                // lấy lại data
+                fetchStaffList()
+
+            },
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
+            }
+        );
+    }
+
     return (
         <>
             {/* <!-- Button trigger modal --> */}
@@ -39,46 +184,49 @@ export default function AddStaff() {
                         <div className="modal-body d-flex justify-content-center">
                             <form className="me-5 w-75">
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="fullName" className="form-label col-4 custom-bold">Full Name:</label>
-                                    <input className="form-control rounded-3" name="fullName" id="fullName" type="text" placeholder="Enter full name" />
+                                    <label htmlFor="hoTen" className="form-label col-4 custom-bold">Full Name:</label>
+                                    <input className="form-control rounded-3" name="hoTen" id="hoTen" type="text" placeholder="Enter full name" onChange={handleChange} required />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
-                                    <label htmlFor="gender" className="form-label col-4 custom-bold">Gender:</label>
-                                    <select id="gender" name="gender" className="form-control rounded-3 " defaultValue={'DEFAULT'}>
-                                        <option value="DEFAULT" hidden disabled selected>Enter your gender</option>
+                                    <label htmlFor="gioiTinh" className="form-label col-4 custom-bold">Gender:</label>
+                                    <select id="gioiTinh" name="gioiTinh" className="form-control rounded-3 " defaultValue={'DEFAULT'} onChange={handleChange}>
+                                        <option value="DEFAULT" hidden disabled>Enter your gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
                                     <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="birthday" className="form-label col-4 custom-bold">Date of birth:</label>
-                                    <input type="date" id="birthday" name="birthday" className="form-control rounded-3" />
+                                    <label htmlFor="ngaySinh" className="form-label col-4 custom-bold">Date of birth:</label>
+                                    <input type="date" id="ngaySinh" name="ngaySinh" className="form-control rounded-3" onChange={handleChange} />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
-                                    <label htmlFor="specialization" className="form-label col-4 custom-bold">Specialization:</label>
-                                    <select id="specialization" name="specialization" className="form-control rounded-3" defaultValue={'DEFAULT'}>
-                                        <option value="DEFAULT" hidden disabled selected>Enter your specialization</option>
-                                        <option value="doctor">Doctor</option>
-                                        <option value="nurse">Nurse</option>
+                                    <label htmlFor="chuyenMonId" className="form-label col-4 custom-bold">Specialization:</label>
+                                    <select id="chuyenMonId" name="chuyenMonId" className="form-control rounded-3" onChange={handleChange} defaultValue="DEFAULT">
+                                        <option value="DEFAULT" hidden disabled>Enter your specialization</option>
+                                        {specialization && specialization.length > 0 && specialization.map((item) => (
+                                            <option key={item.id} value={item.tenNhomBenh}>
+                                                {item.tenNhomBenh}
+                                            </option>
+                                        ))}
                                     </select>
                                     <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="phoneNumber" className="form-label col-4 custom-bold">Phone number:</label>
-                                    <input name="phoneNumber" id="phoneNumber" type="text" className="form-control rounded-3" placeholder="Enter your phone number" />
+                                    <label htmlFor="soDienThoai" className="form-label col-4 custom-bold">Phone number:</label>
+                                    <input name="soDienThoai" id="soDienThoai" type="text" className="form-control rounded-3" placeholder="Enter your phone number" onChange={handleChange} />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
                                     <label htmlFor="email" className="form-label col-4 custom-bold">Email:</label>
-                                    <input name="email" id="email" type="email" className="form-control rounded-3" placeholder="Enter your Email" />
+                                    <input name="email" id="email" type="email" className="form-control rounded-3" placeholder="Enter your Email" onChange={handleChange} />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="address" className="form-label col-4 custom-bold">Address:</label>
-                                    <input name="address" id="address" type="text" className="form-control rounded-3" placeholder="Enter your address" />
+                                    <label htmlFor="diaChi" className="form-label col-4 custom-bold">Address:</label>
+                                    <input name="diaChi" id="diaChi" type="text" className="form-control rounded-3" placeholder="Enter your address" onChange={handleChange} />
                                 </div>
                             </form>
                             <div className="contain_img d-flex justify-content-center flex-column align-items-center">
-                                <img className="inner_img rounded-circle mb-3" src={imageSrc} />
+                                <img className="inner_img rounded-circle " src={imageSrc} />
                                 <button className="btn btn-primary btn_select_img" onClick={handleSlectImage}>Select image</button>
                                 <input
                                     id="fileInput"
@@ -91,7 +239,7 @@ export default function AddStaff() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary btn_Cancel" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-primary btn_Accept">Accept</button>
+                            <button type="button" onClick={handleSubmit} className="btn btn-primary btn_Accept">Accept</button>
                         </div>
                     </div>
                 </div>
