@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Textbox from "../../../components/Other/Textbox"; // Đường dẫn tới component
 import { showSuccessMessageBox } from "../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox"; // Đường dẫn tới hàm hiển thị MessageBox
+import { showYesNoMessageBox } from "../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox"; // Đường dẫn tới hàm hiển thị MessageBox
+import { showErrorMessageBox } from "../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // Đường dẫn tới hàm hiển thị MessageBox
+
 import "./Login.css";
 import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y tá
 import usernameIcon from "../../../assets/icons/user.png"; // Icon Tên đăng nhập
@@ -26,19 +29,23 @@ export default function Login() {
     fetchPost(
       uri,
       dataSend,
-      (sus) => {
-        showSuccessMessageBox("Đăng nhập thành công");
-        if (sus.message === "Bệnh Nhân") {
-          navigate("/");
-        } else {
-          navigate("/admin");
-        }
+      async (sus) => {
+        showYesNoMessageBox("Bạn có muốn đăng nhập không?").then((result) => {
+          if (result) {
+            console.log("User chọn YES. Thực hiện hành động xóa...");
+            // Thực hiện tiếp hành động
+            navigate("/admin");
+          } else {
+            console.log("User chọn NO. Dừng lại...");
+            // Dừng lại không làm gì
+          }
+        });
       },
       (fail) => {
-        showSuccessMessageBox(fail.message);
+        showErrorMessageBox(fail.message);
       },
       () => {
-        showSuccessMessageBox("Có lỗi xảy ra");
+        showErrorMessageBox("Có lỗi xảy ra");
       }
     );
   };

@@ -1,8 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import SuccessMessageBox from "./SuccessMessageBox";
+import ErrorMessageBox from "./ErrorMessageBox";
 
-export function showSuccessMessageBox(title) {
+export function showErrorMessageBox(title) {
   // Tạo một container DOM mới
   const container = document.createElement("div");
   document.body.appendChild(container);
@@ -16,6 +16,6 @@ export function showSuccessMessageBox(title) {
     document.body.removeChild(container); // Xóa container
   };
 
-  // Render SuccessMessageBox
-  root.render(<SuccessMessageBox title={title} onClose={handleClose} />);
+  // Render ErrorMessageBox
+  root.render(<ErrorMessageBox title={title} onClose={handleClose} />);
 }
