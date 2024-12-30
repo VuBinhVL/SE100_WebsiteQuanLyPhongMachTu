@@ -23,20 +23,47 @@ namespace PhongMachTu.WebAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(Request_RegisterDTO data)
         {
-            var rs = await _benhNhanService.RegisterAsync(data);
-            return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            try
+            {
+                var rs = await _benhNhanService.RegisterAsync(data);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(Request_LoginDTO data)
         {
-            var rs = await _nguoiDungService.LoginAsync(data);
-            if(rs.HttpStatusCode==HttpStatusCode.BadRequest)
+            try
             {
+                var rs = await _nguoiDungService.LoginAsync(data);
+                if (rs.HttpStatusCode == HttpStatusCode.BadRequest)
+                {
+                    return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+                }
+                return StatusCode(rs.HttpStatusCode, new { roleName = rs.Message, token = rs.Token });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPasswordAsync(Request_ForgotPasswordDTO data)
+        {
+            try
+            {
+                var rs = await _nguoiDungService.ForgotPasswordAsync(data);
                 return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
             }
-
-            return StatusCode(rs.HttpStatusCode, new { roleName = rs.Message, token = rs.Token });
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
         }
     }
 }

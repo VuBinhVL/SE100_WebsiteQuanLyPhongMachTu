@@ -8,6 +8,7 @@ using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.Common.DTOs.Respone.NguoiDung;
 using PhongMachTu.Common.Helpers;
 using PhongMachTu.Common.Security;
+using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.DataAccess.Models;
 using PhongMachTu.DataAccess.Repositories;
 using System;
@@ -24,6 +25,7 @@ namespace PhongMachTu.Service
     {
         Task<Respone_Login> LoginAsync(Request_LoginDTO data);
         Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext);
+        Task<ResponeMessage> ForgotPasswordAsync(Request_ForgotPasswordDTO data);
     }
 
     public class NguoiDungService : INguoiDungService
@@ -33,15 +35,40 @@ namespace PhongMachTu.Service
         private readonly IVaiTroRepository _vaiTroRepository;
         private readonly ISuChoPhepRepository _suChoPhepRepository;
         private readonly IConfiguration _configuration;
+        private readonly IMailService _mailService;
         private readonly TokenStore _tokenStore;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public NguoiDungService(INguoiDungRepository nguoiDungRepository,IConfiguration configuration,IVaiTroRepository vaiTroRepository, ISuChoPhepRepository suChoPhepRepository, TokenStore tokenStore)
+        public NguoiDungService(INguoiDungRepository nguoiDungRepository,IConfiguration configuration,IVaiTroRepository vaiTroRepository, ISuChoPhepRepository suChoPhepRepository, TokenStore tokenStore,IMailService mailService,IUnitOfWork unitOfWork)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _configuration = configuration;
             _vaiTroRepository = vaiTroRepository;
             _suChoPhepRepository = suChoPhepRepository;
             _tokenStore = tokenStore;
+            _mailService = mailService;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<ResponeMessage> ForgotPasswordAsync(Request_ForgotPasswordDTO data)
+        {
+            var nguoidungs = await _nguoiDungRepository.GetAllAsync();
+            var findNguoiDungByTenTaiKhoan = nguoidungs.Where(u => ParseHelpers.ParseTaiKhoan(u.TenTaiKhoan).Contains(data.TenTaiKhoan)).FirstOrDefault();
+            if (findNguoiDungByTenTaiKhoan == null|| findNguoiDungByTenTaiKhoan.Email != data.Email)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Tên tài khoản hoặc Email không hợp lệ");
+            }
+
+            var passNew = Utils.RandomPassword();
+            findNguoiDungByTenTaiKhoan.MatKhau = EncryptionHelper.Encrypt(passNew);
+            _nguoiDungRepository.Update(findNguoiDungByTenTaiKhoan);
+            await _unitOfWork.CommitAsync();
+            var rsSend =  await _mailService.SendEmailAsync(data.Email, "Quên mật khẩu", $"<h5>Mật khẩu mới của bạn là: {passNew}</h5>");
+            if (rsSend)
+            {
+                return new ResponeMessage(HttpStatusCode.Ok, "Mật khẩu mới đã được gửi vào email của bạn");
+            }
+            return new ResponeMessage(HttpStatusCode.BadRequest, "Có lỗi xảy ra khi gửi mật khẩu mới tới email.Vui lòng liên hệ admin");
         }
 
         public async Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext)
