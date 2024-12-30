@@ -73,7 +73,7 @@ export default function CustomerHeader() {
               {isDropdownOpen && (
                 <ul className="login-menu">
                   <li className="login-item">
-                    <Link to="/profile">Thông tin tài khoản</Link>
+                    <Link to="/account">Thông tin tài khoản</Link>
                   </li>
                   <li className="login-item">
                     <Link to="/medical-records">Hồ sơ bệnh án</Link>

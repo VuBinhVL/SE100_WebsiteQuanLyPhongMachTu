@@ -1,0 +1,158 @@
+/* Style cho toàn bộ trang thông tin tài khoản */
+.account-page {
+  background-color: #348f6c; /* Nền xanh */
+  color: #ffffff; /* Chữ trắng */
+  padding: 50px 0px 0px 0px;
+}
+
+/* Phần giới thiệu bác sĩ */
+.account-page .account-description-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+/* Nội dung tài khoản */
+.account-page .account-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.account-page .account-section {
+  display: flex;
+  gap: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Phần bên trái */
+/* Phần bên trái: Avatar */
+.account-left {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Khoảng cách giữa các phần tử */
+}
+
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.account-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.change-photo {
+  margin-top: 10px;
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.change-photo:hover {
+  text-decoration: underline;
+}
+
+/* Nút chỉnh sửa thông tin */
+.edit-info-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.edit-info-button .edit-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.edit-info-button:hover {
+  color: #348f6c;
+}
+
+/* Phần bên phải */
+.account-page .account-right {
+  flex: 2;
+}
+
+.account-page .account-form {
+  width: 100%;
+}
+
+.account-page .form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* Định dạng chung cho select */
+/* Label */
+.account-page .input-label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+  display: block;
+}
+
+/* Hover và focus */
+.account-page .select-box:hover {
+  border-color: #348f6c;
+}
+
+.account-page .select-box:focus {
+  border-color: #348f6c;
+  box-shadow: 0 0 4px rgba(52, 143, 108, 0.5);
+}
+
+/* Căn chỉnh nút Hủy và Xác nhận bên dưới cột Địa chỉ */
+.account-page .form-actions {
+  display: flex;
+  justify-content: flex-end; /* Căn sang phải */
+  margin-top: 15px;
+  gap: 10px;
+}
+
+/* Nút đổi mật khẩu */
+.change-password-button {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-left: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #348f6c;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.change-password-button:hover {
+  text-decoration: underline;
+  color: #2c6f54;
+}

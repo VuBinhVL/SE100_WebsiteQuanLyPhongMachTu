@@ -14,6 +14,7 @@ import Register from "../pages/Other/Register/Register";
 import Login from "../pages/Other/Login";
 import LayoutCustomer from "../layouts/customerLayout";
 import ForgetPassword from "../pages/Other/ForgetPassword";
+import Account from "../pages/Customer/Account";
 
 export default function MainRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function MainRoutes() {
           <Route path="login" element={<Login />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="doctors" element={<Doctor />} />
+          <Route path="account" element={<Account />} />
         </Route>
 
         {/* Layout quản trị viên */}
