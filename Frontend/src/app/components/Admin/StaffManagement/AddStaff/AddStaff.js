@@ -5,6 +5,7 @@ import { useState } from "react"
 import "./AddStaff.css"
 import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox"
 export default function AddStaff(props) {
     const { listStaff, setListStaff } = props
     const [imageSrc, setImageSrc] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqScpaGRkZogbiI3N0AN-v7Ski-NmF7zn28jpTMgc3Umpr1ctwB8imBIpwOjbPd7TQW9A&usqp=CAU");
@@ -20,7 +21,8 @@ export default function AddStaff(props) {
                 setSpecialization(sus);
             },
             (fail) => {
-                alert(fail.message);
+                // alert(fail.message);
+                showErrorMessageBox(fail.message)
             },
             () => {
                 alert("Có lỗi xảy ra");
@@ -63,7 +65,7 @@ export default function AddStaff(props) {
                 setListStaff(data); // Cập nhật danh sách nhân viên
             },
             (fail) => {
-                alert("Failed to fetch staff list: " + fail.message);
+                showErrorMessageBox(fail.message)
             },
             () => {
                 alert("An error occurred while fetching staff list.");
@@ -76,23 +78,62 @@ export default function AddStaff(props) {
 
         // Validate dữ liệu trước khi gửi
         if (!hoTen || !gioiTinh || !ngaySinh || !chuyenMonId || !soDienThoai || !email || !diaChi || !image) {
-            alert("Please fill in all the required fields!");
+            // alert("Please fill in all the required fields!");
+            showErrorMessageBox("Please fill in all the required fields!")
             return;
         }
 
         if (!email.endsWith("@gmail.com")) {
-            alert("Email must end with @gmail.com");
+            // alert("Email must end with @gmail.com");
+            showErrorMessageBox("Email must end with @gmail.com")
+            return;
+        }
+        // Kiểm tra số điện thoại
+        if (!/^\d+$/.test(soDienThoai)) {
+            // alert("Phone number must be a number");
+            showErrorMessageBox("Phone number must be a number")
             return;
         }
 
+        // Kiểm tra độ dài số điện thoại
+        if (soDienThoai.length < 10 || soDienThoai.length > 11) {
+            // alert("Phone number must be between 10 and 11 digits");
+            showErrorMessageBox("Phone number must be between 10 and 11 digits")
+            return;
+        }
+        // Kiểm tra ngày sinh
+        const ngaySinhDate = new Date(ngaySinh);
+        const currentDate = new Date();
+        const minDate = new Date('1950-01-01');
+
+        if (ngaySinhDate >= currentDate) {
+            // alert("Date of birth must be before today");
+            showErrorMessageBox("Date of birth must be before today")
+            return;
+        }
+
+        if (ngaySinhDate < minDate) {
+            // alert("Date of birth must be after 1950");
+            showErrorMessageBox("Date of birth must be after 1950")
+            return;
+        }
+        // Kiểm tra tuổi
+        const age = Math.floor((currentDate - ngaySinhDate) / (1000 * 60 * 60 * 24 * 365.25));
+        if (age < 18) {
+            // alert("You must be at least 18 years old");
+            showErrorMessageBox("You must be at least 18 years old")
+            return;
+        }
         // Kiểm tra tính duy nhất của số điện thoại và email
         for (const element of listStaff) {
             if (element.soDienThoai === soDienThoai) {
-                alert("Phone number already exists");
+                // alert("Phone number already exists");
+                showErrorMessageBox("Phone number already exists")
                 return;
             }
             if (element.email === email) {
-                alert("Email already exists");
+                // alert("Email already exists");
+                showErrorMessageBox("Email already exists")
                 return;
             }
         }
@@ -123,7 +164,8 @@ export default function AddStaff(props) {
         const uri = "/api/admin/quan-li-nhan-vien/add"
         const idOfSpecialization = getIdSpecialization();
         if (!idOfSpecialization) {
-            alert("Specialization not found!");
+            // alert("Specialization not found!");
+            showErrorMessageBox("Specialization not found!")
             return;
         }
         const newDataFormClient = { ...dataForm }; //data này chứa tên chuyên môn
@@ -157,14 +199,16 @@ export default function AddStaff(props) {
 
             },
             (fail) => {
-                alert(fail.message);
+                showErrorMessageBox(fail.message)
             },
             () => {
                 alert("Có lỗi xảy ra");
             }
         );
     }
-
+    const handleClose = () => {
+        handleClearData();
+    }
     return (
         <>
             {/* <!-- Button trigger modal --> */}
@@ -179,7 +223,6 @@ export default function AddStaff(props) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title fs-4" id="staticBackdropLabel">Add staff</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body d-flex justify-content-center">
                             <form className="me-5 w-75">
@@ -238,7 +281,7 @@ export default function AddStaff(props) {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary btn_Cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" onClick={handleClose} className="btn btn-secondary btn_Cancel" data-bs-dismiss="modal">Cancel</button>
                             <button type="button" onClick={handleSubmit} className="btn btn-primary btn_Accept">Accept</button>
                         </div>
                     </div>
