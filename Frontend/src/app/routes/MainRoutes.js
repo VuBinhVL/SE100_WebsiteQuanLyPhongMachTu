@@ -17,6 +17,8 @@ import ForgetPassword from "../pages/Other/ForgetPassword";
 import AccountInformation from "../pages/Customer/Account/AccountInformation";
 import UserRecordList from "../pages/Customer/MedicalRecord/UserRecordList";
 import DetailRecord from "../pages/Customer/MedicalRecord/DetailRecord";
+import ReviewPiceList from "../pages/Customer/Service/ReviewPriceList";
+import MedicalExamList from "../pages/Customer/Service/MedicalExamList";
 
 export default function MainRoutes() {
   return (
@@ -25,6 +27,8 @@ export default function MainRoutes() {
         {/* Layout khách hàng */}
         <Route path="/" element={<LayoutCustomer />}>
           <Route index element={<CustomerHome />} />
+          <Route path="review-price-list" element={<ReviewPiceList />} />
+          <Route path="medical-exam-list" element={<MedicalExamList />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="forget-password" element={<ForgetPassword />} />

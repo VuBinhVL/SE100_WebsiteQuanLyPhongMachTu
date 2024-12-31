@@ -36,17 +36,15 @@ export default function CustomerHeader() {
             </Link>
           </li>
           <li className="nav-item dropdown">
-            <a href="#" className="nav-link">
-              Dịch vụ
-            </a>
+            <a className="nav-link">Dịch vụ</a>
             <ul className="dropdown-menu">
               <li>
-                <a href="/service1" className="dropdown-item">
+                <a href="/medical-exam-list" className="dropdown-item">
                   Đăng kí khám
                 </a>
               </li>
               <li>
-                <a href="/service2" className="dropdown-item">
+                <a href="/review-price-list" className="dropdown-item">
                   Bảng giá dịch vụ khám
                 </a>
               </li>
