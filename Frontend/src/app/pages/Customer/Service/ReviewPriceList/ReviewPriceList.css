@@ -1,0 +1,122 @@
+/* Tổng thể trang bác sĩ */
+.price-page {
+  background-color: #348f6c; /* Nền xanh */
+  color: #ffffff; /* Chữ trắng */
+  padding: 50px 0px 0px 0px;
+}
+
+/* Phần giới thiệu bác sĩ */
+.price-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.price-content {
+  flex: 1;
+}
+
+.price-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.price-description {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.price-image {
+  flex: 1;
+  text-align: center;
+}
+
+.price-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hoạt họa phòng khám */
+.price-image .image {
+  width: 500px;
+  height: 450px;
+}
+
+.price-page .price-highlight {
+  text-align: center;
+  margin-top: 50px;
+  gap: 20px;
+  padding: 30px 20px;
+  background-color: #ffffff; /* Nền trắng */
+  height: fit-content;
+}
+
+.price-page .price-highlight-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+.price-page .price-highlight-title::after {
+  content: "";
+  display: block;
+  width: 270px; /* Chiều dài đường gạch */
+  height: 3px; /* Độ dày đường gạch */
+  background-color: #fc5185; /* Màu đỏ */
+  margin: 10px auto 0; /* Căn giữa */
+}
+
+/* CSS cho bảng price-table */
+
+.price-table {
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  border-collapse: collapse; /* Gộp viền giữa các ô */
+  margin-top: 20px; /* Khoảng cách phía trên */
+  background-color: #fff; /* Nền trắng */
+  font-size: 14px; /* Kích thước chữ */
+  text-align: left; /* Căn lề trái cho nội dung */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  border-radius: 8px; /* Bo góc */
+  overflow: hidden; /* Giữ bo góc không bị ảnh hưởng */
+}
+
+.price-table thead {
+  background-color: #348f6c; /* Màu nền tiêu đề */
+  color: #fff; /* Màu chữ trắng */
+  text-transform: uppercase; /* Chữ in hoa */
+}
+
+.price-table th {
+  padding: 12px; /* Khoảng cách trong ô */
+  font-weight: bold; /* Chữ đậm */
+  border: 1px solid #ddd; /* Viền mỏng */
+}
+
+.price-table td {
+  padding: 10px; /* Khoảng cách trong ô */
+  border: 1px solid #ddd; /* Viền mỏng */
+  color: #333; /* Màu chữ */
+}
+
+.price-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Nền xám nhạt cho hàng chẵn */
+}
+
+.price-table tr:hover {
+  background-color: #f1f1f1; /* Hiệu ứng hover */
+}
+
+.price-note {
+  margin-top: 15px; /* Khoảng cách phía trên */
+  font-size: 12px; /* Kích thước chữ nhỏ hơn */
+  color: #555; /* Màu chữ xám */
+  font-style: italic; /* Chữ in nghiêng */
+}
