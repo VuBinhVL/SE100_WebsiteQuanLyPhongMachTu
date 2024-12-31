@@ -1,20 +1,23 @@
 /* Container của InputField */
-.input-field {
+.account-textbox-input-field {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+  width: 100%; /* Đảm bảo toàn bộ chiều rộng của container */
+  max-width: 400px; /* Đặt độ rộng tối đa cố định cho tất cả input */
 }
 
 /* Label */
-.input-label {
+.account-textbox-input-field .input-label {
   margin-bottom: 5px;
   font-size: 14px;
   color: #333;
 }
 
 /* Input box */
-.input-box {
-  width: 100%;
+.account-textbox-input-field .input-box {
+  width: 100%; /* Chiều rộng của input field sẽ phù hợp với container */
+  max-width: 400px; /* Đặt chiều rộng tối đa */
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -24,11 +27,11 @@
 }
 
 /* Hover và focus trạng thái của input */
-.input-box:hover {
+.account-textbox-input-field .input-box:hover {
   border-color: #348f6c; /* Màu viền khi hover */
 }
 
-.input-box:focus {
+.account-textbox-input-field .input-box:focus {
   border-color: #348f6c; /* Màu viền khi focus */
   box-shadow: 0 0 4px rgba(52, 143, 108, 0.5); /* Hiệu ứng bóng */
 }

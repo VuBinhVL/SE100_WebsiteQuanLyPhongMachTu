@@ -6,6 +6,7 @@
   border: none;
   border-radius: 5px; /* Bo góc */
   cursor: pointer;
+  min-width: 100px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 

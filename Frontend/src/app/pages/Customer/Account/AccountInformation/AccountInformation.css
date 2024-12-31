@@ -60,7 +60,7 @@
   border: 2px solid #ccc;
 }
 
-.change-photo {
+.account-page .change-photo {
   margin-top: 10px;
   color: red;
   font-size: 14px;
@@ -69,12 +69,12 @@
   border: none;
 }
 
-.change-photo:hover {
+.account-page .change-photo:hover {
   text-decoration: underline;
 }
 
 /* Nút chỉnh sửa thông tin */
-.edit-info-button {
+.account-page .edit-info-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -86,12 +86,12 @@
   color: #333;
 }
 
-.edit-info-button .edit-icon {
+.account-page .edit-info-button .edit-icon {
   width: 16px;
   height: 16px;
 }
 
-.edit-info-button:hover {
+.account-page .edit-info-button:hover {
   color: #348f6c;
 }
 
@@ -120,12 +120,32 @@
   display: block;
 }
 
+.account-page .form-group .input-box {
+  width: 100%;
+  max-width: 400px; /* Đặt chiều rộng tối đa */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.account-page .form-group {
+  width: 100%;
+  max-width: 400px; /* Đặt chiều rộng tối đa */
+}
+.account-page .form-group:disabled {
+  background-color: #f5f5f5; /* Nền xám nhạt */
+  color: #a1a1a1; /* Màu chữ mờ */
+  cursor: not-allowed; /* Con trỏ chuột không cho phép */
+}
 /* Hover và focus */
-.account-page .select-box:hover {
+.account-page .input-box:hover {
   border-color: #348f6c;
 }
 
-.account-page .select-box:focus {
+.account-page .input-box:focus {
   border-color: #348f6c;
   box-shadow: 0 0 4px rgba(52, 143, 108, 0.5);
 }
@@ -139,7 +159,7 @@
 }
 
 /* Nút đổi mật khẩu */
-.change-password-button {
+.account-page .change-password-button {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
@@ -152,7 +172,7 @@
   border: none;
 }
 
-.change-password-button:hover {
+.account-page .change-password-button:hover {
   text-decoration: underline;
   color: #2c6f54;
 }

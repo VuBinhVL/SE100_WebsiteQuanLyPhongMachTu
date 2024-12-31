@@ -1,7 +1,7 @@
 import React from "react";
-import "./Button.css";
+import "./AccountButton.css";
 
-export default function Button({
+export default function AccountButton({
   label = "Xác nhận",
   color = "#348f6c",
   onClick,
