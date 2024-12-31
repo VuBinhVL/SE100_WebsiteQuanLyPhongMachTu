@@ -13,7 +13,7 @@ namespace PhongMachTu.Common.DTOs.Request.CaKham
         public DateTime NgayKham { get; set; }
         public int SoLuongBenhNhanToiDa { get; set; }
         public int SoLuongBenhNhanDaDanKi { get; set; }
-        public int? BacSiId { get; set; }
-        public int? ChuyenMonId { get; set; }
+        public string TenBacSi { get; set; }
+        public string TenChuyenMon { get; set; }
     }
 }
