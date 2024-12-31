@@ -13,6 +13,7 @@ namespace PhongMachTu.DataAccess.Repositories
 	public interface ICaKhamRepository: IRepository<CaKham>
 	{
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
+        IQueryable<CaKham> Query();
     }
 
 	public class CaKhamRepository : RepositoryBase<CaKham>, ICaKhamRepository
@@ -38,6 +39,10 @@ namespace PhongMachTu.DataAccess.Repositories
                     TenChuyenMon = ca.BacSi != null && ca.BacSi.ChuyenMon != null ? ca.BacSi.ChuyenMon.TenNhomBenh : null 
                 })
                 .ToListAsync();
+        }
+        public IQueryable<CaKham> Query()
+        {
+            return _context.CaKhams.AsQueryable();
         }
 
 

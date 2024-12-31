@@ -22,6 +22,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> UpdateBenhLy(Request_UpdateBenhLyDTO? request);
         Task<ResponeMessage> DeleteBenhLy(int id);
         Task<ResponeMessage> HienThiBangGiaBenhLy();
+        Task<ResponeMessage> HienThiChiTietBenhLy();
     }
     public class BenhLyService : IBenhLyService
     {
@@ -31,8 +32,10 @@ namespace PhongMachTu.Service
         private readonly IBenhLyRepository _benhLyRepository;
         private readonly IChiTietHoSoBenhAnRepository _chiTietHoSoBenhAnRepository;
         private readonly IChiTietKhamBenhRepository _chiTietKhamBenhRepository;
-
-        public BenhLyService(INhomBenhRepository nhomBenhRepository, IUnitOfWork unitOfWork, IHoSoBenhAnRepository hoSoBenhAnRepository, IBenhLyRepository benhLyRepository, IChiTietHoSoBenhAnRepository chiTietHoSoBenhAnRepository, IChiTietKhamBenhRepository chiTietKhamBenhRepository)
+        private readonly ICaKhamRepository _caKhamRepository;
+        public BenhLyService(INhomBenhRepository nhomBenhRepository, IUnitOfWork unitOfWork, IHoSoBenhAnRepository hoSoBenhAnRepository,
+            IBenhLyRepository benhLyRepository, IChiTietHoSoBenhAnRepository chiTietHoSoBenhAnRepository,
+            IChiTietKhamBenhRepository chiTietKhamBenhRepository, ICaKhamRepository caKhamRepository)
         {
             _nhomBenhRepository = nhomBenhRepository;
             _unitOfWork = unitOfWork;
@@ -40,6 +43,7 @@ namespace PhongMachTu.Service
             _benhLyRepository = benhLyRepository;
             _chiTietHoSoBenhAnRepository = chiTietHoSoBenhAnRepository;
             _chiTietKhamBenhRepository = chiTietKhamBenhRepository;
+            _caKhamRepository = caKhamRepository;
         }
         public async Task<ResponeMessage> AddBenhLy(Request_AddBenhLyDTO benhly)
         {
@@ -145,7 +149,7 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thông tin bệnh lý.");
             }
 
-            var bangGiaBenhLy = benhLys.Select(bl => new Request_HienThiBangGiaBenhLy
+            var bangGiaBenhLy = benhLys.Select(bl => new Request_HienThiBangGiaBenhLyDTO
             {
                 TenNhomBenh = bl.NhomBenh?.TenNhomBenh,
                 TenBenhLy = bl.TenBenhLy,              
@@ -157,6 +161,40 @@ namespace PhongMachTu.Service
 
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
         }
+
+        public async Task<ResponeMessage> HienThiChiTietBenhLy()
+        {
+            // Truy vấn danh sách bệnh lý từ repository, bao gồm thông tin nhóm bệnh
+            var benhLys = await _benhLyRepository
+                .Query() // Truy vấn từ repository
+                .Include(bl => bl.NhomBenh) // Eager loading để lấy thông tin NhomBenh
+                .ToListAsync();
+
+            // Kiểm tra nếu không có dữ liệu
+            if (benhLys == null || !benhLys.Any())
+            {
+                return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thông tin bệnh lý.");
+            }
+
+            // Ánh xạ dữ liệu từ danh sách bệnh lý sang DTO
+            var chiTietBenhLy = benhLys.Select(bl => new Request_HienThiChiTietBenhLyDTO
+            {
+                TenBenhLy = bl.TenBenhLy,
+                Images = bl.Images,
+                GiaThamKhao = bl.GiaThamKhao,
+                TrieuTrung = bl.TrieuTrung,
+                // Kiểm tra xem bệnh lý có liên kết với bất kỳ lịch khám nào
+                IsHaveAppointment = _caKhamRepository
+                    .Query()
+                    .Any(ca => ca.BacSi != null && ca.BacSi.ChuyenMonId == bl.NhomBenhId)
+            }).ToList();
+
+            // Chuyển đổi kết quả sang JSON
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(chiTietBenhLy);
+
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        }
+
 
     }
 }
