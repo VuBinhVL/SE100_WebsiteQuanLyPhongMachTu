@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import MedicalRecordCard from "../../../../components/Customer/MedicalRecord/MedicalRecordCard"; // Import component bạn đã tạo
 import "./UserRecordList.css";
+import { useNavigate } from "react-router-dom";
 
 export default function UserRecordList() {
+  const navigate = useNavigate(); // Hook để điều hướng
   // Dữ liệu giả lập danh sách hồ sơ bệnh án
   const records = Array.from({ length: 20 }, (_, index) => ({
     id: `HS00${index + 1}`,
@@ -23,6 +25,9 @@ export default function UserRecordList() {
     setCurrentPage(pageNumber);
   };
 
+  const handleViewDetails = (recordId) => {
+    navigate(`/detail-record/${recordId}`); // Chuyển hướng đến DetailRecord và truyền mã hồ sơ qua URL
+  };
   return (
     <div className="medical-record-page">
       <div className="medical-record-header">
@@ -39,7 +44,7 @@ export default function UserRecordList() {
               image={record.image}
               recordId={record.id}
               creationDate={record.date}
-              onViewDetails={() => alert(`Xem chi tiết hồ sơ: ${record.id}`)}
+              onViewDetails={() => handleViewDetails(record.id)}
             />
           ))}
         </div>
