@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.NhomBenh;
+using Microsoft.EntityFrameworkCore;
 
 namespace PhongMachTu.Service
 {
@@ -20,6 +21,7 @@ namespace PhongMachTu.Service
         Task<BenhLy> GetByIdAsync(int id);
         Task<ResponeMessage> UpdateBenhLy(Request_UpdateBenhLyDTO? request);
         Task<ResponeMessage> DeleteBenhLy(int id);
+        Task<ResponeMessage> HienThiBangGiaBenhLy();
     }
     public class BenhLyService : IBenhLyService
     {
@@ -128,5 +130,33 @@ namespace PhongMachTu.Service
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Xóa bệnh lý thành công");
         }
+
+        public async Task<ResponeMessage> HienThiBangGiaBenhLy()
+        {
+             // Lấy danh sách bệnh lý, bao gồm thông tin nhóm bệnh
+            var benhLys = await _benhLyRepository
+                .Query() // Truy vấn từ repository
+                .Include(bl => bl.NhomBenh) // Eager loading để lấy thông tin NhomBenh
+                .ToListAsync();
+
+
+            if (benhLys == null || !benhLys.Any())
+            {
+                return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thông tin bệnh lý.");
+            }
+
+            var bangGiaBenhLy = benhLys.Select(bl => new Request_HienThiBangGiaBenhLy
+            {
+                TenNhomBenh = bl.NhomBenh?.TenNhomBenh,
+                TenBenhLy = bl.TenBenhLy,              
+                GiaThamKhao = bl.GiaThamKhao           
+            }).ToList();
+
+            // Chuyển đổi kết quả sang JSON
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(bangGiaBenhLy);
+
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        }
+
     }
 }

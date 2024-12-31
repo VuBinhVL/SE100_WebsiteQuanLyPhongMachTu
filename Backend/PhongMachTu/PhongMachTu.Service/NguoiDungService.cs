@@ -24,6 +24,7 @@ namespace PhongMachTu.Service
     {
         Task<Respone_Login> LoginAsync(Request_LoginDTO data);
         Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext);
+        Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
     }
 
     public class NguoiDungService : INguoiDungService
@@ -35,7 +36,7 @@ namespace PhongMachTu.Service
         private readonly IConfiguration _configuration;
         private readonly TokenStore _tokenStore;
 
-        public NguoiDungService(INguoiDungRepository nguoiDungRepository,IConfiguration configuration,IVaiTroRepository vaiTroRepository, ISuChoPhepRepository suChoPhepRepository, TokenStore tokenStore)
+        public NguoiDungService(INguoiDungRepository nguoiDungRepository, IConfiguration configuration, IVaiTroRepository vaiTroRepository, ISuChoPhepRepository suChoPhepRepository, TokenStore tokenStore)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _configuration = configuration;
@@ -46,7 +47,7 @@ namespace PhongMachTu.Service
 
         public async Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext)
         {
-            var userId =int.Parse( httpContext.User.FindFirst("UserId")?.Value);   
+            var userId = int.Parse(httpContext.User.FindFirst("UserId")?.Value);
             return await _nguoiDungRepository.GetSingleByIdAsync(userId);
         }
 
@@ -64,9 +65,9 @@ namespace PhongMachTu.Service
             }
 
             nguoiDung.VaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
-            nguoiDung.SuChoPheps = await _suChoPhepRepository.FindWithIncludeAsync(s=>s.NguoiDungId==nguoiDung.Id, c=>c.ChucNang);
-            var token = GenerateJwtToken(nguoiDung);    
-            _tokenStore.AddToken(nguoiDung.Id,token);
+            nguoiDung.SuChoPheps = await _suChoPhepRepository.FindWithIncludeAsync(s => s.NguoiDungId == nguoiDung.Id, c => c.ChucNang);
+            var token = GenerateJwtToken(nguoiDung);
+            _tokenStore.AddToken(nguoiDung.Id, token);
             string roleName = "";
             if (nguoiDung.VaiTroId == 1)
             {
@@ -131,5 +132,25 @@ namespace PhongMachTu.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext)
+        {
+            var nguoiDung = await GetNguoiDungByHttpContext(httpContext);
+            if (nguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+            var rs = new Request_HienThiThongTinNguoiDungDTO()
+            {
+                TenNguoiDung = nguoiDung.HoTen,
+                Email = nguoiDung.Email,
+                SoDienThoai = nguoiDung.SoDienThoai,
+                GioiTinh = nguoiDung.GioiTinh,
+                NgaySinh = nguoiDung.NgaySinh,
+                DiaChi = nguoiDung.DiaChi
+            };
+            // Chuyển đổi đối tượng thành JSON
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        }
     }
 }
