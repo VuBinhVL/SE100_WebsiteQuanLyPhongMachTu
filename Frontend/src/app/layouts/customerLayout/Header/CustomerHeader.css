@@ -86,7 +86,6 @@
 /* Hiển thị menu con khi lướt chuột qua */
 .customer-header .nav-item.dropdown:hover .dropdown-menu {
   display: block;
-  /* Hiển thị menu con */
 }
 
 /* Ẩn menu con mặc định */
@@ -115,7 +114,6 @@
 .customer-header .dropdown-item {
   display: block;
   padding: 8px 15px;
-  width: 100px;
   color: #333;
   text-decoration: none;
   font-size: 14px;

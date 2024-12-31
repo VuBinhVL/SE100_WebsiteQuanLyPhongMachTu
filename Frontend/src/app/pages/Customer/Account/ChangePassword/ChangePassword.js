@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../../../components/Customer/Account/AccountButton"; // Component bạn đã tạo
 import "./ChangePassword.css";
+import { fetchGet } from "../../../../lib/httpHandler";
 
 export default function ChangePassword({ onClose }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -13,6 +14,19 @@ export default function ChangePassword({ onClose }) {
       setErrorMessage("Mật khẩu mới và xác nhận mật khẩu không khớp!");
       return;
     }
+    const uri = "/api/quan-li-ho-so-benh-an/hien-thi-ho-so-benh-an";
+    fetchGet(
+      uri,
+      (sus) => {
+        console.log(sus);
+      },
+      (fail) => {
+        console.log(fail);
+      },
+      () => {
+        console.log("Có lỗi xảy ra");
+      }
+    );
 
     // Logic xử lý lưu mật khẩu
     alert("Đổi mật khẩu thành công!");

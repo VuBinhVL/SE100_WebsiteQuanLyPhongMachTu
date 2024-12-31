@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999; /* Giá trị cao nhất để đảm bảo hiển thị trên các thành phần khác */
 }
 
 .error-message-box .message-content {
