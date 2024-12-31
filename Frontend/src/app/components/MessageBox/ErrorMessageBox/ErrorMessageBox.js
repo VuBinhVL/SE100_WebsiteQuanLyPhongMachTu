@@ -14,7 +14,7 @@ export default function ErrorMessageBox({ title }) {
     <div className="error-message-box">
       <div className="message-content">
         <div className="message-icon">
-          <img src={Icon} alt="Error" />
+          <img src={Icon} alt="Error" className="inner-icon" />
         </div>
         <h4 className="message-title">{title}</h4>
         <button

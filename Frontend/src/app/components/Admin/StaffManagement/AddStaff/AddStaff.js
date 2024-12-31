@@ -189,7 +189,7 @@ export default function AddStaff(props) {
                 // alert(sus.message);
                 showSuccessMessageBox(sus.message)
                 // Lấy phần tử button cancel
-                const btnCancel = document.querySelector('.btn-close');
+                const btnCancel = document.querySelector('.btn_Cancel');
                 btnCancel.click();
 
                 // Clear data
