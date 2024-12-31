@@ -5,23 +5,17 @@
   padding: 50px 0px 0px 0px;
 }
 
-/* Phần giới thiệu bác sĩ */
-.account-page .account-description-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 20px;
+.account-page .account-record-header {
+  background-color: #348f6c; /* Màu xanh */
+  text-align: center; /* Canh giữa nội dung */
+  margin-bottom: 20px; /* Khoảng cách bên dưới */
 }
 
-/* Nội dung tài khoản */
-.account-page .account-title {
-  text-align: center;
+.account-page .account-record-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
+  color: #fff; /* Màu chữ trắng */
+  margin: 0; /* Loại bỏ khoảng cách mặc định */
 }
 
 .account-page .account-section {

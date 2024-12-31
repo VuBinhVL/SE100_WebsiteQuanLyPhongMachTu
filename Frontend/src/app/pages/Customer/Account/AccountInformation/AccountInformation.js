@@ -34,10 +34,9 @@ export default function Account() {
   return (
     <div className="account-page">
       {/* Phần khoảng cách */}
-      <div className="account-description-section"></div>
-      <h2 className="account-title" style={{ color: "#fff" }}>
-        THÔNG TIN TÀI KHOẢN
-      </h2>
+      <div className="account-record-header">
+        <h2 className="account-record-title">THÔNG TIN TÀI KHOẢN</h2>
+      </div>
 
       <div className="account-section">
         {/* Phần bên trái: Avatar */}

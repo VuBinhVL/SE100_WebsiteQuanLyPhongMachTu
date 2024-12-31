@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Header/CustomerHeader.css";
 import logo from "../../../assets/images/clinic_logo.png";
 import avatar from "../../../assets/icons/user.png";
 
 export default function CustomerHeader() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Trạng thái dropdown mở/đóng
+  const navigate = useNavigate();
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     if (localStorage.getItem("user") !== null) {
@@ -17,6 +18,7 @@ export default function CustomerHeader() {
     localStorage.removeItem("user"); // Xóa thông tin người dùng
     setIsLoggedIn(false); // Cập nhật trạng thái đăng xuất
     setIsDropdownOpen(false); // Đóng dropdown
+    navigate("/login"); // Chuyển hướng về trang login
   };
 
   return (
@@ -76,7 +78,7 @@ export default function CustomerHeader() {
                     <Link to="/account">Thông tin tài khoản</Link>
                   </li>
                   <li className="login-item">
-                    <Link to="/medical-records">Hồ sơ bệnh án</Link>
+                    <Link to="/medical-record">Hồ sơ bệnh án</Link>
                   </li>
                   <li className="login-item" onClick={handleLogout}>
                     Đăng xuất

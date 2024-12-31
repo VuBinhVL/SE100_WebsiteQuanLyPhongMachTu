@@ -15,6 +15,7 @@ import Login from "../pages/Other/Login";
 import LayoutCustomer from "../layouts/customerLayout";
 import ForgetPassword from "../pages/Other/ForgetPassword";
 import AccountInformation from "../pages/Customer/Account/AccountInformation";
+import UserRecordList from "../pages/Customer/MedicalRecord/UserRecordList";
 
 export default function MainRoutes() {
   return (
@@ -28,6 +29,7 @@ export default function MainRoutes() {
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="doctors" element={<Doctor />} />
           <Route path="account" element={<AccountInformation />} />
+          <Route path="medical-record" element={<UserRecordList />} />
         </Route>
 
         {/* Layout quản trị viên */}
