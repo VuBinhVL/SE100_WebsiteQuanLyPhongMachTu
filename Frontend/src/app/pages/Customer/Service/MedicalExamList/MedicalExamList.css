@@ -1,0 +1,181 @@
+/* Tổng thể trang  */
+.medical-exam-list-page {
+  background-color: #348f6c; /* Nền xanh */
+  color: #ffffff; /* Chữ trắng */
+  padding: 50px 0px 0px 0px;
+}
+
+/* Phần giới thiệu  */
+.medical-exam-list-page .medical-exam-list-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.medical-exam-list-page .medical-exam-list-content {
+  flex: 1;
+}
+
+.medical-exam-list-page .medical-exam-list-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.medical-exam-list-page .medical-exam-list-description {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.medical-exam-list-page .medical-exam-list-image {
+  flex: 1;
+  text-align: center;
+}
+
+.medical-exam-list-page .medical-exam-list-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hoạt họa phòng khám */
+.medical-exam-list-page .medical-exam-list-image .image {
+  width: 500px;
+  height: 450px;
+}
+
+/* Section 2 */
+.medical-exam-list-page .medical-exam-list-highlight {
+  text-align: center;
+  margin-top: 50px;
+  gap: 20px;
+  padding: 30px 20px;
+  background-color: #ffffff; /* Nền trắng */
+  height: fit-content;
+}
+
+.medical-exam-list-page .medical-exam-list-highlight-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+.medical-exam-list-page .medical-exam-list-highlight-title::after {
+  content: "";
+  display: block;
+  width: 270px; /* Chiều dài đường gạch */
+  height: 3px; /* Độ dày đường gạch */
+  background-color: #fc5185; /* Màu đỏ */
+  margin: 10px auto 0; /* Căn giữa */
+}
+
+/* CSS danh sách ca khám */
+.medical-exam-list-page .medical-exam-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination Styles */
+.medical-exam-list-page .pagination {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  margin-top: 0px;
+  background-color: #ffffff;
+}
+
+.medical-exam-list-page .pagination-button {
+  padding: 10px 15px;
+  margin: 0 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #348f6c;
+  background-color: #f0f0f0; /* Updated background color */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.medical-exam-list-page .pagination-button.active {
+  color: #fff;
+  background-color: #348f6c;
+  border-color: #348f6c;
+}
+
+.medical-exam-list-page .pagination-button:hover {
+  background-color: #d8d8d8; /* Updated hover background color */
+  border-color: #bcd9f1;
+}
+
+/* CSS cho phần tìm kiếm và lọc */
+.medical-exam-list-page .filter-section {
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 1200px;
+  gap: 10px; /* Điều chỉnh khoảng cách giữa các phần tử */
+}
+
+/* Bao bọc cả thanh tìm kiếm và biểu tượng */
+.medical-exam-list-page .search-bar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+
+  flex: 2;
+}
+
+/* Thanh tìm kiếm */
+.medical-exam-list-page .search-bar {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Đệm để chừa khoảng cho biểu tượng */
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.medical-exam-list-page .search-bar:focus {
+  border-color: #348f6c;
+}
+
+/* Biểu tượng tìm kiếm */
+.medical-exam-list-page .search-icon {
+  position: absolute;
+  right: 10px; /* Căn biểu tượng sát mép phải */
+  width: 20px; /* Kích thước biểu tượng */
+  height: 20px;
+  pointer-events: none; /* Không cho tương tác với biểu tượng */
+}
+
+.medical-exam-list-page .day-filter {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  outline: none;
+  max-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.medical-exam-list-page .day-filter:hover {
+  border-color: #348f6c;
+  background-color: #e8f5e9;
+}

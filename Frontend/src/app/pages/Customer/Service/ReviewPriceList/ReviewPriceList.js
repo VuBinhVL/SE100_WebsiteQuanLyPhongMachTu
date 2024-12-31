@@ -8,12 +8,12 @@ export default function ReiviewPriceList() {
       {/* Phần giới thiệu đội bảng giá dịch vụ */}
       <div className="price-section">
         <div className="price-content">
-          <h1 className="price-title">Dịch vụ Y Tế Chuyên Nghiệp </h1>
+          <h1 className="price-title">Dịch vụ Y Tế Chất Lượng Cao</h1>
           <p className="price-description">
-            Tại đây, chúng tôi cung cấp một loạt các dịch vụ y tế chất lượng cao
-            từ khám chữa bệnh đến điều trị chuyên sâu. Đội ngũ y bác sĩ giàu
-            kinh nghiệm và trang thiết bị hiện đại giúp bạn yên tâm về sức khỏe
-            của mình và cả gia đình.
+            Tại đây, chúng tôi cung cấp các dịch vụ khám bệnh đa dạng và chuyên
+            nghiệp với mức giá tham khảo rõ ràng, minh bạch. Đội ngũ y bác sĩ
+            giàu kinh nghiệm cùng trang thiết bị hiện đại cam kết mang đến sự
+            hài lòng và an tâm cho bạn và gia đình trong việc chăm sóc sức khỏe.
           </p>
         </div>
         <div className="price-image">

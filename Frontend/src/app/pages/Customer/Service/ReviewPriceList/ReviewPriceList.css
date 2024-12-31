@@ -1,12 +1,12 @@
-/* Tổng thể trang bác sĩ */
+/* Tổng thể trang  */
 .price-page {
   background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px 0px 0px;
 }
 
-/* Phần giới thiệu bác sĩ */
-.price-section {
+/* Phần giới thiệu  */
+.price-page .price-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,17 +15,17 @@
   gap: 20px;
 }
 
-.price-content {
+.price-page .price-content {
   flex: 1;
 }
 
-.price-title {
+.price-page .price-title {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.price-description {
+.price-page .price-description {
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.6;
@@ -33,22 +33,22 @@
   max-width: 600px;
 }
 
-.price-image {
+.price-page .price-image {
   flex: 1;
   text-align: center;
 }
 
-.price-image img {
+.price-page .price-image img {
   max-width: 100%;
   height: auto;
 }
 
 /* Hoạt họa phòng khám */
-.price-image .image {
+.price-page .price-image .image {
   width: 500px;
   height: 450px;
 }
-
+/* Section 2 */
 .price-page .price-highlight {
   text-align: center;
   margin-top: 50px;
@@ -76,7 +76,7 @@
 
 /* CSS cho bảng price-table */
 
-.price-table {
+.price-page .price-table {
   width: 100%; /* Chiếm toàn bộ chiều rộng */
   border-collapse: collapse; /* Gộp viền giữa các ô */
   margin-top: 20px; /* Khoảng cách phía trên */
@@ -88,33 +88,33 @@
   overflow: hidden; /* Giữ bo góc không bị ảnh hưởng */
 }
 
-.price-table thead {
+.price-page .price-table thead {
   background-color: #348f6c; /* Màu nền tiêu đề */
   color: #fff; /* Màu chữ trắng */
   text-transform: uppercase; /* Chữ in hoa */
 }
 
-.price-table th {
+.price-page .price-table th {
   padding: 12px; /* Khoảng cách trong ô */
   font-weight: bold; /* Chữ đậm */
   border: 1px solid #ddd; /* Viền mỏng */
 }
 
-.price-table td {
+.price-page .price-table td {
   padding: 10px; /* Khoảng cách trong ô */
   border: 1px solid #ddd; /* Viền mỏng */
   color: #333; /* Màu chữ */
 }
 
-.price-table tr:nth-child(even) {
+.price-page .price-table tr:nth-child(even) {
   background-color: #f9f9f9; /* Nền xám nhạt cho hàng chẵn */
 }
 
-.price-table tr:hover {
+.price-page .price-table tr:hover {
   background-color: #f1f1f1; /* Hiệu ứng hover */
 }
 
-.price-note {
+.price-page .price-note {
   margin-top: 15px; /* Khoảng cách phía trên */
   font-size: 12px; /* Kích thước chữ nhỏ hơn */
   color: #555; /* Màu chữ xám */
