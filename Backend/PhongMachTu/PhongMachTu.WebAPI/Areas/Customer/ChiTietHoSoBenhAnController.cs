@@ -28,5 +28,18 @@ namespace PhongMachTu.WebAPI.Areas.Customer
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+        [HttpGet("hien-thi-chi-tiet-phieu-kham-benh-cua-chi-tiet-ho-so-benh-an/{phieuKhamBenhId}")]
+        public async Task<IActionResult> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(int phieuKhamBenhId)
+        {
+            try
+            {
+                var rs = await _chiTietHoSoBenhAnService.HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext, phieuKhamBenhId);
+                return StatusCode(rs.HttpStatusCode, rs.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace PhongMachTu.WebAPI.Areas.Customer
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-        [HttpGet("hien-thi-chi-tiet-benh-ly")]
+        [HttpGet("hien-thi-chi-tiet-benh-ly-o-dich-vu")]
         public async Task<IActionResult> HienThiChiTietBenhLyAsync()
         {
             try
