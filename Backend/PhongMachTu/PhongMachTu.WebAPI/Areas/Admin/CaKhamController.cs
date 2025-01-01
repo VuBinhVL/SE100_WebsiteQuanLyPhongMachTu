@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Service;
 
@@ -54,6 +55,19 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             var rs = await _caKhamService.DeleteCaKham(id ?? -1);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+        }
+        [HttpGet("hien-thi-danh-sach-ca-kham")]
+        public async Task<IActionResult> HienThiDanhSachCaKhamPhiaAdminAsync()
+        {
+            try
+            {
+                var rs = await _caKhamService.HienThiDanhSachCaKhamPhiaAdmin();
+                return StatusCode(rs.HttpStatusCode, rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
         }
     }
 }

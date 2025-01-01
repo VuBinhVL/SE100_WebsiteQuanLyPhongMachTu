@@ -14,6 +14,7 @@ namespace PhongMachTu.DataAccess.Repositories
 	{
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
         IQueryable<CaKham> Query();
+        Task<IEnumerable<CaKhamDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync();
     }
 
 	public class CaKhamRepository : RepositoryBase<CaKham>, ICaKhamRepository
@@ -44,6 +45,24 @@ namespace PhongMachTu.DataAccess.Repositories
         {
             return _context.CaKhams.AsQueryable();
         }
+
+        public async Task<IEnumerable<CaKhamDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync()
+        {
+            return await _context.CaKhams
+                .Include(ck => ck.BacSi)             
+                .Include(ck => ck.BacSi.ChuyenMon)   
+                .Select(ck => new CaKhamDTO          
+                {
+                    TenCaKham = ck.TenCaKham,
+                    ThoiGianBatDau = ck.ThoiGianBatDau,
+                    ThoiGianKetThuc = ck.ThoiGianKetThuc,
+                    NgayKham = ck.NgayKham,
+                    BacSiKham = ck.BacSi.HoTen,             
+                    TenNhomBenh = ck.BacSi.ChuyenMon.TenNhomBenh 
+                })
+                .ToListAsync();
+        }
+
 
 
     }
