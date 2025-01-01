@@ -1,0 +1,3 @@
+dotnet ef migrations add InitDbVer1 --project PhongMachTu.DataAccess --startup-project PhongMachTu.WebAPI (chạy ở đường dẫn của solution)
+
+dotnet ef database update --project PhongMachTu.DataAccess --startup-project PhongMachTu.WebAPI

@@ -1,0 +1,14 @@
+.ant-card-body {
+    margin-bottom: 20px; 
+  }
+  .custom-row {
+    padding: 10px; /* Giảm khoảng cách */
+    margin-left: -10px; /* Xích sang trái */
+  }
+  
+  .custom-text {
+    font-size: 20px; /* Tăng cỡ chữ */
+    font-weight: bold; /* In đậm nếu cần */
+    line-height: 1.5; /* Điều chỉnh khoảng cách giữa chữ */
+  }
+  
