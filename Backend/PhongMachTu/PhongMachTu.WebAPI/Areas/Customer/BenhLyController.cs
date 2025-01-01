@@ -1,53 +1,45 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
-using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Service;
 
 namespace PhongMachTu.WebAPI.Areas.Customer
 {
     [Area("CUSTOMER")]
-    [Route("api/quan-li-ca-kham")]
+    [Route("api/quan-li-benh-ly")]
     [ApiController]
-    public class CaKhamController : ControllerBase
+    public class BenhLyController : ControllerBase
     {
-        private readonly ICaKhamService _caKhamService;
-       
-        public CaKhamController(ICaKhamService caKhamService)
+        private readonly IBenhLyService _benhLyService;
+        public BenhLyController(IBenhLyService benhLyService)
         {
-            _caKhamService = caKhamService;
+            _benhLyService = benhLyService;
         }
-
-
-        [HttpPost("dang-ky")]
-        public async Task<IActionResult> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data)
+        [HttpGet("hien-thi-bang-gia-benh-ly")]
+        public async Task<IActionResult> HienThiBenhLyAsync()
         {
             try
             {
-                var rs = await _caKhamService.DangKyCaKhamAsync(data,HttpContext);
+                var rs = await _benhLyService.HienThiBangGiaBenhLy();
                 return StatusCode(rs.HttpStatusCode, rs.Message);
-
             }
             catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-
-
-        [HttpGet("hien-thi-ca-kham-da-dang-ky")]
-        public async Task<IActionResult> HienThiCaKhamDaDangKyAsync()
+        [HttpGet("hien-thi-chi-tiet-benh-ly-o-dich-vu")]
+        public async Task<IActionResult> HienThiChiTietBenhLyAsync()
         {
             try
             {
-                var result = await _caKhamService.GetCaKhamDaDangKyAsync();
-                return Ok(result);
+                var rs = await _benhLyService.HienThiChiTietBenhLy();
+                return StatusCode(rs.HttpStatusCode, rs.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-
     }
 }

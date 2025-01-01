@@ -12,8 +12,6 @@ using Newtonsoft.Json;
 using PhongMachTu.Common.Security;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.Common.DTOs.Respone.NhanVien;
-using PhongMachTu.Common.Mapper;
-using System.Security.Cryptography.X509Certificates;
 using PhongMachTu.Common.Helpers;
 namespace PhongMachTu.Service
 {
@@ -21,7 +19,7 @@ namespace PhongMachTu.Service
     {
         Task<ResponeMessage> AddNhanVienAsync(Request_AddNhanVienDTO data);
         Task<ResponeMessage> UpdateThongTinCaNhanNhanVienAsync(Request_UpdateThongTinCaNhanNhanVienDTO data);
-        Task<List<Respone_NhanVienDTO>> GetAllAsync();
+        Task<IEnumerable<NguoiDung>> GetAllAsync();
         Task<ResponeMessage> DeleteNhanVienByIdAsync(int? id);
         Task<NguoiDung> GetNhanVienByIdAsync(int? id);
         Task<ResponeMessage> PhanQuyenAsync(Request_PhanQuyenDTO data);
@@ -123,15 +121,9 @@ namespace PhongMachTu.Service
 
         }
 
-        public async Task<List<Respone_NhanVienDTO>> GetAllAsync()
+        public async Task<IEnumerable<NguoiDung>> GetAllAsync()
         {
-            List<Respone_NhanVienDTO> list = new List<Respone_NhanVienDTO>();
-            var rs =( await _nguoiDungRepository.GetAllWithIncludeAsync(u => u.ChuyenMon)).Where(u=>u.VaiTroId!=3);
-            foreach (var r in rs)
-            {
-                list.Add(NhanVienMapper.Map_NguoiDungModel_To_Respone_NhanVienDTO(r));
-            }
-            return list;
+          return ( await _nguoiDungRepository.GetAllWithIncludeAsync(u => u.ChuyenMon)).Where(u=>u.VaiTroId!=3);
         }
 
         public async Task<NguoiDung> GetNhanVienByIdAsync(int? id)

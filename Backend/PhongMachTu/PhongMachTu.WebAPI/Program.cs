@@ -59,6 +59,10 @@ builder.Services.AddScoped<ILoaiThuocService, LoaiThuocService>();
 builder.Services.AddScoped<IPhieuNhapThuocService, PhieuNhapThuocService>();
 builder.Services.AddScoped<ICaKhamService, CaKhamService>();
 builder.Services.AddScoped<IChucNangService, ChucNangService>();
+builder.Services.AddScoped<IThuocService, ThuocService>();
+builder.Services.AddScoped<IThamSoService, ThamSoService>();
+builder.Services.AddScoped<IHoSoBenhAnService, HoSoBenhAnService>();
+builder.Services.AddScoped<IChiTietHoSoBenhAnService, ChiTietHoSoBenhAnService>();
 
 //bổ trợ phần token
 builder.Services.AddMemoryCache();
@@ -208,14 +212,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //hỗ trợ chạy be,fe trên local được đồng thời
-    app.UseCors(); // Áp dụng CORS
-    //hỗ trợ chạy be,fe trên local được đồng thời
 }
-
 app.UseHttpsRedirection();
 
 app.UseRouting();
+app.UseCors(); // Áp dụng CORS
 
 
 app.UseAuthentication();

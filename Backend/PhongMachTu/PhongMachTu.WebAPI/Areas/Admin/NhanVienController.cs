@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.NhanVien;
 using PhongMachTu.Common.DTOs.Respone;
+using PhongMachTu.Common.DTOs.Respone.NhanVien;
 using PhongMachTu.Common.Helpers;
 using PhongMachTu.DataAccess.Repositories;
 using PhongMachTu.Service;
+using PhongMachTu.WebAPI.Mapper;
 using System.Diagnostics;
 
 namespace PhongMachTu.WebAPI.Areas.Admin
@@ -28,7 +30,12 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             try
             {
-                var rs = (await _nhanVienService.GetAllAsync());
+                var list = new List<Respone_NhanVienDTO>();
+                var rs = await _nhanVienService.GetAllAsync();
+                foreach(var item in rs)
+                {
+                    list.Add(NhanVienMapper.Map_NguoiDungModel_To_Respone_NhanVienDTO(item));
+                }
                 return StatusCode(HttpStatusCode.Ok, rs);
             }
             catch (Exception ex)
