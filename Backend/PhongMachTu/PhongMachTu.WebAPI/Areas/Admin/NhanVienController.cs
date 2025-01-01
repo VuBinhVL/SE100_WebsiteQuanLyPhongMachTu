@@ -120,6 +120,32 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return BadRequest(new {message = "Có lỗi xảy ra từ hệ thống"});
             }
         }
+        [HttpGet("hien-thi-thong-tin-ca-nhan-ben-phia-admin")]
+        public async Task<IActionResult> HienThiThongTinCaNhanBenPhiaAdminAsync()
+        {
+            try
+            {
+                var rs = await _nhanVienService.HienThiThongTinCaNhanBenAdmin(HttpContext);
+                return StatusCode(rs.HttpStatusCode, rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+        [HttpGet("hien-thi-form-sua-thong-tin-ca-nhan")]
+        public async Task<IActionResult> HienThiFormSuaThongTinCaNhanAsync()
+        {
+            try
+            {
+                var rs = await _nhanVienService.HienThiFormSuaThongTinCaNhan(HttpContext);
+                return StatusCode(rs.HttpStatusCode, rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
     
 }

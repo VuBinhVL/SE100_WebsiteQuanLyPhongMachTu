@@ -13,6 +13,8 @@ using PhongMachTu.Common.Security;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.Common.DTOs.Respone.NhanVien;
 using PhongMachTu.Common.Helpers;
+using Microsoft.AspNetCore.Http;
+using PhongMachTu.Common.DTOs.Request.NguoiDung;
 namespace PhongMachTu.Service
 {
     public interface INhanVienService
@@ -23,6 +25,8 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DeleteNhanVienByIdAsync(int? id);
         Task<NguoiDung> GetNhanVienByIdAsync(int? id);
         Task<ResponeMessage> PhanQuyenAsync(Request_PhanQuyenDTO data);
+        Task<ResponeMessage> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext);
+        Task<ResponeMessage> HienThiFormSuaThongTinCaNhan(HttpContext httpContext);
     }
 
     public class NhanVienService : INhanVienService
@@ -34,8 +38,11 @@ namespace PhongMachTu.Service
         private readonly IChucNangRepository _chucNangRepository;
         private readonly TokenStore _tokenStore;
         private readonly IUnitOfWork _unitOfWork;
-
-        public NhanVienService(INguoiDungRepository nguoiDungRepository,ICaKhamRepository caKhamRepository,ISuChoPhepRepository suChoPhepRepository,INhomBenhRepository nhomBenhRepository ,IChucNangRepository chucNangRepository,TokenStore tokenStore,IUnitOfWork unitOfWork)
+        private readonly INguoiDungService _nguoiDungService;
+        private readonly IVaiTroRepository _vaiTroRepository;
+        public NhanVienService(INguoiDungRepository nguoiDungRepository,ICaKhamRepository caKhamRepository,ISuChoPhepRepository suChoPhepRepository,
+            INhomBenhRepository nhomBenhRepository ,IChucNangRepository chucNangRepository,
+            TokenStore tokenStore,IUnitOfWork unitOfWork, INguoiDungService nguoiDungService, IVaiTroRepository vaiTroRepository)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _caKhamRepository = caKhamRepository;
@@ -44,6 +51,8 @@ namespace PhongMachTu.Service
             _chucNangRepository = chucNangRepository;
             _tokenStore = tokenStore;
             _unitOfWork = unitOfWork;
+            _nguoiDungService = nguoiDungService;
+            _vaiTroRepository = vaiTroRepository;
         }
 
         public async Task<ResponeMessage> AddNhanVienAsync(Request_AddNhanVienDTO data)
@@ -215,6 +224,62 @@ namespace PhongMachTu.Service
             _nguoiDungRepository.Update(findNhanVien);
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin nhân viên thành công");
+        }
+
+        public async Task<ResponeMessage> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext)
+        {
+            var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (nguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+            var vaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
+           
+
+            var rs = new Request_HienThiThongTinCaNhanBenAdminDTO()
+            {
+                HoTen = nguoiDung.HoTen,
+                Image = nguoiDung.Image,
+                VaiTro = nguoiDung.VaiTro.TenVaiTro,
+                ChuyenMon = nguoiDung.ChuyenMon == null ? "" : nguoiDung.ChuyenMon.TenNhomBenh,
+                Email = nguoiDung.Email,
+                SoDienThoai = nguoiDung.SoDienThoai,
+                GioiTinh = nguoiDung.GioiTinh,
+                NgaySinh = nguoiDung.NgaySinh,
+                DiaChi = nguoiDung.DiaChi
+            };
+            // Chuyển đổi đối tượng thành JSON
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        }
+
+        public async Task<ResponeMessage> HienThiFormSuaThongTinCaNhan(HttpContext httpContext)
+        {
+            var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (nguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+            var vaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
+
+
+            var rs = new Request_HienThiFormSuaThongTinCaNhanDTO()
+            {
+                HoTen = nguoiDung.HoTen,
+                Image = nguoiDung.Image,
+                VaiTro = nguoiDung.VaiTro.TenVaiTro,
+                ChuyenMon = nguoiDung.ChuyenMon == null ? "" : nguoiDung.ChuyenMon.TenNhomBenh,
+                Email = nguoiDung.Email,
+                SoDienThoai = nguoiDung.SoDienThoai,
+                GioiTinh = nguoiDung.GioiTinh,
+                NgaySinh = nguoiDung.NgaySinh,
+                DiaChi = nguoiDung.DiaChi,
+                MatKhau = nguoiDung.MatKhau
+            };
+            // Chuyển đổi đối tượng thành JSON
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+
         }
     }
 }
