@@ -27,6 +27,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> PhanQuyenAsync(Request_PhanQuyenDTO data);
         Task<ResponeMessage> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext);
         Task<ResponeMessage> HienThiFormSuaThongTinCaNhan(HttpContext httpContext);
+        Task<ResponeMessage>  HienThiDanhSachNhanVien();
     }
 
     public class NhanVienService : INhanVienService
@@ -281,5 +282,31 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
 
         }
+
+        public async Task<ResponeMessage> HienThiDanhSachNhanVien()
+        {
+            var nhanViens = await _nguoiDungRepository.GetNhanViensWithChuyenMonAsync();
+
+            if (nhanViens == null || !nhanViens.Any())
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không có nhân viên nào được tìm thấy.");
+            }
+
+            var rs = new Request_HienThiDanhSachNhanVienDTO
+            {
+                NhanVienList = nhanViens.Select(nv => new NhanVienDTO
+                {
+                    Id = nv.Id,
+                    HoTen = nv.HoTen,
+                    GioiTinh = nv.GioiTinh,
+                    SoDienThoai = nv.SoDienThoai,
+                    ChuyenMon = nv.ChuyenMon?.TenNhomBenh 
+                }).ToList()
+            };
+
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        }
+
     }
 }
