@@ -150,7 +150,7 @@ export default function Staff() {
                                     <td>
                                         <div className="list_Action">
                                             <FaUserShield className="icon_authorise icon_action" />
-                                            <DetailStaff />
+                                            <DetailStaff item={item} setListStaff={setListStaff} listStaff={listStaff} />
                                             <DeleteStaff item={item} setListStaff={setListStaff} listStaff={listStaff} />
                                         </div>
                                     </td>

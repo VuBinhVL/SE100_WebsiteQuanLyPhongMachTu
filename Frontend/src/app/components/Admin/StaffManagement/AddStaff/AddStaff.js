@@ -209,6 +209,7 @@ export default function AddStaff(props) {
     const handleClose = () => {
         handleClearData();
     }
+    console.log(">>>>>check addd dataForm", dataForm)
     return (
         <>
             {/* <!-- Button trigger modal --> */}
