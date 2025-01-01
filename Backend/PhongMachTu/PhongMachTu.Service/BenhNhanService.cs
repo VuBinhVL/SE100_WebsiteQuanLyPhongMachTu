@@ -1,5 +1,6 @@
 ﻿using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.BenhNhan;
+using PhongMachTu.Common.DTOs.Request.NguoiDung;
 using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.Common.Helpers;
 using PhongMachTu.Common.Security;
@@ -17,6 +18,7 @@ namespace PhongMachTu.Service
     public interface IBenhNhanService
     {
         Task<ResponeMessage> RegisterAsync(Request_RegisterDTO data);
+        Task<ResponeMessage> HienThiDanhSachBenhNhanAsync();
     }
 
     public class BenhNhanService : IBenhNhanService
@@ -79,6 +81,44 @@ namespace PhongMachTu.Service
             await _nguoiDungRepository.AddAsync(nguoiDung);
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Đăng ký thành công");
+        }
+
+        public async Task<ResponeMessage> HienThiDanhSachBenhNhanAsync()
+        {
+            // Lấy danh sách người dùng
+            var nguoiDungs = await _nguoiDungRepository.GetAllAsync();
+
+            // Lọc danh sách bệnh nhân (VaiTroId = 3 là bệnh nhân)
+            var benhNhans = nguoiDungs
+                .Where(u => u.VaiTroId == 3)
+                .Select(u => new BenhNhanDTO
+                {
+                    HoTen = u.HoTen,
+                    GioiTinh = u.GioiTinh,
+                    Tuoi = u.NgaySinh.HasValue ? TinhTuoi(u.NgaySinh.Value) : null,
+                    SoDienThoai = u.SoDienThoai,
+                    DiaChi = u.DiaChi
+                })
+                .ToList();
+
+            if (benhNhans == null || !benhNhans.Any())
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không có bệnh nhân nào được tìm thấy.");
+            }
+
+
+
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(benhNhans);
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        }
+
+        // Hàm tính tuổi
+        private int TinhTuoi(DateTime ngaySinh)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - ngaySinh.Year;
+            if (ngaySinh.Date > today.AddYears(-age)) age--;
+            return age;
         }
     }
 }

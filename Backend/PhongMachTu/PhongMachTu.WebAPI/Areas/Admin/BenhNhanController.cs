@@ -9,17 +9,17 @@ namespace PhongMachTu.WebAPI.Areas.Admin
     [ApiController]
     public class BenhNhanController : ControllerBase
     {
-        private readonly INguoiDungService _nguoiDungService;
-        public BenhNhanController(INguoiDungService nguoiDungService)
+        private readonly IBenhNhanService _benhNhanService;
+        public BenhNhanController(IBenhNhanService benhNhanService)
         {
-            _nguoiDungService = nguoiDungService;
+            _benhNhanService = benhNhanService;
         }
         [HttpGet("hien-thi-danh-sach-benh-nhan")]
         public async Task<IActionResult> HienThiDanhSachBenhNhanAsync()
         {
             try
             {
-                var rs = await _nguoiDungService.HienThiDanhSachBenhNhanAsync();
+                var rs = await _benhNhanService.HienThiDanhSachBenhNhanAsync();
                 return StatusCode(StatusCodes.Status200OK, rs);
             }
             catch (Exception ex)

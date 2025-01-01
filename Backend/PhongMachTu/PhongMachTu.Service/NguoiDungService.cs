@@ -27,7 +27,7 @@ namespace PhongMachTu.Service
         Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext);
         Task<ResponeMessage> ForgotPasswordAsync(Request_ForgotPasswordDTO data);
         Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
-        Task<ResponeMessage> HienThiDanhSachBenhNhanAsync();
+        
     }
 
     public class NguoiDungService : INguoiDungService
@@ -181,46 +181,7 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
         }
 
-        public async Task<ResponeMessage> HienThiDanhSachBenhNhanAsync()
-        {
-            // Lấy danh sách người dùng
-            var nguoiDungs = await _nguoiDungRepository.GetAllAsync();
-
-            // Lọc danh sách bệnh nhân (VaiTroId = 3 là bệnh nhân)
-            var benhNhans = nguoiDungs
-                .Where(u => u.VaiTroId == 3)
-                .Select(u => new BenhNhanDTO
-                {
-                    HoTen = u.HoTen,
-                    GioiTinh = u.GioiTinh,
-                    Tuoi = u.NgaySinh.HasValue ? TinhTuoi(u.NgaySinh.Value) : null, 
-                    SoDienThoai = u.SoDienThoai,
-                    DiaChi = u.DiaChi
-                })
-                .ToList();
-
-            if (benhNhans == null || !benhNhans.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không có bệnh nhân nào được tìm thấy.");
-            }
-
-            var rs = new Request_HienThiDanhSachBenhNhan
-            {
-                BenhNhanList = benhNhans
-            };
-
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
-        }
-
-        // Hàm tính tuổi
-        private int TinhTuoi(DateTime ngaySinh)
-        {
-            var today = DateTime.Today;
-            var age = today.Year - ngaySinh.Year;
-            if (ngaySinh.Date > today.AddYears(-age)) age--;
-            return age;
-        }
+       
     }
 }
 

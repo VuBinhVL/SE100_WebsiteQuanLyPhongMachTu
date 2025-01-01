@@ -87,14 +87,8 @@ namespace PhongMachTu.Service
         public async Task<ResponeMessage> HienThiDanhSachThuoc()
         {
             var thuocs = await _thuocRepository.GetAllAsync();
-            var thuocList = thuocs.Select(t => new Request_HienThiDanhSachThuocDTO
-            {
-                Id = t.Id,
-                TenThuoc = t.TenThuoc,
-                SoLuongTon = t.SoLuongTon,
-                GiaNhap = t.GiaNhap
-            }).ToList();
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(thuocList);
+        
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(thuocs);
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
         }
     }

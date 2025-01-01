@@ -292,19 +292,9 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không có nhân viên nào được tìm thấy.");
             }
 
-            var rs = new Request_HienThiDanhSachNhanVienDTO
-            {
-                NhanVienList = nhanViens.Select(nv => new NhanVienDTO
-                {
-                    Id = nv.Id,
-                    HoTen = nv.HoTen,
-                    GioiTinh = nv.GioiTinh,
-                    SoDienThoai = nv.SoDienThoai,
-                    ChuyenMon = nv.ChuyenMon?.TenNhomBenh 
-                }).ToList()
-            };
+         
 
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(nhanViens);
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
         }
 

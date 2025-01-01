@@ -212,22 +212,10 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy danh sách ca khám.");
             }
 
-            // Chuyển đổi danh sách ca khám sang DTO
-            var rs = new Request_HienThiDanhSachCaKhamPhiaAdminDTO()
-            {
-                CaKhamList = caKhamList.Select(c => new CaKhamDTO()
-                {
-                    TenCaKham = c.TenCaKham,
-                    ThoiGianBatDau = c.ThoiGianBatDau,
-                    ThoiGianKetThuc = c.ThoiGianKetThuc,
-                    NgayKham = c.NgayKham,
-                    BacSiKham = c.BacSiKham, 
-                    TenNhomBenh = c.TenNhomBenh
-                }).ToList()
-            };
+           
 
             // Chuyển đổi kết quả sang JSON và trả về trong ResponeMessage
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(caKhamList);
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
         }
 

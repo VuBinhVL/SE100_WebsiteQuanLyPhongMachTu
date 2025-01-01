@@ -29,12 +29,9 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy danh sách lịch khám.");
             }
-            var rs = new Request_HienThiDanhSachLichKhamDTO()
-            {
-                LichKhamList = listLichKham.ToList()
-            };
+            
             // Chuyển đổi kết quả sang JSON và trả về trong ResponeMessage
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(listLichKham);
             return new ResponeMessage(HttpStatusCode.Ok, responseJson);
 
         }
