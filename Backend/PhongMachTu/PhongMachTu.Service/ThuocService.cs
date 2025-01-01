@@ -18,6 +18,7 @@ namespace PhongMachTu.Service
             Task<List<Thuoc>> GetAllAsync();
             Task<Thuoc> GetByIdAsync(int id);
             Task<ResponeMessage> UpdateThuoc(Request_UpdateThuocDTO? request);
+        Task<ResponeMessage> HienThiDanhSachThuoc();
         }
 
         public class ThuocService : IThuocService
@@ -42,47 +43,61 @@ namespace PhongMachTu.Service
             public async Task<Thuoc> GetByIdAsync(int id)
             {
                 return await _thuocRepository.GetSingleByIdAsync(id);
-            }
+            }    
 
             public async Task<ResponeMessage> UpdateThuoc(Request_UpdateThuocDTO? request)
-            {
-                if (request == null)
                 {
-                    return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
+                    if (request == null)
+                    {
+                        return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
+                    }
+
+                    var findThuoc = await _thuocRepository.GetSingleByIdAsync(request.Id);
+                    if (findThuoc == null)
+                    {
+                        return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thuốc");
+                    }
+
+                    if(request.NgaySanXuat > request.HanSuDung)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Ngày sản xuất không thể lớn hơn hạn sử dụng");
+                }
+                if (request.SoLuongTon < 0)
+                {
+                    return new ResponeMessage(HttpStatusCode.BadRequest, "Số lượng tồn không thể nhỏ hơn 0");
+                }
+                    var findLoaiThuoc = await _loaiThuocRepository.GetSingleByIdAsync(request.LoaiThuocId);
+                if (findLoaiThuoc == null)
+                {
+                    return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy loại thuốc");
                 }
 
-                var findThuoc = await _thuocRepository.GetSingleByIdAsync(request.Id);
-                if (findThuoc == null)
-                {
-                    return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thuốc");
+                findThuoc.TenThuoc = request.TenThuoc;
+                    findThuoc.Images = request.Images;
+                    findThuoc.SoLuongTon = request.SoLuongTon;
+                    findThuoc.NgaySanXuat = request.NgaySanXuat;
+                    findThuoc.HanSuDung = request.HanSuDung;
+                    findThuoc.LoaiThuocId = request.LoaiThuocId;
+
+                    await _unitOfWork.CommitAsync();
+
+                    return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin thuốc thành công");
                 }
 
-                if(request.NgaySanXuat > request.HanSuDung)
+        public async Task<ResponeMessage> HienThiDanhSachThuoc()
+        {
+            var thuocs = await _thuocRepository.GetAllAsync();
+            var thuocList = thuocs.Select(t => new Request_HienThiDanhSachThuocDTO
             {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Ngày sản xuất không thể lớn hơn hạn sử dụng");
-            }
-            if (request.SoLuongTon < 0)
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Số lượng tồn không thể nhỏ hơn 0");
-            }
-                var findLoaiThuoc = await _loaiThuocRepository.GetSingleByIdAsync(request.LoaiThuocId);
-            if (findLoaiThuoc == null)
-            {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy loại thuốc");
-            }
-
-            findThuoc.TenThuoc = request.TenThuoc;
-                findThuoc.Images = request.Images;
-                findThuoc.SoLuongTon = request.SoLuongTon;
-                findThuoc.NgaySanXuat = request.NgaySanXuat;
-                findThuoc.HanSuDung = request.HanSuDung;
-                findThuoc.LoaiThuocId = request.LoaiThuocId;
-
-                await _unitOfWork.CommitAsync();
-
-                return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin thuốc thành công");
-            }
+                Id = t.Id,
+                TenThuoc = t.TenThuoc,
+                SoLuongTon = t.SoLuongTon,
+                GiaNhap = t.GiaNhap
+            }).ToList();
+            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(thuocList);
+            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
         }
+    }
     }
 
 
