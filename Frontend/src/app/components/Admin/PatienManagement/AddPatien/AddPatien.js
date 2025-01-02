@@ -37,7 +37,7 @@ export default function AddPatien(props) {
     }
     // Hàm lấy danh sách nhân viên
     const fetchPatienList = () => {
-        const uri = "/api/admin/quan-li-benh-nhan/hien-thi-danh-sach-benh-nhan";
+        const uri = "/api/admin/quan-li-benh-nhan";
         fetchGet(
             uri,
             (data) => {
@@ -47,7 +47,7 @@ export default function AddPatien(props) {
                 showErrorMessageBox(fail.message)
             },
             () => {
-                alert("An error occurred while fetching staff list.");
+                alert("An error occurred while fetching patient list.");
             }
         );
     };
@@ -165,7 +165,7 @@ export default function AddPatien(props) {
             {/* <!-- Button trigger modal --> */}
             <button type="button" className="Add_Patien col-2 rounded-2 d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 <span><IoMdAddCircleOutline className="fs-4 me-2" /></span>
-                Add Patien
+                Add Patient
             </button>
 
             {/* <!-- Modal --> */}

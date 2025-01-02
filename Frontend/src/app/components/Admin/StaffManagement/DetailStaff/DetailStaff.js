@@ -195,7 +195,7 @@ export default function DetailStaff(props) {
         );
     };
     const EditStaff = () => {
-        const uri = "/api/admin/quan-li-nhan-vien/update-thong-tin-ca-nhan"
+        const uri = "/api/admin/quan-li-nhan-vien/update"
         const updatedDataForm = { ...dataForm }; // Lưu trữ giá trị mới trước khi gọi API
         fetchPut(
             uri,

@@ -12,12 +12,12 @@ export default function Patien() {
     const [dataSearch, setDataSearch] = useState("");
     // Lấy danh sách bệnh nhân 
     useEffect(() => {
-        const uri = "/api/admin/quan-li-benh-nhan/hien-thi-danh-sach-benh-nhan";
+        const uri = "/api/admin/quan-li-benh-nhan";
         fetchGet(
             uri,
             (sus) => {
                 setListPatien(sus);
-                console.log(">>>>>>>>sus Patien", sus);
+                // console.log(">>>>>>>>sus Patien", sus);
             },
             (fail) => {
                 alert(fail.message);
@@ -52,7 +52,7 @@ export default function Patien() {
     useEffect(() => {
         setlistPatienShow(listPatien);
     }, [listPatien]);
-    console.log(">>>>>>>>check listPatienShow", listPatienShow);
+    // console.log(">>>>>>>>check listPatienShow", listPatienShow);
     return (
         // <>đây là trang bệnh nhân</>
         <>
@@ -100,7 +100,7 @@ export default function Patien() {
                                         <td>
                                             <div className="list_Action">
                                                 <FaLock className="icon_Lock icon_action fs-6" />
-                                                {/* <DetailPatien item={item} setListPatien={setListPatien} listPatien={listPatien} /> */}
+                                                <DetailPatien item={item} setListPatien={setListPatien} listPatien={listPatien} />
                                                 <DeletePatien item={item} setListPatien={setListPatien} listPatien={listPatien} />
                                             </div>
                                         </td>
