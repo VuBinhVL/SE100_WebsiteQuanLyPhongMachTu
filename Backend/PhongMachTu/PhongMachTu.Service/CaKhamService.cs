@@ -22,7 +22,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DeleteCaKham(int id);
         Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data,HttpContext httpContext);
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
-        Task<ResponeMessage> HienThiDanhSachCaKhamPhiaAdmin();
+        Task<IEnumerable<CaKhamDTO>> HienThiDanhSachCaKhamPhiaAdmin();
     }
     public class CaKhamService : ICaKhamService
     {
@@ -201,23 +201,12 @@ namespace PhongMachTu.Service
             return await _caKhamRepository.GetCaKhamDaDangKyAsync();
         }
 
-        public async Task<ResponeMessage> HienThiDanhSachCaKhamPhiaAdmin()
+        public async Task<IEnumerable<CaKhamDTO>> HienThiDanhSachCaKhamPhiaAdmin()
         {
             // Lấy danh sách ca khám từ repository
-            var caKhamList = await _caKhamRepository.GetCaKhamsWithTenBacSiAndTenNhomBenhAsync();
 
-            // Kiểm tra nếu danh sách ca khám là null hoặc không có ca khám nào
-            if (caKhamList == null || !caKhamList.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy danh sách ca khám.");
-            }
 
-           
-
-            // Chuyển đổi kết quả sang JSON và trả về trong ResponeMessage
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(caKhamList);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return await _caKhamRepository.GetCaKhamsWithTenBacSiAndTenNhomBenhAsync(); ;
         }
-
     }
 }

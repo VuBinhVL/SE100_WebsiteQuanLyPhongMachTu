@@ -24,8 +24,8 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             try
             {
-                var rs = await _benhNhanService.HienThiDanhSachBenhNhanAsync();
-                return StatusCode(StatusCodes.Status200OK, rs);
+                var rs = await _benhNhanService.GetAllAsync();
+                return Ok(rs);
             }
             catch (Exception ex)
             {

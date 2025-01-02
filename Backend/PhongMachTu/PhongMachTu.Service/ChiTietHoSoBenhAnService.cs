@@ -13,8 +13,8 @@ namespace PhongMachTu.Service
 {
     public interface IChiTietHoSoBenhAnService
     {
-        Task<ResponeMessage> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext);
-        Task<ResponeMessage> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId);
+        Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext);
+        Task<Request_HienThiPKBCuaChiTietHoSoBenhAnDTO> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId);
     }
     public class ChiTietHoSoBenhAnService : IChiTietHoSoBenhAnService
     {
@@ -39,13 +39,13 @@ namespace PhongMachTu.Service
             _thuocRepository = thuocRepository;
             _chiTietDonThuocRepository = chiTietDonThuocRepository;
         }
-        public async Task<ResponeMessage> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext)
+        public async Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext)
         {
             // Lấy thông tin người dùng từ HttpContext
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
             if (nguoiDung == null)
             {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "Người dùng không hợp lệ");
+                throw new Exception("Người dùng không hợp lệ");
             }
 
             // Tìm hồ sơ bệnh án của người dùng
@@ -54,7 +54,7 @@ namespace PhongMachTu.Service
 
             if (hoSoBenhAn == null)
             {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Hồ sơ bệnh án không tồn tại");
+                throw new Exception("Hồ sơ bệnh án không tồn tại");
             }
 
             // Lấy danh sách ChiTietKhamBenh liên quan qua bảng ChiTietHoSoBenhAn
@@ -66,7 +66,7 @@ namespace PhongMachTu.Service
 
             if (!chiTietKhamBenhs.Any())
             {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Không có chi tiết khám bệnh");
+                throw new Exception("Không có chi tiết khám bệnh");
             }
 
             // Chuyển đổi dữ liệu sang DTO
@@ -79,19 +79,18 @@ namespace PhongMachTu.Service
                 GiaKham = c.GiaKham
             }).ToList();
 
-            // Chuyển đổi danh sách sang JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(chiTietHoSoDTOs);
+   
 
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return chiTietHoSoDTOs;
         }
 
-        public async Task<ResponeMessage> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId)
+        public async Task<Request_HienThiPKBCuaChiTietHoSoBenhAnDTO> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId)
         {
             // Lấy thông tin người dùng từ HttpContext
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
             if (nguoiDung == null)
             {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "Người dùng không hợp lệ");
+                throw new Exception("Người dùng không hợp lệ");
             }
 
             // Tìm hồ sơ bệnh án của người dùng
@@ -100,7 +99,7 @@ namespace PhongMachTu.Service
 
             if (hoSoBenhAn == null)
             {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Hồ sơ bệnh án không tồn tại");
+                throw new Exception("Hồ sơ bệnh án không tồn tại");
             }
 
             // Tìm chi tiết khám bệnh của hồ sơ bệnh án
@@ -109,7 +108,7 @@ namespace PhongMachTu.Service
 
             if (chiTietKhamBenh == null)
             {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Chi tiết khám bệnh không tồn tại");
+                throw new Exception("Chi tiết khám bệnh không tồn tại");
             }
 
             // Lấy danh sách bệnh lý từ ChiTietKhamBenh và liên kết với BenhLy
@@ -158,7 +157,7 @@ namespace PhongMachTu.Service
             // Chuyển đổi danh sách sang JSON
             var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(chiTietHoSoDTO);
 
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return chiTietHoSoDTO;
         }
 
     }

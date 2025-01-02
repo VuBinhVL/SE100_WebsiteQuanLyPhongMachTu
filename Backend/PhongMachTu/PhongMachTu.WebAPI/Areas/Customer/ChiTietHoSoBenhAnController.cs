@@ -21,7 +21,7 @@ namespace PhongMachTu.WebAPI.Areas.Customer
             try
             {
                 var rs = await _chiTietHoSoBenhAnService.HienThiChiTietHoSoBenhAnAsync(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
@@ -34,7 +34,7 @@ namespace PhongMachTu.WebAPI.Areas.Customer
             try
             {
                 var rs = await _chiTietHoSoBenhAnService.HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext, phieuKhamBenhId);
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

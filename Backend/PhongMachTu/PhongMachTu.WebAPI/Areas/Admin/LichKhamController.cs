@@ -18,7 +18,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         public async Task<IActionResult> HienThiDanhSachLichKhamPhiaAdminAsync()
         {
             var rs = await _lichKhamService.HienThiDanhSachLichKhamPhiaAdmin();
-            return StatusCode(rs.HttpStatusCode, rs.Message);
+            return Ok(rs);
         }
     }
 }

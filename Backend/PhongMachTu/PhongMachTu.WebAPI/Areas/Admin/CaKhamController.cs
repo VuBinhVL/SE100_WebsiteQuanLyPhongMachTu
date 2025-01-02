@@ -62,7 +62,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _caKhamService.HienThiDanhSachCaKhamPhiaAdmin();
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

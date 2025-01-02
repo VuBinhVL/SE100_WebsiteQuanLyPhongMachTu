@@ -13,7 +13,7 @@ namespace PhongMachTu.Service
 {
     public interface ILichKhamService
     {
-        Task<ResponeMessage> HienThiDanhSachLichKhamPhiaAdmin();
+        Task<IEnumerable<LichKhamDTO>> HienThiDanhSachLichKhamPhiaAdmin();
     }
     public class LichKhamService : ILichKhamService
     {
@@ -22,17 +22,11 @@ namespace PhongMachTu.Service
         {
             _lichKhamRepository = lichKhamRepository;
         }
-        public async Task<ResponeMessage> HienThiDanhSachLichKhamPhiaAdmin()
+        public async Task<IEnumerable<LichKhamDTO>> HienThiDanhSachLichKhamPhiaAdmin()
         {
-            var listLichKham = await _lichKhamRepository.GetListLichKhamDTOsAsync();
-            if (listLichKham == null)
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy danh sách lịch khám.");
-            }
-            
-            // Chuyển đổi kết quả sang JSON và trả về trong ResponeMessage
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(listLichKham);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return await _lichKhamRepository.GetListLichKhamDTOsAsync();
+
+           
 
         }
     }

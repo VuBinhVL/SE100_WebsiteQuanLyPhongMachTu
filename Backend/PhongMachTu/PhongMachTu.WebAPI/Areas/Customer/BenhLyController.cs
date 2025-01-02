@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
+using PhongMachTu.DataAccess.Models;
 using PhongMachTu.Service;
 
 namespace PhongMachTu.WebAPI.Areas.Customer
@@ -21,7 +22,7 @@ namespace PhongMachTu.WebAPI.Areas.Customer
             try
             {
                 var rs = await _benhLyService.HienThiBangGiaBenhLy();
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
@@ -29,12 +30,12 @@ namespace PhongMachTu.WebAPI.Areas.Customer
             }
         }
         [HttpGet("hien-thi-chi-tiet-benh-ly-o-dich-vu")]
-        public async Task<IActionResult> HienThiChiTietBenhLyAsync()
+        public async Task<IActionResult> HienThiChiTietBenhLyAsync(int benhLyId)
         {
             try
             {
-                var rs = await _benhLyService.HienThiChiTietBenhLy();
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                var rs = await _benhLyService.HienThiChiTietBenhLy(benhLyId);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

@@ -21,8 +21,8 @@ namespace PhongMachTu.Service
         Task<BenhLy> GetByIdAsync(int id);
         Task<ResponeMessage> UpdateBenhLy(Request_UpdateBenhLyDTO? request);
         Task<ResponeMessage> DeleteBenhLy(int id);
-        Task<ResponeMessage> HienThiBangGiaBenhLy();
-        Task<ResponeMessage> HienThiChiTietBenhLy();
+        Task<IEnumerable<Request_HienThiBangGiaBenhLyDTO>> HienThiBangGiaBenhLy();
+        Task<Request_HienThiChiTietBenhLyDTO> HienThiChiTietBenhLy(int benhLyId);
     }
     public class BenhLyService : IBenhLyService
     {
@@ -135,7 +135,7 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Xóa bệnh lý thành công");
         }
 
-        public async Task<ResponeMessage> HienThiBangGiaBenhLy()
+        public async Task<IEnumerable<Request_HienThiBangGiaBenhLyDTO>> HienThiBangGiaBenhLy()
         {
              // Lấy danh sách bệnh lý, bao gồm thông tin nhóm bệnh
             var benhLys = await _benhLyRepository
@@ -144,11 +144,6 @@ namespace PhongMachTu.Service
                 .ToListAsync();
 
 
-            if (benhLys == null || !benhLys.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thông tin bệnh lý.");
-            }
-
             var bangGiaBenhLy = benhLys.Select(bl => new Request_HienThiBangGiaBenhLyDTO
             {
                 TenNhomBenh = bl.NhomBenh?.TenNhomBenh,
@@ -156,44 +151,42 @@ namespace PhongMachTu.Service
                 GiaThamKhao = bl.GiaThamKhao           
             }).ToList();
 
-            // Chuyển đổi kết quả sang JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(bangGiaBenhLy);
+    
 
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return bangGiaBenhLy;
         }
 
-        public async Task<ResponeMessage> HienThiChiTietBenhLy()
+        public async Task<Request_HienThiChiTietBenhLyDTO> HienThiChiTietBenhLy(int benhLyId)
         {
-            // Truy vấn danh sách bệnh lý từ repository, bao gồm thông tin nhóm bệnh
-            var benhLys = await _benhLyRepository
-                .Query() // Truy vấn từ repository
+            // Truy vấn thông tin bệnh lý từ repository, bao gồm thông tin nhóm bệnh
+            var benhLy = await _benhLyRepository
+                .Query()
                 .Include(bl => bl.NhomBenh) // Eager loading để lấy thông tin NhomBenh
-                .ToListAsync();
+                .FirstOrDefaultAsync(bl => bl.Id == benhLyId);
 
-            // Kiểm tra nếu không có dữ liệu
-            if (benhLys == null || !benhLys.Any())
+            if (benhLy == null)
             {
-                return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thông tin bệnh lý.");
+                throw new KeyNotFoundException("Không tìm thấy bệnh lý với ID được cung cấp.");
             }
 
-            // Ánh xạ dữ liệu từ danh sách bệnh lý sang DTO
-            var chiTietBenhLy = benhLys.Select(bl => new Request_HienThiChiTietBenhLyDTO
+            // Kiểm tra xem bệnh lý có liên kết với bất kỳ lịch khám nào
+            var isHaveAppointment = await _caKhamRepository
+                .Query()
+                .AnyAsync(ca => ca.BacSi != null && ca.BacSi.ChuyenMonId == benhLy.NhomBenhId);
+
+            // Ánh xạ dữ liệu từ bệnh lý sang DTO
+            var chiTietBenhLy = new Request_HienThiChiTietBenhLyDTO
             {
-                TenBenhLy = bl.TenBenhLy,
-                Images = bl.Images,
-                GiaThamKhao = bl.GiaThamKhao,
-                TrieuTrung = bl.TrieuTrung,
-                // Kiểm tra xem bệnh lý có liên kết với bất kỳ lịch khám nào
-                IsHaveAppointment = _caKhamRepository
-                    .Query()
-                    .Any(ca => ca.BacSi != null && ca.BacSi.ChuyenMonId == bl.NhomBenhId)
-            }).ToList();
+                TenBenhLy = benhLy.TenBenhLy,
+                Images = benhLy.Images,
+                GiaThamKhao = benhLy.GiaThamKhao,
+                TrieuTrung = benhLy.TrieuTrung,
+                IsHaveAppointment = isHaveAppointment
+            };
 
-            // Chuyển đổi kết quả sang JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(chiTietBenhLy);
-
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return chiTietBenhLy;
         }
+
 
 
     }
