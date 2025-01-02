@@ -13,6 +13,12 @@ import Doctor from "../pages/Customer/Doctor";
 import Register from "../pages/Other/Register/Register";
 import Login from "../pages/Other/Login";
 import LayoutCustomer from "../layouts/customerLayout";
+import ForgetPassword from "../pages/Other/ForgetPassword";
+import AccountInformation from "../pages/Customer/Account/AccountInformation";
+import UserRecordList from "../pages/Customer/MedicalRecord/UserRecordList";
+import DetailRecord from "../pages/Customer/MedicalRecord/DetailRecord";
+import ReviewPiceList from "../pages/Customer/Service/ReviewPriceList";
+import MedicalExamList from "../pages/Customer/Service/MedicalExamList";
 
 export default function MainRoutes() {
   return (
@@ -21,9 +27,15 @@ export default function MainRoutes() {
         {/* Layout khách hàng */}
         <Route path="/" element={<LayoutCustomer />}>
           <Route index element={<CustomerHome />} />
+          <Route path="review-price-list" element={<ReviewPiceList />} />
+          <Route path="medical-exam-list" element={<MedicalExamList />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="doctors" element={<Doctor />} />
+          <Route path="account" element={<AccountInformation />} />
+          <Route path="medical-record" element={<UserRecordList />} />
+          <Route path="medical" element={<DetailRecord />} />
         </Route>
 
         {/* Layout quản trị viên */}

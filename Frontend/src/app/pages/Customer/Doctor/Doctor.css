@@ -6,7 +6,7 @@
 }
 
 /* Phần giới thiệu bác sĩ */
-.doctor-section {
+.doctor-page .doctor-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,17 +15,17 @@
   gap: 20px;
 }
 
-.doctor-content {
+.doctor-page .doctor-content {
   flex: 1;
 }
 
-.doctor-title {
+.doctor-page .doctor-title {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.doctor-description {
+.doctor-page .doctor-description {
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.6;
@@ -33,24 +33,24 @@
   max-width: 600px;
 }
 
-.doctor-image {
+.doctor-page .doctor-image {
   flex: 1;
   text-align: center;
 }
 
-.doctor-image img {
+.doctor-page .doctor-image img {
   max-width: 100%;
   height: auto;
 }
 
 /* Hoạt họa phòng khám */
-.doctor-image .image {
+.doctor-page .doctor-image .image {
   width: 500px;
   height: 450px;
 }
 
 /* Phần bác sĩ nổi bật */
-.doctor-highlight {
+.doctor-page .doctor-highlight {
   text-align: center;
   margin-top: 50px;
   gap: 20px;
@@ -59,14 +59,14 @@
   height: fit-content;
 }
 
-.highlight-title {
+.doctor-page .highlight-title {
   font-size: 1.8rem;
   font-weight: bold;
   color: #000000;
   margin-bottom: 30px;
   text-transform: uppercase;
 }
-.highlight-title::after {
+.doctor-page .highlight-title::after {
   content: "";
   display: block;
   width: 150px; /* Chiều dài đường gạch */
@@ -74,7 +74,7 @@
   background-color: #fc5185; /* Màu đỏ */
   margin: 10px auto 0; /* Căn giữa */
 }
-.doctor-grid {
+.doctor-page .doctor-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;

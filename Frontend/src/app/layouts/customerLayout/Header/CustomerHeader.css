@@ -86,7 +86,6 @@
 /* Hiển thị menu con khi lướt chuột qua */
 .customer-header .nav-item.dropdown:hover .dropdown-menu {
   display: block;
-  /* Hiển thị menu con */
 }
 
 /* Ẩn menu con mặc định */
@@ -115,7 +114,6 @@
 .customer-header .dropdown-item {
   display: block;
   padding: 8px 15px;
-  width: 100px;
   color: #333;
   text-decoration: none;
   font-size: 14px;
@@ -136,4 +134,64 @@
   margin-top: 5px;
   color: inherit;
   /* Giữ màu sắc giống với chữ */
+}
+
+/* Đăng nhập thành công */
+
+/* Avatar */
+.customer-header .nav-item .avatar {
+  padding: 0px; /* Khoảng cách giữa avatar và viền */
+  margin: -2px;
+  border-radius: 50%; /* Bo tròn để tạo hình tròn */
+  border: 1px solid #ddd; /* Viền mỏng */
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+}
+
+.customer-header .nav-item .avatar:hover {
+  border-color: #348f6c; /* Màu viền thay đổi khi hover */
+}
+
+/* Dropdown menu */
+.customer-header .nav-item .login-menu {
+  display: block; /* Hiển thị menu */
+  position: absolute; /* Vị trí tuyệt đối để menu hiển thị dưới avatar */
+  top: 50px; /* Cách avatar 50px */
+  right: 0; /* Căn lề phải */
+  background-color: #fff; /* Nền trắng */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  border-radius: 8px; /* Bo góc */
+  list-style: none; /* Xóa dấu đầu dòng */
+  margin: 0;
+  padding: 10px 0;
+  z-index: 1000; /* Hiển thị trên các phần tử khác */
+  width: 180px; /* Độ rộng cố định */
+}
+
+/* Item trong menu */
+.customer-header .nav-item .login-item {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #333; /* Màu chữ */
+  text-decoration: none;
+  display: block; /* Căn chỉnh cho toàn bộ item */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.customer-header .nav-item .login-item:hover {
+  background-color: #fddde6; /* Nền hồng nhạt khi hover */
+  color: #ffa07a; /* Màu chữ hồng cam khi hover */
+}
+
+/* Xóa gạch chân trong link */
+.customer-header .nav-item .login-item a {
+  text-decoration: none;
+  color: inherit; /* Kế thừa màu chữ từ item cha */
+}
+
+/* Khi dropdown menu được mở */
+.customer-header .nav-item .login-menu.open {
+  display: block;
 }

@@ -4,11 +4,22 @@ const HEADERS = {
   "Content-Type": "application/json",
   accept: "application/json",
 };
+
+const getHeaders = () => {
+  const token = localStorage.getItem("jwtToken");
+  if (token === null) {
+    return HEADERS;
+  }
+  return {
+    ...HEADERS,
+    Authorization: `Bearer ${token}`,
+  };
+};
 const fetchGet = async (uri, onSuccess, onFail, onException) => {
   try {
     const res = await fetch(BE_ENPOINT + uri, {
       method: "GET",
-      headers: HEADERS,
+      headers: getHeaders(),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -25,7 +36,7 @@ const fetchPost = async (uri, reqData, onSuccess, onFail, onException) => {
   try {
     const res = await fetch(BE_ENPOINT + uri, {
       method: "POST",
-      headers: HEADERS,
+      headers: getHeaders(),
       body: JSON.stringify(reqData),
     });
     const data = await res.json();
@@ -44,7 +55,7 @@ const fetchDelete = async (uri, reqData, onSuccess, onFail, onException) => {
   try {
     const res = await fetch(BE_ENPOINT + uri, {
       method: "DELETE",
-      headers: HEADERS,
+      headers: getHeaders(),
       body: JSON.stringify(reqData),
     });
     const data = await res.json();
@@ -62,7 +73,7 @@ const fetchPut = async (uri, reqData, onSuccess, onFail, onException) => {
   try {
     const res = await fetch(BE_ENPOINT + uri, {
       method: "PUT",
-      headers: HEADERS,
+      headers: getHeaders(),
       body: JSON.stringify(reqData),
     });
     const data = await res.json();
