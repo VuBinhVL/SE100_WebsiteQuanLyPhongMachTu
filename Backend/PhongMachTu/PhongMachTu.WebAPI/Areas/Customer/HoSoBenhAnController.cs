@@ -22,7 +22,7 @@ namespace PhongMachTu.WebAPI.Areas.Customer
             try
             {
                 var rs = await _hoSoBenhAnService.HienThiHoSoBenhAnAsync(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

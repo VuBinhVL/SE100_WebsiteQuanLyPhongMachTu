@@ -25,9 +25,9 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DeleteNhanVienByIdAsync(int? id);
         Task<NguoiDung> GetNhanVienByIdAsync(int? id);
         Task<ResponeMessage> PhanQuyenAsync(Request_PhanQuyenDTO data);
-        Task<ResponeMessage> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext);
-        Task<ResponeMessage> HienThiFormSuaThongTinCaNhan(HttpContext httpContext);
-        Task<ResponeMessage>  HienThiDanhSachNhanVien();
+        Task<Request_HienThiThongTinCaNhanBenAdminDTO> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext);
+        Task<Request_HienThiFormSuaThongTinCaNhanDTO> HienThiFormSuaThongTinCaNhan(HttpContext httpContext);
+        Task<IEnumerable<NguoiDung>>  HienThiDanhSachNhanVien();
     }
 
     public class NhanVienService : INhanVienService
@@ -227,13 +227,10 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin nhân viên thành công");
         }
 
-        public async Task<ResponeMessage> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext)
+        public async Task<Request_HienThiThongTinCaNhanBenAdminDTO> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext)
         {
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
-            if (nguoiDung == null)
-            {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
-            }
+         
             var vaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
            
 
@@ -249,18 +246,14 @@ namespace PhongMachTu.Service
                 NgaySinh = nguoiDung.NgaySinh,
                 DiaChi = nguoiDung.DiaChi
             };
-            // Chuyển đổi đối tượng thành JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+        
+            return rs;
         }
 
-        public async Task<ResponeMessage> HienThiFormSuaThongTinCaNhan(HttpContext httpContext)
+        public async Task<Request_HienThiFormSuaThongTinCaNhanDTO> HienThiFormSuaThongTinCaNhan(HttpContext httpContext)
         {
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
-            if (nguoiDung == null)
-            {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
-            }
+     
             var vaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
 
 
@@ -277,25 +270,16 @@ namespace PhongMachTu.Service
                 DiaChi = nguoiDung.DiaChi,
                 MatKhau = nguoiDung.MatKhau
             };
-            // Chuyển đổi đối tượng thành JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+
+  
+            return rs;
 
         }
 
-        public async Task<ResponeMessage> HienThiDanhSachNhanVien()
+        public async Task<IEnumerable<NguoiDung>> HienThiDanhSachNhanVien()
         {
-            var nhanViens = await _nguoiDungRepository.GetNhanViensWithChuyenMonAsync();
-
-            if (nhanViens == null || !nhanViens.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không có nhân viên nào được tìm thấy.");
-            }
-
-         
-
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(nhanViens);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            var nhanViens = await _nguoiDungRepository.GetNhanViensWithChuyenMonAsync();        
+            return nhanViens;
         }
 
     }

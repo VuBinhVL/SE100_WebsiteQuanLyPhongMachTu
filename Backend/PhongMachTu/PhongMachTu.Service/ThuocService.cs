@@ -18,7 +18,7 @@ namespace PhongMachTu.Service
             Task<List<Thuoc>> GetAllAsync();
             Task<Thuoc> GetByIdAsync(int id);
             Task<ResponeMessage> UpdateThuoc(Request_UpdateThuocDTO? request);
-        Task<ResponeMessage> HienThiDanhSachThuoc();
+        Task<IEnumerable<Thuoc>> HienThiDanhSachThuoc();
         }
 
         public class ThuocService : IThuocService
@@ -84,12 +84,12 @@ namespace PhongMachTu.Service
                     return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin thuốc thành công");
                 }
 
-        public async Task<ResponeMessage> HienThiDanhSachThuoc()
+        public async Task<IEnumerable<Thuoc>> HienThiDanhSachThuoc()
         {
             var thuocs = await _thuocRepository.GetAllAsync();
         
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(thuocs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+           
+            return thuocs;
         }
     }
     }

@@ -126,7 +126,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _nhanVienService.HienThiThongTinCaNhanBenAdmin(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
@@ -139,7 +139,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _nhanVienService.HienThiFormSuaThongTinCaNhan(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
@@ -152,7 +152,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _nhanVienService.HienThiDanhSachNhanVien();
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

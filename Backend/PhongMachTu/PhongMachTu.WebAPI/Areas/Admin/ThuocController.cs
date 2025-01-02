@@ -61,7 +61,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _thuocService.HienThiDanhSachThuoc();
-                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+               return Ok(rs);
             }
             catch (Exception ex)
             {

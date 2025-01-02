@@ -12,7 +12,7 @@ namespace PhongMachTu.Service
 {
     public interface IPhieuKhamBenhService
     {
-        Task<ResponeMessage> GetListPhieuKhamBenhDTOsAsync();
+        Task<IEnumerable<PhieuKhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync();
     }
     public class PhieuKhamBenhService : IPhieuKhamBenhService
     {
@@ -21,19 +21,11 @@ namespace PhongMachTu.Service
         {
             _phieuKhamBenhRepository = phieuKhamBenhRepository;
         }
-        public async Task<ResponeMessage> GetListPhieuKhamBenhDTOsAsync()
+        public async Task<IEnumerable<PhieuKhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync()
         {
             var listPhieuKhamBenh = await _phieuKhamBenhRepository.GetListPhieuKhamBenhDTOsAsync();
-            if (listPhieuKhamBenh == null || !listPhieuKhamBenh.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy danh sách phiếu khám bệnh.");
-            }
 
-            // Chuyển đổi danh sách trực tiếp sang JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(listPhieuKhamBenh);
-
-            // Trả về ResponeMessage với dữ liệu JSON
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return listPhieuKhamBenh;
         }
 
     }

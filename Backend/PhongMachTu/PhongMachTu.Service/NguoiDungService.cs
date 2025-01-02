@@ -26,7 +26,7 @@ namespace PhongMachTu.Service
         Task<Respone_Login> LoginAsync(Request_LoginDTO data);
         Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext);
         Task<ResponeMessage> ForgotPasswordAsync(Request_ForgotPasswordDTO data);
-        Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
+        Task<Request_HienThiThongTinNguoiDungDTO> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
         
     }
 
@@ -160,13 +160,10 @@ namespace PhongMachTu.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext)
+        public async Task<Request_HienThiThongTinNguoiDungDTO> HienThiThongTinNguoiDungAsync(HttpContext httpContext)
         {
             var nguoiDung = await GetNguoiDungByHttpContext(httpContext);
-            if (nguoiDung == null)
-            {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
-            }
+
             var rs = new Request_HienThiThongTinNguoiDungDTO()
             {
                 TenNguoiDung = nguoiDung.HoTen,
@@ -176,12 +173,11 @@ namespace PhongMachTu.Service
                 NgaySinh = nguoiDung.NgaySinh,
                 DiaChi = nguoiDung.DiaChi
             };
-            // Chuyển đổi đối tượng thành JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
-        }
 
-       
+            return rs;
+
+
+        }
     }
 }
 
