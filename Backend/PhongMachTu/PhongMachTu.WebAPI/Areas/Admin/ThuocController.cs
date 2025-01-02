@@ -16,19 +16,19 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             _thuocService = thuocService;
         }
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            try
-            {
-                var rs = await _thuocService.GetAllAsync();
-                return StatusCode(HttpStatusCode.Ok, rs);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
-            }
-        }
+        //[HttpGet("")]
+        //public async Task<IActionResult> GetAllAsync()
+        //{
+        //    try
+        //    {
+        //        var rs = await _thuocService.GetAllAsync();
+        //        return StatusCode(HttpStatusCode.Ok, rs);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+        //    }
+        //}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -55,7 +55,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-        [HttpGet("hien-thi-danh-sach-thuoc")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiDanhSachThuocAsync()
         {
             try

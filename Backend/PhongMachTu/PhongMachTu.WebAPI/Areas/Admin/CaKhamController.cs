@@ -16,24 +16,24 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             _caKhamService = caKhamService;
         }
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            var rs = await _caKhamService.GetAllAsync();
-            if (!rs.Any())
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new { message = "Không có dữ liệu" });
-            }
+        //[HttpGet("")]
+        //public async Task<IActionResult> GetAllAsync()
+        //{
+        //    var rs = await _caKhamService.GetAllAsync();
+        //    if (!rs.Any())
+        //    {
+        //        return StatusCode(StatusCodes.Status404NotFound, new { message = "Không có dữ liệu" });
+        //    }
 
-            return StatusCode(StatusCodes.Status200OK, rs);
-        }
+        //    return StatusCode(StatusCodes.Status200OK, rs);
+        //}
         [HttpPost("add")]
         public async Task<IActionResult> AddCaKhamAsync(Request_AddCaKhamDTO? request)
         {
             var rs = await _caKhamService.AddCaKham(request);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
-        [HttpGet("getbyid")]
+        [HttpGet("detail")]
         public async Task<IActionResult> GetCaKhamByIdAsync(int? id)
         {
             var rs = await _caKhamService.GetByIdAsync(id ?? -1);
@@ -56,7 +56,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             var rs = await _caKhamService.DeleteCaKham(id ?? -1);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
-        [HttpGet("hien-thi-danh-sach-ca-kham")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiDanhSachCaKhamPhiaAdminAsync()
         {
             try

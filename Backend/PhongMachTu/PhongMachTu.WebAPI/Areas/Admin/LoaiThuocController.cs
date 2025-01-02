@@ -39,7 +39,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         }
 
 
-        [HttpGet("getbyid")]
+        [HttpGet("detail")]
         public async Task<IActionResult> GetLoaiThuocByIdAsync(int? id)
         {
             var rs = await _loaiThuocService.GetByIdAsync(id ?? -1);

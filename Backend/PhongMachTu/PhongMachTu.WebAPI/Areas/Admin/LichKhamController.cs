@@ -14,7 +14,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             _lichKhamService = lichkhamService;
         }
-        [HttpGet("hien-thi-danh-sach-lich-kham")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiDanhSachLichKhamPhiaAdminAsync()
         {
             var rs = await _lichKhamService.HienThiDanhSachLichKhamPhiaAdmin();
