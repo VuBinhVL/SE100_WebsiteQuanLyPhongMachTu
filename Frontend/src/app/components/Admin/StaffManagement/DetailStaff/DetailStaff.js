@@ -220,6 +220,10 @@ export default function DetailStaff(props) {
             }
         );
     }
+    const handleClsoe = () => {
+        setEditStatus(false);
+    }
+
     const idModal = `idModal${item.id}`;
     const idspecificModal = `#idModal${item.id}`;
     // console.log(">>>>>>>.check DataForm", dataForm)
@@ -235,7 +239,7 @@ export default function DetailStaff(props) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title fs-4" id="staticBackdropLabel">{editStatus ? "Edit staff" : "Detail staff"}</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleEditInformation}></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClsoe}></button>
                         </div>
                         <div className="modal-body d-flex justify-content-center">
                             <form className="me-5 w-75">
