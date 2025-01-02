@@ -19,7 +19,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         [HttpGet("")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var rs = await _caKhamService.GetCaKhamDaDangKyAsync();
+            var rs = await _caKhamService.GetAllAsync();
             if (!rs.Any())
             {
                 return StatusCode(StatusCodes.Status404NotFound, new { message = "Không có dữ liệu" });
