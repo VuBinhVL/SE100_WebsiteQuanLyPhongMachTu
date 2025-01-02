@@ -74,7 +74,7 @@ export default function Staff() {
         // Lọc theo chuyên môn
         if (filterValue !== "DEFAULT" && filterValue !== "Tất cả") {
             filteredList = filteredList.filter(
-                (item) => item.tenChuyenMon === filterValue
+                (item) => item.chuyenMon.tenNhomBenh === filterValue
             );
         }
 
@@ -90,7 +90,9 @@ export default function Staff() {
 
         setListStaffShow(filteredList);
     };
-
+    console.log(">>>>>>>>>check list Staff", listStaff);
+    console.log(">>>>>>>>>>>>Check list staff show", listStaffShow);
+    console.log(">>>>>>>>>>>>Check list specialization", listSpecialization);
     return (
         <div className="Staff_Management">
             <div className="title py-3 fs-5 mb-2">
@@ -146,7 +148,7 @@ export default function Staff() {
                                     <td>{item.hoTen}</td>
                                     <td>{item.gioiTinh}</td>
                                     <td>{item.soDienThoai}</td>
-                                    <td>{item.tenChuyenMon}</td>
+                                    <td>{item.chuyenMon.tenNhomBenh}</td>
                                     <td>
                                         <div className="list_Action">
                                             <FaUserShield className="icon_authorise icon_action" />
