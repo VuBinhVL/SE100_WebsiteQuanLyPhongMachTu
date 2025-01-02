@@ -143,8 +143,10 @@
   padding: 0px; /* Khoảng cách giữa avatar và viền */
   margin: -2px;
   border-radius: 50%; /* Bo tròn để tạo hình tròn */
-  border: 2px solid #ddd; /* Viền mỏng */
+  border: 1px solid #ddd; /* Viền mỏng */
   cursor: pointer;
+  width: 35px;
+  height: 35px;
 }
 
 .customer-header .nav-item .avatar:hover {

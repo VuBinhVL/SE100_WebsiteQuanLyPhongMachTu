@@ -46,7 +46,11 @@ export default function Account() {
             <span>Chỉnh sửa thông tin</span>
           </button>
           <div className="avatar-wrapper">
-            <img src={Anh} alt="Avatar" className="account-avatar" />
+            <img
+              src="https://vwu.vn/documents/20182/3458479/28_Feb_2022_115842_GMTbsi_thuhien.jpg/c04e15ea-fbe4-415f-bacc-4e5d4cc0204d"
+              alt="Avatar"
+              className="account-avatar"
+            />
             {isEditing && <button className="change-photo">Chọn ảnh</button>}
           </div>
         </div>

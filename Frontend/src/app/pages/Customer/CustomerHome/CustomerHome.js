@@ -9,45 +9,38 @@ import Urgent from "../../../assets/images/urgent.png";
 import Serive_24_7 from "../../../assets/images/24_7.png";
 import Clinic from "../../../assets/images/clinic2.png";
 import Clinic2 from "../../../assets/images/clinic3.png";
+import TieuHoa from "../../../assets/images/tieuhoa.png";
+import TimMach from "../../../assets/images/timmach.png";
+import HoHap from "../../../assets/images/hohap.png";
+import DaLieu from "../../../assets/images/dalieu.png";
 import "./CustomerHome.css";
 import "../../../styles/index.css";
 
 // Phần danh sách các bệnh điều trị
 const diseaseCardsData = [
   {
+    img: TimMach,
     title: "Tim mạch",
     description:
       "Chúng tôi cung cấp dịch vụ chăm sóc sức khỏe tim mạch chuyên sâu với đội ngũ bác sĩ giàu kinh nghiệm.",
   },
   {
-    icon: Meeting,
+    img: HoHap,
     title: "Hô hấp",
     description:
       "Chăm sóc các bệnh về đường hô hấp với các giải pháp hiện đại và hiệu quả nhất.",
   },
   {
-    icon: Urgent,
+    img: TieuHoa,
     title: "Tiêu hóa",
     description:
       "Đội ngũ chuyên gia sẵn sàng hỗ trợ bạn trong việc chăm sóc sức khỏe tiêu hóa.",
   },
   {
-    icon: Serive_24_7,
-    title: "Nhi khoa",
-    description:
-      "Dịch vụ chăm sóc sức khỏe toàn diện cho trẻ em với sự tận tâm và yêu thương.",
-  },
-  {
-    icon: Clinic,
+    img: DaLieu,
     title: "Da liễu",
     description:
       "Chuyên gia da liễu sẽ giúp bạn giải quyết mọi vấn đề liên quan đến sức khỏe làn da.",
-  },
-  {
-    icon: Meeting,
-    title: "Sức khỏe tâm thần",
-    description:
-      "Hỗ trợ chăm sóc và điều trị các vấn đề về sức khỏe tâm thần một cách tận tình.",
   },
 ];
 
@@ -184,7 +177,7 @@ export default function CustomerHome() {
           {diseaseCardsData.map((card, index) => (
             <DiseaseCard
               key={index}
-              icon={card.icon}
+              img={card.img}
               title={card.title}
               description={card.description}
             />

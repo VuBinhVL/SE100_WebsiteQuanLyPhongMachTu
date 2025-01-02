@@ -1,29 +1,124 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExamCard from "../../../../components/Customer/Service/ExamCard"; // Component bạn đã tạo
 import "./MedicalExamList.css";
 import Anh from "../../../../assets/images/clinic1.png";
 import SearchIcon from "../../../../assets/icons/icon-search.png";
-
+import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
+import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
+import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import { showYesNoMessageBox } from "../../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox";
 export default function MedicalExamList() {
   const [currentPage, setCurrentPage] = useState(1);
   const examsPerPage = 8; // Số lượng ca khám trên mỗi trang
+  const [examList, setExamList] = useState([]); // Danh sách ca khám
+  const [selectedDay, setSelectedDay] = useState("Tất cả");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Dữ liệu giả lập danh sách ca khám
-  const examList = Array.from({ length: 18 }, (_, index) => ({
-    id: index + 1,
-    doctorName: "TS.BS Nguyễn Văn A",
-    group: "Tim mạch",
-    time: "14:30-16:30",
-    date: "Thứ 2 ngày 09/12/2024",
-    image:
-      "https://img.freepik.com/premium-vector/doctor-icon-avatar-white_136162-58.jpg",
-  }));
+  //Gọi API lấy danh sách ca khám
+  useEffect(() => {
+    const uri = "/api/admin/quan-li-ca-kham";
+    fetchGet(
+      uri,
+      (data) => {
+        console.log(typeof data);
 
+        // Lọc các ca khám có BacSiID khác null
+        const filteredData = data.filter((exam) => exam.bacSiId !== null);
+        console.log(filteredData);
+        setExamList(filteredData); // Cập nhật danh sách ca khám
+      },
+      (error) => {
+        showErrorMessageBox(error);
+      },
+      () => {
+        showErrorMessageBox("Không thể kết nối đến server");
+      }
+    );
+  }, []);
+
+  //Định dạng ngày khám
+  function formatDate(dateString) {
+    const daysOfWeek = [
+      "Chủ nhật",
+      "Thứ 2",
+      "Thứ 3",
+      "Thứ 4",
+      "Thứ 5",
+      "Thứ 6",
+      "Thứ 7",
+    ];
+
+    const date = new Date(dateString);
+    const dayOfWeek = daysOfWeek[date.getDay()]; // Lấy thứ trong tuần
+    const day = date.getDate().toString().padStart(2, "0"); // Lấy ngày
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Lấy tháng
+    const year = date.getFullYear(); // Lấy năm
+
+    return `${dayOfWeek} ngày ${day}/${month}/${year}`;
+  }
+
+  // Hàm xử lý khi tìm kiếm
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Hàm xử lý khi thay đổi ngày
+  const handleDayChange = (e) => {
+    setSelectedDay(e.target.value);
+  };
+  // Lọc danh sách ca khám
+  const filteredExams = examList.filter((exam) => {
+    const query = searchQuery.toLowerCase();
+    //const doctorMatch = exam.doctorName.toLowerCase().includes(query);
+    //const groupMatch = exam.group.toLowerCase().includes(query);
+
+    const daysOfWeek = [
+      "Chủ nhật",
+      "Thứ 2",
+      "Thứ 3",
+      "Thứ 4",
+      "Thứ 5",
+      "Thứ 6",
+      "Thứ 7",
+    ];
+    const examDate = new Date(exam.ngayKham); // Chuyển ngày khám thành Date object
+    const examDay = daysOfWeek[examDate.getDay()]; // Lấy tên ngày từ ngày khám
+
+    const dayMatch = selectedDay === "Tất cả" || examDay === selectedDay;
+
+    //return (doctorMatch || groupMatch) && dayMatch;
+    return dayMatch;
+  });
+
+  //Đăng ký ca khám
+  function registerExam(caKhamId) {
+    const uri = "/api/quan-li-ca-kham/dang-ky"; // Đường dẫn API
+    const body = { caKhamId }; // Payload phải chứa trường "caKhamId"
+
+    fetchPost(
+      uri,
+      body,
+      (response) => {
+        // Xử lý khi đăng ký thành công
+        showSuccessMessageBox("Đăng ký thành công ca khám!");
+      },
+      (error) => {
+        // Xử lý khi có lỗi xảy ra
+        showErrorMessageBox(error.message || "Đăng ký thất bại.");
+      },
+      () => {
+        // Xử lý khi không thể kết nối đến server
+        showErrorMessageBox("Không thể kết nối đến server.");
+      }
+    );
+  }
+
+  // Phân trang
   const indexOfLastExam = currentPage * examsPerPage;
   const indexOfFirstExam = indexOfLastExam - examsPerPage;
-  const currentExams = examList.slice(indexOfFirstExam, indexOfLastExam);
+  const currentExams = filteredExams.slice(indexOfFirstExam, indexOfLastExam);
 
-  const totalPages = Math.ceil(examList.length / examsPerPage);
+  const totalPages = Math.ceil(filteredExams.length / examsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -51,7 +146,7 @@ export default function MedicalExamList() {
       {/* Phần danh    */}
       <div className="medical-exam-list-highlight">
         <h2 className="medical-exam-list-highlight-title">
-          Danh sách các ca khám đang mở
+          Danh sách các ca khám đang mở trong tuần
         </h2>
         {/* Tìm kiếm và lọc */}
         <div className="filter-section">
@@ -60,11 +155,17 @@ export default function MedicalExamList() {
               type="text"
               className="search-bar"
               placeholder="Nhập tên bác sĩ, nhóm bệnh để tìm kiếm"
+              value={searchQuery} // Liên kết state
+              onChange={handleSearchChange} // Gọi hàm khi người dùng nhập
             />
             <img src={SearchIcon} alt="Tìm kiếm" className="search-icon" />
           </div>
 
-          <select className="day-filter">
+          <select
+            className="day-filter"
+            value={selectedDay}
+            onChange={handleDayChange}
+          >
             <option value="Tất cả">Tất cả</option>
             <option value="Thứ 2">Thứ 2</option>
             <option value="Thứ 3">Thứ 3</option>
@@ -78,15 +179,16 @@ export default function MedicalExamList() {
 
         {/* Danh sách các ca khám */}
         <div className="medical-exam-list-grid">
-          {currentExams.map((exam) => (
+          {filteredExams.map((exam) => (
             <ExamCard
               key={exam.id}
-              group={exam.group}
-              doctorName={exam.doctorName}
-              time={exam.time}
-              date={exam.date}
-              image={exam.image}
-              onRegister={() => alert(`Đăng ký ca khám ${exam.id}`)}
+              group="Tim mạch"
+              doctorName="Thanh Trúc"
+              starttime={exam.thoiGianBatDau.slice(0, 5)} // Cắt chỉ lấy HH:mm
+              endtime={exam.thoiGianKetThuc.slice(0, 5)} // Cắt chỉ lấy HH:mm
+              date={formatDate(exam.ngayKham)} // Định dạng ngày
+              image="https://vwu.vn/documents/20182/3458479/28_Feb_2022_115842_GMTbsi_thuhien.jpg/c04e15ea-fbe4-415f-bacc-4e5d4cc0204d" // Ảnh bác sĩ
+              onRegister={() => registerExam(exam.id)} // Gọi API với exam.id làm "caKhamId"
             />
           ))}
         </div>

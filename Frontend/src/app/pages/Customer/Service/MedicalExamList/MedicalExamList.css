@@ -78,9 +78,11 @@
 /* CSS danh sách ca khám */
 .medical-exam-list-page .medical-exam-list-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr); /* Hiển thị 4 cột cố định */
+  gap: 20px; /* Khoảng cách giữa các ô */
   padding: 20px;
+  justify-content: center; /* Canh giữa các cột */
+  align-items: start; /* Canh đều các ô theo chiều dọc */
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

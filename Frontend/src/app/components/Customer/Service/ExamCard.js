@@ -5,7 +5,8 @@ import "./ExamCard.css";
 export default function ExamCard({
   group,
   doctorName,
-  time,
+  starttime,
+  endtime,
   date,
   image,
   onRegister,
@@ -17,9 +18,13 @@ export default function ExamCard({
       </div>
       <div className="exam-card-body">
         <img src={image} alt="Bác sĩ" className="exam-image" />
-        <p className="exam-doctor">{doctorName}</p>
-        <p className="exam-time">Thời gian khám: {time}</p>
-        <p className="exam-date">{date}</p>
+        <p className="exam-doctor">Bác sĩ: {doctorName}</p>
+        <p className="exam-time">
+          <b>Thời gian khám:</b> {starttime} - {endtime}
+        </p>
+        <p className="exam-date">
+          <b>{date}</b>
+        </p>
       </div>
       <div className="exam-card-footer">
         <button className="exam-register-button" onClick={onRegister}>
