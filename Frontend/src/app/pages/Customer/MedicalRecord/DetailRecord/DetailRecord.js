@@ -1,7 +1,12 @@
 import { React, useState } from "react";
+import MedicalImaging from "../MedicalImaging/MedicalImaging"; // Component Popup ảnh chụp chiếu
 import "./DetailRecord.css";
 
 export default function DetailRecord() {
+  const [isPopupVisible, setIsPopupVisible] = useState(false); // Quản lý trạng thái popup
+  const handleOpenPopup = () => {
+    setIsPopupVisible(true); // Hiển thị popup
+  };
   // Tính toán các chỉ số phân trang
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const recordsPerPage = 2; // Số bệnh lý trên mỗi trang
@@ -62,6 +67,7 @@ export default function DetailRecord() {
                     class="btn btn-success  "
                     data-toggle="tooltip"
                     title="Xem chi tiết bệnh lý khám"
+                    onClick={handleOpenPopup} // Mở popup khi nhấn
                   >
                     Chi tiết khám
                   </button>
@@ -94,6 +100,9 @@ export default function DetailRecord() {
           </button>
         ))}
       </div>
+
+      {/* Hiển thị popup nếu trạng thái bật */}
+      {isPopupVisible && <MedicalImaging />}
     </div>
   );
 }

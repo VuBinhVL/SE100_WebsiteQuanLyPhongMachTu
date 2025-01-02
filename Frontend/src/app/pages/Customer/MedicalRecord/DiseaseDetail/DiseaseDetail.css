@@ -6,7 +6,6 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  font-family: Arial, sans-serif;
 }
 
 /* Header của popup */
@@ -27,9 +26,6 @@
 }
 
 .disease-detail-popup .popup-close {
-  position: absolute; /* Đặt nút đóng ở góc phải */
-  right: 15px;
-  top: 15px;
   background: none;
   border: none;
   color: #ffffff;
@@ -40,7 +36,6 @@
 /* Section trong popup */
 .disease-detail-popup .popup-section {
   padding: 20px;
-  border-bottom: 1px solid #ddd;
 }
 
 .disease-detail-popup .section-title {
