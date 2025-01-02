@@ -3,20 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "../Header/CustomerHeader.css";
 import logo from "../../../assets/images/clinic_logo.png";
 import avatar from "../../../assets/icons/user.png";
-
+import { sIsLoggedIn } from "../../../../store";
 export default function CustomerHeader() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Trạng thái dropdown mở/đóng
   const navigate = useNavigate();
-  let [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem("user") !== null) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
+  const isLoggedInValue = sIsLoggedIn.use();
   const handleLogout = () => {
-    localStorage.removeItem("user"); // Xóa thông tin người dùng
-    setIsLoggedIn(false); // Cập nhật trạng thái đăng xuất
+    localStorage.removeItem("jwtToken"); // Xóa thông tin người dùng
+    sIsLoggedIn.set(false);
     setIsDropdownOpen(false); // Đóng dropdown
     navigate("/login"); // Chuyển hướng về trang login
   };
@@ -61,7 +55,7 @@ export default function CustomerHeader() {
               Bài viết
             </Link>
           </li>
-          {isLoggedIn ? (
+          {isLoggedInValue ? (
             // Khi đã đăng nhập, hiển thị avatar và dropdown
             <li className="nav-item">
               <img

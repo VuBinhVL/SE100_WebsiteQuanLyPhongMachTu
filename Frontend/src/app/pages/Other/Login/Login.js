@@ -10,7 +10,7 @@ import nurseIcon from "../../../assets/images/nurse.png"; // Biểu tượng y t
 import { fetchPost } from "../../../lib/httpHandler";
 import "../../../styles/index.css";
 import "./Login.css";
-
+import { sIsLoggedIn } from "../../../../store";
 export default function Login() {
   const [tenTaiKhoan, setTenTaiKhoan] = useState("");
   const [matKhau, setMatKhau] = useState("");
@@ -31,7 +31,8 @@ export default function Login() {
         } else {
           navigate("/admin");
         }
-        localStorage.setItem("user", JSON.stringify(sus));
+        sIsLoggedIn.set(true);
+        localStorage.setItem("jwtToken", sus.token);
       },
       (fail) => {
         showErrorMessageBox(fail.message);
