@@ -33,14 +33,14 @@ export default function CustomerHeader() {
             <a className="nav-link">Dịch vụ</a>
             <ul className="dropdown-menu">
               <li>
-                <a href="/medical-exam-list" className="dropdown-item">
+                <Link to="/medical-exam-list" className="dropdown-item">
                   Đăng kí khám
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/review-price-list" className="dropdown-item">
+                <Link to="/review-price-list" className="dropdown-item">
                   Bảng giá dịch vụ khám
-                </a>
+                </Link>
               </li>
             </ul>
           </li>
@@ -59,7 +59,7 @@ export default function CustomerHeader() {
             // Khi đã đăng nhập, hiển thị avatar và dropdown
             <li className="nav-item">
               <img
-                src="https://vwu.vn/documents/20182/3458479/28_Feb_2022_115842_GMTbsi_thuhien.jpg/c04e15ea-fbe4-415f-bacc-4e5d4cc0204d"
+                src="https://photo.znews.vn/w660/Uploaded/gtnzjz/2019_05_30/IMG_0606.jpg"
                 alt="Avatar"
                 className="avatar"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}

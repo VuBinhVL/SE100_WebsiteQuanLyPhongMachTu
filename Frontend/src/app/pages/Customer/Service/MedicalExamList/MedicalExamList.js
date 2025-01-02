@@ -16,7 +16,7 @@ export default function MedicalExamList() {
 
   //Gọi API lấy danh sách ca khám
   useEffect(() => {
-    const uri = "/api/admin/quan-li-ca-kham";
+    const uri = "/api/quan-li-ca-kham/hien-thi-ca-kham-da-dang-ky";
     fetchGet(
       uri,
       (data) => {
@@ -98,6 +98,7 @@ export default function MedicalExamList() {
     fetchPost(
       uri,
       body,
+      console.log(body),
       (response) => {
         // Xử lý khi đăng ký thành công
         showSuccessMessageBox("Đăng ký thành công ca khám!");
@@ -182,13 +183,13 @@ export default function MedicalExamList() {
           {filteredExams.map((exam) => (
             <ExamCard
               key={exam.id}
-              group="Tim mạch"
-              doctorName="Thanh Trúc"
+              group={exam.tenChuyenMon} // Nhóm bệnh
+              doctorName={exam.tenBacSi}
               starttime={exam.thoiGianBatDau.slice(0, 5)} // Cắt chỉ lấy HH:mm
               endtime={exam.thoiGianKetThuc.slice(0, 5)} // Cắt chỉ lấy HH:mm
               date={formatDate(exam.ngayKham)} // Định dạng ngày
-              image="https://vwu.vn/documents/20182/3458479/28_Feb_2022_115842_GMTbsi_thuhien.jpg/c04e15ea-fbe4-415f-bacc-4e5d4cc0204d" // Ảnh bác sĩ
-              onRegister={() => registerExam(exam.id)} // Gọi API với exam.id làm "caKhamId"
+              image={exam.image} // Ảnh bác sĩ
+              onRegister={() => registerExam(5)} // Gọi API với exam.id làm "caKhamId"
             />
           ))}
         </div>

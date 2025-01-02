@@ -30,7 +30,8 @@
 }
 
 .medical-record-card .record-id,
-.record-date {
+.medical-record-card .record-date,
+.medical-record-card .record-disease-type {
   font-size: 14px;
   color: #333;
   margin: 5px 0px 5px 5px;

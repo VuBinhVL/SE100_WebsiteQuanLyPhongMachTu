@@ -1,32 +1,58 @@
-import React, { useState } from "react";
+import { React, useEffect, useState } from "react";
 import Anh from "../../../../assets/images/clinic1.png";
 import pencil from "../../../../assets/icons/pencil.png";
 import "./AccountInformation.css";
 import InputField from "../../../../components/Customer/Account/AccountTextBox"; // Component Textbox
 import Button from "../../../../components/Customer/Account/AccountButton"; // Component Button
 import ChangePassword from "../ChangePassword/ChangePassword"; //  ChangePassword
+import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // ErrorMessageBox
+import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox"; // ErrorMessageBox
+import { fetchGet } from "../../../../lib/httpHandler"; // API
 
-export default function Account() {
+export default function AccountInformation() {
   const [isEditing, setIsEditing] = useState(false); // Trạng thái chỉnh sửa
   const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái hiển thị popup
+  const [information, setInformation] = useState(); // Trạng thái thông tin tài khoản
 
+  //Gọi API lấy thông tin tài khoản
+  useEffect(() => {
+    const uri = "/api/quan-li-thong-tin-ca-nhan/hien-thi-thong-tin-ca-nhan";
+    fetchGet(
+      uri,
+      (data) => {
+        console.log(data);
+        setInformation(data); // Cập nhật danh sách bác sĩ
+      },
+      (error) => {
+        showErrorMessageBox(error);
+      },
+      () => {
+        showErrorMessageBox("Không thể kết nối đến server");
+      }
+    );
+  }, []);
+  //Nút chỉnh sửa thông tin
   const handleEdit = () => {
     setIsEditing(true); // Kích hoạt chế độ chỉnh sửa
   };
 
+  //Nút hủy chỉnh sửa
   const handleCancel = () => {
     setIsEditing(false); // Quay lại trạng thái không chỉnh sửa
   };
 
+  //Nút lưu thông tin
   const handleSave = () => {
     console.log("Thông tin đã được lưu!");
     setIsEditing(false); // Quay lại trạng thái không chỉnh sửa
   };
 
+  //Mở popup đổi mật khẩu
   const handleOpenPopup = () => {
     setIsPopupOpen(true); // Mở popup
   };
 
+  //Đóng popup đổi mật khẩu
   const handleClosePopup = () => {
     setIsPopupOpen(false); // Đóng popup
   };
@@ -47,7 +73,7 @@ export default function Account() {
           </button>
           <div className="avatar-wrapper">
             <img
-              src="https://vwu.vn/documents/20182/3458479/28_Feb_2022_115842_GMTbsi_thuhien.jpg/c04e15ea-fbe4-415f-bacc-4e5d4cc0204d"
+              src="https://photo.znews.vn/w660/Uploaded/gtnzjz/2019_05_30/IMG_0606.jpg"
               alt="Avatar"
               className="account-avatar"
             />

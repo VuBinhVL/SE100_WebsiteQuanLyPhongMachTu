@@ -1,62 +1,77 @@
-import React, { useState } from "react";
+import { React, useState } from "react";
 import "./DetailRecord.css";
-import { useParams } from "react-router-dom";
 
 export default function DetailRecord() {
-  const { recordId } = useParams(); // Lấy mã hồ sơ từ URL
-
-  const [records] = useState([
+  // Tính toán các chỉ số phân trang
+  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+  const recordsPerPage = 2; // Số bệnh lý trên mỗi trang
+  const records = [
     {
-      id: "1",
+      id: 1,
       doctorName: "Trần Thanh Trúc",
-      group: "Tim mạch",
+      disease: "Cao huyết áp",
       date: "20/12/2024",
-      total: "150.000",
+      total: "190.000 đ",
     },
     {
-      id: "2",
-      doctorName: "Nguyễn Văn A",
-      group: "Hô hấp",
+      id: 2,
+      doctorName: "Trần Thanh Trúc",
+      disease: "Rối loạn nhịp tim",
       date: "20/12/2024",
-      total: "200.000",
+      total: "150.000 đ",
     },
-  ]);
+  ];
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
+  const totalPages = Math.ceil(records.length / recordsPerPage);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="detail-record-page">
-      {/* Header */}
       <div className="detail-record-header">
-        <h2 className="detail-record-title">
-          HỒ SƠ BỆNH ÁN: <span className="record-id">{recordId}</span>
-        </h2>
+        <h2 className="detail-record-title">HỒ SƠ BỆNH ÁN: HS001</h2>
       </div>
 
-      {/* Bảng chi tiết hồ sơ */}
-      <div className="detail-record-table-container">
+      {/* Danh sách các bệnh lý gặp phải */}
+      <div className="detail-record-container">
         <table className="detail-record-table">
           <thead>
             <tr>
-              <th>Mã PKB</th>
+              <th>STT</th>
               <th>Tên bác sĩ điều trị</th>
-              <th>Thuộc nhóm bệnh</th>
+              <th>Bệnh lý mắc phải</th>
               <th>Ngày khám</th>
               <th>Tổng tiền</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            {records.map((record, index) => (
-              <tr key={index}>
-                <td>{record.id}</td>
+            {currentRecords.map((record, index) => (
+              <tr key={record.id}>
+                <td>{index + 1}</td>
                 <td>{record.doctorName}</td>
-                <td>{record.group}</td>
+                <td>{record.disease}</td>
                 <td>{record.date}</td>
-                <td>{record.total} đ</td>
-                <td>
-                  <button className="action-button">
-                    <span role="img" aria-label="view">
-                      👁️
-                    </span>
+                <td>{record.total}</td>
+                <td className="d-flex gap-2 justify-content-center align-items-center">
+                  <button
+                    type="button"
+                    class="btn btn-success  "
+                    data-toggle="tooltip"
+                    title="Xem chi tiết bệnh lý khám"
+                  >
+                    Chi tiết khám
+                  </button>
+                  <button
+                    class="btn btn-danger "
+                    data-toggle="tooltip"
+                    title="Xem ảnh chụp chiếu"
+                    type="button"
+                  >
+                    Ảnh chụp chiếu
                   </button>
                 </td>
               </tr>
@@ -67,13 +82,17 @@ export default function DetailRecord() {
 
       {/* Phân trang */}
       <div className="pagination">
-        <button className="pagination-button">&lt;</button>
-        <button className="pagination-button active">1</button>
-        <button className="pagination-button">2</button>
-        <button className="pagination-button">3</button>
-        <span className="pagination-dots">...</span>
-        <button className="pagination-button">10</button>
-        <button className="pagination-button">&gt;</button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index + 1}
+            className={`pagination-button ${
+              currentPage === index + 1 ? "active" : ""
+            }`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

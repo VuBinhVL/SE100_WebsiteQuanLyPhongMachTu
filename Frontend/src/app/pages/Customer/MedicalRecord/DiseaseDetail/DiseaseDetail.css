@@ -1,0 +1,96 @@
+/* Tổng thể popup */
+.disease-detail-popup {
+  width: 80%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Header của popup */
+.disease-detail-popup .popup-header {
+  background-color: #348f6c;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Để đảm bảo nút đóng không ảnh hưởng đến căn giữa */
+  padding: 15px;
+}
+
+.disease-detail-popup .popup-title {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center; /* Căn giữa theo chiều ngang */
+}
+
+.disease-detail-popup .popup-close {
+  position: absolute; /* Đặt nút đóng ở góc phải */
+  right: 15px;
+  top: 15px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Section trong popup */
+.disease-detail-popup .popup-section {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.disease-detail-popup .section-title {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.disease-detail-popup .detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Bảng chi tiết */
+.disease-detail-popup .detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+}
+
+.disease-detail-popup .detail-table th,
+.disease-detail-popup .detail-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.disease-detail-popup .detail-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.disease-detail-popup .total {
+  text-align: right;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Footer */
+.disease-detail-popup .popup-footer {
+  padding: 15px;
+  text-align: right;
+  background-color: #f9f9f9;
+}
+
+.disease-detail-popup .grand-total {
+  color: #d32f2f;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

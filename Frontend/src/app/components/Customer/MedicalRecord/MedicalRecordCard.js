@@ -6,6 +6,7 @@ export default function MedicalRecordCard({
   recordId,
   creationDate,
   onViewDetails,
+  diseaseType,
 }) {
   return (
     <div className="medical-record-card">
@@ -16,6 +17,10 @@ export default function MedicalRecordCard({
       <div className="record-info">
         <p className="record-id"> {recordId}</p>
         <p className="record-date"> {creationDate}</p>
+        <p className="record-disease-type">
+          <b>Loại bệnh: </b>
+          {diseaseType}
+        </p>
       </div>
 
       {/* Nút xem chi tiết */}
