@@ -19,7 +19,7 @@ namespace PhongMachTu.Service
     public interface IBenhNhanService
     {
         Task<ResponeMessage> RegisterAsync(Request_RegisterDTO data);
-        Task<ResponeMessage> HienThiDanhSachBenhNhanAsync();
+        Task<IEnumerable<BenhNhanDTO>> HienThiDanhSachBenhNhanAsync();
         Task<ResponeMessage> AddBenhNhanAsync(Request_AddBenhNhanDTO data);
         Task<ResponeMessage> UpdateBenhNhanAsync(Request_UpdateThongTinCaNhanBenhNhanDTO data);
         Task<IEnumerable<NguoiDung>> GetAllAsync();
@@ -93,7 +93,7 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Đăng ký thành công");
         }
 
-        public async Task<ResponeMessage> HienThiDanhSachBenhNhanAsync()
+        public async Task<IEnumerable<BenhNhanDTO>> HienThiDanhSachBenhNhanAsync()
         {
             // Lấy danh sách người dùng
             var nguoiDungs = await _nguoiDungRepository.GetAllAsync();
@@ -111,15 +111,11 @@ namespace PhongMachTu.Service
                 })
                 .ToList();
 
-            if (benhNhans == null || !benhNhans.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không có bệnh nhân nào được tìm thấy.");
-            }
 
 
 
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(benhNhans);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            
+            return benhNhans;
         }
 
         // Hàm tính tuổi

@@ -24,7 +24,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             try
             {
-                var rs = await _benhNhanService.GetAllAsync();
+                var rs = await _benhNhanService.HienThiDanhSachBenhNhanAsync();
                 return Ok(rs);
             }
             catch (Exception ex)
