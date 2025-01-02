@@ -1,0 +1,68 @@
+/* Container chính */
+.medical-record-card {
+  width: 200px; /* Chiều rộng cố định */
+  background-color: #fff; /* Nền trắng */
+  border: 1px solid #ddd; /* Viền xám nhẹ */
+  border-radius: 10px; /* Bo góc */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  text-align: center;
+  padding: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng hover */
+.medical-record-card:hover {
+  transform: translateY(-5px); /* Hiệu ứng nổi lên */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Hình ảnh */
+.medical-record-card .record-image {
+  width: 100%;
+  height: 120px;
+  object-fit: contain; /* Đảm bảo giữ tỷ lệ hình ảnh */
+  margin-bottom: 10px;
+}
+
+/* Thông tin hồ sơ */
+.medical-record-card .record-info {
+  margin-bottom: 10px;
+}
+
+.medical-record-card .record-id,
+.record-date {
+  font-size: 14px;
+  color: #333;
+  margin: 5px 0px 5px 5px;
+  text-align: left;
+}
+
+.medical-record-card .record-info .record-id::before,
+.medical-record-card .record-info .record-date::before {
+  font-weight: bold; /* In đậm nhãn */
+}
+
+/* Đặt riêng các từ in đậm */
+.medical-record-card .record-info .record-id::before {
+  content: "Mã hồ sơ:";
+}
+
+.medical-record-card .record-info .record-date::before {
+  content: "Ngày tạo:";
+}
+
+/* Nút xem chi tiết */
+.medical-record-card .view-details-button {
+  background-color: #34487c; /* Màu xanh */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px; /* Bo góc */
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.medical-record-card .view-details-button:hover {
+  background-color: #0c1c44; /* Màu xanh đậm hơn khi hover */
+}

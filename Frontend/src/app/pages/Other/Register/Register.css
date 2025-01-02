@@ -116,3 +116,19 @@
 .textbox-container input::placeholder {
   color: #aaaaaa;
 }
+
+.register-page .form-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.register-page .form-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.register-page .form-link:hover {
+  text-decoration: underline;
+}

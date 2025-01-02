@@ -1,0 +1,122 @@
+.detail-record-page {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.detail-record-header {
+  background-color: #348f6c;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.detail-record-title {
+  font-size: 24px;
+  color: white;
+}
+
+.record-id {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.detail-content {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+/* Container của bảng */
+.detail-record-table-container {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 1200px; /* Độ rộng tối đa */
+  background-color: #ffffff; /* Nền trắng */
+  border-radius: 8px; /* Bo góc */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  overflow-x: auto; /* Cuộn ngang nếu bảng quá rộng */
+  padding: 10px; /* Khoảng cách bên trong */
+}
+
+/* Bảng */
+.detail-record-table {
+  width: 100%; /* Độ rộng toàn bảng */
+  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Header của bảng */
+.detail-record-table th {
+  background-color: #f5f5f5; /* Nền xám nhạt */
+  color: #333; /* Màu chữ xám đậm */
+  font-weight: bold; /* Chữ in đậm */
+  padding: 12px; /* Khoảng cách bên trong */
+  border-bottom: 2px solid #ddd; /* Đường viền dưới */
+}
+
+/* Dòng dữ liệu trong bảng */
+.detail-record-table td {
+  padding: 10px; /* Khoảng cách bên trong */
+  border-bottom: 1px solid #ddd; /* Đường viền dưới */
+  color: #333; /* Màu chữ */
+}
+
+/* Hiệu ứng khi rê chuột */
+.detail-record-table tr:hover {
+  background-color: #f9f9f9; /* Nền xám nhạt khi hover */
+}
+
+/* Nút thao tác */
+.action-button {
+  background: none; /* Xóa nền */
+  border: none; /* Xóa viền */
+  cursor: pointer; /* Thay đổi con trỏ */
+  font-size: 16px; /* Kích thước biểu tượng */
+  color: #007bff; /* Màu xanh */
+  transition: transform 0.2s ease, color 0.3s ease; /* Hiệu ứng */
+}
+
+.action-button:hover {
+  transform: scale(1.2); /* Phóng to khi hover */
+  color: #0056b3; /* Màu xanh đậm hơn */
+}
+
+/* Container của phân trang */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Nút phân trang */
+.pagination-button {
+  background-color: #fff;
+  color: #348f6c;
+  border: 1px solid #348f6c;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hiệu ứng hover */
+.pagination-button:hover {
+  background-color: #348f6c;
+  color: white;
+}
+
+/* Nút phân trang đang hoạt động */
+.pagination-button.active {
+  background-color: #348f6c;
+  color: white;
+  border: 1px solid #286c54;
+}
+
+/* Nút bị ẩn (nếu có) */
+.pagination-dots {
+  color: #999999; /* Màu xám nhạt */
+  font-size: 14px;
+  padding: 8px;
+}

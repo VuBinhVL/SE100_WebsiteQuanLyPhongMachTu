@@ -1,0 +1,67 @@
+.medical-record-page {
+  background-color: #f5f5f5;
+}
+
+.medical-record-page .medical-record-header {
+  background-color: #348f6c; /* Màu xanh */
+  margin-bottom: 20px; /* Khoảng cách bên dưới */
+  min-height: 100px; /* Chiều cao tối thiểu */
+  display: flex; /* Sử dụng Flexbox */
+  justify-content: center; /* Canh giữa theo chiều ngang */
+  align-items: flex-end; /* Canh nội dung xuống dưới */
+  text-align: center; /* Canh giữa nội dung theo chiều ngang */
+  padding-bottom: 20px; /* Khoảng cách giữa tiêu đề và đáy */
+}
+
+.medical-record-page .medical-record-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff; /* Màu chữ trắng */
+  margin: 0; /* Loại bỏ khoảng cách mặc định */
+}
+
+.medical-record-page .medical-section {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Hiển thị 3 hồ sơ trên mỗi hàng */
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Phân trang */
+.medical-record-page .pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.medical-record-page .pagination-button {
+  background-color: #fff;
+  color: #348f6c;
+  border: 1px solid #348f6c;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.medical-record-page .pagination-button:hover {
+  background-color: #348f6c;
+  color: white;
+}
+
+.medical-record-page .pagination-button.active {
+  background-color: #348f6c;
+  color: white;
+  border: 1px solid #286c54;
+}
+
+/* Container bao quanh danh sách hồ sơ */
+.medical-record-page .record-container {
+  background-color: #f8f9fa; /* Màu xám trắng */
+  border-radius: 10px; /* Bo góc */
+  padding: 20px; /* Khoảng cách bên trong */
+  margin: 20px auto; /* Căn giữa và thêm khoảng cách bên ngoài */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  max-width: 1200px; /* Độ rộng tối đa */
+}

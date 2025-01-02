@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import Button from "../../../components/Customer/HomePage/Button";
 import Card from "../../../components/Customer/HomePage/Card";
 import DiseaseCard from "../../../components/Customer/HomePage/DiseaseCard";
@@ -9,95 +9,65 @@ import Urgent from "../../../assets/images/urgent.png";
 import Serive_24_7 from "../../../assets/images/24_7.png";
 import Clinic from "../../../assets/images/clinic2.png";
 import Clinic2 from "../../../assets/images/clinic3.png";
+import TieuHoa from "../../../assets/images/tieuhoa.png";
+import TimMach from "../../../assets/images/timmach.png";
+import HoHap from "../../../assets/images/hohap.png";
+import DaLieu from "../../../assets/images/dalieu.png";
+import { showErrorMessageBox } from "../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
+import { fetchGet } from "../../../lib/httpHandler";
 import "./CustomerHome.css";
 import "../../../styles/index.css";
+import { useNavigate } from "react-router-dom";
 
 // Phần danh sách các bệnh điều trị
 const diseaseCardsData = [
   {
+    img: TimMach,
     title: "Tim mạch",
     description:
       "Chúng tôi cung cấp dịch vụ chăm sóc sức khỏe tim mạch chuyên sâu với đội ngũ bác sĩ giàu kinh nghiệm.",
   },
   {
-    icon: Meeting,
+    img: HoHap,
     title: "Hô hấp",
     description:
       "Chăm sóc các bệnh về đường hô hấp với các giải pháp hiện đại và hiệu quả nhất.",
   },
   {
-    icon: Urgent,
+    img: TieuHoa,
     title: "Tiêu hóa",
     description:
       "Đội ngũ chuyên gia sẵn sàng hỗ trợ bạn trong việc chăm sóc sức khỏe tiêu hóa.",
   },
   {
-    icon: Serive_24_7,
-    title: "Nhi khoa",
-    description:
-      "Dịch vụ chăm sóc sức khỏe toàn diện cho trẻ em với sự tận tâm và yêu thương.",
-  },
-  {
-    icon: Clinic,
+    img: DaLieu,
     title: "Da liễu",
     description:
       "Chuyên gia da liễu sẽ giúp bạn giải quyết mọi vấn đề liên quan đến sức khỏe làn da.",
   },
-  {
-    icon: Meeting,
-    title: "Sức khỏe tâm thần",
-    description:
-      "Hỗ trợ chăm sóc và điều trị các vấn đề về sức khỏe tâm thần một cách tận tình.",
-  },
-];
-
-// Danh sách bác sĩ
-const staffCardsData = [
-  {
-    avatar: Clinic,
-    name: "Tiến Đạt",
-    role: "Nhân viên",
-    specialty: "Tim mạch",
-  },
-  {
-    avatar: Clinic,
-    name: "Ngọc Lan",
-    role: "Bác sĩ",
-    specialty: "Da liễu",
-  },
-  {
-    avatar: Clinic,
-    name: "Hoàng Nam",
-    role: "Chuyên gia",
-    specialty: "Tiêu hóa",
-  },
-  {
-    avatar: Clinic,
-    name: "Hoàng Nam",
-    role: "Chuyên gia",
-    specialty: "Tiêu hóa",
-  },
-  {
-    avatar: Clinic,
-    name: "Hoàng Nam",
-    role: "Chuyên gia",
-    specialty: "Tiêu hóa",
-  },
-  {
-    avatar: Clinic,
-    name: "Hoàng Nam",
-    role: "Chuyên gia",
-    specialty: "Tiêu hóa",
-  },
-  {
-    avatar: Clinic,
-    name: "Hoàng Nam",
-    role: "Chuyên gia",
-    specialty: "Tiêu hóa",
-  },
 ];
 
 export default function CustomerHome() {
+  const navigate = useNavigate();
+  const [doctorList, setDoctorList] = useState([]); // Danh sách bác sĩ
+  //Gọi API lấy danh sách ca khám
+  useEffect(() => {
+    const uri = "/api/admin/quan-li-nhan-vien";
+    fetchGet(
+      uri,
+      (data) => {
+        console.log(data);
+        setDoctorList(data); // Cập nhật danh sách bác sĩ
+      },
+      (error) => {
+        showErrorMessageBox(error);
+      },
+      () => {
+        showErrorMessageBox("Không thể kết nối đến server");
+      }
+    );
+  }, []);
+
   return (
     <div className="homepage">
       {/* Phần Hero */}
@@ -122,7 +92,7 @@ export default function CustomerHome() {
                 border: "1px solid #ffffff",
                 fontWeight: 500,
               }}
-              onClick={() => console.log("Đăng kí khám")}
+              onClick={() => navigate("/medical-exam-list")}
             />
             <Button
               text="Tìm hiểu thêm"
@@ -133,7 +103,7 @@ export default function CustomerHome() {
                 border: "1px solid #ffffff",
                 fontWeight: 500,
               }}
-              onClick={() => console.log("Tìm hiểu thêm")}
+              onClick={() => navigate("/review-price-list")}
             />
           </div>
         </div>
@@ -184,7 +154,7 @@ export default function CustomerHome() {
           {diseaseCardsData.map((card, index) => (
             <DiseaseCard
               key={index}
-              icon={card.icon}
+              img={card.img}
               title={card.title}
               description={card.description}
             />
@@ -195,13 +165,13 @@ export default function CustomerHome() {
       <div className="homepage-staff">
         <h2 className="staff-title">Bác sĩ của chúng tôi</h2>
         <div className="staff-row">
-          {staffCardsData.map((staff, index) => (
+          {doctorList.map((staff) => (
             <StaffCard
-              key={index}
-              avatar={staff.avatar}
-              name={staff.name}
-              role={staff.role}
-              specialty={staff.specialty}
+              key={staff.id}
+              avatar={staff.image}
+              name={staff.hoTen}
+              role={staff.vaiTroId === 1 ? "Chủ phòng mạch" : "Bác sĩ"}
+              specialty={staff.chuyenMon.tenNhomBenh}
             />
           ))}
         </div>
@@ -220,7 +190,7 @@ export default function CustomerHome() {
               border: "1px solid #ffffff",
               fontWeight: 500,
             }}
-            onClick={() => console.log("Đăng kí khám")}
+            onClick={() => navigate("/medical-exam-list")}
           />
         </div>
         <div className="booking-image">
