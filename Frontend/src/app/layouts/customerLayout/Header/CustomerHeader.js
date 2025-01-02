@@ -59,7 +59,7 @@ export default function CustomerHeader() {
             // Khi đã đăng nhập, hiển thị avatar và dropdown
             <li className="nav-item">
               <img
-                src={avatar}
+                src="https://vwu.vn/documents/20182/3458479/28_Feb_2022_115842_GMTbsi_thuhien.jpg/c04e15ea-fbe4-415f-bacc-4e5d4cc0204d"
                 alt="Avatar"
                 className="avatar"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
