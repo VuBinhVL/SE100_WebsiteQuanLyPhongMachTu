@@ -120,7 +120,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return BadRequest(new {message = "Có lỗi xảy ra từ hệ thống"});
             }
         }
-        [HttpGet("thong-tin-ca-nhan-ben")]
+        [HttpGet("thong-tin-ca-nhan")]
         public async Task<IActionResult> HienThiThongTinCaNhanBenPhiaAdminAsync()
         {
             try
