@@ -35,6 +35,7 @@ namespace PhongMachTu.DataAccess.Repositories
                     ThoiGianKetThuc = ca.ThoiGianKetThuc,
                     NgayKham = ca.NgayKham,
                     Image= ca.BacSi.Image,
+                    Id = ca.Id,
                     SoLuongBenhNhanToiDa = ca.SoLuongBenhNhanToiDa,
                     SoLuongBenhNhanDaDanKi = ca.LichKhams.Count(l => l.TrangThaiLichKhamId != 4), // Đếm số lượng bệnh nhân không bị hủy với trạng thái đã hủy là 4
                     TenBacSi = ca.BacSi != null ? ca.BacSi.HoTen : string.Empty, 

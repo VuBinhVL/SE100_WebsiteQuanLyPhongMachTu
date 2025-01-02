@@ -16,5 +16,6 @@ namespace PhongMachTu.Common.DTOs.Request.CaKham
         public string TenBacSi { get; set; }
         public string TenChuyenMon { get; set; }
         public string? Image { get; set; }
+        public int Id { get; set; }
     }
 }
