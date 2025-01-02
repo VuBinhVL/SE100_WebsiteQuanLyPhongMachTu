@@ -90,9 +90,9 @@ export default function Staff() {
 
         setListStaffShow(filteredList);
     };
-    console.log(">>>>>>>>>check list Staff", listStaff);
-    console.log(">>>>>>>>>>>>Check list staff show", listStaffShow);
-    console.log(">>>>>>>>>>>>Check list specialization", listSpecialization);
+    // console.log(">>>>>>>>>check list Staff", listStaff);
+    // console.log(">>>>>>>>>>>>Check list staff show", listStaffShow);
+    // console.log(">>>>>>>>>>>>Check list specialization", listSpecialization);
     return (
         <div className="Staff_Management">
             <div className="title py-3 fs-5 mb-2">

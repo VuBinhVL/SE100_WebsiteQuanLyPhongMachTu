@@ -3,13 +3,13 @@ import { GrCircleInformation } from "react-icons/gr";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { TiEdit } from "react-icons/ti";
-import "./DetailStaff.css";
+import "./DetailPatien.css";
 import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { formatDate } from "../../../../utils/FormatDate/FormatDate";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 
-export default function DetailStaff(props) {
+export default function DetailPatien(props) {
     const [imageSrc, setImageSrc] = useState();
     // state quản lý trạng thái có thể edit information
     const [editStatus, setEditStatus] = useState(false);
@@ -234,7 +234,7 @@ export default function DetailStaff(props) {
             <a href="#">
                 <GrCircleInformation className="icon_information icon_action" data-bs-toggle="modal" data-bs-target={idspecificModal} />
             </a>
-            <div className="detailStaff modal fade" id={idModal} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="detailPatien modal fade" id={idModal} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">

@@ -2,33 +2,14 @@ import React, { useEffect } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react"
-import "./AddStaff.css"
+import "./AddPatien.css"
 import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox"
-export default function AddStaff(props) {
-    const { listStaff, setListStaff } = props
+export default function AddPatien(props) {
+    const { listPatien, setListPatien } = props
     const [imageSrc, setImageSrc] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqScpaGRkZogbiI3N0AN-v7Ski-NmF7zn28jpTMgc3Umpr1ctwB8imBIpwOjbPd7TQW9A&usqp=CAU");
-    const [specialization, setSpecialization] = useState([]);
-    // const [dataFilter, setDataFilter] = useState("DEFAULT");
     const [dataForm, setDataForm] = useState({})
-    //gọi api lấy chuyên môn (nhóm bệnh)
-    useEffect(() => {
-        const uri = "/api/admin/quan-li-nhom-benh";
-        fetchGet(
-            uri,
-            (sus) => {
-                setSpecialization(sus);
-            },
-            (fail) => {
-                // alert(fail.message);
-                showErrorMessageBox(fail.message)
-            },
-            () => {
-                alert("Có lỗi xảy ra");
-            }
-        );
-    }, []);
     const handleSlectImage = () => {
         const fileInput = document.getElementById("fileInput")
         fileInput.click();
@@ -54,15 +35,13 @@ export default function AddStaff(props) {
             ...dataForm, [name]: value
         })
     }
-    // hàm lấy lại listStaff
-
     // Hàm lấy danh sách nhân viên
-    const fetchStaffList = () => {
-        const uri = "/api/admin/quan-li-nhan-vien";
+    const fetchPatienList = () => {
+        const uri = "/api/admin/quan-li-benh-nhan/hien-thi-danh-sach-benh-nhan";
         fetchGet(
             uri,
             (data) => {
-                setListStaff(data); // Cập nhật danh sách nhân viên
+                setListPatien(data); // Cập nhật danh sách nhân viên
             },
             (fail) => {
                 showErrorMessageBox(fail.message)
@@ -74,10 +53,10 @@ export default function AddStaff(props) {
     };
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { hoTen, gioiTinh, ngaySinh, chuyenMonId, soDienThoai, email, diaChi, image } = dataForm;
+        const { hoTen, gioiTinh, ngaySinh, soDienThoai, email, diaChi, image } = dataForm;
 
         // Validate dữ liệu trước khi gửi
-        if (!hoTen || !gioiTinh || !ngaySinh || !chuyenMonId || !soDienThoai || !email || !diaChi || !image) {
+        if (!hoTen || !gioiTinh || !ngaySinh || !soDienThoai || !email || !diaChi || !image) {
             // alert("Please fill in all the required fields!");
             showErrorMessageBox("Please fill in all the required fields!")
             return;
@@ -117,15 +96,8 @@ export default function AddStaff(props) {
             showErrorMessageBox("Date of birth must be after 1950")
             return;
         }
-        // Kiểm tra tuổi
-        const age = Math.floor((currentDate - ngaySinhDate) / (1000 * 60 * 60 * 24 * 365.25));
-        if (age < 18) {
-            // alert("You must be at least 18 years old");
-            showErrorMessageBox("You must be at least 18 years old")
-            return;
-        }
         // Kiểm tra tính duy nhất của số điện thoại và email
-        for (const element of listStaff) {
+        for (const element of listPatien) {
             if (element.soDienThoai === soDienThoai) {
                 // alert("Phone number already exists");
                 showErrorMessageBox("Phone number already exists")
@@ -138,14 +110,9 @@ export default function AddStaff(props) {
             }
         }
 
-        addStaff();
+        addPatien();
     };
 
-    const getIdSpecialization = () => {
-        const { chuyenMonId } = dataForm;
-        const specializationItem = specialization.find(element => element.tenNhomBenh === chuyenMonId);
-        return specializationItem ? specializationItem.id : null; // Trả về null nếu không tìm thấy
-    };
     // hàm clear data được fill trong modal
     const handleClearData = () => {
         // Clear data
@@ -160,30 +127,13 @@ export default function AddStaff(props) {
             select.value = 'DEFAULT';
         });
     };
-    const addStaff = async () => {
-        const uri = "/api/admin/quan-li-nhan-vien/add"
-        const idOfSpecialization = getIdSpecialization();
-        if (!idOfSpecialization) {
-            // alert("Specialization not found!");
-            showErrorMessageBox("Specialization not found!")
-            return;
-        }
-        const newDataFormClient = { ...dataForm }; //data này chứa tên chuyên môn
-        const newDataFormServer = { ...dataForm, chuyenMonId: idOfSpecialization }; //data này chứa id để đẩy lên server
-        newDataFormServer.image = "a.png";
-        newDataFormClient.image = "a.png";
-        //Lấy tên chuyên môn
-        const tenChuyenMon = newDataFormClient.chuyenMonId;
-
-        // Chuyển đổi key từ `chuyenMonId` sang `tenChuyenMon` để phù hợp với `listStaff`
-        const transformedData = {
-            ...newDataFormClient,
-            tenChuyenMon: tenChuyenMon, // Thêm key `tenChuyenMon`
-        };
-        delete transformedData.chuyenMonId; // Xóa key `chuyenMonId` khỏi đối tượng
+    const addPatien = async () => {
+        const uri = "/api/admin/quan-li-benh-nhan/add"
+        // newDataFormClient.image = "a.png";
+        dataForm.image = "a.png";
         await fetchPost(
             uri,
-            newDataFormServer,
+            dataForm,
             (sus) => {
                 // // Đóng modal
                 // alert(sus.message);
@@ -195,7 +145,7 @@ export default function AddStaff(props) {
                 // Clear data
                 handleClearData()
                 // lấy lại data
-                fetchStaffList()
+                fetchPatienList()
 
             },
             (fail) => {
@@ -209,13 +159,13 @@ export default function AddStaff(props) {
     const handleClose = () => {
         handleClearData();
     }
-    // console.log(">>>>>check addd dataForm", dataForm)
+    console.log(">>>>>check addd dataForm", dataForm)
     return (
         <>
             {/* <!-- Button trigger modal --> */}
-            <button type="button" className="Add col-2 rounded-2 d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <button type="button" className="Add_Patien col-2 rounded-2 d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 <span><IoMdAddCircleOutline className="fs-4 me-2" /></span>
-                Add Staff
+                Add Patien
             </button>
 
             {/* <!-- Modal --> */}
@@ -223,7 +173,7 @@ export default function AddStaff(props) {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title fs-4" id="staticBackdropLabel">Add staff</h5>
+                            <h5 className="modal-title fs-4" id="staticBackdropLabel">Add Patien</h5>
                         </div>
                         <div className="modal-body d-flex justify-content-center">
                             <form className="me-5 w-75">
@@ -243,18 +193,6 @@ export default function AddStaff(props) {
                                 <div className="form-group mb-3 d-flex align-items-center">
                                     <label htmlFor="ngaySinh" className="form-label col-4 custom-bold">Date of birth:</label>
                                     <input type="date" id="ngaySinh" name="ngaySinh" className="form-control rounded-3" onChange={handleChange} />
-                                </div>
-                                <div className="form-group mb-3 d-flex align-items-center position-relative">
-                                    <label htmlFor="chuyenMonId" className="form-label col-4 custom-bold">Specialization:</label>
-                                    <select id="chuyenMonId" name="chuyenMonId" className="form-control rounded-3" onChange={handleChange} defaultValue="DEFAULT">
-                                        <option value="DEFAULT" hidden disabled>Enter your specialization</option>
-                                        {specialization && specialization.length > 0 && specialization.map((item) => (
-                                            <option key={item.id} value={item.tenNhomBenh}>
-                                                {item.tenNhomBenh}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
                                     <label htmlFor="soDienThoai" className="form-label col-4 custom-bold">Phone number:</label>

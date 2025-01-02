@@ -1,0 +1,82 @@
+.Patiens_Management .title {
+    color: #348F6C;
+    font-weight: 500;
+}
+
+.Patiens_Management .search {
+    height: 40px
+}
+
+.Patiens_Management .contain_Search {
+    position: absolute;
+    display: inline-block;
+}
+
+.Patiens_Management .contain_Search .search {
+    width: 100%;
+    border: 1px solid grey;
+}
+
+.Patiens_Management .contain_Search .icon_search {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    font-size: 20px;
+}
+
+.Patiens_Management .filter {
+    height: 40px;
+}
+
+.Patiens_Management .Add {
+    height: 40px;
+    border: none;
+    background-color: #348F6C;
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.Patiens_Management .row .contain_Table {
+    padding: 0 10px;
+}
+
+.Patiens_Management .row .contain_Table .table {
+    margin-bottom: 100px;
+}
+
+.Patiens_Management .row .contain_Table .contain_pagination {
+    display: flex;
+    justify-content: end;
+}
+
+.Patiens_Management .row .contain_Table .contain_pagination .page-item .page-link:focus {
+    color: #FFFFFF;
+    background-color: #348F6C;
+    border-color: #348F6C;
+    box-shadow: none;
+}
+
+.Patiens_Management .row .contain_Table .contain_pagination .active>.page-link {
+    background-color: #348F6C;
+    border-color: #348F6C;
+}
+
+.Patiens_Management .row .contain_Table .contain_pagination .page-item .page-link-two:focus {
+    color: var(--bs-pagination-color);
+    background-color: #FFFFFF;
+}
+
+.Patiens_Management .list_Action .icon_action {
+    font-size: 20px;
+    margin-right: 16px;
+}
+
+.Patiens_Management .list_Action .icon_Lock {
+    color: #FFC107;
+}
+
+
+
+.Patiens_Management .list_Action .icon_delete {
+    color: #E34724;
+}
