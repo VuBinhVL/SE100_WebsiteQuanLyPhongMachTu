@@ -195,18 +195,25 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy nhân viên");
             }
-
-            var checkEmail = (await _nguoiDungRepository.FindAsync(u => u.Email == data.Email && u.Id != data.Id)).FirstOrDefault();
+            // Kiểm tra email không trùng lặp với người khác
+            var checkEmail = (await _nguoiDungRepository
+                .FindAsync(u => u.Email == data.Email && u.Id != data.Id))
+                .FirstOrDefault();
             if (checkEmail != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Email đã có người sử dụng");
             }
 
-            var checkSDT = (await _nguoiDungRepository.FindAsync(u => u.SoDienThoai == data.SoDienThoai && u.Id != data.Id)).FirstOrDefault();
+            // Kiểm tra số điện thoại không trùng lặp với người khác
+            var checkSDT = (await _nguoiDungRepository
+                .FindAsync(u => u.SoDienThoai == data.SoDienThoai && u.Id != data.Id))
+                .FirstOrDefault();
             if (checkSDT != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Số điện thoại đã có người sử dụng");
             }
+
+            
 
             //dữ liệu từ request
             findNhanVien.HoTen = data.HoTen;

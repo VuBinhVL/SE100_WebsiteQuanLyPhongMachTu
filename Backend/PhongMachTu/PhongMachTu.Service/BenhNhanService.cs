@@ -103,6 +103,7 @@ namespace PhongMachTu.Service
                 .Where(u => u.VaiTroId == 3)
                 .Select(u => new BenhNhanDTO
                 {
+                    Email = u?.Email,
                     id= u.Id,
                     HoTen = u.HoTen,
                     GioiTinh = u.GioiTinh,
@@ -212,12 +213,19 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy bệnh nhân");
             }
-            var checkEmail = (await _nguoiDungRepository.FindAsync(u => u.Email == data.Email)).FirstOrDefault();
+            // Kiểm tra email không trùng lặp với người khác
+            var checkEmail = (await _nguoiDungRepository
+                .FindAsync(u => u.Email == data.Email && u.Id != data.Id))
+                .FirstOrDefault();
             if (checkEmail != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Email đã có người sử dụng");
             }
-            var checkSDT = (await _nguoiDungRepository.FindAsync(u => u.SoDienThoai == data.SoDienThoai)).FirstOrDefault();
+
+            // Kiểm tra số điện thoại không trùng lặp với người khác
+            var checkSDT = (await _nguoiDungRepository
+                .FindAsync(u => u.SoDienThoai == data.SoDienThoai && u.Id != data.Id))
+                .FirstOrDefault();
             if (checkSDT != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Số điện thoại đã có người sử dụng");
