@@ -34,7 +34,6 @@ namespace PhongMachTu.DataAccess.Repositories
                     STT = ck.SoThuTu, 
                     TenBenhNhan = ck.BenhNhan.HoTen, 
                     TenTrangThai = ck.TrangThaiLichKham.TenTrangThai,
-                    GhiChu = ""// Ghi chú trong csdl ch có
                 })
                 .ToListAsync();
         }

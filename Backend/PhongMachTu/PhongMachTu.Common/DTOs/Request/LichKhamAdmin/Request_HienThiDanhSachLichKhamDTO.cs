@@ -16,6 +16,5 @@ namespace PhongMachTu.Common.DTOs.Request.LichKhamAdmin
         public int STT { get; set; }
         public string? TenBenhNhan { get; set; }
         public string? TenTrangThai { get; set; }
-        public string? GhiChu { get; set; }
     }
 }
