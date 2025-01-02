@@ -13,7 +13,7 @@ namespace PhongMachTu.Common.DTOs.Request.NguoiDung
     }
     public class BenhNhanDTO
     {
-       
+       public int id { get; set; }
         public string? HoTen { get; set; }
         public string? GioiTinh { get; set; }
         public int? Tuoi { get; set; }

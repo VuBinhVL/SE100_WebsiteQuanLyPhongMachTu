@@ -103,6 +103,7 @@ namespace PhongMachTu.Service
                 .Where(u => u.VaiTroId == 3)
                 .Select(u => new BenhNhanDTO
                 {
+                    id= u.Id,
                     HoTen = u.HoTen,
                     GioiTinh = u.GioiTinh,
                     Tuoi = u.NgaySinh.HasValue ? TinhTuoi(u.NgaySinh.Value) : null,
