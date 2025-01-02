@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import LineChart from './LineChart';
 import CountUp from 'react-countup';
 import PieChart from './PieChart';
-import BarChart from './BarChart'; 
+import BarChart from './BarChart';
 import "./DashBoard.css"
 
 const { RangePicker } = DatePicker;
@@ -53,68 +53,68 @@ export default function DashBoard() {
   };
 
   const totalValueMetric = useMemo(
-     () => [
-       {
-         label: 'Tổng doanh thu',
-         icon: faMoneyCheckDollar,
-         color: '#3F8600',
-         value: dashboard.total_revenue,
-       },
-       {
-         label: 'Tổng số thuốc',
-         icon: faPills,
-         color: '#3F8600',
-         value: dashboard.total_medicine,
-       },
-       {
-         label: 'Tổng số bệnh nhân',
-         icon: faHospitalUser,
-         color: '#9847FF',
-         value: dashboard.total_patient,
-       },
-       {
-         label: 'Tổng số lượt khám',
-         icon: faUser,
-         color: '#CF1322',
-         value: dashboard.total_ticket,
-       },
-     ],
-     [dashboard]
-   );
- 
-   const newValueMetric = useMemo(
-     () => [
-       {
-         label: 'Bệnh nhân mới',
-         color: '#3f8600',
-         value: dashboard.new_patient,
-       },
-       {
-         label: 'Lượng thuốc',
-         color: '#3f8600',
-         value: dashboard.new_medicine,
-       },
-       {
-         label: 'Doanh thu',
-         color: '#3f8600',
-         value: dashboard.new_revenue,
-       },
-       {
-         label: 'Lượt khám',
-         color: '#3f8600',
-         value: dashboard.new_ticket,
-       },
-     ],
-     [dashboard]
-   );
- 
+    () => [
+      {
+        label: 'Tổng doanh thu',
+        icon: faMoneyCheckDollar,
+        color: '#3F8600',
+        value: dashboard.total_revenue,
+      },
+      {
+        label: 'Tổng số thuốc',
+        icon: faPills,
+        color: '#3F8600',
+        value: dashboard.total_medicine,
+      },
+      {
+        label: 'Tổng số bệnh nhân',
+        icon: faHospitalUser,
+        color: '#9847FF',
+        value: dashboard.total_patient,
+      },
+      {
+        label: 'Tổng số lượt khám',
+        icon: faUser,
+        color: '#CF1322',
+        value: dashboard.total_ticket,
+      },
+    ],
+    [dashboard]
+  );
+
+  const newValueMetric = useMemo(
+    () => [
+      {
+        label: 'Bệnh nhân mới',
+        color: '#3f8600',
+        value: dashboard.new_patient,
+      },
+      {
+        label: 'Lượng thuốc',
+        color: '#3f8600',
+        value: dashboard.new_medicine,
+      },
+      {
+        label: 'Doanh thu',
+        color: '#3f8600',
+        value: dashboard.new_revenue,
+      },
+      {
+        label: 'Lượt khám',
+        color: '#3f8600',
+        value: dashboard.new_ticket,
+      },
+    ],
+    [dashboard]
+  );
+
 
   const formatter = (value) => <CountUp end={value} separator=" " />;
 
   return (
     <div>
-      <div className="my-5">
-        <Row className="p-5">
+      <div className="mb-5">
+        <Row className="my-3">
           <Space direction="horizontal" size={12}>
             <span>Chọn ngày</span>
             <RangePicker format="DD/MM/YYYY" value={dateRange} onChange={onChange} />
@@ -126,18 +126,18 @@ export default function DashBoard() {
             {totalValueMetric.map((metric, i) => (
               <Col key={i} span={6}>
                 <Card
-                                  bordered={false}
-                                  className="flex flex-col items-center justify-center"
-                                >
-                                  <span className="text-[20px] font-medium">{metric.label}</span>
-                                  <Statistic
-                                    formatter={formatter}
-                                    className="pt-3"
-                                    value={metric.value}
-                                    valueStyle={{ color: metric.color }}
-                                    prefix={<FontAwesomeIcon icon={metric.icon} />}
-                                  />
-                                </Card>
+                  bordered={false}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <span className="text-[20px] font-medium">{metric.label}</span>
+                  <Statistic
+                    formatter={formatter}
+                    className="pt-3"
+                    value={metric.value}
+                    valueStyle={{ color: metric.color }}
+                    prefix={<FontAwesomeIcon icon={metric.icon} />}
+                  />
+                </Card>
               </Col>
             ))}
           </Row>
@@ -180,9 +180,9 @@ export default function DashBoard() {
               <p className="mb-5 text-[20px] flex items-center justify-center font-medium">
                 Tỷ lệ sử dụng thuốc
               </p>
-              <PieChart 
-                data={dashboard.medicine_usage} 
-                colors={['#FF6384', '#36A2EB', '#FFCE56']} 
+              <PieChart
+                data={dashboard.medicine_usage}
+                colors={['#FF6384', '#36A2EB', '#FFCE56']}
               />
             </Card>
           </div>
@@ -192,7 +192,7 @@ export default function DashBoard() {
             <p className="mb-5 text-[20px] flex items-center justify-center font-medium">
               Số lượng bệnh nhân theo bệnh lý
             </p>
-            <BarChart 
+            <BarChart
               data={dashboard.disease_data}
               color="#4CAF50"
             />
