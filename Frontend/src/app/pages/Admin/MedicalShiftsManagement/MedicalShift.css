@@ -1,0 +1,106 @@
+.Shift_Management .title {
+    color: #348F6C;
+    font-weight: 500;
+}
+
+.Shift_Management .search {
+    height: 40px
+}
+
+.Shift_Management .contain_Search {
+    position: absolute;
+    display: inline-block;
+    width: 345px;
+}
+
+.Shift_Management .contain_Search .search {
+    width: 100%;
+    border: 1px solid grey;
+}
+
+.Shift_Management .contain_Search .icon_search {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    font-size: 20px;
+}
+
+.Shift_Management .form-group .TimeSlot {
+    width: 200px;
+    border: 1px solid grey;
+    box-sizing: border-box;
+}
+
+
+.Shift_Management .form-group .TimeSlot:focus {
+    box-shadow: 0 0 0 1px black;
+    outline: none;
+}
+
+.Shift_Management .form-group .ConsultationDate {
+
+    border: 1px solid grey;
+}
+
+.Shift_Management .form-group .ConsultationDate:focus {
+    box-shadow: 0 0 0 1px black;
+    outline: none;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.Shift_Management .filter {
+    height: 40px;
+}
+
+.Shift_Management .Add {
+    height: 40px;
+    border: none;
+    background-color: #348F6C;
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.Shift_Management .row .contain_Table {
+    padding: 0 10px;
+}
+
+.Shift_Management .row .contain_Table .table {
+    margin-bottom: 100px;
+}
+
+.Shift_Management .row .contain_Table .contain_pagination {
+    display: flex;
+    justify-content: end;
+}
+
+.Shift_Management .row .contain_Table .contain_pagination .page-item .page-link:focus {
+    color: #FFFFFF;
+    background-color: #348F6C;
+    border-color: #348F6C;
+    box-shadow: none;
+}
+
+.Shift_Management .row .contain_Table .contain_pagination .active>.page-link {
+    background-color: #348F6C;
+    border-color: #348F6C;
+}
+
+.Shift_Management .row .contain_Table .contain_pagination .page-item .page-link-two:focus {
+    color: var(--bs-pagination-color);
+    background-color: #FFFFFF;
+}
+
+.Shift_Management .list_Action .icon_action {
+    font-size: 20px;
+    margin-right: 16px;
+}
+
+.Shift_Management .list_Action .icon_Lock {
+    color: #FFC107;
+}
+
+
+
+.Shift_Management .list_Action .icon_delete {
+    color: #E34724;
+}

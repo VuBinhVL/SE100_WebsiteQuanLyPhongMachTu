@@ -90,13 +90,13 @@ export default function Staff() {
 
         setListStaffShow(filteredList);
     };
-    console.log(">>>>>>>>>check list Staff", listStaff);
-    console.log(">>>>>>>>>>>>Check list staff show", listStaffShow);
-    console.log(">>>>>>>>>>>>Check list specialization", listSpecialization);
+    // console.log(">>>>>>>>>check list Staff", listStaff);
+    // console.log(">>>>>>>>>>>>Check list staff show", listStaffShow);
+    // console.log(">>>>>>>>>>>>Check list specialization", listSpecialization);
     return (
         <div className="Staff_Management">
             <div className="title py-3 fs-5 mb-2">
-                Total number of doctors: {listStaff.length}
+                Total number of doctors: {listStaffShow.length}
             </div>
             <div className="row mx-0 my-0">
                 <div className="col-12 pb-4 px-0 d-flex justify-content-between align-items-center mb-2">

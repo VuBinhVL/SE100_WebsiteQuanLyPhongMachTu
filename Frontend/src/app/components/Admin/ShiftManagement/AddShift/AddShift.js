@@ -2,13 +2,12 @@ import React, { useEffect } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react"
-import "./AddStaff.css"
+import "./AddShift.css"
 import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox"
-export default function AddStaff(props) {
+export default function AddShift(props) {
     const { listStaff, setListStaff } = props
-    const [imageSrc, setImageSrc] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqScpaGRkZogbiI3N0AN-v7Ski-NmF7zn28jpTMgc3Umpr1ctwB8imBIpwOjbPd7TQW9A&usqp=CAU");
     const [specialization, setSpecialization] = useState([]);
     // const [dataFilter, setDataFilter] = useState("DEFAULT");
     const [dataForm, setDataForm] = useState({})
@@ -29,24 +28,6 @@ export default function AddStaff(props) {
             }
         );
     }, []);
-    const handleSlectImage = () => {
-        const fileInput = document.getElementById("fileInput")
-        fileInput.click();
-    }
-    const handleFileChange = (event) => {
-        const file = event.target.files[0]; // Lấy file người dùng chọn
-        if (file) {
-            const reader = new FileReader(); // Sử dụng FileReader để đọc file
-            reader.onload = (e) => {
-                const imageUrl = e.target.result;
-                setImageSrc(e.target.result); // Cập nhật URL ảnh
-                setDataForm({
-                    ...dataForm, image: imageUrl
-                })
-            };
-            reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
-        }
-    };
     const handleChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
@@ -150,7 +131,6 @@ export default function AddStaff(props) {
     const handleClearData = () => {
         // Clear data
         setDataForm({});
-        setImageSrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqScpaGRkZogbiI3N0AN-v7Ski-NmF7zn28jpTMgc3Umpr1ctwB8imBIpwOjbPd7TQW9A&usqp=CAU");
         const inputs = document.querySelectorAll('#staticBackdrop input, #staticBackdrop select');
         inputs.forEach(input => {
             input.value = '';
@@ -215,7 +195,7 @@ export default function AddStaff(props) {
             {/* <!-- Button trigger modal --> */}
             <button type="button" className="Add col-2 rounded-2 d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 <span><IoMdAddCircleOutline className="fs-4 me-2" /></span>
-                Add Staff
+                Add Shift
             </button>
 
             {/* <!-- Modal --> */}
@@ -223,30 +203,30 @@ export default function AddStaff(props) {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title fs-4" id="staticBackdropLabel">Add staff</h5>
+                            <h5 className="modal-title fs-4" id="staticBackdropLabel">Add shift</h5>
                         </div>
                         <div className="modal-body d-flex justify-content-center">
                             <form className="me-5 w-75">
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="hoTen" className="form-label col-4 custom-bold">Full Name:</label>
-                                    <input className="form-control rounded-3" name="hoTen" id="hoTen" type="text" placeholder="Enter full name" onChange={handleChange} required />
+                                    <label htmlFor="tenCaKham" className="form-label col-4 custom-bold">Medical Shift:</label>
+                                    <input className="form-control rounded-3" name="tenCaKham" id="tenCaKham" type="text" placeholder="Enter Medical Shift" onChange={handleChange} required />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
-                                    <label htmlFor="gioiTinh" className="form-label col-4 custom-bold">Gender:</label>
-                                    <select id="gioiTinh" name="gioiTinh" className="form-control rounded-3 " defaultValue={'DEFAULT'} onChange={handleChange}>
-                                        <option value="DEFAULT" hidden disabled>Enter your gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                    <label htmlFor="khungGio" className="form-label col-4 custom-bold">Time Slot:</label>
+                                    <select id="khungGio" name="khungGio" className="form-control rounded-3 " defaultValue={'DEFAULT'} onChange={handleChange}>
+                                        <option value="DEFAULT" hidden disabled>Enter Time Slot</option>
+                                        <option value="morning">7h-11h</option>
+                                        <option value="afternoon">13h-15h</option>
                                     </select>
                                     <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="ngaySinh" className="form-label col-4 custom-bold">Date of birth:</label>
-                                    <input type="date" id="ngaySinh" name="ngaySinh" className="form-control rounded-3" onChange={handleChange} />
+                                    <label htmlFor="ngayKham" className="form-label col-4 custom-bold">Consultation Date:</label>
+                                    <input type="date" id="ngayKham" name="ngayKham" className="form-control rounded-3" onChange={handleChange} />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
-                                    <label htmlFor="chuyenMonId" className="form-label col-4 custom-bold">Specialization:</label>
-                                    <select id="chuyenMonId" name="chuyenMonId" className="form-control rounded-3" onChange={handleChange} defaultValue="DEFAULT">
+                                    <label htmlFor="tenNhomBenh" className="form-label col-4 custom-bold">Disease Group:</label>
+                                    <select id="tenNhomBenh" name="tenNhomBenh" className="form-control rounded-3" onChange={handleChange} defaultValue="DEFAULT">
                                         <option value="DEFAULT" hidden disabled>Enter your specialization</option>
                                         {specialization && specialization.length > 0 && specialization.map((item) => (
                                             <option key={item.id} value={item.tenNhomBenh}>
@@ -257,29 +237,10 @@ export default function AddStaff(props) {
                                     <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="soDienThoai" className="form-label col-4 custom-bold">Phone number:</label>
-                                    <input name="soDienThoai" id="soDienThoai" type="text" className="form-control rounded-3" placeholder="Enter your phone number" onChange={handleChange} />
-                                </div>
-                                <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="email" className="form-label col-4 custom-bold">Email:</label>
-                                    <input name="email" id="email" type="email" className="form-control rounded-3" placeholder="Enter your Email" onChange={handleChange} />
-                                </div>
-                                <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="diaChi" className="form-label col-4 custom-bold">Address:</label>
-                                    <input name="diaChi" id="diaChi" type="text" className="form-control rounded-3" placeholder="Enter your address" onChange={handleChange} />
+                                    <label htmlFor="soLuongBenhNhanToiDa" className="form-label col-4 custom-bold">number of patients:</label>
+                                    <input name="soLuongBenhNhanToiDa" id="soLuongBenhNhanToiDa" type="text" className="form-control rounded-3" placeholder="Enter number of patients" onChange={handleChange} />
                                 </div>
                             </form>
-                            <div className="contain_img d-flex justify-content-center flex-column align-items-center">
-                                <img className="inner_img rounded-circle " src={imageSrc} />
-                                <button className="btn btn-primary btn_select_img" onClick={handleSlectImage}>Select image</button>
-                                <input
-                                    id="fileInput"
-                                    type="file"
-                                    className="d-none"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                            </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" onClick={handleClose} className="btn btn-secondary btn_Cancel" data-bs-dismiss="modal">Cancel</button>

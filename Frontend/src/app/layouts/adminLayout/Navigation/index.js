@@ -53,7 +53,7 @@ export default function Navigation() {
 
                                         <NavLink to="Patien" className="itemPatiens itemOfListUsers my-2 py-2 ">
                                             <span><GoDotFill className="icon_Bullet_point" /></span>
-                                            Patiens
+                                            Patients
                                         </NavLink>
                                     </div>
                                 </div>

@@ -3,49 +3,31 @@ import { GrCircleInformation } from "react-icons/gr";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { TiEdit } from "react-icons/ti";
-import "./DetailStaff.css";
+import "./DetailPatien.css";
 import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { formatDate } from "../../../../utils/FormatDate/formatDate";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 
-export default function DetailStaff(props) {
+export default function DetailPatien(props) {
     const [imageSrc, setImageSrc] = useState();
     // state quản lý trạng thái có thể edit information
     const [editStatus, setEditStatus] = useState(false);
-    // data chi tiết nhân viên gốc (được gọi từ api)
-    const [informationStaff, setInformationStaff] = useState({});
+    // data chi tiết bệnh nhân gốc (được gọi từ api)
+    const [informationPatient, setInformationPatient] = useState({});
     // item truyền từ props qua
-    const { listStaff, setListStaff, item } = props;
-    // state quản lý chuyên môn
-    const [specialization, setSpecialization] = useState([]);
+    const { listPatien, setListPatien, item } = props;
     // state quản lý data của formform
     const [dataForm, setDataForm] = useState({});
     // console.log(">>>>>>>check item", item)
     useEffect(() => {
-        const uri = "/api/admin/quan-li-nhom-benh";
+        const uri = `/api/admin/quan-li-benh-nhan/detail?id=${item.id}`;
         fetchGet(
             uri,
             (sus) => {
-                setSpecialization(sus);
-            },
-            (fail) => {
-                showErrorMessageBox(fail.message);
-            },
-            () => {
-                alert("Có lỗi xảy ra");
-            }
-        );
-    }, []);
-
-    useEffect(() => {
-        const uri = `/api/admin/quan-li-nhan-vien/detail?id=${item.id}`;
-        fetchGet(
-            uri,
-            (sus) => {
-                setInformationStaff(sus);
+                setInformationPatient(sus);
                 // lấy data gán vào cho newInformation
-                const { chuyenMon, hoSoBenhAns, isLock
+                const { chuyenMon, chuyenMonId, hoSoBenhAns, isLock
                     , matKhau,
                     suChoPheps
                     , tenTaiKhoan
@@ -101,21 +83,20 @@ export default function DetailStaff(props) {
         // quay lại trạng thái detail information
         setEditStatus(!editStatus);
         // clear data đã thay đổi
-        const { chuyenMon, hoSoBenhAns, isLock
+        const { chuyenMon, chuyenMonId, hoSoBenhAns, isLock
             , matKhau,
             suChoPheps
             , tenTaiKhoan
             , vaiTro, vaiTroId
-            , ...newInformation } = informationStaff;
+            , ...newInformation } = informationPatient;
         setDataForm(newInformation);
 
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { hoTen, gioiTinh, ngaySinh, chuyenMonId, soDienThoai, email, diaChi, image, id } = dataForm;
-
+        const { hoTen, gioiTinh, ngaySinh, soDienThoai, email, diaChi, image, id } = dataForm;
         // Validate dữ liệu trước khi gửi
-        if (!hoTen || !gioiTinh || !ngaySinh || !chuyenMonId || !soDienThoai || !email || !diaChi || !image) {
+        if (!hoTen || !gioiTinh || !ngaySinh || !soDienThoai || !email || !diaChi || !image) {
             // alert("Please fill in all the required fields!");
             showErrorMessageBox("Please fill in all the required fields!")
             return;
@@ -155,15 +136,8 @@ export default function DetailStaff(props) {
             showErrorMessageBox("Date of birth must be after 1950")
             return;
         }
-        // Kiểm tra tuổi
-        const age = Math.floor((currentDate - ngaySinhDate) / (1000 * 60 * 60 * 24 * 365.25));
-        if (age < 18) {
-            // alert("You must be at least 18 years old");
-            showErrorMessageBox("You must be at least 18 years old")
-            return;
-        }
         // Kiểm tra tính duy nhất của số điện thoại và email
-        for (const element of listStaff) {
+        for (const element of listPatien) {
             if (element.soDienThoai === soDienThoai && element.id !== id) {
                 // alert("Phone number already exists");
                 showErrorMessageBox("Phone number already exists")
@@ -176,26 +150,27 @@ export default function DetailStaff(props) {
             }
         }
 
-        EditStaff();
+        EditPatient();
     };
+    console.log(">>>>>>>>check listPatien", listPatien);
     // Hàm lấy danh sách nhân viên
-    const fetchStaffList = () => {
-        const uri = "/api/admin/quan-li-nhan-vien";
+    const fetchPatientList = () => {
+        const uri = "/api/admin/quan-li-benh-nhan";
         fetchGet(
             uri,
             (data) => {
-                setListStaff(data); // Cập nhật danh sách nhân viên
+                setListPatien(data); // Cập nhật danh sách nhân viên
             },
             (fail) => {
                 showErrorMessageBox(fail.message)
             },
             () => {
-                alert("An error occurred while fetching staff list.");
+                alert("An error occurred while fetching patient list.");
             }
         );
     };
-    const EditStaff = () => {
-        const uri = "/api/admin/quan-li-nhan-vien/update"
+    const EditPatient = () => {
+        const uri = "/api/admin/quan-li-benh-nhan/update"
         const updatedDataForm = { ...dataForm }; // Lưu trữ giá trị mới trước khi gọi API
         fetchPut(
             uri,
@@ -209,7 +184,7 @@ export default function DetailStaff(props) {
                 // quay lại trang detail information
                 handleEditInformation()
                 // cập nhật ui ở trang quản lý nhân viên
-                fetchStaffList()
+                fetchPatientList()
 
             },
             (fail) => {
@@ -234,11 +209,11 @@ export default function DetailStaff(props) {
             <a href="#">
                 <GrCircleInformation className="icon_information icon_action" data-bs-toggle="modal" data-bs-target={idspecificModal} />
             </a>
-            <div className="detailStaff modal fade" id={idModal} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="detailPatien modal fade" id={idModal} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title fs-4" id="staticBackdropLabel">{editStatus ? "Edit staff" : "Detail staff"}</h5>
+                            <h5 className="modal-title fs-4" id="staticBackdropLabel">{editStatus ? "Edit Patient" : "Detail Patient"}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClsoe}></button>
                         </div>
                         <div className="modal-body d-flex justify-content-center">
@@ -269,22 +244,6 @@ export default function DetailStaff(props) {
                                             <input type="date" id="ngaySinh" name="ngaySinh" className="form-control rounded-3" value={formatDate(dataForm.ngaySinh)} onChange={handleChange} readOnly={!editStatus} />
                                         )
                                     }
-                                </div>
-                                <div className="form-group mb-3 d-flex align-items-center position-relative">
-                                    <label htmlFor="chuyenMonId" className="form-label col-4 custom-bold">Specialization:</label>
-                                    {editStatus ? (
-                                        <select id="chuyenMonId" name="chuyenMonId" className="form-control rounded-3" value={dataForm.chuyenMonId} onChange={handleChange}>
-                                            {specialization && specialization.length > 0 && specialization.map((item) => (
-                                                <option key={item.id} value={item.id}>
-                                                    {item.tenNhomBenh}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    ) : (
-                                        <input type="text" id="chuyenMonId" name="chuyenMonId" className="form-control rounded-3" value={specialization.find(spec => spec.id == dataForm.chuyenMonId)?.tenNhomBenh || "ABC"
-                                        } readOnly={!editStatus} />
-                                    )}
-                                    <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
                                     <label htmlFor="soDienThoai" className="form-label col-4 custom-bold">Phone number:</label>
@@ -322,7 +281,7 @@ export default function DetailStaff(props) {
                             </div>
                         ) : (
                             <div className="contain_Edit d-flex align-items-center mb-3 ms-3">
-                                <h4 className="title_edit fs-6 mb-0 me-2">Edit employee information</h4>
+                                <h4 className="title_edit fs-6 mb-0 me-2">Edit patient information</h4>
                                 <button className="bg-white border-0 p-0" onClick={handleEditInformation}>
                                     <TiEdit className="fs-3 icon_edit_information" />
                                 </button>
