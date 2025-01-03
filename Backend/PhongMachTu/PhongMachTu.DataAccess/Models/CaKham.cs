@@ -32,7 +32,13 @@ namespace PhongMachTu.DataAccess.Models
 		public int? BacSiId { get; set; }//null là chưa có ai đăng ký
 		[ForeignKey(nameof(BacSiId))]
 		public NguoiDung? BacSi { get; set; }
-		public IEnumerable<LichKham> ?LichKhams { get; set; } 
+		public IEnumerable<LichKham> ?LichKhams { get; set; }
 
-	}
+        [Required]
+        public int NhomBenhId { get; set; }
+        [Required]
+        [ForeignKey(nameof(NhomBenhId))]
+        public NhomBenh? NhomBenh { get; set; }
+
+    }
 }

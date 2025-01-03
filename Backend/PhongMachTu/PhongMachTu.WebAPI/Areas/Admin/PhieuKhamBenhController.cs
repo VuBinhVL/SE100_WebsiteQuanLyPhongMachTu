@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
+using PhongMachTu.Common.DTOs.Request.PhieuKhamBenh;
 using PhongMachTu.Service;
 
 namespace PhongMachTu.WebAPI.Areas.Admin
@@ -29,7 +30,19 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
         }
 
-
+        [HttpPost("add")]
+        public async Task<IActionResult> AddPhieuKhamBenhAsync(Request_AddPhieuKhamBenhDTO data)
+        {
+            try
+            {
+                var rs = await _phieuKhamBenhService.AddPhieuKhamBenhAsync(data);
+                return StatusCode(rs.HttpStatusCode, rs.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
 
     }
 }
