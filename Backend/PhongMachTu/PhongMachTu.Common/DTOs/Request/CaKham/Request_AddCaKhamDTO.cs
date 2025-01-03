@@ -23,7 +23,8 @@ namespace PhongMachTu.Common.DTOs.Request.CaKham
 
         [Required]
         public int SoLuongBenhNhanToiDa { get; set; }
- 
+        [Required]
+        public int NhomBenhId { get; set; }
         public int? BacSiId { get; set; }
     }
 }

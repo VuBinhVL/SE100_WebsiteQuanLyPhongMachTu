@@ -58,8 +58,10 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Bác sĩ không tồn tại");
             }
+
             await _caKhamRepository.AddAsync(new CaKham()
             {
+                NhomBenhId = caKham.NhomBenhId,
                 TenCaKham = caKham.TenCaKham,
                 ThoiGianBatDau = caKham.ThoiGianBatDau,
                 ThoiGianKetThuc = caKham.ThoiGianKetThuc,

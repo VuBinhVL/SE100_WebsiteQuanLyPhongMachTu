@@ -55,6 +55,7 @@ namespace PhongMachTu.DataAccess.Repositories
                 .Include(ck => ck.BacSi.ChuyenMon)   
                 .Select(ck => new CaKhamDTO          
                 {
+                    SDT = ck.BacSi.SoDienThoai,
                     TenCaKham = ck.TenCaKham,
                     ThoiGianBatDau = ck.ThoiGianBatDau,
                     ThoiGianKetThuc = ck.ThoiGianKetThuc,
