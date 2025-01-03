@@ -13,7 +13,7 @@ namespace PhongMachTu.Service
 {
     public interface IChiTietHoSoBenhAnService
     {
-        Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext);
+        Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext, int HoSoBenhAnID);
         Task<Request_HienThiPKBCuaChiTietHoSoBenhAnDTO> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId);
     }
     public class ChiTietHoSoBenhAnService : IChiTietHoSoBenhAnService
@@ -39,7 +39,7 @@ namespace PhongMachTu.Service
             _thuocRepository = thuocRepository;
             _chiTietDonThuocRepository = chiTietDonThuocRepository;
         }
-        public async Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext)
+        public async Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext, int HoSoBenhAnID)
         {
             // Lấy thông tin người dùng từ HttpContext
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
@@ -49,40 +49,43 @@ namespace PhongMachTu.Service
             }
 
             // Tìm hồ sơ bệnh án của người dùng
-            var hoSoBenhAn = (await _hoSoBenhAnRepository.GetAllAsync())
-                .FirstOrDefault(h => h.BenhNhanId == nguoiDung.Id);
+            var hoSoBenhAn = (await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.ChiTietHoSoBenhAn))
+                .FirstOrDefault(h => h.Id == HoSoBenhAnID);
 
             if (hoSoBenhAn == null)
             {
                 throw new Exception("Hồ sơ bệnh án không tồn tại");
             }
 
-            // Lấy danh sách ChiTietKhamBenh liên quan qua bảng ChiTietHoSoBenhAn
-            var chiTietKhamBenhs = (await _chiTietHoSoBenhAnRepository.GetAllAsync())
-                .Where(cthba => cthba.HoSoBenhAnId == hoSoBenhAn.Id)
-                .Select(cthba => cthba.ChiTietKhamBenh)
-                .ToList();
+            // Lấy danh sách ChiTietHoSoBenhAn liên quan đến hồ sơ bệnh án
+            var chiTietHoSoBenhAns = (await _chiTietHoSoBenhAnRepository.GetAllAsync()).Where(cthsba => cthsba.HoSoBenhAnId == hoSoBenhAn.Id);
+            if (chiTietHoSoBenhAns == null || !chiTietHoSoBenhAns.Any())
+            {
+                throw new Exception("Không có chi tiết hồ sơ bệnh án nào liên quan");
+            }
 
+            // Lấy danh sách ChiTietKhamBenh từ ChiTietHoSoBenhAn
+            var chiTietKhamBenhs = (await _chiTietKhamBenhRepository.GetAllWithIncludeAsync(c => c.BenhLy, c => c.PhieuKhamBenh.LichKham.CaKham.BacSi))
+                .Where(ctkb => chiTietHoSoBenhAns.Any(cthsba => cthsba.ChiTietKhamBenhId == ctkb.Id))
+                .ToList();
 
             if (!chiTietKhamBenhs.Any())
             {
-                throw new Exception("Không có chi tiết khám bệnh");
+                throw new Exception("Không có chi tiết khám bệnh nào liên quan");
             }
 
             // Chuyển đổi dữ liệu sang DTO
-            var chiTietHoSoDTOs = chiTietKhamBenhs.Select(c => new Request_HienThiChiTietHoSoBenhAnDTO
+            var chiTietHoSoDTOs = chiTietKhamBenhs.Select(ctkb => new Request_HienThiChiTietHoSoBenhAnDTO
             {
-                PhieuKhamBenhId = c.PhieuKhamBenhId,
-                HoTenBacSi = c.PhieuKhamBenh.LichKham.CaKham.BacSi?.HoTen ?? "Chưa cập nhật",
-                TenNhomBenh = hoSoBenhAn.NhomBenh?.TenNhomBenh ?? "Chưa xác định",
-                NgayKham = c.PhieuKhamBenh.NgayTao,
-                GiaKham = c.GiaKham
+                HoTenBacSi = ctkb.PhieuKhamBenh.LichKham.CaKham.BacSi?.HoTen ,
+                TenBenhLy = ctkb.BenhLy?.TenBenhLy,
+                NgayKham = ctkb.PhieuKhamBenh.NgayTao,
+                GiaKham = ctkb.GiaKham
             }).ToList();
-
-   
 
             return chiTietHoSoDTOs;
         }
+
 
         public async Task<Request_HienThiPKBCuaChiTietHoSoBenhAnDTO> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId)
         {
@@ -154,8 +157,7 @@ namespace PhongMachTu.Service
                 DanhSachThuoc = danhSachThuoc
             };
 
-            // Chuyển đổi danh sách sang JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(chiTietHoSoDTO);
+        
 
             return chiTietHoSoDTO;
         }

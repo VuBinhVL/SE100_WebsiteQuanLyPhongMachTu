@@ -16,11 +16,11 @@ namespace PhongMachTu.WebAPI.Areas.Customer
             _chiTietHoSoBenhAnService = chiTietHoSoBenhAnService;
         }
         [HttpGet("")]
-        public async Task<IActionResult> HienThiChiTietKhamBenhAsync()
+        public async Task<IActionResult> HienThiChiTietKhamBenhAsync(int HoSoBenhAnID)
         {
             try
             {
-                var rs = await _chiTietHoSoBenhAnService.HienThiChiTietHoSoBenhAnAsync(HttpContext);
+                var rs = await _chiTietHoSoBenhAnService.HienThiChiTietHoSoBenhAnAsync(HttpContext, HoSoBenhAnID);
                 return Ok(rs);
             }
             catch (Exception ex)
