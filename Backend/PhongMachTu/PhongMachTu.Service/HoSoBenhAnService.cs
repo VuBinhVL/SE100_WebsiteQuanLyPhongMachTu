@@ -21,22 +21,22 @@ namespace PhongMachTu.Service
     }
     public class HoSoBenhAnService : IHoSoBenhAnService
     {
-        private readonly IHoSoBenhAnRepository hoSoBenhAnRepository;
+        private readonly IHoSoBenhAnRepository _hoSoBenhAnRepository;
         private readonly INguoiDungService _nguoiDungService;
-        public HoSoBenhAnService(IHoSoBenhAnRepository _hoSoBenhAnRepository, INguoiDungService nguoiDungService)
+        public HoSoBenhAnService(IHoSoBenhAnRepository hoSoBenhAnRepository, INguoiDungService nguoiDungService)
         {
             _hoSoBenhAnRepository = hoSoBenhAnRepository;
             _nguoiDungService = nguoiDungService;
         }
         public async Task<List<HoSoBenhAn>> GetAllAsync()
         {
-            return (await hoSoBenhAnRepository.GetAllAsync()).ToList();
+            return (await _hoSoBenhAnRepository.GetAllAsync()).ToList();
         }
         public async Task<Request_HienThiHoSoBenhAnDTO> HienThiHoSoBenhAnAsync(HttpContext httpContext)
         {
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
          
-            var findBenhNhan = (await hoSoBenhAnRepository.GetAllAsync()).Where(d => d.BenhNhanId == nguoiDung.Id).FirstOrDefault();
+            var findBenhNhan = (await _hoSoBenhAnRepository.GetAllAsync()).Where(d => d.BenhNhanId == nguoiDung.Id).FirstOrDefault();
             var rs = new Request_HienThiHoSoBenhAnDTO()
             {
                 Id = findBenhNhan.Id,
