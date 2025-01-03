@@ -16,12 +16,11 @@ export default function MedicalExamList() {
 
   //Gọi API lấy danh sách ca khám
   useEffect(() => {
-    const uri = "/api/quan-li-ca-kham/hien-thi-ca-kham-da-dang-ky";
+    const uri = "/api/quan-li-ca-kham"; // Đường dẫn API
     fetchGet(
       uri,
       (data) => {
-        console.log(typeof data);
-
+        console.log(data);
         // Lọc các ca khám có BacSiID khác null
         const filteredData = data.filter((exam) => exam.bacSiId !== null);
         console.log(filteredData);
@@ -69,8 +68,8 @@ export default function MedicalExamList() {
   // Lọc danh sách ca khám
   const filteredExams = examList.filter((exam) => {
     const query = searchQuery.toLowerCase();
-    //const doctorMatch = exam.doctorName.toLowerCase().includes(query);
-    //const groupMatch = exam.group.toLowerCase().includes(query);
+    const doctorMatch = exam.tenBacSi.toLowerCase().includes(query);
+    const groupMatch = exam.tenChuyenMon.toLowerCase().includes(query);
 
     const daysOfWeek = [
       "Chủ nhật",
@@ -86,7 +85,7 @@ export default function MedicalExamList() {
 
     const dayMatch = selectedDay === "Tất cả" || examDay === selectedDay;
 
-    //return (doctorMatch || groupMatch) && dayMatch;
+    return (doctorMatch || groupMatch) && dayMatch;
     return dayMatch;
   });
 
@@ -98,7 +97,6 @@ export default function MedicalExamList() {
     fetchPost(
       uri,
       body,
-      console.log(body),
       (response) => {
         // Xử lý khi đăng ký thành công
         showSuccessMessageBox("Đăng ký thành công ca khám!");
@@ -189,7 +187,7 @@ export default function MedicalExamList() {
               endtime={exam.thoiGianKetThuc.slice(0, 5)} // Cắt chỉ lấy HH:mm
               date={formatDate(exam.ngayKham)} // Định dạng ngày
               image={exam.image} // Ảnh bác sĩ
-              onRegister={() => registerExam(5)} // Gọi API với exam.id làm "caKhamId"
+              onRegister={() => registerExam(exam.id)} // Gọi API với exam.id làm "caKhamId"
             />
           ))}
         </div>

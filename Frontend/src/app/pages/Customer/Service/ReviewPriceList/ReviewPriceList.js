@@ -11,13 +11,21 @@ export default function ReiviewPriceList() {
 
   //Gọi API lấy bảng giá dịch vụ
   useEffect(() => {
-    const uri = "/api/quan-li-benh-ly/hien-thi-bang-gia-benh-ly";
+    const uri = "/api/quan-li-benh-ly/bang-gia-benh-ly";
     fetchGet(
       uri,
       (data) => {
-        console.log(typeof data);
         console.log(data);
-        setTable(data); // Cập nhật danh sách bảng giá dịch vụ},
+        // Nhóm dữ liệu theo "tenNhomBenh"
+        const groupedData = data.reduce((acc, curr) => {
+          const groupName = curr.tenNhomBenh;
+          if (!acc[groupName]) {
+            acc[groupName] = [];
+          }
+          acc[groupName].push(curr);
+          return acc;
+        }, {});
+        setTable(groupedData); // Cập nhật danh sách bảng giá dịch vụ
       },
       (error) => {
         showErrorMessageBox(error);
@@ -61,62 +69,19 @@ export default function ReiviewPriceList() {
               </tr>
             </thead>
             <tbody>
-              {/* Nhóm bệnh: Tim mạch */}
-              <tr>
-                <td rowSpan="5">Tim mạch</td>
-                <td>Bệnh mạch vành</td>
-                <td>120.000 VND</td>
-              </tr>
-              <tr>
-                <td>Cao huyết áp</td>
-                <td>90.000 VND</td>
-              </tr>
-              <tr>
-                <td>Suy tim</td>
-                <td>100.000 VND</td>
-              </tr>
-              <tr>
-                <td>Bệnh van tim</td>
-                <td>225.000 VND</td>
-              </tr>
-              <tr>
-                <td>Hẹp động mạch chủ</td>
-                <td>125.000 VND</td>
-              </tr>
-
-              {/* Nhóm bệnh: Hô hấp */}
-              <tr>
-                <td rowSpan="3">Hô hấp</td>
-                <td>Hen suyễn</td>
-                <td>100.000 VND</td>
-              </tr>
-              <tr>
-                <td>Phổi tắc nghẽn mãn tính</td>
-                <td>125.000 VND</td>
-              </tr>
-              <tr>
-                <td>Lao phổi</td>
-                <td>900.000 VND</td>
-              </tr>
-
-              {/* Nhóm bệnh: Tiêu hóa */}
-              <tr>
-                <td rowSpan="4">Tiêu hóa</td>
-                <td>Viêm loét dạ dày</td>
-                <td>400.000 VND</td>
-              </tr>
-              <tr>
-                <td>Trào ngược dạ dày</td>
-                <td>50.000 VND</td>
-              </tr>
-              <tr>
-                <td>Hội chứng ruột kích thích</td>
-                <td>75.000 VND</td>
-              </tr>
-              <tr>
-                <td>Sỏi mật</td>
-                <td>699.999 VND</td>
-              </tr>
+              {Object.keys(table).map((groupName, groupIndex) => (
+                <>
+                  {table[groupName].map((disease, diseaseIndex) => (
+                    <tr key={diseaseIndex}>
+                      {diseaseIndex === 0 && (
+                        <td rowSpan={table[groupName].length}>{groupName}</td>
+                      )}
+                      <td>{disease.tenBenhLy}</td>
+                      <td>{disease.giaThamKhao.toLocaleString()} VND</td>
+                    </tr>
+                  ))}
+                </>
+              ))}
             </tbody>
           </table>
           <p className="price-note">
