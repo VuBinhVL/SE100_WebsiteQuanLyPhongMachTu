@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Service;
+using System.Net.Http;
 
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
@@ -62,6 +63,19 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _caKhamService.HienThiDanhSachCaKhamPhiaAdmin();
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+        [HttpPut("dang-ky-ca-kham")]
+        public async Task<IActionResult> DangKyCaKhamAsync(Request_DangKyCaKhamChoBacSiDTO request)
+        {
+            try
+            {
+                var rs = await _caKhamService.DangKyCaKhamChoBacSiAsync( request, HttpContext);
                 return Ok(rs);
             }
             catch (Exception ex)

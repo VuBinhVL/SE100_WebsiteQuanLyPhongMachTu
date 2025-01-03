@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Asn1.Ocsp;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Common.DTOs.Respone;
@@ -21,6 +22,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> UpdateCaKham(Request_UpdateCaKhamDTO? request);
         Task<ResponeMessage> DeleteCaKham(int id);
         Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data, HttpContext httpContext);
+        Task<ResponeMessage> DangKyCaKhamChoBacSiAsync(Request_DangKyCaKhamChoBacSiDTO data, HttpContext httpContext);
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
         Task<IEnumerable<CaKhamDTO>> HienThiDanhSachCaKhamPhiaAdmin();
     }
@@ -310,6 +312,23 @@ namespace PhongMachTu.Service
 
 
             return await _caKhamRepository.GetCaKhamsWithTenBacSiAndTenNhomBenhAsync(); ;
+        }
+
+        public async Task<ResponeMessage> DangKyCaKhamChoBacSiAsync(Request_DangKyCaKhamChoBacSiDTO data, HttpContext httpContext)
+        {
+            var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (nguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+            var findCaKham = (await _caKhamRepository.FindAsync(c => c.Id == data.CaKhamId && c.BacSiId != null && c.NhomBenhId == nguoiDung.ChuyenMonId)).FirstOrDefault();
+            if (findCaKham == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Ca khám đã có bác sĩ đăng kí hoặc không phù hợp chuyên môn của bạn");
+            }
+            findCaKham.BacSiId = nguoiDung.Id;
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Đăng kí ca khám thành công");
         }
     }
 }
