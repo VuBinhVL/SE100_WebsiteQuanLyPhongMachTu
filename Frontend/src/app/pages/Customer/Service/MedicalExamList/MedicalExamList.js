@@ -93,17 +93,17 @@ export default function MedicalExamList() {
   function registerExam(caKhamId) {
     const uri = "/api/quan-li-ca-kham/dang-ky"; // Đường dẫn API
     const body = { caKhamId }; // Payload phải chứa trường "caKhamId"
-
     fetchPost(
       uri,
       body,
       (sus) => {
         // Xử lý khi đăng ký thành công
-        showSuccessMessageBox(sus.message);
+        showSuccessMessageBox(sus);
       },
       (err) => {
+        console.log(err);
         // Xử lý khi có lỗi xảy ra
-        showErrorMessageBox(err.message);
+        showErrorMessageBox(err);
       },
       () => {
         // Xử lý khi không thể kết nối đến server
@@ -116,7 +116,6 @@ export default function MedicalExamList() {
   const indexOfLastExam = currentPage * examsPerPage;
   const indexOfFirstExam = indexOfLastExam - examsPerPage;
   const currentExams = filteredExams.slice(indexOfFirstExam, indexOfLastExam);
-
   const totalPages = Math.ceil(filteredExams.length / examsPerPage);
 
   const handlePageChange = (pageNumber) => {
@@ -178,7 +177,7 @@ export default function MedicalExamList() {
 
         {/* Danh sách các ca khám */}
         <div className="medical-exam-list-grid">
-          {filteredExams.map((exam) => (
+          {currentExams.map((exam) => (
             <ExamCard
               key={exam.id}
               group={exam.tenChuyenMon} // Nhóm bệnh
