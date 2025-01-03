@@ -34,17 +34,35 @@ namespace PhongMachTu.Service
         }
         public async Task<Request_HienThiHoSoBenhAnDTO> HienThiHoSoBenhAnAsync(HttpContext httpContext)
         {
+            // Lấy thông tin người dùng từ HttpContext
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
-         
-            var findBenhNhan = (await _hoSoBenhAnRepository.GetAllAsync()).Where(d => d.BenhNhanId == nguoiDung.Id).FirstOrDefault();
+
+            // Tìm hồ sơ bệnh án tương ứng với người dùng
+            var allHoSoBenhAn = await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.NhomBenh); // Chờ để nhận danh sách
+
+            var findBenhNhan = allHoSoBenhAn
+                .Where(d => d.BenhNhanId == nguoiDung.Id)
+                .FirstOrDefault();
+
+            // Kiểm tra nếu không tìm thấy hồ sơ
+            if (findBenhNhan == null)
+            {
+                throw new Exception("Không tìm thấy hồ sơ bệnh án cho người dùng.");
+            }
+
+            // Tạo DTO kết quả
             var rs = new Request_HienThiHoSoBenhAnDTO()
             {
+                IdBN = findBenhNhan.BenhNhanId,
                 Id = findBenhNhan.Id,
+                NhomBenh = findBenhNhan.NhomBenh?.TenNhomBenh ?? "Chưa xác định", // Lấy tên nhóm bệnh
                 NgayTao = findBenhNhan.NgayTao
             };
-     
+
             return rs;
         }
 
-        }
+
+
+    }
 }
