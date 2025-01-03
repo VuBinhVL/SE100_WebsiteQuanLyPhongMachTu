@@ -19,7 +19,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             _benhNhanService = benhNhanService;
         }
-        [HttpGet("hien-thi-danh-sach-benh-nhan")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiDanhSachBenhNhanAsync()
         {
             try
@@ -67,7 +67,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-        [HttpPut("update-thong-tin-benh-nhan")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateBenhNhanAsync([FromBody] Request_UpdateThongTinCaNhanBenhNhanDTO request)
         {
             try
