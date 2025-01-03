@@ -86,5 +86,20 @@ const fetchPut = async (uri, reqData, onSuccess, onFail, onException) => {
     onException();
   }
 };
-
-export { fetchGet, fetchPost, fetchDelete, fetchPut };
+const fetchUpload = async (uri, formData, onSuccess, onFail, onException) => {
+  try {
+    const res = await fetch(BE_ENPOINT + uri, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      onFail(data);
+      return;
+    }
+    onSuccess(data);
+  } catch {
+    onException();
+  }
+};
+export { fetchGet, fetchPost, fetchDelete, fetchPut, fetchUpload, BE_ENPOINT };
