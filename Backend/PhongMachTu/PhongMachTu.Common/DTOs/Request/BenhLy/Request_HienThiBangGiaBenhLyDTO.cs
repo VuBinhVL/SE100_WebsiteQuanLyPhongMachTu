@@ -12,5 +12,6 @@ namespace PhongMachTu.Common.DTOs.Request.BenhLy
         public string? TenBenhLy { get; set; }
         public int GiaThamKhao { get; set; }
         public string? TenNhomBenh { get; set; }
+        public int Id { get; set; }
     }
 }

@@ -146,6 +146,7 @@ namespace PhongMachTu.Service
 
             var bangGiaBenhLy = benhLys.Select(bl => new Request_HienThiBangGiaBenhLyDTO
             {
+                Id = bl.Id,
                 TenNhomBenh = bl.NhomBenh?.TenNhomBenh,
                 TenBenhLy = bl.TenBenhLy,              
                 GiaThamKhao = bl.GiaThamKhao           
