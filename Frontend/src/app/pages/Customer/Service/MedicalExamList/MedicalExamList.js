@@ -97,13 +97,13 @@ export default function MedicalExamList() {
     fetchPost(
       uri,
       body,
-      (response) => {
+      (sus) => {
         // Xử lý khi đăng ký thành công
-        showSuccessMessageBox("Đăng ký thành công ca khám!");
+        showSuccessMessageBox(sus.message);
       },
-      (error) => {
+      (err) => {
         // Xử lý khi có lỗi xảy ra
-        showErrorMessageBox(error.message || "Đăng ký thất bại.");
+        showErrorMessageBox(err.message);
       },
       () => {
         // Xử lý khi không thể kết nối đến server

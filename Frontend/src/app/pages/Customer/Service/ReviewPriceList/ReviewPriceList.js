@@ -1,14 +1,16 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Anh from "../../../../assets/images/clinic1.png";
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showYesNoMessageBox } from "../../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox";
 import { fetchGet } from "../../../../lib/httpHandler";
 import "./ReviewPriceList.css";
+import DiseaseInfoPopup from "../DiseaseInfoPopup/DiseaseInfoPopup";
 
 export default function ReiviewPriceList() {
   const [table, setTable] = useState([]); // Danh sách bảng giá dịch vụ
-
+  const [selectedDisease, setSelectedDisease] = useState(null); // Bệnh lý được chọn
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái hiển thị popup
   //Gọi API lấy bảng giá dịch vụ
   useEffect(() => {
     const uri = "/api/quan-li-benh-ly/bang-gia-benh-ly";
@@ -35,6 +37,17 @@ export default function ReiviewPriceList() {
       }
     );
   }, []);
+
+  // Xử lý khi double click vào một bệnh lý
+  const handleRowDoubleClick = (disease) => {
+    setSelectedDisease(disease); // Lưu thông tin bệnh lý
+    setIsPopupOpen(true); // Mở popup
+  };
+
+  // Đóng popup
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
 
   return (
     <div className="price-page">
@@ -72,7 +85,11 @@ export default function ReiviewPriceList() {
               {Object.keys(table).map((groupName, groupIndex) => (
                 <>
                   {table[groupName].map((disease, diseaseIndex) => (
-                    <tr key={diseaseIndex}>
+                    <tr
+                      key={diseaseIndex}
+                      onDoubleClick={() => handleRowDoubleClick(disease)} // Gắn sự kiện double click
+                      style={{ cursor: "pointer" }}
+                    >
                       {diseaseIndex === 0 && (
                         <td rowSpan={table[groupName].length}>{groupName}</td>
                       )}
@@ -91,6 +108,13 @@ export default function ReiviewPriceList() {
           </p>
         </div>
       </div>
+      {/* Hiển thị popup nếu mở */}
+      {isPopupOpen && (
+        <DiseaseInfoPopup
+          disease={selectedDisease}
+          onClose={handleClosePopup}
+        />
+      )}
     </div>
   );
 }

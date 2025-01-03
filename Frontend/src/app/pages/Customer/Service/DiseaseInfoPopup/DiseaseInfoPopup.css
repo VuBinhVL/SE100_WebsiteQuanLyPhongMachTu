@@ -1,0 +1,81 @@
+.disease-info-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 1000; /* Đảm bảo popup nằm trên */
+  width: 80%;
+  max-width: 500px;
+}
+
+.disease-info-popup .popup-header {
+  background-color: #348f6c;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+.disease-info-popup .popup-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.disease-info-popup .popup-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.disease-info-popup .popup-body {
+  padding: 20px;
+}
+
+.disease-info-popup .disease-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.disease-info-popup .section-title {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.disease-info-popup .symptoms-list {
+  list-style-type: decimal;
+  margin-left: 20px;
+}
+
+.disease-info-popup .symptoms-list li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.popup-footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+.schedule-button {
+  background-color: #fc5185;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.schedule-button:hover {
+  background-color: #e64773;
+}

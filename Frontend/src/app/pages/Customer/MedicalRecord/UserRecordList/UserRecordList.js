@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MedicalRecordCard from "../../../../components/Customer/MedicalRecord/MedicalRecordCard"; // Import component bạn đã tạo
 import "./UserRecordList.css";
 import { useNavigate } from "react-router-dom";
 import DiseaseDetail from "../DiseaseDetail/DiseaseDetail"; // Import Component DiseaseDetail
+import { fetchGet } from "../../../../lib/httpHandler"; // Import hàm gọi API
+import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // Import hàm hiển thị thông báo lỗi
 
 export default function UserRecordList() {
   const navigate = useNavigate(); // Hook để điều hướng
@@ -12,23 +14,22 @@ export default function UserRecordList() {
     date: "15/11/2004",
     diseaseType: "Tim mạch",
   }));
-  // Gọi API lấy dữ liệu hồ sơ bệnh án của người dùng
-  // useEffect(() => {
-  //   const uri = "/api/quan-li-ho-so-benh-an/hien-thi-ho-so-benh-an";
-  //   fetchGet(
-  //     uri,
-  //     (data) => {
-  //       console.log(data);
-  //       setRecords(data);
-  //     },
-  //     (error) => {
-  //       showErrorMessageBox(error);
-  //     },
-  //     () => {
-  //       showErrorMessageBox("Lỗi kết nối đến máy chủ");
-  //     }
-  //   );
-  // }, []);
+  //Gọi API lấy dữ liệu hồ sơ bệnh án của người dùng
+  useEffect(() => {
+    const uri = "/api/quan-li-ho-so-benh-an";
+    fetchGet(
+      uri,
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        showErrorMessageBox("Lỗi kết nối đến máy chủ");
+      }
+    );
+  }, []);
 
   //Định dạng ngày tạo hồ sơ
   // const formatDate = (dateString) => {
