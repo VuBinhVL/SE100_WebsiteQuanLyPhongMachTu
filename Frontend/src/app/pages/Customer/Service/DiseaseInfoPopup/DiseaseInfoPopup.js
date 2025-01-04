@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./DiseaseInfoPopup.css";
 import { fetchGet } from "../../../../lib/httpHandler";
 import { useNavigate } from "react-router-dom";
+import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
 
 export default function DiseaseInfoPopup({ diseaseId, onClose }) {
   const [diseaseDetails, setDiseaseDetails] = useState(null);
@@ -12,14 +13,13 @@ export default function DiseaseInfoPopup({ diseaseId, onClose }) {
     fetchGet(
       uri,
       (result) => {
-        console.log(result);
         setDiseaseDetails(result); // Lưu chi tiết bệnh lý
       },
       (error) => {
-        console.log(error);
+        showErrorMessageBox(error.message);
       },
       () => {
-        console.log("Không thể kết nối đến server");
+        showErrorMessageBox("Không thể kết nối đến server");
       }
     );
   }, [diseaseId]);
