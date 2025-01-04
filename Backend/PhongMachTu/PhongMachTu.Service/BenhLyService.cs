@@ -23,6 +23,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DeleteBenhLy(int id);
         Task<IEnumerable<Request_HienThiBangGiaBenhLyDTO>> HienThiBangGiaBenhLy();
         Task<Request_HienThiChiTietBenhLyDTO> HienThiChiTietBenhLy(int benhLyId);
+
     }
     public class BenhLyService : IBenhLyService
     {
@@ -188,7 +189,6 @@ namespace PhongMachTu.Service
             return chiTietBenhLy;
         }
 
-
-
+  
     }
 }
