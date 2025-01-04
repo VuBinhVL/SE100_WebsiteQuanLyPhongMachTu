@@ -56,20 +56,19 @@ namespace PhongMachTu.DataAccess.Repositories
         public async Task<IEnumerable<CaKhamDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync()
         {
             return await _context.CaKhams
-                .Include(ck => ck.BacSi)             
-                .Include(ck => ck.BacSi.ChuyenMon)   
-                .Select(ck => new CaKhamDTO          
+                .Select(ck => new CaKhamDTO
                 {
                     SDT = ck.BacSi.SoDienThoai,
                     TenCaKham = ck.TenCaKham,
                     ThoiGianBatDau = ck.ThoiGianBatDau,
                     ThoiGianKetThuc = ck.ThoiGianKetThuc,
                     NgayKham = ck.NgayKham,
-                    BacSiKham = ck.BacSi.HoTen,             
-                    TenNhomBenh = ck.BacSi.ChuyenMon.TenNhomBenh 
+                    BacSiKham = ck.BacSi.HoTen,
+                    TenNhomBenh = ck.NhomBenh.TenNhomBenh
                 })
                 .ToListAsync();
         }
+
 
 
 
