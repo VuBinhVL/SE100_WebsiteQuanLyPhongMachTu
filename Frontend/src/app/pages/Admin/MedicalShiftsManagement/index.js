@@ -11,9 +11,20 @@ export default function MedicalShift() {
     const [listShift, setListShift] = useState([]);
     const [listShiftShow, setListShiftShow] = useState([]);
     const [listTimeSlot, setListTimeSlot] = useState([]);
-    const [filterSpecialization, setFilterSpecialization] = useState("DEFAULT");
+    const [filterTimeSlot, setFilterTimeSlot] = useState("DEFAULT");
     const [dataSearch, setDataSearch] = useState("");
-    const [daySearch, setDaySearch] = useState("");
+
+    // hàm lấy ngày hiện tại
+    const getCurrentDate = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+    };
+    const [daySearch, setDaySearch] = useState(getCurrentDate());
+    // hàm này dùng để khi load trang lên thì nó sẽ tự động search theo ngày hiện tại
+
     // Lấy danh sách ca khám 
     useEffect(() => {
         const uri = "/api/admin/quan-li-ca-kham";
@@ -21,7 +32,7 @@ export default function MedicalShift() {
             uri,
             (sus) => {
                 setListShift(sus);
-                // console.log(">>>>>>>>sus Patien", sus);
+
             },
             (fail) => {
                 alert(fail.message);
@@ -36,6 +47,7 @@ export default function MedicalShift() {
         const slot = getSlot();
         setListShiftShow(listShift);
         setListTimeSlot(slot);
+        applyFilterAndSearch(dataSearch, filterTimeSlot, getCurrentDate());
     }, [listShift]);
 
     //hàm chuyển đổi thời gian bắt đầu, kết thúc thành khung giờ
@@ -49,84 +61,24 @@ export default function MedicalShift() {
         });
         return slot;
     }
-    // hàm lấy ngày hiện tại
-    const getCurrentDate = () => {
-        // const date = new Date();
-        // const year = date.getFullYear();
-        // const month = date.getMonth() + 1;
-        // const day = date.getDate();
-        // return `${month < 10 ? `0${month}` : month}/${day < 10 ? `0${day}` : day}/${year}`;
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
-    };
-
-    // Hàm xử lý tìm kiếm
-    // const handleSearch = (e) => {
-    //     const value = e.target.value;
-    //     setDataSearch(value);
-    //     applyFilterAndSearch(value, filterSpecialization);
-    // };
-    // hàm tìm kiếm theo ngày
-    // const handleSearchByDay = (e) => {
-    //     const value = e.target.value;
-    //     setDaySearch(value);
-    //     applyFilterAndSearch(value, filterSpecialization);
-    // };
-
-    // Hàm xử lý lọc theo khung giờ 
-    // const handleFilter = (e) => {
-    //     const value = e.target.value;
-    //     applyFilterAndSearch(dataSearch, value);
-
-    // };
-
-    // Hàm áp dụng tìm kiếm và lọc
-    // const applyFilterAndSearch = (searchValue, filterValue, dayValue) => {
-    //     let filteredList = [...listShift];
-
-
-    //     if (filterValue !== "DEFAULT" && filterValue !== "Tất cả") {
-    //         filteredList = filteredList.filter(
-    //             (item) => convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc) === filterValue
-    //         );
-    //     }
-
-
-    //     if (searchValue.trim()) {
-    //         const lowercasedSearch = searchValue.toLowerCase();
-    //         filteredList = filteredList.filter(
-    //             (item) =>
-    //                 item.bacSiKham.toLowerCase().includes(lowercasedSearch)
-    //         );
-    //     }
-
-    //     if (dayValue.trim()) {
-    //         filteredList = filteredList.filter(
-    //             (item) => formatDate(item.ngayKham) === dayValue
-    //         );
-    //     }
-    //     setListShiftShow(filteredList);
-    // };
     // Hàm xử lý tìm kiếm
     const handleSearch = (e) => {
         const value = e.target.value;
         setDataSearch(value);
-        applyFilterAndSearch(value, filterSpecialization, daySearch);
+        applyFilterAndSearch(value, filterTimeSlot, daySearch);
     };
 
     // Hàm tìm kiếm theo ngày
     const handleSearchByDay = (e) => {
         const value = e.target.value;
         setDaySearch(value);
-        applyFilterAndSearch(dataSearch, filterSpecialization, value);
+        applyFilterAndSearch(dataSearch, filterTimeSlot, value);
     };
 
     // Hàm xử lý lọc theo khung giờ 
     const handleFilter = (e) => {
         const value = e.target.value;
+        setFilterTimeSlot(value);
         applyFilterAndSearch(dataSearch, value, daySearch);
     };
 
@@ -146,7 +98,8 @@ export default function MedicalShift() {
             const lowercasedSearch = searchValue.toLowerCase();
             filteredList = filteredList.filter(
                 (item) =>
-                    item.bacSiKham.toLowerCase().includes(lowercasedSearch)
+                    item.bacSiKham.toLowerCase().includes(lowercasedSearch) ||
+                    item.sdt.includes(lowercasedSearch)
             );
         }
 
@@ -156,9 +109,10 @@ export default function MedicalShift() {
                 (item) => formatDate(item.ngayKham) === dayValue
             );
         }
-
         setListShiftShow(filteredList);
     };
+    // console.log("daysearch", daySearch)
+    // console.log("listShift", formatDate( listShift.ngayKham))
     return (
         <>
             <div className="Shift_Management">
@@ -190,7 +144,7 @@ export default function MedicalShift() {
                                 <IoIosArrowDown className="position-absolute end-0 me-3" />
                             </div>
                             <div className="form-group d-flex align-items-center">
-                                <input type="date" id="ngayKham" name="ngayKham" className="form-control ConsultationDate py-2 rounded-3" defaultValue={getCurrentDate()} value={daySearch} onChange={handleSearchByDay} />
+                                <input type="date" id="ngayKham" name="ngayKham" className="form-control ConsultationDate py-2 rounded-3" value={daySearch} onChange={handleSearchByDay} />
                             </div>
                         </div>
                         <AddShift setListShift={setListShift} listShift={listShift} />
