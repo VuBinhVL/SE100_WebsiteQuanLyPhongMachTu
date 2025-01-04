@@ -40,7 +40,7 @@ export default function ReiviewPriceList() {
 
   // Xử lý khi double click vào một bệnh lý
   const handleRowDoubleClick = (disease) => {
-    setSelectedDisease(disease); // Lưu thông tin bệnh lý
+    setSelectedDisease(disease.id); // Lưu thông tin bệnh lý
     setIsPopupOpen(true); // Mở popup
   };
 
@@ -111,7 +111,7 @@ export default function ReiviewPriceList() {
       {/* Hiển thị popup nếu mở */}
       {isPopupOpen && (
         <DiseaseInfoPopup
-          disease={selectedDisease}
+          diseaseId={selectedDisease} // Chỉ truyền id
           onClose={handleClosePopup}
         />
       )}

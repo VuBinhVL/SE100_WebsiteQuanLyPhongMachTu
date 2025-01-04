@@ -3,79 +3,126 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  z-index: 1000; /* Đảm bảo popup nằm trên */
-  width: 80%;
-  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  width: 90%;
+  max-width: 600px;
+  overflow: hidden;
 }
 
 .disease-info-popup .popup-header {
-  background-color: #348f6c;
+  background: linear-gradient(90deg, #348f6c, #56b788);
   color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 20px;
 }
 
 .disease-info-popup .popup-title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 .disease-info-popup .popup-close {
   background: none;
   border: none;
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.disease-info-popup .popup-close:hover {
+  color: #f7c7c7;
 }
 
 .disease-info-popup .popup-body {
   padding: 20px;
+  color: #444444;
+  font-family: "Arial", sans-serif;
 }
 
 .disease-info-popup .disease-image {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .disease-info-popup .section-title {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #348f6c;
 }
 
 .disease-info-popup .symptoms-list {
-  list-style-type: decimal;
-  margin-left: 20px;
+  list-style-type: square;
+  padding-left: 20px;
+  margin: 15px 0;
 }
 
 .disease-info-popup .symptoms-list li {
   margin-bottom: 10px;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-.popup-footer {
+.disease-info-popup .popup-footer {
   text-align: center;
   padding: 15px;
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
+  border-top: 1px solid #dddddd;
 }
 
-.schedule-button {
-  background-color: #fc5185;
+.disease-info-popup .schedule-button {
+  background: linear-gradient(
+    90deg,
+    #34c759,
+    #3ddb70
+  ); /* Gradient xanh lá cây */
   color: #ffffff;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 25px;
   font-size: 1rem;
-  border-radius: 4px;
+  font-weight: bold;
+  border-radius: 25px;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.schedule-button:hover {
-  background-color: #e64773;
+.disease-info-popup .schedule-button:hover {
+  background: linear-gradient(
+    90deg,
+    #2da94f,
+    #36c865
+  ); /* Gradient xanh đậm hơn khi hover */
+  transform: scale(1.05);
+}
+
+/* Overlay làm mờ màn hình chính */
+.disease-info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu tối với độ trong suốt */
+  z-index: 999; /* Nằm dưới popup nhưng trên màn hình chính */
+}
+
+.disease-info-popup .no-appointment-text {
+  color: #ff6b6b; /* Màu đỏ nhạt cảnh báo */
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  margin: 20px 0; /* Khoảng cách trên dưới */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng mờ nhẹ */
 }
