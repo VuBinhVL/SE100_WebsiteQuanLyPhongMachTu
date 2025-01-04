@@ -53,13 +53,13 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
-            var findBacSiId = (await _bacSiRepository.GetAllAsync()).Where(d => d.Id == caKham.BacSiId).FirstOrDefault();
-            // Kiểm tra BacSiId có tồn tại
-            var bacSiExists = await _bacSiRepository.GetSingleByIdAsync(caKham.BacSiId ?? -1);
-            if (bacSiExists == null)
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Bác sĩ không tồn tại");
-            }
+            //var findBacSiId = (await _bacSiRepository.GetAllAsync()).Where(d => d.Id == caKham.BacSiId).FirstOrDefault();
+            //// Kiểm tra BacSiId có tồn tại
+            //var bacSiExists = await _bacSiRepository.GetSingleByIdAsync(caKham.BacSiId ?? -1);
+            //if (bacSiExists == null)
+            //{
+            //    return new ResponeMessage(HttpStatusCode.BadRequest, "Bác sĩ không tồn tại");
+            //}
 
             await _caKhamRepository.AddAsync(new CaKham()
             {
@@ -69,7 +69,7 @@ namespace PhongMachTu.Service
                 ThoiGianKetThuc = caKham.ThoiGianKetThuc,
                 NgayKham = caKham.NgayKham,
                 SoLuongBenhNhanToiDa = caKham.SoLuongBenhNhanToiDa,
-                BacSiId = caKham.BacSiId,
+                BacSiId = null,
 
             });
             await _unitOfWork.CommitAsync();
