@@ -4,12 +4,17 @@ import "./ListAppointment.css"
 import { GrCircleInformation } from "react-icons/gr";
 import { MdAddCircle } from "react-icons/md";
 import { fetchGet } from "../../../../lib/httpHandler";
+import { IoIosSearch } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 export default function ListAppointment(props) {
     const { item } = props;
     const idModal = `idModal${item.id}`;
     const idspecificModal = `#idModal${item.id}`;
     const [listAppoinment, setListAppoinment] = useState([]);
     const [listAppoinmentShow, setListAppoinmentShow] = useState([]);
+    const [dataSearch, setDataSearch] = useState("");
+    const [listSpecialization, setListSpecialization] = useState([]);
+    const [filterSpecialization, setFilterSpecialization] = useState("DEFAULT");
     // Lấy danh sách lịch khám
     useEffect(() => {
         const uri = "/api/admin/quan-li-lich-kham";
@@ -34,6 +39,42 @@ export default function ListAppointment(props) {
         // setListTimeSlot(slot);
         // applyFilterAndSearch(dataSearch, filterTimeSlot, daySearch);
     }, [listAppoinment]);
+    // Hàm xử lý tìm kiếm
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setDataSearch(value);
+        applyFilterAndSearch(value, filterSpecialization);
+    };
+    // Hàm xử lý lọc
+    const handleFilter = (e) => {
+        const value = e.target.value;
+        // setFilterSpecialization(value);
+        applyFilterAndSearch(dataSearch, value);
+    };
+
+    // Hàm áp dụng tìm kiếm và lọc
+    const applyFilterAndSearch = (searchValue, filterValue) => {
+        let filteredList = [...listAppoinment];
+
+        // Lọc theo chuyên môn
+        if (filterValue !== "DEFAULT" && filterValue !== "Tất cả") {
+            filteredList = filteredList.filter(
+                (item) => item.chuyenMon.tenNhomBenh === filterValue
+            );
+        }
+
+        // Tìm kiếm theo họ tên hoặc số điện thoại
+        if (searchValue.trim()) {
+            const lowercasedSearch = searchValue.toLowerCase();
+            filteredList = filteredList.filter(
+                (item) =>
+                    item.hoTen.toLowerCase().includes(lowercasedSearch) ||
+                    item.soDienThoai.includes(lowercasedSearch)
+            );
+        }
+
+        setListAppoinmentShow(filteredList);
+    };
     return (
         <>
             {/* <!-- Button trigger modal --> */}
@@ -48,8 +89,32 @@ export default function ListAppointment(props) {
                             <h5 className="modal-title fs-4" id="staticBackdropLabel">List Apppoinment</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body d-flex justify-content-center">
-                            {/* <div className="contain_Table mx-0 col-12 bg-white rounded-2">
+                        <div className="modal-body d-flex justify-content-center align-items-center flex-column">
+                            <div className="d-flex align-items-center col-12 my-2">
+                                <div className="contain_Search position-relative me-3">
+                                    <input
+                                        onChange={handleSearch}
+                                        value={dataSearch}
+                                        className="search rounded-2 px-3 me-1"
+                                        placeholder="Enter appointment number or Patient's name"
+                                    />
+                                    <IoIosSearch className="icon_search translate-middle-y text-secondary" />
+                                </div>
+                                <div className="form-group d-flex align-items-center position-relative me-3">
+                                    <select id="khungGio" name="khungGio" className="form-control rounded-3 py-2 TimeSlot" defaultValue={'DEFAULT'} onChange={handleFilter}>
+                                        <option value="DEFAULT" hidden disabled>Filter by Status</option>
+                                        <option value="Tất cả">Tất cả</option>
+                                        {
+                                            listAppoinmentShow && listAppoinmentShow.length > 0 && listAppoinmentShow.map((item, index) => (
+                                                <option key={index} value={item.stt}>{item.stt}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <IoIosArrowDown className="position-absolute end-0 me-3" />
+
+                                </div>
+                            </div>
+                            <div className="contain_Table mx-0 col-12 bg-white rounded-2">
                                 <table className="table table-hover">
                                     <thead>
                                         <tr>
@@ -63,10 +128,10 @@ export default function ListAppointment(props) {
                                     <tbody>
                                         {listAppoinmentShow && listAppoinmentShow.length > 0 && listAppoinmentShow.map((item, index) => (
                                             <tr key={item.id}>
-                                                <td>{index + 1}</td>
-                                                <td>{item.tenCaKham}</td>
-                                                <td>{convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc)}</td>
-                                                <td>{formatDate(item.ngayKham)}</td>
+                                                <td>{item.stt}</td>
+                                                <td>{item.tenBenhNhan}</td>
+                                                <td>{item.tenTrangThai}</td>
+                                                <td>{"Không có"}</td>
                                                 <td>
                                                     <div className="list_Action">
                                                         <GrCircleInformation className="icon_Action" title="Detail" />
@@ -106,7 +171,7 @@ export default function ListAppointment(props) {
                                         </li>
                                     </ul>
                                 </nav>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
