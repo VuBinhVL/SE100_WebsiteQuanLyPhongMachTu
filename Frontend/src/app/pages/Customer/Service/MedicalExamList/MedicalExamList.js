@@ -23,7 +23,7 @@ export default function MedicalExamList() {
         console.log(data);
         // Lọc các ca khám có BacSiID khác null
         const filteredData = data.filter((exam) => exam.bacSiId !== null);
-        console.log(filteredData);
+        console.log(">>>>>..check filteredData", filteredData);
         setExamList(filteredData); // Cập nhật danh sách ca khám
       },
       (error) => {
@@ -121,7 +121,7 @@ export default function MedicalExamList() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  console.log(">>>>>.check examList", examList);
   return (
     <div className="medical-exam-list-page">
       {/* Phần giới thiệu đăng ký ca khám */}
@@ -196,9 +196,8 @@ export default function MedicalExamList() {
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index + 1}
-            className={`pagination-button ${
-              currentPage === index + 1 ? "active" : ""
-            }`}
+            className={`pagination-button ${currentPage === index + 1 ? "active" : ""
+              }`}
             onClick={() => handlePageChange(index + 1)}
           >
             {index + 1}

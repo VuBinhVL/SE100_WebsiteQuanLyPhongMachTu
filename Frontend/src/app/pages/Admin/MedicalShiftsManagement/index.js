@@ -3,7 +3,7 @@ import { IoIosSearch } from "react-icons/io";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchGet } from "../../../lib/httpHandler";
-import { formatDate } from "../../../utils/FormatDate/FormatDate";
+import { formatDate } from "../../../utils/FormatDate/formatDate.js";
 import "./MedicalShift.css";
 import AddShift from "../../../components/Admin/ShiftManagement/AddShift/AddShift";
 import { FaCalendarAlt } from "react-icons/fa";
