@@ -226,7 +226,7 @@ export default function AddShift(props) {
                                     <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
                                 <div className="form-group mb-3 d-flex align-items-center">
-                                    <label htmlFor="soLuongBenhNhanToiDa" className="form-label col-4 custom-bold">number of patients:</label>
+                                    <label htmlFor="soLuongBenhNhanToiDa" className="form-label col-4 custom-bold">Number of patients:</label>
                                     <input name="soLuongBenhNhanToiDa" id="soLuongBenhNhanToiDa" type="text" className="form-control rounded-3" placeholder="Enter number of patients" onChange={handleChange} />
                                 </div>
                             </form>

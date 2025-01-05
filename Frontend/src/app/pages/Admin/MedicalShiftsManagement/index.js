@@ -7,6 +7,9 @@ import { formatDate } from "../../../utils/FormatDate/formatDate.js";
 import "./MedicalShift.css";
 import AddShift from "../../../components/Admin/ShiftManagement/AddShift/AddShift";
 import { FaCalendarAlt } from "react-icons/fa";
+import DeleteShift from "../../../components/Admin/ShiftManagement/DeleteShift/DeleteShift.js";
+import DetailShift from "../../../components/Admin/ShiftManagement/DetailShift/DetailShift.js";
+import ListAppointment from "../../../components/Admin/ShiftManagement/appointmentManagement/ListAppointment.js";
 export default function MedicalShift() {
     const [listShift, setListShift] = useState([]);
     const [listShiftShow, setListShiftShow] = useState([]);
@@ -175,10 +178,10 @@ export default function MedicalShift() {
                                         <td>
                                             <div className="list_Action">
                                                 {/* <FaLock className="icon_Lock icon_action fs-6" /> */}
-                                                <IoArrowForwardCircleOutline />
+                                                <ListAppointment item={item} />
 
-                                                {/* <DetailPatien item={item} setListShift={setListShift} listShift={listShift} />
-                                                <DeletePatien item={item} setListShift={setListShift} listShift={listShift} /> */}
+                                                {/* <DetailShift item={item} setListShift={setListShift} listShift={listShift} /> */}
+                                                <DeleteShift item={item} setListShift={setListShift} listShift={listShift} />
                                             </div>
                                         </td>
                                     </tr>
