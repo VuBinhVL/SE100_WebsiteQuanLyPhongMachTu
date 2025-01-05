@@ -58,6 +58,7 @@ namespace PhongMachTu.DataAccess.Repositories
             return await _context.CaKhams
                 .Select(ck => new CaKhamDTO
                 {
+                    Id = ck.Id,
                     SDT = ck.BacSi.SoDienThoai,
                     TenCaKham = ck.TenCaKham,
                     ThoiGianBatDau = ck.ThoiGianBatDau,

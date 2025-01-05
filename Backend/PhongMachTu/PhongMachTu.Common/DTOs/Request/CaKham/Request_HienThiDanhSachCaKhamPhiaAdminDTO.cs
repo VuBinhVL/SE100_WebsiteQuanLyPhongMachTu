@@ -14,6 +14,7 @@ namespace PhongMachTu.Common.DTOs.Request.CaKham
     }
     public class  CaKhamDTO
     {
+        public int Id { get; set; }
         public string SDT { get; set; }
         public string? TenCaKham { get; set; }
         public TimeSpan ThoiGianBatDau { get; set; }
