@@ -47,7 +47,7 @@ export default function MedicalShift() {
         const slot = getSlot();
         setListShiftShow(listShift);
         setListTimeSlot(slot);
-        applyFilterAndSearch(dataSearch, filterTimeSlot, getCurrentDate());
+        applyFilterAndSearch(dataSearch, filterTimeSlot, daySearch);
     }, [listShift]);
 
     //hàm chuyển đổi thời gian bắt đầu, kết thúc thành khung giờ
@@ -113,6 +113,7 @@ export default function MedicalShift() {
     };
     // console.log("daysearch", daySearch)
     // console.log("listShift", formatDate( listShift.ngayKham))
+    console.log("listShift", listShift)
     return (
         <>
             <div className="Shift_Management">
@@ -170,7 +171,7 @@ export default function MedicalShift() {
                                         <td>{convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc)}</td>
                                         <td>{formatDate(item.ngayKham)}</td>
                                         <td>{item.tenNhomBenh}</td>
-                                        <td>{item.bacSiKham}</td>
+                                        <td>{item.bacSiKham || "Chưa có ai đăng kí"}</td>
                                         <td>
                                             <div className="list_Action">
                                                 {/* <FaLock className="icon_Lock icon_action fs-6" /> */}
