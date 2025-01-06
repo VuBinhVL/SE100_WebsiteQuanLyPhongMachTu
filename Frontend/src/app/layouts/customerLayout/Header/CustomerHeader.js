@@ -93,11 +93,19 @@ export default function CustomerHeader() {
               />
               {isDropdownOpen && (
                 <ul className="login-menu">
-                  <li className="login-item">
+                  <li
+                    className="login-item"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
                     <Link to="/account">Thông tin tài khoản</Link>
                   </li>
                   <li className="login-item">
-                    <Link to="/medical-record">Hồ sơ bệnh án</Link>
+                    <Link
+                      to="/medical-record"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Hồ sơ bệnh án
+                    </Link>
                   </li>
                   <li className="login-item" onClick={handleLogout}>
                     Đăng xuất

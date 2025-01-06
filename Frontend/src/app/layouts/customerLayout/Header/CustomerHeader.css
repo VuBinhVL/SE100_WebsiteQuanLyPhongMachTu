@@ -1,12 +1,14 @@
 /* Style cho thẻ header */
 .customer-header {
   display: flex;
+  top: 0; /* Giữ header ở trên cùng khi cuộn */
+  z-index: 1000; /* Đảm bảo header luôn ở trên các phần tử khác */
+  position: sticky;
   justify-content: space-between;
   align-items: center;
   padding: 0px 10px;
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
-  border-radius: 10px;
   height: fit-content;
 }
 

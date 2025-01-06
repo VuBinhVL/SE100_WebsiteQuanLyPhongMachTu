@@ -2,19 +2,27 @@ import { React, useEffect, useState } from "react";
 import { fetchGet } from "../../../../lib/httpHandler"; // Import hàm gọi API
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // Import hàm hiển thị thông báo lỗi
 import MedicalImaging from "../MedicalImaging/MedicalImaging"; // Component Popup ảnh chụp chiếu
+import DiseaseDetail from "../DiseaseDetail/DiseaseDetail"; // Component Popup chi tiết bệnh lý
 import "./DetailRecord.css";
 import { useParams } from "react-router-dom";
 
 export default function DetailRecord() {
-  const [isPopupVisible, setIsPopupVisible] = useState(false); // Quản lý trạng thái popup
   const { id } = useParams(); // Lấy id từ URL
   const [recordDetails, setRecordDetails] = useState([]);
 
-  const handleOpenPopup = () => {
-    setIsPopupVisible(true); // Hiển thị popup
+  //Phục vụ cho việc xem chi tiết khám bệnh
+  const [selectedDiseaseId, setSelectedDiseaseId] = useState(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const handleOpenPopup = (diseaseId) => {
+    setSelectedDiseaseId(diseaseId);
+    setIsPopupVisible(true);
   };
 
-  //Gọi API để láy thông tin
+  // Đóng popup
+  const handleClosePopup = () => {
+    setIsPopupVisible(false);
+  };
+  //Gọi API để lấy thông tin
   useEffect(() => {
     if (id) {
       const uri = `/api/quan-li-chi-tiet-ho-so-benh-an?HoSoBenhAnID=${id}`;
@@ -92,7 +100,7 @@ export default function DetailRecord() {
                     className="btn btn-success"
                     data-toggle="tooltip"
                     title="Xem chi tiết bệnh lý khám"
-                    onClick={handleOpenPopup} // Mở popup khi nhấn
+                    onClick={() => handleOpenPopup(record.id)}
                   >
                     Chi tiết khám
                   </button>
@@ -127,7 +135,12 @@ export default function DetailRecord() {
       </div>
 
       {/* Hiển thị popup nếu trạng thái bật */}
-      {isPopupVisible && <MedicalImaging />}
+      {isPopupVisible && (
+        <DiseaseDetail
+          diseaseId={selectedDiseaseId}
+          onClose={handleClosePopup}
+        />
+      )}
     </div>
   );
 }
