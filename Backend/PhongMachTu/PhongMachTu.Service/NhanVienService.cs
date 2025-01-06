@@ -237,7 +237,11 @@ namespace PhongMachTu.Service
         public async Task<Request_HienThiThongTinCaNhanBenAdminDTO> HienThiThongTinCaNhanBenAdmin(HttpContext httpContext)
         {
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
-         
+            int ChuyenMonId = nguoiDung.ChuyenMonId ?? -1;
+
+            var chuyenMon = await _nhomBenhRepository.GetSingleByIdAsync(ChuyenMonId);
+            
+
             var vaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
            
 
@@ -246,7 +250,7 @@ namespace PhongMachTu.Service
                 HoTen = nguoiDung.HoTen,
                 Image = nguoiDung.Image,
                 VaiTro = nguoiDung.VaiTro.TenVaiTro,
-                ChuyenMon = nguoiDung.ChuyenMon == null ? "" : nguoiDung.ChuyenMon.TenNhomBenh,
+                ChuyenMon = chuyenMon.TenNhomBenh,
                 Email = nguoiDung.Email,
                 SoDienThoai = nguoiDung.SoDienThoai,
                 GioiTinh = nguoiDung.GioiTinh,
