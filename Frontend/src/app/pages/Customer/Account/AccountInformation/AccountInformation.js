@@ -12,19 +12,51 @@ import { fetchGet } from "../../../../lib/httpHandler"; // API
 export default function AccountInformation() {
   const [isEditing, setIsEditing] = useState(false); // Trạng thái chỉnh sửa
   const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái hiển thị popup
-  const [information, setInformation] = useState(); // Trạng thái thông tin tài khoản
+  const [information, setInformation] = useState({
+    hoTen: "",
+    gioiTinh: "",
+    soDienThoai: "",
+    ngaySinh: "",
+    email: "",
+    diaChi: "",
+  }); //Thông tin tài khoản
+  const [avatar, setAvatar] = useState(""); // Lưu ảnh đại diện
+
+  //Format ngày sinh
+  const formatDateToDisplay = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`; // Trả về định dạng dd/mm/yyyy
+  };
+
+  const formatDateToISO = (dateString) => {
+    if (!dateString) return "";
+    const [day, month, year] = dateString.split("/");
+    return `${year}-${month}-${day}`; // Trả về định dạng YYYY-MM-DD
+  };
 
   //Gọi API lấy thông tin tài khoản
   useEffect(() => {
-    const uri = "/api/quan-li-thong-tin-ca-nhan/hien-thi-thong-tin-ca-nhan";
+    const uri = "/api/quan-li-thong-tin-ca-nhan";
     fetchGet(
       uri,
       (data) => {
         console.log(data);
-        setInformation(data); // Cập nhật danh sách bác sĩ
+        setAvatar(data.avatar || ""); // Gán ảnh đại diện nếu có
+        setInformation({
+          hoTen: data.tenNguoiDung || "",
+          gioiTinh: data.gioiTinh || "",
+          soDienThoai: data.soDienThoai || "",
+          ngaySinh: data.ngaySinh || "",
+          email: data.email || "",
+          diaChi: data.diaChi || "",
+        });
       },
       (error) => {
-        showErrorMessageBox(error);
+        showErrorMessageBox(error.message);
       },
       () => {
         showErrorMessageBox("Không thể kết nối đến server");
@@ -101,11 +133,16 @@ export default function AccountInformation() {
                 label="Họ và tên"
                 type="text"
                 placeholder="Nhập họ và tên"
+                value={information.hoTen}
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
               />
               <div className="form-group">
                 <label className="input-label">Giới tính</label>
-                <select className="input-box" disabled={!isEditing}>
+                <select
+                  className="input-box"
+                  value={information.gioiTinh}
+                  disabled={!isEditing}
+                >
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
                 </select>
@@ -116,12 +153,18 @@ export default function AccountInformation() {
               <InputField
                 label="Số điện thoại"
                 type="text"
+                value={information.soDienThoai}
                 placeholder="Nhập số điện thoại"
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
               />
               <InputField
                 label="Ngày sinh"
-                type="date"
+                type="text"
+                value={
+                  information.ngaySinh
+                    ? formatDateToDisplay(information.ngaySinh)
+                    : ""
+                } // Hiển thị dd/mm/yyyy
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
               />
             </div>
@@ -130,11 +173,13 @@ export default function AccountInformation() {
               <InputField
                 label="Email"
                 type="email"
+                value={information.email}
                 placeholder="Nhập email"
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
               />
               <InputField
                 label="Địa chỉ"
+                value={information.diaChi}
                 type="text"
                 placeholder="Nhập địa chỉ"
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
