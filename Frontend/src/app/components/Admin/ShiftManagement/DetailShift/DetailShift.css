@@ -1,0 +1,68 @@
+.detailShift .contain_img .inner_img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+/* CSS mặc định cho các button */
+.detailShift .modal-footer .btn_Accept,
+.detailShift .contain_img .btn_select_img {
+    background-color: #348F6C;
+    border: 1px solid #348F6C !important;
+    width: 125px;
+}
+
+.detailShift .modal-footer .btn_Cancel {
+    background-color: #D51F2A;
+    border: 1px solid #D51F2A !important;
+    width: 125px;
+}
+
+/* CSS hover cho các button */
+.detailShift .modal-footer .btn_Accept:hover,
+.detailShift .modal-footer .btn_Accept:active,
+.detailShift .modal-footer .btn_Accept:focus,
+.detailShift .contain_img .btn_select_img:hover,
+.detailShift .contain_img .btn_select_img:active,
+.detailShift .contain_img .btn_select_img:focus {
+    background-color: #348F6C !important;
+    border: 1px solid #348F6C;
+}
+
+.detailShift .modal-footer .btn_Cancel:hover,
+.detailShift .modal-footer .btn_Cancel:active,
+.detailShift .modal-footer .btn_Cancel:focus {
+    background-color: #D51F2A;
+
+}
+
+/* Đảm bảo kích thước các button luôn đồng nhất */
+.detailShift .modal-footer .btn_Accept,
+.detailShift .modal-footer .btn_Cancel,
+.detailShift .contain_img .btn_select_img {
+    width: 125px;
+}
+
+.detailShift .custom-bold {
+    font-weight: 600;
+}
+
+.detailShift .icon_information {
+    color: #03A9F4;
+}
+
+.detailShift .icon_edit_information {
+    color: #997852;
+}
+
+.detailShift .modal-footer .btn_Accept:hover {
+    transform: scale(1.0);
+    transform: translateY(0px);
+}
+
+.detailShift .modal-footer .btn_Accept {
+    padding: 0.35rem;
+    color: #FFFFFF;
+    border-radius: 6px;
+}
