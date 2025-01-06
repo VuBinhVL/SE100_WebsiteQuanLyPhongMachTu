@@ -65,5 +65,19 @@ namespace PhongMachTu.WebAPI.Controllers
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePasswordAsync(Request_ChangePasswordDTO data)
+        {
+            try
+            {
+                var rs = await _nguoiDungService.ChangePasswordAsync(HttpContext,data);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
 }
