@@ -16,6 +16,7 @@ namespace PhongMachTu.Service
     {
         Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext, int HoSoBenhAnID);
         Task<Request_HienThiCTKBCuaChiTietHoSoBenhAnDTO> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int chiTietKhamBenhId);
+        Task<Request_HienThiChupChieuDTO> HienThiChupChieuCuaChiTietHoSoBenhAnAsync(int chiTietKhamBenhId);
     }
     public class ChiTietHoSoBenhAnService : IChiTietHoSoBenhAnService
     {
@@ -55,8 +56,6 @@ namespace PhongMachTu.Service
             }
 
             // Tìm hồ sơ bệnh án của người dùng
-            //var hoSoBenhAn = (await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.ChiTietHoSoBenhAn))
-            //    .FirstOrDefault(h => h.Id == HoSoBenhAnID);
             var hoSoBenhAn = (await _hoSoBenhAnRepository.GetSingleByIdAsync(HoSoBenhAnID));
 
             if (hoSoBenhAn == null)
@@ -190,6 +189,29 @@ namespace PhongMachTu.Service
             };
 
             return result;
+        }
+
+        public async Task<Request_HienThiChupChieuDTO> HienThiChupChieuCuaChiTietHoSoBenhAnAsync(int chiTietKhamBenhId)
+        {
+            var findChiTietKhamBenhByID = (await _chiTietKhamBenhRepository.GetSingleByIdAsync(chiTietKhamBenhId));
+            var findBenhLy = (await _benhLyRepository.GetSingleByIdAsync(findChiTietKhamBenhByID.BenhLyId));
+            if (findBenhLy == null)
+            {
+                throw new Exception("Không tìm thấy bệnh lý");
+            }
+
+            var findChupChieu = (await _chupChieuRepository.GetAllAsync()).Where(cc => cc.ChiTietKhamBenhId == chiTietKhamBenhId).FirstOrDefault();
+            if (findChupChieu == null)
+            {
+                throw new Exception("Không tìm thấy chụp chiếu");
+            }
+            return new Request_HienThiChupChieuDTO
+            {
+                TenBenhLy = findBenhLy.TenBenhLy,
+                Image = findChupChieu.Images,
+                KetLuan = findChupChieu.KetLuan,
+                Gia = findChupChieu.Gia
+            };
         }
     }
 }
