@@ -4,16 +4,41 @@ import "../Header/CustomerHeader.css";
 import logo from "../../../assets/images/clinic_logo.png";
 import avatar from "../../../assets/icons/user.png";
 import { sIsLoggedIn } from "../../../../store";
+import { showErrorMessageBox } from "../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
+import { fetchGet } from "../../../lib/httpHandler";
+
 export default function CustomerHeader() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Trạng thái dropdown mở/đóng
   const navigate = useNavigate();
   const isLoggedInValue = sIsLoggedIn.use();
+
+  const [image, setImage] = useState(""); // Lưu ảnh đại diện
+
+  //Đăng xuất
   const handleLogout = () => {
     localStorage.removeItem("jwtToken"); // Xóa thông tin người dùng
     sIsLoggedIn.set(false);
     setIsDropdownOpen(false); // Đóng dropdown
     navigate("/login"); // Chuyển hướng về trang login
   };
+
+  //Lấy avatar
+  //Gọi API lấy thông tin tài khoản
+  useEffect(() => {
+    const uri = "/api/quan-li-thong-tin-ca-nhan";
+    fetchGet(
+      uri,
+      (data) => {
+        setImage(data.image || ""); // Gán ảnh đại diện nếu có
+      },
+      (error) => {
+        showErrorMessageBox(error.message);
+      },
+      () => {
+        showErrorMessageBox("Không thể kết nối đến server");
+      }
+    );
+  }, []);
 
   return (
     <header className="customer-header">
@@ -59,7 +84,7 @@ export default function CustomerHeader() {
             // Khi đã đăng nhập, hiển thị avatar và dropdown
             <li className="nav-item">
               <img
-                src="https://photo.znews.vn/w660/Uploaded/gtnzjz/2019_05_30/IMG_0606.jpg"
+                src={image}
                 alt="Avatar"
                 className="avatar"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}

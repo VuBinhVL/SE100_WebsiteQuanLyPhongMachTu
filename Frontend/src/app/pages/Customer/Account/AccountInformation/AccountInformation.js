@@ -20,6 +20,7 @@ export default function AccountInformation() {
     email: "",
     diaChi: "",
   }); //Thông tin tài khoản
+
   const [avatar, setAvatar] = useState(""); // Lưu ảnh đại diện
 
   //Format ngày sinh
@@ -45,7 +46,7 @@ export default function AccountInformation() {
       uri,
       (data) => {
         console.log(data);
-        setAvatar(data.avatar || ""); // Gán ảnh đại diện nếu có
+        setAvatar(data.image || ""); // Gán ảnh đại diện nếu có
         setInformation({
           hoTen: data.tenNguoiDung || "",
           gioiTinh: data.gioiTinh || "",
@@ -104,11 +105,7 @@ export default function AccountInformation() {
             <span>Chỉnh sửa thông tin</span>
           </button>
           <div className="avatar-wrapper">
-            <img
-              src="https://photo.znews.vn/w660/Uploaded/gtnzjz/2019_05_30/IMG_0606.jpg"
-              alt="Avatar"
-              className="account-avatar"
-            />
+            <img src={avatar} alt="Avatar" className="account-avatar" />
             {isEditing && <button className="change-photo">Chọn ảnh</button>}
           </div>
         </div>
