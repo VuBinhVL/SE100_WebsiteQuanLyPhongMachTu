@@ -1,24 +1,17 @@
-/* Style cho toàn bộ trang thông tin tài khoản */
-.account-page {
-  background-color: #348f6c; /* Nền xanh */
-  color: #ffffff; /* Chữ trắng */
-  padding: 50px 0px 0px 0px;
-}
-
-.account-page .account-record-header {
+.information-page .information-record-header {
   background-color: #348f6c; /* Màu xanh */
   text-align: center; /* Canh giữa nội dung */
   margin-bottom: 20px; /* Khoảng cách bên dưới */
 }
 
-.account-page .account-record-title {
+.information-page .information-record-title {
   font-size: 24px;
   font-weight: bold;
   color: #fff; /* Màu chữ trắng */
   margin: 0; /* Loại bỏ khoảng cách mặc định */
 }
 
-.account-page .account-section {
+.information-page .information-section {
   display: flex;
   gap: 20px;
   background-color: #fff;
@@ -29,7 +22,7 @@
 
 /* Phần bên trái */
 /* Phần bên trái: Avatar */
-.account-page .account-left {
+.information-page .information-left {
   flex: 1;
   text-align: center;
   display: flex;
@@ -38,7 +31,7 @@
   gap: 15px; /* Khoảng cách giữa các phần tử */
 }
 
-.account-page .avatar-wrapper {
+.information-page .information-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,7 +39,7 @@
   position: relative;
 }
 
-.account-page .account-avatar {
+.information-page .information-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -54,21 +47,36 @@
   border: 2px solid #ccc;
 }
 
-.account-page .change-photo {
-  margin-top: 10px;
-  color: red;
-  font-size: 14px;
-  cursor: pointer;
-  background: none;
+.information-page .change-photo {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(
+    90deg,
+    #34c759,
+    #76d881
+  ); /* Gradient xanh lá cây */
   border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng mờ nhẹ */
 }
 
-.account-page .change-photo:hover {
-  text-decoration: underline;
+.information-page .change-photo:hover {
+  background: linear-gradient(
+    90deg,
+    #2aa44a,
+    #67c46f
+  ); /* Gradient xanh đậm hơn khi hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Bóng mờ tăng lên */
+  transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
 }
 
 /* Nút chỉnh sửa thông tin */
-.account-page .edit-info-button {
+.information-page .edit-info-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -80,25 +88,25 @@
   color: #333;
 }
 
-.account-page .edit-info-button .edit-icon {
+.information-page .edit-info-button .edit-icon {
   width: 16px;
   height: 16px;
 }
 
-.account-page .edit-info-button:hover {
+.information-page .edit-info-button:hover {
   color: #348f6c;
 }
 
 /* Phần bên phải */
-.account-page .account-right {
+.information-page .information-right {
   flex: 2;
 }
 
-.account-page .account-form {
+.information-page .information-form {
   width: 100%;
 }
 
-.account-page .form-row {
+.information-page .form-row {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -107,14 +115,14 @@
 
 /* Định dạng chung cho select */
 /* Label */
-.account-page .input-label {
+.information-page .input-label {
   margin-bottom: 5px;
   font-size: 14px;
   color: #333;
   display: block;
 }
 
-.account-page .form-group .input-box {
+.information-page .form-group .input-box {
   width: 100%;
   max-width: 400px; /* Đặt chiều rộng tối đa */
   padding: 10px;
@@ -125,27 +133,27 @@
   transition: border-color 0.3s ease;
 }
 
-.account-page .form-group {
+.information-page .form-group {
   width: 100%;
   max-width: 400px; /* Đặt chiều rộng tối đa */
 }
-.account-page .form-group:disabled {
+.information-page .form-group:disabled {
   background-color: #f5f5f5; /* Nền xám nhạt */
   color: #a1a1a1; /* Màu chữ mờ */
   cursor: not-allowed; /* Con trỏ chuột không cho phép */
 }
 /* Hover và focus */
-.account-page .input-box:hover {
+.information-page .input-box:hover {
   border-color: #348f6c;
 }
 
-.account-page .input-box:focus {
+.information-page .input-box:focus {
   border-color: #348f6c;
   box-shadow: 0 0 4px rgba(52, 143, 108, 0.5);
 }
 
 /* Căn chỉnh nút Hủy và Xác nhận bên dưới cột Địa chỉ */
-.account-page .form-actions {
+.information-page .form-actions {
   display: flex;
   justify-content: flex-end; /* Căn sang phải */
   margin-top: 15px;
@@ -153,7 +161,7 @@
 }
 
 /* Nút đổi mật khẩu */
-.account-page .change-password-button {
+.information-page .change-password-button {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
@@ -166,7 +174,23 @@
   border: none;
 }
 
-.account-page .change-password-button:hover {
+.information-page .change-password-button:hover {
   text-decoration: underline;
   color: #2c6f54;
+}
+
+/* CSS cho phần hiển thị chuyên môn + vai trò */
+.information-page .info-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column; /* Xếp các phần tử theo chiều dọc */
+  gap: 5px; /* Khoảng cách giữa các đoạn */
+  align-items: flex-start; /* Căn trái các đoạn */
+}
+
+.information-page .info-item {
+  margin: 0; /* Xóa khoảng cách mặc định của <p> */
+  font-size: 1rem; /* Kích thước chữ vừa phải */
+  line-height: 1.5; /* Đảm bảo dễ đọc */
+  color: #333; /* Màu chữ cơ bản */
 }

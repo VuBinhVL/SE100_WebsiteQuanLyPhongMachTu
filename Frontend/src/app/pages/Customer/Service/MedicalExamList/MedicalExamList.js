@@ -98,12 +98,12 @@ export default function MedicalExamList() {
       body,
       (sus) => {
         // Xử lý khi đăng ký thành công
-        showSuccessMessageBox(sus);
+        showSuccessMessageBox(sus.message);
       },
       (err) => {
         console.log(err);
         // Xử lý khi có lỗi xảy ra
-        showErrorMessageBox(err);
+        showErrorMessageBox(err.message);
       },
       () => {
         // Xử lý khi không thể kết nối đến server
@@ -196,8 +196,9 @@ export default function MedicalExamList() {
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index + 1}
-            className={`pagination-button ${currentPage === index + 1 ? "active" : ""
-              }`}
+            className={`pagination-button ${
+              currentPage === index + 1 ? "active" : ""
+            }`}
             onClick={() => handlePageChange(index + 1)}
           >
             {index + 1}

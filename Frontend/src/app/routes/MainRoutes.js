@@ -19,6 +19,7 @@ import UserRecordList from "../pages/Customer/MedicalRecord/UserRecordList";
 import DetailRecord from "../pages/Customer/MedicalRecord/DetailRecord";
 import ReviewPiceList from "../pages/Customer/Service/ReviewPriceList";
 import MedicalExamList from "../pages/Customer/Service/MedicalExamList";
+import InformationManagement from "../pages/Admin/InformationManagement/InformationManagement";
 
 export default function MainRoutes() {
   return (
@@ -46,6 +47,10 @@ export default function MainRoutes() {
           <Route path="examinationform" element={<ExaminationForm />} />
           <Route path="medicalshift" element={<MedicalShift />} />
           <Route path="medicine" element={<Medicine />} />
+          <Route
+            path="information-management"
+            element={<InformationManagement />}
+          />
         </Route>
         {/* Trang không tìm thấy */}
         <Route path="*" element={<PageNotFound />} />
