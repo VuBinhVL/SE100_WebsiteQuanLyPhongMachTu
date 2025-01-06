@@ -120,6 +120,7 @@ namespace PhongMachTu.Service
 
                 return new Request_HienThiChiTietHoSoBenhAnDTO
                 {
+                    Id= ctkb.Id,
                     HoTenBacSi = ctkb.PhieuKhamBenh.LichKham.CaKham.BacSi?.HoTen,
                     TenBenhLy = ctkb.BenhLy?.TenBenhLy,
                     NgayKham = ctkb.PhieuKhamBenh.NgayTao,

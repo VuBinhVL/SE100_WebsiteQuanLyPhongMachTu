@@ -8,7 +8,7 @@ namespace PhongMachTu.Common.DTOs.Request.ChiTietHoSoBenhAn
 {
     public class Request_HienThiChiTietHoSoBenhAnDTO
     {
-        
+        public int Id { get; set; }
         public string HoTenBacSi { get; set; }
         public string TenBenhLy { get; set; }
         public DateTime NgayKham { get; set; }
