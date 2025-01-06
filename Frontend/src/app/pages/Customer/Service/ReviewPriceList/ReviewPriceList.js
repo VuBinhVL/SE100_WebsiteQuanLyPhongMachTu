@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Anh from "../../../../assets/images/clinic1.png";
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
-import { showYesNoMessageBox } from "../../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox";
 import { fetchGet } from "../../../../lib/httpHandler";
-import "./ReviewPriceList.css";
 import DiseaseInfoPopup from "../DiseaseInfoPopup/DiseaseInfoPopup";
+import "./ReviewPriceList.css";
 
 export default function ReiviewPriceList() {
   const [table, setTable] = useState([]); // Danh sách bảng giá dịch vụ

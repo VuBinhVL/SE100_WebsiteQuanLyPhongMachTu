@@ -46,7 +46,10 @@ export default function AccountInformation() {
       uri,
       (data) => {
         console.log(data);
-        setAvatar(data.image || ""); // Gán ảnh đại diện nếu có
+        setAvatar(
+          data.image ||
+            "https://photo.znews.vn/w660/Uploaded/gtnzjz/2019_05_30/IMG_0606.jpg"
+        ); // Gán ảnh đại diện nếu có
         setInformation({
           hoTen: data.tenNguoiDung || "",
           gioiTinh: data.gioiTinh || "",

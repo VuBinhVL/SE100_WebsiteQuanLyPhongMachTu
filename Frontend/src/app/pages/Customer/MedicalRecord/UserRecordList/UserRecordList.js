@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import MedicalRecordCard from "../../../../components/Customer/MedicalRecord/MedicalRecordCard"; // Import component bạn đã tạo
-import anhHoSo from "../../../../assets/icons/medicalrecordicon.png";
-import "./UserRecordList.css";
 import { useNavigate } from "react-router-dom";
-import DiseaseDetail from "../DiseaseDetail/DiseaseDetail"; // Import Component DiseaseDetail
-import { fetchGet } from "../../../../lib/httpHandler"; // Import hàm gọi API
+import anhHoSo from "../../../../assets/icons/medicalrecordicon.png";
+import MedicalRecordCard from "../../../../components/Customer/MedicalRecord/MedicalRecordCard"; // Import component bạn đã tạo
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // Import hàm hiển thị thông báo lỗi
+import { fetchGet } from "../../../../lib/httpHandler"; // Import hàm gọi API
+import "./UserRecordList.css";
 
 export default function UserRecordList() {
   const [recordList, setrecordList] = useState([]); // Khởi tạo là mảng rỗng
+  const navigate = useNavigate();
+
   //Gọi API lấy dữ liệu hồ sơ bệnh án của người dùng
   useEffect(() => {
     const uri = "/api/quan-li-ho-so-benh-an";
@@ -41,14 +42,19 @@ export default function UserRecordList() {
   const recordsPerPage = 10; // Số hồ sơ trên mỗi trang
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = recordList.slice(
-    indexOfFirstRecord,
-    indexOfLastRecord
-  );
+  // const currentRecords = recordList.slice(
+  //   indexOfFirstRecord,
+  //   indexOfLastRecord
+  // );
   const totalPages = Math.ceil(recordList.length / recordsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  //Chuyển sang trang chi tiết
+  const handleViewDetails = (recordId) => {
+    navigate(`/detail-record/${recordId}`); // Điều hướng sang trang chi tiết với id
   };
 
   return (
@@ -69,6 +75,7 @@ export default function UserRecordList() {
                 recordId={record.id}
                 creationDate={formatDate(record.ngayTao)}
                 diseaseType={record.nhomBenh}
+                onClick={() => handleViewDetails(record.id)} // Gắn hàm xử lý vào onClick
               />
             ))
           ) : (

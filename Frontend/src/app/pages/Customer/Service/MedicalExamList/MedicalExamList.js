@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ExamCard from "../../../../components/Customer/Service/ExamCard"; // Component bạn đã tạo
-import "./MedicalExamList.css";
-import Anh from "../../../../assets/images/clinic1.png";
 import SearchIcon from "../../../../assets/icons/icon-search.png";
-import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
+import Anh from "../../../../assets/images/clinic1.png";
+import ExamCard from "../../../../components/Customer/Service/ExamCard"; // Component bạn đã tạo
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
-import { showYesNoMessageBox } from "../../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox";
+import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
+import "./MedicalExamList.css";
 export default function MedicalExamList() {
   const [currentPage, setCurrentPage] = useState(1);
   const examsPerPage = 8; // Số lượng ca khám trên mỗi trang
@@ -86,7 +85,6 @@ export default function MedicalExamList() {
     const dayMatch = selectedDay === "Tất cả" || examDay === selectedDay;
 
     return (doctorMatch || groupMatch) && dayMatch;
-    return dayMatch;
   });
 
   //Đăng ký ca khám
@@ -101,7 +99,7 @@ export default function MedicalExamList() {
         showSuccessMessageBox(sus.message);
       },
       (err) => {
-        console.log(err);
+        console.log(err.message);
         // Xử lý khi có lỗi xảy ra
         showErrorMessageBox(err.message);
       },

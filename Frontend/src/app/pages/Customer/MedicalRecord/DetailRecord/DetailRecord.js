@@ -1,35 +1,59 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
+import { fetchGet } from "../../../../lib/httpHandler"; // Import hàm gọi API
+import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // Import hàm hiển thị thông báo lỗi
 import MedicalImaging from "../MedicalImaging/MedicalImaging"; // Component Popup ảnh chụp chiếu
 import "./DetailRecord.css";
+import { useParams } from "react-router-dom";
 
 export default function DetailRecord() {
   const [isPopupVisible, setIsPopupVisible] = useState(false); // Quản lý trạng thái popup
+  const { id } = useParams(); // Lấy id từ URL
+  const [recordDetails, setRecordDetails] = useState([]);
+
   const handleOpenPopup = () => {
     setIsPopupVisible(true); // Hiển thị popup
   };
+
+  //Gọi API để láy thông tin
+  useEffect(() => {
+    if (id) {
+      const uri = `/api/quan-li-chi-tiet-ho-so-benh-an?HoSoBenhAnID=${id}`;
+      fetchGet(
+        uri,
+        (data) => {
+          console.log(data); // Dữ liệu chi tiết của hồ sơ bệnh án
+          setRecordDetails(data || []);
+        },
+        (error) => {
+          showErrorMessageBox(error.message);
+        },
+        () => {
+          showErrorMessageBox("Lỗi kết nối đến máy chủ");
+        }
+      );
+    }
+  }, [id]);
+
+  //Định dạng ngày khám
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   // Tính toán các chỉ số phân trang
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
-  const recordsPerPage = 2; // Số bệnh lý trên mỗi trang
-  const records = [
-    {
-      id: 1,
-      doctorName: "Trần Thanh Trúc",
-      disease: "Cao huyết áp",
-      date: "20/12/2024",
-      total: "190.000 đ",
-    },
-    {
-      id: 2,
-      doctorName: "Trần Thanh Trúc",
-      disease: "Rối loạn nhịp tim",
-      date: "20/12/2024",
-      total: "150.000 đ",
-    },
-  ];
+  const recordsPerPage = 6; // Số bệnh lý trên mỗi trang
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
-  const totalPages = Math.ceil(records.length / recordsPerPage);
+  const currentRecords = recordDetails.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+  const totalPages = Math.ceil(recordDetails.length / recordsPerPage);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -37,7 +61,7 @@ export default function DetailRecord() {
   return (
     <div className="detail-record-page">
       <div className="detail-record-header">
-        <h2 className="detail-record-title">HỒ SƠ BỆNH ÁN: HS001</h2>
+        <h2 className="detail-record-title">MÃ HỒ SƠ BỆNH ÁN: {id}</h2>
       </div>
 
       {/* Danh sách các bệnh lý gặp phải */}
@@ -56,15 +80,16 @@ export default function DetailRecord() {
           <tbody>
             {currentRecords.map((record, index) => (
               <tr key={record.id}>
-                <td>{index + 1}</td>
-                <td>{record.doctorName}</td>
-                <td>{record.disease}</td>
-                <td>{record.date}</td>
-                <td>{record.total}</td>
+                <td>{index + 1 + indexOfFirstRecord}</td>{" "}
+                {/* Đảm bảo số thứ tự đúng */}
+                <td>{record.hoTenBacSi}</td>
+                <td>{record.tenBenhLy}</td>
+                <td>{formatDate(record.ngayKham)}</td>
+                <td>{record.tongTien}</td>
                 <td className="d-flex gap-2 justify-content-center align-items-center">
                   <button
                     type="button"
-                    class="btn btn-success  "
+                    className="btn btn-success"
                     data-toggle="tooltip"
                     title="Xem chi tiết bệnh lý khám"
                     onClick={handleOpenPopup} // Mở popup khi nhấn
@@ -72,7 +97,7 @@ export default function DetailRecord() {
                     Chi tiết khám
                   </button>
                   <button
-                    class="btn btn-danger "
+                    className="btn btn-danger"
                     data-toggle="tooltip"
                     title="Xem ảnh chụp chiếu"
                     type="button"

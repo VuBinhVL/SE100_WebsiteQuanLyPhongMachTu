@@ -36,7 +36,8 @@ export default function MainRoutes() {
           <Route path="doctors" element={<Doctor />} />
           <Route path="account" element={<AccountInformation />} />
           <Route path="medical-record" element={<UserRecordList />} />
-          <Route path="medical" element={<DetailRecord />} />
+          <Route path="/detail-record/:id" element={<DetailRecord />} />{" "}
+          {/* Định tuyến với id */}
         </Route>
 
         {/* Layout quản trị viên */}

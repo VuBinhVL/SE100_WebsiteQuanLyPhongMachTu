@@ -7,9 +7,13 @@ export default function MedicalRecordCard({
   creationDate,
   onViewDetails,
   diseaseType,
+  onClick, // Nhận prop onClick
 }) {
   return (
-    <div className="medical-record-card">
+    <div
+      className="medical-record-card"
+      onClick={() => onClick(recordId)} // Gửi recordId khi sự kiện onClick xảy ra
+    >
       {/* Hình ảnh đại diện */}
       <img src={image} alt="Medical Record" className="record-image" />
 

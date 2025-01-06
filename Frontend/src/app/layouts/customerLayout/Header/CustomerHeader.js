@@ -23,8 +23,10 @@ export default function CustomerHeader() {
   };
 
   //Lấy avatar
-  //Gọi API lấy thông tin tài khoản
   useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token || !isLoggedInValue) return; // Không gọi API nếu không có token hoặc chưa đăng nhập
+
     const uri = "/api/quan-li-thong-tin-ca-nhan";
     fetchGet(
       uri,
@@ -38,7 +40,7 @@ export default function CustomerHeader() {
         showErrorMessageBox("Không thể kết nối đến server");
       }
     );
-  }, []);
+  }, [isLoggedInValue]);
 
   return (
     <header className="customer-header">
