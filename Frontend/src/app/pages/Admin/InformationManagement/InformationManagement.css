@@ -186,6 +186,7 @@
   flex-direction: column; /* Xếp các phần tử theo chiều dọc */
   gap: 5px; /* Khoảng cách giữa các đoạn */
   align-items: flex-start; /* Căn trái các đoạn */
+  margin-left: 10px;
 }
 
 .information-page .info-item {

@@ -18,6 +18,9 @@ export default function InformationManagement() {
     ngaySinh: "",
     email: "",
     diaChi: "",
+    vaiTro: "",
+    chuyenMon: "",
+    image: "",
   }); //Thông tin tài khoản
   const [avatar, setAvatar] = useState(""); // Lưu ảnh đại diện
 
@@ -39,19 +42,22 @@ export default function InformationManagement() {
 
   //Gọi API lấy thông tin tài khoản
   useEffect(() => {
-    const uri = "/api/quan-li-thong-tin-ca-nhan";
+    const uri = "/api/admin/quan-li-nhan-vien/thong-tin-ca-nhan";
     fetchGet(
       uri,
       (data) => {
         console.log(data);
         setAvatar(data.avatar || ""); // Gán ảnh đại diện nếu có
         setInformation({
-          hoTen: data.tenNguoiDung || "",
+          hoTen: data.hoTen || "",
           gioiTinh: data.gioiTinh || "",
           soDienThoai: data.soDienThoai || "",
           ngaySinh: data.ngaySinh || "",
           email: data.email || "",
           diaChi: data.diaChi || "",
+          vaiTro: data.vaiTro || "",
+          chuyenMon: data.chuyenMon || "",
+          image: data.image || "",
         });
       },
       (error) => {
@@ -62,6 +68,7 @@ export default function InformationManagement() {
       }
     );
   }, []);
+
   //Nút chỉnh sửa thông tin
   const handleEdit = () => {
     setIsEditing(true); // Kích hoạt chế độ chỉnh sửa
@@ -99,17 +106,17 @@ export default function InformationManagement() {
           </button>
           <div className="information-wrapper">
             <img
-              src="https://photo.znews.vn/w660/Uploaded/gtnzjz/2019_05_30/IMG_0606.jpg"
+              src={information.image}
               alt="Avatar"
               className="information-avatar"
             />
             {isEditing && <button className="change-photo">Chọn ảnh</button>}
             <div class="info-container">
               <p class="info-item">
-                <b>Vai trò:</b> Nhân viên
+                <b>Vai trò:</b> {information.vaiTro}
               </p>
               <p class="info-item">
-                <b>Chuyên môn:</b> Tim mạch
+                <b>Chuyên môn:</b> {information.chuyenMon}
               </p>
             </div>
           </div>
