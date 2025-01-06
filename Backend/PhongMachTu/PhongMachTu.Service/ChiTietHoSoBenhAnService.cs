@@ -26,9 +26,12 @@ namespace PhongMachTu.Service
         private readonly IBenhLyRepository _benhLyRepository;
         private readonly IThuocRepository _thuocRepository;
         private readonly IChiTietDonThuocRepository _chiTietDonThuocRepository;
+        private readonly IChiTietXetNghiemRepository _chiTietXetNghiemRepository;
+        private readonly IChupChieuRepository _chupChieuRepository;
         public ChiTietHoSoBenhAnService(IChiTietHoSoBenhAnRepository chiTietHoSoBenhAnRepository, INguoiDungService nguoiDungService,
             IHoSoBenhAnRepository hoSoBenhAnRepository, IChiTietKhamBenhRepository chiTietKhamBenhRepository,
-            IPhieuKhamBenhRepository phieuKhamBenhRepository, IBenhLyRepository benhLyRepository, IThuocRepository thuocRepository, IChiTietDonThuocRepository chiTietDonThuocRepository)
+            IPhieuKhamBenhRepository phieuKhamBenhRepository, IBenhLyRepository benhLyRepository, IThuocRepository thuocRepository,
+            IChiTietDonThuocRepository chiTietDonThuocRepository, IChiTietXetNghiemRepository chiTietXetNghiemRepository, IChupChieuRepository chupChieuRepository)
         {
             _chiTietHoSoBenhAnRepository = chiTietHoSoBenhAnRepository;
             _nguoiDungService = nguoiDungService;
@@ -38,6 +41,8 @@ namespace PhongMachTu.Service
             _benhLyRepository = benhLyRepository;
             _thuocRepository = thuocRepository;
             _chiTietDonThuocRepository = chiTietDonThuocRepository;
+            _chiTietXetNghiemRepository = chiTietXetNghiemRepository;
+            _chupChieuRepository = chupChieuRepository;
         }
         public async Task<IEnumerable<Request_HienThiChiTietHoSoBenhAnDTO>> HienThiChiTietHoSoBenhAnAsync(HttpContext httpContext, int HoSoBenhAnID)
         {
@@ -49,8 +54,9 @@ namespace PhongMachTu.Service
             }
 
             // Tìm hồ sơ bệnh án của người dùng
-            var hoSoBenhAn = (await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.ChiTietHoSoBenhAn))
-                .FirstOrDefault(h => h.Id == HoSoBenhAnID);
+            //var hoSoBenhAn = (await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.ChiTietHoSoBenhAn))
+            //    .FirstOrDefault(h => h.Id == HoSoBenhAnID);
+            var hoSoBenhAn = (await _hoSoBenhAnRepository.GetSingleByIdAsync(HoSoBenhAnID));
 
             if (hoSoBenhAn == null)
             {
@@ -58,7 +64,9 @@ namespace PhongMachTu.Service
             }
 
             // Lấy danh sách ChiTietHoSoBenhAn liên quan đến hồ sơ bệnh án
-            var chiTietHoSoBenhAns = (await _chiTietHoSoBenhAnRepository.GetAllAsync()).Where(cthsba => cthsba.HoSoBenhAnId == hoSoBenhAn.Id);
+            var chiTietHoSoBenhAns = (await _chiTietHoSoBenhAnRepository.GetAllAsync())
+                .Where(cthsba => cthsba.HoSoBenhAnId == hoSoBenhAn.Id);
+
             if (chiTietHoSoBenhAns == null || !chiTietHoSoBenhAns.Any())
             {
                 throw new Exception("Không có chi tiết hồ sơ bệnh án nào liên quan");
@@ -74,17 +82,54 @@ namespace PhongMachTu.Service
                 throw new Exception("Không có chi tiết khám bệnh nào liên quan");
             }
 
+            // Lấy danh sách ChiTietDonThuoc liên quan
+            var chiTietDonThuocs = (await _chiTietDonThuocRepository.GetAllAsync())
+                .Where(ctdt => chiTietKhamBenhs.Any(ctkb => ctkb.Id == ctdt.ChiTietKhamBenhId))
+                .ToList();
+
+            // Lấy danh sách ChiTietXetNghiem liên quan
+            var chiTietXetNghiems = (await _chiTietXetNghiemRepository.GetAllAsync())
+                .Where(ctxn => chiTietKhamBenhs.Any(ctkb => ctkb.Id == ctxn.ChiTietKhamBenhId))
+                .ToList();
+
+            // Lấy danh sách ChupChieu liên quan
+            var chupChieus = (await _chupChieuRepository.GetAllAsync())
+                .Where(cc => chiTietKhamBenhs.Any(ctkb => ctkb.Id == cc.ChiTietKhamBenhId))
+                .ToList();
+
             // Chuyển đổi dữ liệu sang DTO
-            var chiTietHoSoDTOs = chiTietKhamBenhs.Select(ctkb => new Request_HienThiChiTietHoSoBenhAnDTO
+            var chiTietHoSoDTOs = chiTietKhamBenhs.Select(ctkb =>
             {
-                HoTenBacSi = ctkb.PhieuKhamBenh.LichKham.CaKham.BacSi?.HoTen ,
-                TenBenhLy = ctkb.BenhLy?.TenBenhLy,
-                NgayKham = ctkb.PhieuKhamBenh.NgayTao,
-                GiaKham = ctkb.GiaKham
+                // Tính tổng tiền thuốc cho từng ChiTietKhamBenh
+                var tongTienThuoc = chiTietDonThuocs
+                    .Where(ctdt => ctdt.ChiTietKhamBenhId == ctkb.Id)
+                    .Sum(ctdt => ctdt.SoLuong * ctdt.DonGia);
+
+                // Tính tổng tiền xét nghiệm cho từng ChiTietKhamBenh
+                var tongTienXetNghiem = chiTietXetNghiems
+                    .Where(ctxn => ctxn.ChiTietKhamBenhId == ctkb.Id)
+                    .Sum(ctxn => ctxn.GiaXetNghiem);
+
+                // Tính tổng tiền chụp chiếu cho từng ChiTietKhamBenh
+                var tongTienChupChieu = chupChieus
+                    .Where(cc => cc.ChiTietKhamBenhId == ctkb.Id)
+                    .Sum(cc => cc.Gia);
+
+                // Tổng tiền cho DTO
+                var tongTien = ctkb.GiaKham + tongTienThuoc + tongTienXetNghiem + tongTienChupChieu;
+
+                return new Request_HienThiChiTietHoSoBenhAnDTO
+                {
+                    HoTenBacSi = ctkb.PhieuKhamBenh.LichKham.CaKham.BacSi?.HoTen,
+                    TenBenhLy = ctkb.BenhLy?.TenBenhLy,
+                    NgayKham = ctkb.PhieuKhamBenh.NgayTao,
+                    TongTien = tongTien
+                };
             }).ToList();
 
             return chiTietHoSoDTOs;
         }
+
 
 
         public async Task<Request_HienThiPKBCuaChiTietHoSoBenhAnDTO> HienThiChiTietPhieuKhamBenhCuaChiTietHoSoBenhAnAsync(HttpContext httpContext, int phieuKhamBenhId)

@@ -12,6 +12,6 @@ namespace PhongMachTu.Common.DTOs.Request.ChiTietHoSoBenhAn
         public string HoTenBacSi { get; set; }
         public string TenBenhLy { get; set; }
         public DateTime NgayKham { get; set; }
-        public int GiaKham { get; set; }
-    }
+        public int TongTien { get; set; }
+    }   
 }
