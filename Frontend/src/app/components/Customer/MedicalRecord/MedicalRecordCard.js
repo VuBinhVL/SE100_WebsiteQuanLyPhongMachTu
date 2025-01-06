@@ -15,7 +15,9 @@ export default function MedicalRecordCard({
 
       {/* Thông tin hồ sơ */}
       <div className="record-info">
-        <p className="record-id"> {recordId}</p>
+        <p className="record-id">
+          <b> {recordId}</b>
+        </p>
         <p className="record-date"> {creationDate}</p>
         <p className="record-disease-type">
           <b>Loại bệnh: </b>
