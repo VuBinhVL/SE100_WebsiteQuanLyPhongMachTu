@@ -17,7 +17,7 @@ namespace PhongMachTu.Service
     public interface IHoSoBenhAnService
     {
         Task<List<HoSoBenhAn>> GetAllAsync();
-        Task<Request_HienThiHoSoBenhAnDTO> HienThiHoSoBenhAnAsync( HttpContext httpContext);
+        Task<IEnumerable<Request_HienThiHoSoBenhAnDTO>> HienThiHoSoBenhAnAsync( HttpContext httpContext);
     }
     public class HoSoBenhAnService : IHoSoBenhAnService
     {
@@ -32,35 +32,42 @@ namespace PhongMachTu.Service
         {
             return (await _hoSoBenhAnRepository.GetAllAsync()).ToList();
         }
-        public async Task<Request_HienThiHoSoBenhAnDTO> HienThiHoSoBenhAnAsync(HttpContext httpContext)
+        public async Task<IEnumerable<Request_HienThiHoSoBenhAnDTO>> HienThiHoSoBenhAnAsync(HttpContext httpContext)
         {
             // Lấy thông tin người dùng từ HttpContext
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
 
-            // Tìm hồ sơ bệnh án tương ứng với người dùng
-            var allHoSoBenhAn = await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.NhomBenh); // Chờ để nhận danh sách
+            if (nguoiDung == null)
+            {
+                throw new Exception("Không tìm thấy thông tin người dùng.");
+            }
 
+            // Lấy danh sách hồ sơ bệnh án bao gồm cả thông tin nhóm bệnh và người dùng
+            var allHoSoBenhAn = await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.NhomBenh, h => h.BenhNhan);
+
+            // Lọc hồ sơ theo Id của bệnh nhân
             var findBenhNhan = allHoSoBenhAn
                 .Where(d => d.BenhNhanId == nguoiDung.Id)
-                .FirstOrDefault();
+                .ToList();
 
             // Kiểm tra nếu không tìm thấy hồ sơ
-            if (findBenhNhan == null)
+            if (!findBenhNhan.Any())
             {
                 throw new Exception("Không tìm thấy hồ sơ bệnh án cho người dùng.");
             }
 
-            // Tạo DTO kết quả
-            var rs = new Request_HienThiHoSoBenhAnDTO()
+            // Chuyển đổi danh sách hồ sơ sang DTO
+            var result = findBenhNhan.Select(h => new Request_HienThiHoSoBenhAnDTO
             {
-                IdBN = findBenhNhan.BenhNhanId,
-                Id = findBenhNhan.Id,
-                NhomBenh = findBenhNhan.NhomBenh?.TenNhomBenh ?? "Chưa xác định", // Lấy tên nhóm bệnh
-                NgayTao = findBenhNhan.NgayTao
-            };
+                IdBN = h.BenhNhanId,
+                Id = h.Id,
+                NhomBenh = h.NhomBenh?.TenNhomBenh ?? "Không xác định",
+                NgayTao = h.NgayTao
+            });
 
-            return rs;
+            return result;
         }
+
 
 
 
