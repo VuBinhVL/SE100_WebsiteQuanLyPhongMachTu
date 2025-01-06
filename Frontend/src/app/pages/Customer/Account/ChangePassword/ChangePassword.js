@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from "../../../../components/Customer/Account/AccountButton"; // Component bạn đã tạo
+import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import "./ChangePassword.css";
-import { fetchGet } from "../../../../lib/httpHandler";
+import { fetchPost } from "../../../../lib/httpHandler";
 
 export default function ChangePassword({ onClose }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -10,27 +11,33 @@ export default function ChangePassword({ onClose }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSave = () => {
-    if (newPassword !== confirmPassword) {
-      setErrorMessage("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+    if (!newPassword || !currentPassword || !confirmPassword) {
+      setErrorMessage("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    } else if (newPassword !== confirmPassword) {
+      setErrorMessage("Mật khẩu mới không khớp!");
       return;
     }
-    const uri = "/api/quan-li-ho-so-benh-an/hien-thi-ho-so-benh-an";
-    fetchGet(
+    const payload = {
+      matKhauHienTai: currentPassword,
+      matKhauMoi: newPassword,
+      matKhauNhapLai: confirmPassword,
+    };
+    const uri = "/api/change-password";
+    fetchPost(
       uri,
+      payload,
       (sus) => {
-        console.log(sus);
+        showSuccessMessageBox(sus.message);
+        onClose();
       },
-      (fail) => {
-        console.log(fail);
+      (error) => {
+        setErrorMessage(error.message);
       },
       () => {
-        console.log("Có lỗi xảy ra");
+        setErrorMessage("Không thể kết nối đến máy chủ");
       }
     );
-
-    // Logic xử lý lưu mật khẩu
-    alert("Đổi mật khẩu thành công!");
-    onClose(); // Đóng popup sau khi lưu
   };
 
   return (
