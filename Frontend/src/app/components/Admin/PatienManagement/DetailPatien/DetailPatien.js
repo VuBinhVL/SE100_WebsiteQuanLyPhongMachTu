@@ -172,7 +172,7 @@ export default function DetailPatien(props) {
 
     EditPatient();
   };
-  console.log(">>>>>>>>check listPatien", listPatien);
+  // console.log(">>>>>>>>check listPatien", listPatien);
   // Hàm lấy danh sách nhân viên
   const fetchPatientList = () => {
     const uri = "/api/admin/quan-li-benh-nhan";

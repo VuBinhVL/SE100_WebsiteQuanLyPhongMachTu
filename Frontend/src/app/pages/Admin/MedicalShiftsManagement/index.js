@@ -227,10 +227,10 @@ export default function MedicalShift() {
                       <td>{item.bacSiKham || "Chưa có ai đăng kí"}</td>
                       <td>
                         <div className="list_Action">
-                          {/* <FaLock className="icon_Lock icon_action fs-6" /> */}
+
                           <ListAppointment item={item} />
 
-                          {/* <DetailShift item={item} setListShift={setListShift} listShift={listShift} /> */}
+                          <DetailShift item={item} setListShift={setListShift} listShift={listShift} />
                           <DeleteShift
                             item={item}
                             setListShift={setListShift}
