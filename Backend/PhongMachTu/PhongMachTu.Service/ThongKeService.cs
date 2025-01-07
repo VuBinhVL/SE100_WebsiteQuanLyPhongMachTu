@@ -11,6 +11,7 @@ namespace PhongMachTu.Service
     public interface IThongKeService
     {
         Task<Request_HienThiThongKeDTO> HienThiThongKe(DateTime startDay, DateTime endDay);
+        Task<List<Request_BieuDoDoanhThuDTO>> HienThiThongKeTheoThang(DateTime startDay, DateTime endDay);
     }
     public class ThongKeService : IThongKeService
     {
@@ -22,6 +23,10 @@ namespace PhongMachTu.Service
         public async Task<Request_HienThiThongKeDTO> HienThiThongKe(DateTime startDay, DateTime endDay)
         {
             return await _thongKeRepository.HienThiThongKeAsync(startDay, endDay);
+        }
+        public async Task<List<Request_BieuDoDoanhThuDTO>> HienThiThongKeTheoThang(DateTime startDay, DateTime endDay)
+        {
+            return await _thongKeRepository.HienThiThongKeTheoThangAsync(startDay, endDay);
         }
     }
 }

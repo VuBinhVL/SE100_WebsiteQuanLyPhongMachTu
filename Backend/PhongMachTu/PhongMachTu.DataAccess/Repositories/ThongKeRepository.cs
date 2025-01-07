@@ -15,7 +15,7 @@ namespace PhongMachTu.DataAccess.Repositories
     public interface IThongKeRepository 
     {
         Task<Request_HienThiThongKeDTO> HienThiThongKeAsync(DateTime startDay, DateTime endDay);
-        
+        Task<List<Request_BieuDoDoanhThuDTO>> HienThiThongKeTheoThangAsync(DateTime startDay, DateTime endDay);
     }
 
     public class ThongKeRepository : IThongKeRepository
@@ -78,5 +78,61 @@ namespace PhongMachTu.DataAccess.Repositories
                 TongSoLuotKham = tongSoLuotKham
             };
         }
+
+        public async Task<List<Request_BieuDoDoanhThuDTO>> HienThiThongKeTheoThangAsync(DateTime startDay, DateTime endDay)
+        {
+            var result = new List<Request_BieuDoDoanhThuDTO>();
+
+            // Loop through each month between startDay and endDay
+            for (DateTime date = startDay; date <= endDay; date = date.AddMonths(1))
+            {
+                var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+                var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+                var monthlyRevenue = await CalculateMonthlyRevenue(firstDayOfMonth, lastDayOfMonth);
+
+                result.Add(new Request_BieuDoDoanhThuDTO
+                {
+                    Thang = date.Month,
+                    Nam = date.Year,
+                    TongDoanhThu = monthlyRevenue
+                });
+            }
+
+            return result;
+        }
+
+        private async Task<decimal> CalculateMonthlyRevenue(DateTime startOfMonth, DateTime endOfMonth)
+        {
+            var tongTienXetNghiem = await _context.ChiTietXetNghiems
+                .Where(ctxn => ctxn.ChiTietKhamBenh != null &&
+                               ctxn.ChiTietKhamBenh.PhieuKhamBenh != null &&
+                               ctxn.ChiTietKhamBenh.PhieuKhamBenh.NgayTao >= startOfMonth &&
+                               ctxn.ChiTietKhamBenh.PhieuKhamBenh.NgayTao <= endOfMonth)
+                .SumAsync(ctxn => ctxn.GiaXetNghiem);
+
+            var tongTienChupChieu = await _context.ChupChieus
+                .Where(cc => cc.ChiTietKhamBenh != null &&
+                             cc.ChiTietKhamBenh.PhieuKhamBenh != null &&
+                             cc.ChiTietKhamBenh.PhieuKhamBenh.NgayTao >= startOfMonth &&
+                             cc.ChiTietKhamBenh.PhieuKhamBenh.NgayTao <= endOfMonth)
+                .SumAsync(cc => cc.Gia);
+
+            var tongTienThuoc = await _context.ChiTietDonThuocs
+                .Where(ctdt => ctdt.ChiTietKhamBenh != null &&
+                               ctdt.ChiTietKhamBenh.PhieuKhamBenh != null &&
+                               ctdt.ChiTietKhamBenh.PhieuKhamBenh.NgayTao >= startOfMonth &&
+                               ctdt.ChiTietKhamBenh.PhieuKhamBenh.NgayTao <= endOfMonth)
+                .SumAsync(ctdt => ctdt.DonGia * ctdt.SoLuong);
+
+            var tongTienKhamBenh = await _context.ChiTietKhamBenhs
+                .Where(ctkb => ctkb.PhieuKhamBenh != null &&
+                               ctkb.PhieuKhamBenh.NgayTao >= startOfMonth &&
+                               ctkb.PhieuKhamBenh.NgayTao <= endOfMonth)
+                .SumAsync(ctkb => ctkb.GiaKham);
+
+            return tongTienXetNghiem + tongTienChupChieu + tongTienThuoc + tongTienKhamBenh;
+        }
+
     }
 }
