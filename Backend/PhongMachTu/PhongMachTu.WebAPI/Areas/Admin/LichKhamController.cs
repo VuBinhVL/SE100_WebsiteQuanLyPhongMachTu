@@ -20,5 +20,11 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             var rs = await _lichKhamService.HienThiDanhSachLichKhamPhiaAdmin();
             return Ok(rs);
         }
+        [HttpGet("trang-thai-lich-kham")]
+        public async Task<IActionResult> GetTrangThaiLichKhamAsync()
+        {
+            var rs = await _lichKhamService.GetTrangThaiLichKham();
+            return Ok(rs);
+        }
     }
 }
