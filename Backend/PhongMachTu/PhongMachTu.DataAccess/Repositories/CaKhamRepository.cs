@@ -14,7 +14,7 @@ namespace PhongMachTu.DataAccess.Repositories
 	{
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
         IQueryable<CaKham> Query();
-        Task<IEnumerable<CaKhamDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync();
+        Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync();
     }
 
 	public class CaKhamRepository : RepositoryBase<CaKham>, ICaKhamRepository
@@ -53,10 +53,10 @@ namespace PhongMachTu.DataAccess.Repositories
             return _context.CaKhams.AsQueryable();
         }
 
-        public async Task<IEnumerable<CaKhamDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync()
+        public async Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> GetCaKhamsWithTenBacSiAndTenNhomBenhAsync()
         {
             return await _context.CaKhams
-                .Select(ck => new CaKhamDTO
+                .Select(ck => new Request_CaKhamCoSLBNDaDangKiDTO
                 {
                     Id = ck.Id,
                     SDT = ck.BacSi.SoDienThoai,
@@ -65,7 +65,10 @@ namespace PhongMachTu.DataAccess.Repositories
                     ThoiGianKetThuc = ck.ThoiGianKetThuc,
                     NgayKham = ck.NgayKham,
                     BacSiKham = ck.BacSi.HoTen,
-                    TenNhomBenh = ck.NhomBenh.TenNhomBenh
+                    TenNhomBenh = ck.NhomBenh.TenNhomBenh,
+                    // Đếm số lượng bệnh nhân đã đăng ký cho ca khám này
+                    SoLuongBenhNhanDaDangKi = ck.LichKhams
+                        .Count(lk => lk.TrangThaiLichKham.TenTrangThai != "Hủy")
                 })
                 .ToListAsync();
         }

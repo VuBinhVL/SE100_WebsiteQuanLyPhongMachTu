@@ -24,7 +24,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data, HttpContext httpContext);
         Task<ResponeMessage> DangKyCaKhamChoBacSiAsync(Request_DangKyCaKhamChoBacSiDTO data, HttpContext httpContext);
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
-        Task<IEnumerable<CaKhamDTO>> HienThiDanhSachCaKhamPhiaAdmin();
+        Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> HienThiDanhSachCaKhamPhiaAdmin();
     }
     public class CaKhamService : ICaKhamService
     {
@@ -306,7 +306,7 @@ namespace PhongMachTu.Service
             return await _caKhamRepository.GetCaKhamDaDangKyAsync();
         }
 
-        public async Task<IEnumerable<CaKhamDTO>> HienThiDanhSachCaKhamPhiaAdmin()
+        public async Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> HienThiDanhSachCaKhamPhiaAdmin()
         {
             // Lấy danh sách ca khám từ repository
 

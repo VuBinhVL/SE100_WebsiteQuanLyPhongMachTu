@@ -142,24 +142,7 @@ export default function DashBoard() {
             ))}
           </Row>
 
-          {/* Tổng quan */}
-          <Card bordered={false} className="w-full">
-            <span className="text-[20px] font-medium">Tổng quan</span>
-            <Row gutter={16} className="mt-5">
-              {newValueMetric.map((metric, i) => (
-                <Col key={i} span={12} className="mb-5">
-                  <Card bordered={false}>
-                    <Statistic
-                      formatter={formatter}
-                      title={metric.label}
-                      value={metric.value}
-                      valueStyle={{ color: metric.color }}
-                    />
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          </Card>
+          
 
           {/* Biểu đồ */}
           <div className="w-full flex flex-row gap-5">
