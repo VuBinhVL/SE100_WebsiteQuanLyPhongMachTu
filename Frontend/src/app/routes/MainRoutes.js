@@ -20,6 +20,9 @@ import DetailRecord from "../pages/Customer/MedicalRecord/DetailRecord";
 import ReviewPiceList from "../pages/Customer/Service/ReviewPriceList";
 import MedicalExamList from "../pages/Customer/Service/MedicalExamList";
 import InformationManagement from "../pages/Admin/InformationManagement/InformationManagement";
+import Parameter from "../pages/Admin/ParameterManagement";
+import DiseaseGroup from "../pages/Admin/DiseaseGroupManagement";
+import MedicineGroup from "../pages/Admin/MedicineGroupManagement";
 
 export default function MainRoutes() {
   return (
@@ -52,6 +55,9 @@ export default function MainRoutes() {
             path="information-management"
             element={<InformationManagement />}
           />
+          <Route path="medicine-group" element={<MedicineGroup />} />
+          <Route path="disease-group" element={<DiseaseGroup />} />
+          <Route path="parameter" element={<Parameter />} />
         </Route>
         {/* Trang không tìm thấy */}
         <Route path="*" element={<PageNotFound />} />

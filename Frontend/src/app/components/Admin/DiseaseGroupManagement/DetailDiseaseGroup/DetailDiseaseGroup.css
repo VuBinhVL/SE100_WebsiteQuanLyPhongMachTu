@@ -1,0 +1,67 @@
+.detailPatien .contain_img .inner_img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+/* CSS mặc định cho các button */
+.detailPatien .modal-footer .btn_Accept,
+.detailPatien .contain_img .btn_select_img {
+  background-color: #348f6c;
+  border: 1px solid #348f6c !important;
+  width: 125px;
+}
+
+.detailPatien .modal-footer .btn_Cancel {
+  background-color: #d51f2a;
+  border: 1px solid #d51f2a !important;
+  width: 125px;
+}
+
+/* CSS hover cho các button */
+.detailPatien .modal-footer .btn_Accept:hover,
+.detailPatien .modal-footer .btn_Accept:active,
+.detailPatien .modal-footer .btn_Accept:focus,
+.detailPatien .contain_img .btn_select_img:hover,
+.detailPatien .contain_img .btn_select_img:active,
+.detailPatien .contain_img .btn_select_img:focus {
+  background-color: #348f6c !important;
+  border: 1px solid #348f6c;
+}
+
+.detailPatien .modal-footer .btn_Cancel:hover,
+.detailPatien .modal-footer .btn_Cancel:active,
+.detailPatien .modal-footer .btn_Cancel:focus {
+  background-color: #d51f2a;
+}
+
+/* Đảm bảo kích thước các button luôn đồng nhất */
+.detailPatien .modal-footer .btn_Accept,
+.detailPatien .modal-footer .btn_Cancel,
+.detailPatien .contain_img .btn_select_img {
+  width: 125px;
+}
+
+.detailPatien .custom-bold {
+  font-weight: 600;
+}
+
+.detailPatien .icon_information {
+  color: #03a9f4;
+}
+
+.detailPatien .icon_edit_information {
+  color: #997852;
+}
+
+.detailPatien .modal-footer .btn_Accept:hover {
+  transform: scale(1);
+  transform: translateY(0px);
+}
+
+.detailPatien .modal-footer .btn_Accept {
+  padding: 0.35rem;
+  color: #ffffff;
+  border-radius: 6px;
+}
