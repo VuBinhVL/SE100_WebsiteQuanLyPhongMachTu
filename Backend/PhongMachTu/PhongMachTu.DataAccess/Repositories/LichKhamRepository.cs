@@ -31,6 +31,7 @@ namespace PhongMachTu.DataAccess.Repositories
                 .Include(ck => ck.TrangThaiLichKham) 
                 .Select(ck => new LichKhamDTO
                 {
+                    IdCaKham = ck.CaKhamId,
                     STT = ck.SoThuTu, 
                     TenBenhNhan = ck.BenhNhan.HoTen, 
                     TenTrangThai = ck.TrangThaiLichKham.TenTrangThai,
