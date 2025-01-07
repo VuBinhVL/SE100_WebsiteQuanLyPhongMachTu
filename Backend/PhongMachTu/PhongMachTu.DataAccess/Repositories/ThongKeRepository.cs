@@ -17,6 +17,7 @@ namespace PhongMachTu.DataAccess.Repositories
         Task<Request_HienThiThongKeDTO> HienThiThongKeAsync(DateTime startDay, DateTime endDay);
         Task<List<Request_BieuDoDoanhThuDTO>> HienThiDoanhThuTheoThangAsync(DateTime startDay, DateTime endDay);
         Task<List<Request_BieuDoThuocDTO>> HienThiThongKeThuocAsync(DateTime startDay, DateTime endDay);
+        Task<List<Request_BieuDoSLBenhNhanTheoBenhLyDTO>> HienThiThongKeBenhNhanTheoBenhLy(DateTime startDay, DateTime endDay);
     }
 
     public class ThongKeRepository : IThongKeRepository
@@ -174,5 +175,37 @@ namespace PhongMachTu.DataAccess.Repositories
             return tongTienXetNghiem + tongTienChupChieu + tongTienThuoc + tongTienKhamBenh;
         }
 
+        public async Task<List<Request_BieuDoSLBenhNhanTheoBenhLyDTO>> HienThiThongKeBenhNhanTheoBenhLy(DateTime startDay, DateTime endDay)
+        {
+            var result = new List<Request_BieuDoSLBenhNhanTheoBenhLyDTO>();
+            // Lấy danh sách bệnh lý và số lượng bệnh nhân cho mỗi bệnh lý trong khoảng thời gian
+            var benhNhanTheoBenhLy = await _context.ChiTietKhamBenhs
+                .Where(ctkb =>
+                    ctkb.PhieuKhamBenh != null &&
+                    ctkb.PhieuKhamBenh.NgayTao >= startDay &&
+                    ctkb.PhieuKhamBenh.NgayTao <= endDay)
+                .GroupBy(ctkb => ctkb.BenhLyId)
+                .Select(g => new
+                {
+                    BenhLyId = g.Key,
+                    SoLuongBenhNhan = g.Select(ctkb => ctkb.PhieuKhamBenh.LichKham.BenhNhanId).Distinct().Count()
+                })
+                .ToListAsync();
+
+            foreach (var benhLyItem in benhNhanTheoBenhLy)
+            {
+                var benhLy = await _context.BenhLys.FindAsync(benhLyItem.BenhLyId);
+                if (benhLy != null)
+                {
+                    result.Add(new Request_BieuDoSLBenhNhanTheoBenhLyDTO
+                    {
+                        TenBenhLy = benhLy.TenBenhLy,
+                        SoLuongBenhNhan = benhLyItem.SoLuongBenhNhan
+                    });
+                }
+            }
+
+            return result;
+        }
     }
 }
