@@ -41,5 +41,18 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+        [HttpGet("bieu-do-thuoc")]
+        public async Task<IActionResult> HienThiThongKeThuocAsync(DateTime startDay, DateTime endDay)
+        {
+            try
+            {
+                var rs = await _thongKeService.HienThiThongKeThuoc(startDay, endDay);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
 }

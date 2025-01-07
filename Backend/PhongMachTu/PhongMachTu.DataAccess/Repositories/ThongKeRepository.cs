@@ -15,7 +15,8 @@ namespace PhongMachTu.DataAccess.Repositories
     public interface IThongKeRepository 
     {
         Task<Request_HienThiThongKeDTO> HienThiThongKeAsync(DateTime startDay, DateTime endDay);
-        Task<List<Request_BieuDoDoanhThuDTO>> HienThiThongKeTheoThangAsync(DateTime startDay, DateTime endDay);
+        Task<List<Request_BieuDoDoanhThuDTO>> HienThiDoanhThuTheoThangAsync(DateTime startDay, DateTime endDay);
+        Task<List<Request_BieuDoThuocDTO>> HienThiThongKeThuocAsync(DateTime startDay, DateTime endDay);
     }
 
     public class ThongKeRepository : IThongKeRepository
@@ -79,7 +80,7 @@ namespace PhongMachTu.DataAccess.Repositories
             };
         }
 
-        public async Task<List<Request_BieuDoDoanhThuDTO>> HienThiThongKeTheoThangAsync(DateTime startDay, DateTime endDay)
+        public async Task<List<Request_BieuDoDoanhThuDTO>> HienThiDoanhThuTheoThangAsync(DateTime startDay, DateTime endDay)
         {
             var result = new List<Request_BieuDoDoanhThuDTO>();
 
@@ -100,6 +101,45 @@ namespace PhongMachTu.DataAccess.Repositories
             }
 
             return result;
+        }
+
+        public async Task<List<Request_BieuDoThuocDTO>> HienThiThongKeThuocAsync(DateTime startDay, DateTime endDay)
+        {
+            var result = new List<Request_BieuDoThuocDTO>();
+            // Lấy tất cả các thuốc được dùng trong khoảng thời gian này
+            var thuocUsage = await _context.ChiTietDonThuocs
+                                    .Where(ctdt =>
+                                        ctdt.ChiTietKhamBenh != null &&
+                                        ctdt.ChiTietKhamBenh.PhieuKhamBenh != null &&
+                                        ctdt.ChiTietKhamBenh.PhieuKhamBenh.NgayTao >= startDay &&
+                                        ctdt.ChiTietKhamBenh.PhieuKhamBenh.NgayTao <= endDay)
+                                    .GroupBy(ctdt => ctdt.ThuocId)
+                                    .Select(g => new
+                                    {
+                                        ThuocId = g.Key,
+                                        Count = g.Count()
+                                    })
+                                    .ToListAsync();
+
+            // Tổng số lần sử dụng thuốc để tính phần trăm
+            var totalUsage = thuocUsage.Sum(u => u.Count);
+
+            foreach (var usage in thuocUsage)
+            {
+                var thuoc = await _context.Thuocs.FindAsync(usage.ThuocId);
+                if (thuoc != null)
+                {
+                    var percentage = (int)Math.Round((usage.Count / (double)totalUsage) * 100);
+                    result.Add(new Request_BieuDoThuocDTO
+                    {
+                        TenThuoc = thuoc.TenThuoc, // Giả sử thuốc có một thuộc tính TenThuoc cho tên thuốc
+                        PhanTram = percentage
+                    });
+                }
+            }
+
+            return result;
+
         }
 
         private async Task<decimal> CalculateMonthlyRevenue(DateTime startOfMonth, DateTime endOfMonth)
