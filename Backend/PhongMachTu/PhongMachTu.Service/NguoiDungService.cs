@@ -179,7 +179,8 @@ namespace PhongMachTu.Service
                 SoDienThoai = nguoiDung.SoDienThoai,
                 GioiTinh = nguoiDung.GioiTinh,
                 NgaySinh = nguoiDung.NgaySinh,
-                DiaChi = nguoiDung.DiaChi
+                DiaChi = nguoiDung.DiaChi,
+                Image = nguoiDung.Image
             };
 
             return rs;

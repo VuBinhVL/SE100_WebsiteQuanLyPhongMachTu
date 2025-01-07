@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace PhongMachTu.Common.DTOs.Request.ChiTietHoSoBenhAn
 {
-    public class Request_HienThiChiTietHoSoBenhAnDTO
+    public class Request_HienThiChupChieuDTO
     {
-        public int Id { get; set; }
-        public string HoTenBacSi { get; set; }
         public string TenBenhLy { get; set; }
-        public DateTime NgayKham { get; set; }
-        public int TongTien { get; set; }
-    }   
+        public string Image { get; set; }
+        public string KetLuan { get; set; }
+        public int Gia { get; set; }
+    }
 }

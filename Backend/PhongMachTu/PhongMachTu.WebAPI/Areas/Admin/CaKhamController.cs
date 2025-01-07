@@ -76,7 +76,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _caKhamService.DangKyCaKhamChoBacSiAsync( request, HttpContext);
-                return Ok(rs);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
             }
             catch (Exception ex)
             {
