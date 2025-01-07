@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import "./DeleteDiseaseGroup.css";
+import "./DeleteMedicineGroup.css";
 import { MdDelete } from "react-icons/md";
 import { fetchDelete } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showDeleteMessageBox } from "../../../MessageBox/DeleteMesssageBox/showDeleteMessageBox";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 
-function DeleteDiseaseGroup(props) {
+function DeleteMedicineGroup(props) {
   const { setListPatien, listPatien } = props;
   const { item } = props;
   const handleDelete = () => {
     showDeleteMessageBox("Bạn có chắc muốn xóa không", () => {
-      const uri = `/api/admin/quan-li-nhom-benh/delete?id=${item.id}`;
+      const uri = `/api/admin/quan-li-loai-thuoc/delete?id=${item.id}`;
       fetchDelete(
         uri,
         "",
@@ -32,11 +32,11 @@ function DeleteDiseaseGroup(props) {
     });
   };
   return (
-    <div className="Delete_Diseae_Group d-inline">
+    <div className="Delete_Medicine_Group d-inline">
       <a>
         <MdDelete onClick={handleDelete} className="icon_delete icon_action" />
       </a>
     </div>
   );
 }
-export default DeleteDiseaseGroup;
+export default DeleteMedicineGroup;

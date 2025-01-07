@@ -5,7 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 import { FaLock } from "react-icons/fa";
 import "./MedicineGroup.css";
 import DetailPatien from "../../../components/Admin/PatienManagement/DetailPatien/DetailPatien";
-import DeletePatien from "../../../components/Admin/PatienManagement/DeletePatien/DeletePatien";
+import DeleteMedicineGroup from "../../../components/Admin/MedicineGroupManagement/DeleteMedicineGroup/DeleteMedicineGroup";
 
 export default function MedicineGroup() {
   const [listPatien, setListPatien] = useState([]);
@@ -98,7 +98,7 @@ export default function MedicineGroup() {
                             setListPatien={setListPatien}
                             listPatien={listPatien}
                           />
-                          <DeletePatien
+                          <DeleteMedicineGroup
                             item={item}
                             setListPatien={setListPatien}
                             listPatien={listPatien}
