@@ -6,7 +6,7 @@ import "./AddShift.css";
 import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { formatDate } from "../../../../utils/FormatDate/formatDate";
+import { formatDate } from "../../../../utils/FormatDate/FormatDate";
 export default function AddShift(props) {
   const { listShift, setListShift } = props;
   const [specialization, setSpecialization] = useState([]);
@@ -136,7 +136,7 @@ export default function AddShift(props) {
       if (
         elementDate === ngayKhamDate &&
         element.tenCaKham.trim().toLowerCase() ===
-        newDataForm.tenCaKham.trim().toLowerCase()
+          newDataForm.tenCaKham.trim().toLowerCase()
       ) {
         showErrorMessageBox("The shift already exists on this day");
         return;
