@@ -47,6 +47,7 @@ builder.Services.AddScoped<IThuocRepository, ThuocRepository>();
 builder.Services.AddScoped<ITrangThaiLichKhamRepository, TrangThaiLichKhamRepository>();
 builder.Services.AddScoped<IVaiTroRepository, VaiTroRepository>();
 builder.Services.AddScoped<IThamSoRepository, ThamSoRepository>();
+builder.Services.AddScoped<IThongKeRepository, ThongKeRepository>();
 
 //Đăng ký service
 builder.Services.AddScoped<IDonViTinhService, DonViTinhService>();
@@ -65,6 +66,7 @@ builder.Services.AddScoped<IHoSoBenhAnService, HoSoBenhAnService>();
 builder.Services.AddScoped<IChiTietHoSoBenhAnService, ChiTietHoSoBenhAnService>();
 builder.Services.AddScoped<ILichKhamService, LichKhamService>();
 builder.Services.AddScoped<IPhieuKhamBenhService, PhieuKhamBenhService>();
+builder.Services.AddScoped<IThongKeService, ThongKeService>();
 
 //bổ trợ phần token
 builder.Services.AddMemoryCache();
