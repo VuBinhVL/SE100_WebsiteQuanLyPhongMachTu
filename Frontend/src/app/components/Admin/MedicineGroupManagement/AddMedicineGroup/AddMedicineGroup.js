@@ -8,7 +8,7 @@ import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/sho
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 
 export default function AddMedicineGroup(props) {
-  const { listPatien, setListPatien } = props;
+  const { listGroupMedicine, setlistGroupMedicine } = props;
   const [dataForm, setDataForm] = useState({ id: 0 });
 
   const handleChange = (e) => {
@@ -20,12 +20,12 @@ export default function AddMedicineGroup(props) {
     });
   };
   // Hàm lấy danh sách loại thuốc
-  const fetchPatienList = () => {
+  const fetchMedicineGroup = () => {
     const uri = "/api/admin/quan-li-loai-thuoc";
     fetchGet(
       uri,
       (data) => {
-        setListPatien(data); // Cập nhật danh sách loại thuốc
+        setlistGroupMedicine(data); // Cập nhật danh sách loại thuốc
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -76,7 +76,7 @@ export default function AddMedicineGroup(props) {
         // Clear data
         handleClearData();
         // lấy lại data
-        fetchPatienList();
+        fetchMedicineGroup();
       },
       (fail) => {
         showErrorMessageBox(fail.message);

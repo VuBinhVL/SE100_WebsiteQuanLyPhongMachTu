@@ -11,7 +11,7 @@ export default function DetailMedicineGroup(props) {
   // data chi tiết bệnh nhân gốc (được gọi từ api)
   const [informationPatient, setInformationPatient] = useState({});
   // item truyền từ props qua
-  const { listPatien, setListPatien, item } = props;
+  const { listGroupMedicine, setlistGroupMedicine, item } = props;
   // state quản lý data của formform
   const [dataForm, setDataForm] = useState({
     id: 0, // Lấy id  là 0
@@ -67,12 +67,12 @@ export default function DetailMedicineGroup(props) {
   };
 
   // Hàm lấy danh sách
-  const fetchPatientList = () => {
+  const fetchMedicineGroup = () => {
     const uri = "/api/admin/quan-li-loai-thuoc";
     fetchGet(
       uri,
       (data) => {
-        setListPatien(data);
+        setlistGroupMedicine(data);
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -98,7 +98,7 @@ export default function DetailMedicineGroup(props) {
         // quay lại trang detail information
         handleEditInformation();
         // cập nhật ui ở trang quản lý
-        fetchPatientList();
+        fetchMedicineGroup();
       },
       (fail) => {
         showErrorMessageBox(fail.message);

@@ -14,7 +14,7 @@ export default function DetailDiseaseGroup(props) {
   // data chi tiết bệnh nhân gốc (được gọi từ api)
   const [informationPatient, setInformationPatient] = useState({});
   // item truyền từ props qua
-  const { listPatien, setListPatien, item } = props;
+  const { listDiseaseGroup, setlistDiseaseGroup, item } = props;
   // state quản lý data của formform
   const [dataForm, setDataForm] = useState({});
 
@@ -68,12 +68,12 @@ export default function DetailDiseaseGroup(props) {
   };
 
   // Hàm lấy danh sách
-  const fetchPatientList = () => {
+  const fetchDiseaseGroup = () => {
     const uri = "/api/admin/quan-li-nhom-benh";
     fetchGet(
       uri,
       (data) => {
-        setListPatien(data);
+        setlistDiseaseGroup(data);
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -99,7 +99,7 @@ export default function DetailDiseaseGroup(props) {
         // quay lại trang detail information
         handleEditInformation();
         // cập nhật ui ở trang quản lý
-        fetchPatientList();
+        fetchDiseaseGroup();
       },
       (fail) => {
         showErrorMessageBox(fail.message);

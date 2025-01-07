@@ -7,8 +7,8 @@ import DetailDiseaseGroup from "../../../components/Admin/DiseaseGroupManagement
 import DeleteDiseaseGroup from "../../../components/Admin/DiseaseGroupManagement/DeleteDiseaseGroup/DeleteDiseaseGroup";
 
 export default function DiseaseGroup() {
-  const [listPatien, setListPatien] = useState([]);
-  const [listPatienShow, setlistPatienShow] = useState([]);
+  const [listDiseaseGroup, setlistDiseaseGroup] = useState([]);
+  const [listDiseaseGroupShow, setlistDiseaseGroupShow] = useState([]);
   const [dataSearch, setDataSearch] = useState("");
   // Lấy danh sách loại bệnh
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function DiseaseGroup() {
     fetchGet(
       uri,
       (sus) => {
-        setListPatien(sus);
+        setlistDiseaseGroup(sus);
       },
       (fail) => {
         alert(fail.message);
@@ -34,7 +34,7 @@ export default function DiseaseGroup() {
   };
   // Hàm áp dụng tìm kiếm và lọc
   const applySearch = (searchValue) => {
-    let filteredList = [...listPatien];
+    let filteredList = [...listDiseaseGroup];
     // Tìm kiếm theo họ tên hoặc số điện thoại
     if (searchValue.trim()) {
       const lowercasedSearch = searchValue.toLowerCase();
@@ -44,19 +44,19 @@ export default function DiseaseGroup() {
           item.soDienThoai.includes(lowercasedSearch)
       );
     }
-    setlistPatienShow(filteredList);
+    setlistDiseaseGroupShow(filteredList);
   };
-  // Cập nhật danh sách hiển thị khi listPatien thay đổi
+  // Cập nhật danh sách hiển thị khi listDiseaseGroup thay đổi
   useEffect(() => {
-    setlistPatienShow(listPatien);
-  }, [listPatien]);
+    setlistDiseaseGroupShow(listDiseaseGroup);
+  }, [listDiseaseGroup]);
 
   return (
     // <>đây là trang quản lý loại bệnh</>
     <>
       <div className="disease-group-management">
         <div className="title py-3 fs-5 mb-2">
-          Số lượng nhóm bệnh: {listPatienShow.length}
+          Số lượng nhóm bệnh: {listDiseaseGroupShow.length}
         </div>
         <div className="row mx-0 my-0">
           <div className="col-12 pb-4 px-0 d-flex justify-content-between align-items-center mb-2">
@@ -72,8 +72,8 @@ export default function DiseaseGroup() {
               </div>
             </div>
             <AddDiseaseGroup
-              setListPatien={setListPatien}
-              listPatien={listPatien}
+              setlistDiseaseGroup={setlistDiseaseGroup}
+              listDiseaseGroup={listDiseaseGroup}
             />
           </div>
           <div className="contain_Table mx-0 col-12 bg-white rounded-2">
@@ -86,9 +86,9 @@ export default function DiseaseGroup() {
                 </tr>
               </thead>
               <tbody>
-                {listPatienShow &&
-                  listPatienShow.length > 0 &&
-                  listPatienShow.map((item, index) => (
+                {listDiseaseGroupShow &&
+                  listDiseaseGroupShow.length > 0 &&
+                  listDiseaseGroupShow.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
                       <td>{item.tenNhomBenh}</td>
@@ -96,13 +96,13 @@ export default function DiseaseGroup() {
                         <div className="list_Action">
                           <DetailDiseaseGroup
                             item={item}
-                            setListPatien={setListPatien}
-                            listPatien={listPatien}
+                            setlistDiseaseGroup={setlistDiseaseGroup}
+                            listDiseaseGroup={listDiseaseGroup}
                           />
                           <DeleteDiseaseGroup
                             item={item}
-                            setListPatien={setListPatien}
-                            listPatien={listPatien}
+                            setlistDiseaseGroup={setlistDiseaseGroup}
+                            listDiseaseGroup={listDiseaseGroup}
                           />
                         </div>
                       </td>

@@ -8,7 +8,7 @@ import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/sho
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 
 export default function AddDiseaseGroup(props) {
-  const { listPatien, setListPatien } = props;
+  const { listDiseaseGroup, setlistDiseaseGroup } = props;
   const [dataForm, setDataForm] = useState({});
 
   const handleChange = (e) => {
@@ -20,12 +20,12 @@ export default function AddDiseaseGroup(props) {
     });
   };
   // Hàm lấy danh sách loại bệnh
-  const fetchPatienList = () => {
+  const fetchDiseaseGroup = () => {
     const uri = "/api/admin/quan-li-nhom-benh";
     fetchGet(
       uri,
       (data) => {
-        setListPatien(data); // Cập nhật danh sách loại bệnh
+        setlistDiseaseGroup(data); // Cập nhật danh sách loại bệnh
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -77,7 +77,7 @@ export default function AddDiseaseGroup(props) {
         // Clear data
         handleClearData();
         // lấy lại data
-        fetchPatienList();
+        fetchDiseaseGroup();
       },
       (fail) => {
         showErrorMessageBox(fail.message);

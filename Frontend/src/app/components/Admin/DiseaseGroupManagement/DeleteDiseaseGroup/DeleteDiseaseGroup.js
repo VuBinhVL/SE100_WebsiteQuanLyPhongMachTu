@@ -7,7 +7,7 @@ import { showDeleteMessageBox } from "../../../MessageBox/DeleteMesssageBox/show
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 
 function DeleteDiseaseGroup(props) {
-  const { setListPatien, listPatien } = props;
+  const { setlistDiseaseGroup, listDiseaseGroup } = props;
   const { item } = props;
   const handleDelete = () => {
     showDeleteMessageBox("Bạn có chắc muốn xóa không", () => {
@@ -17,10 +17,10 @@ function DeleteDiseaseGroup(props) {
         "",
         (sus) => {
           showSuccessMessageBox(sus.message);
-          const newPatien = listPatien.filter(
+          const newPatien = listDiseaseGroup.filter(
             (newItem) => newItem.id !== item.id
           );
-          setListPatien(newPatien);
+          setlistDiseaseGroup(newPatien);
         },
         (fail) => {
           showErrorMessageBox(fail.message);

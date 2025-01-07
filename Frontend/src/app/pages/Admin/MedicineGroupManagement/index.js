@@ -8,8 +8,8 @@ import DetailMedicineGroup from "../../../components/Admin/MedicineGroupManageme
 import DeleteMedicineGroup from "../../../components/Admin/MedicineGroupManagement/DeleteMedicineGroup/DeleteMedicineGroup";
 
 export default function MedicineGroup() {
-  const [listPatien, setListPatien] = useState([]);
-  const [listPatienShow, setlistPatienShow] = useState([]);
+  const [listGroupMedicine, setlistGroupMedicine] = useState([]);
+  const [listGroupMedicineShow, setlistGroupMedicineShow] = useState([]);
   const [dataSearch, setDataSearch] = useState("");
   // Lấy danh sách loại thuốc
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function MedicineGroup() {
     fetchGet(
       uri,
       (sus) => {
-        setListPatien(sus);
+        setlistGroupMedicine(sus);
       },
       (fail) => {
         alert(fail.message);
@@ -35,7 +35,7 @@ export default function MedicineGroup() {
   };
   // Hàm áp dụng tìm kiếm và lọc
   const applySearch = (searchValue) => {
-    let filteredList = [...listPatien];
+    let filteredList = [...listGroupMedicine];
     // Tìm kiếm theo tên loại bệnh
     if (searchValue.trim()) {
       const lowercasedSearch = searchValue.toLowerCase();
@@ -43,18 +43,18 @@ export default function MedicineGroup() {
         item.tenLoaiThuoc.toLowerCase().includes(lowercasedSearch)
       );
     }
-    setlistPatienShow(filteredList);
+    setlistGroupMedicineShow(filteredList);
   };
-  // Cập nhật danh sách hiển thị khi listPatien thay đổi
+  // Cập nhật danh sách hiển thị khi listGroupMedicine thay đổi
   useEffect(() => {
-    setlistPatienShow(listPatien);
-  }, [listPatien]);
+    setlistGroupMedicineShow(listGroupMedicine);
+  }, [listGroupMedicine]);
   return (
     // <>đây là trang loại thuốc</>
     <>
       <div className="medicine-group-management">
         <div className="title py-3 fs-5 mb-2">
-          Số lượng loại thuốc: {listPatienShow.length}
+          Số lượng loại thuốc: {listGroupMedicineShow.length}
         </div>
         <div className="row mx-0 my-0">
           <div className="col-12 pb-4 px-0 d-flex justify-content-between align-items-center mb-2">
@@ -70,8 +70,8 @@ export default function MedicineGroup() {
               </div>
             </div>
             <AddMedicineGroup
-              setListPatien={setListPatien}
-              listPatien={listPatien}
+              setlistGroupMedicine={setlistGroupMedicine}
+              listGroupMedicine={listGroupMedicine}
             />
           </div>
           <div className="contain_Table mx-0 col-12 bg-white rounded-2">
@@ -84,9 +84,9 @@ export default function MedicineGroup() {
                 </tr>
               </thead>
               <tbody>
-                {listPatienShow &&
-                  listPatienShow.length > 0 &&
-                  listPatienShow.map((item, index) => (
+                {listGroupMedicineShow &&
+                  listGroupMedicineShow.length > 0 &&
+                  listGroupMedicineShow.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
                       <td>{item.tenLoaiThuoc}</td>
@@ -95,13 +95,13 @@ export default function MedicineGroup() {
                         <div className="list_Action">
                           <DetailMedicineGroup
                             item={item}
-                            setListPatien={setListPatien}
-                            listPatien={listPatien}
+                            setlistGroupMedicine={setlistGroupMedicine}
+                            listGroupMedicine={listGroupMedicine}
                           />
                           <DeleteMedicineGroup
                             item={item}
-                            setListPatien={setListPatien}
-                            listPatien={listPatien}
+                            setlistGroupMedicine={setlistGroupMedicine}
+                            listGroupMedicine={listGroupMedicine}
                           />
                         </div>
                       </td>
