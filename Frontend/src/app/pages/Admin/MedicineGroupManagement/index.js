@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchGet } from "../../../lib/httpHandler";
-import AddPatien from "../../../components/Admin/PatienManagement/AddPatien/AddPatien";
+import AddMedicineGroup from "../../../components/Admin/MedicineGroupManagement/AddMedicineGroup/AddMedicineGroup";
 import { IoIosSearch } from "react-icons/io";
 import { FaLock } from "react-icons/fa";
 import "./MedicineGroup.css";
@@ -69,7 +69,10 @@ export default function MedicineGroup() {
                 <IoIosSearch className="icon_search translate-middle-y text-secondary" />
               </div>
             </div>
-            <AddPatien setListPatien={setListPatien} listPatien={listPatien} />
+            <AddMedicineGroup
+              setListPatien={setListPatien}
+              listPatien={listPatien}
+            />
           </div>
           <div className="contain_Table mx-0 col-12 bg-white rounded-2">
             <table className="table table-hover">
