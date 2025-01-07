@@ -1,0 +1,67 @@
+.detailDiseaseGroup .contain_img .inner_img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+/* CSS mặc định cho các button */
+.detailDiseaseGroup .modal-footer .btn_Accept,
+.detailDiseaseGroup .contain_img .btn_select_img {
+  background-color: #348f6c;
+  border: 1px solid #348f6c !important;
+  width: 125px;
+}
+
+.detailDiseaseGroup .modal-footer .btn_Cancel {
+  background-color: #d51f2a;
+  border: 1px solid #d51f2a !important;
+  width: 125px;
+}
+
+/* CSS hover cho các button */
+.detailDiseaseGroup .modal-footer .btn_Accept:hover,
+.detailDiseaseGroup .modal-footer .btn_Accept:active,
+.detailDiseaseGroup .modal-footer .btn_Accept:focus,
+.detailDiseaseGroup .contain_img .btn_select_img:hover,
+.detailDiseaseGroup .contain_img .btn_select_img:active,
+.detailDiseaseGroup .contain_img .btn_select_img:focus {
+  background-color: #348f6c !important;
+  border: 1px solid #348f6c;
+}
+
+.detailDiseaseGroup .modal-footer .btn_Cancel:hover,
+.detailDiseaseGroup .modal-footer .btn_Cancel:active,
+.detailDiseaseGroup .modal-footer .btn_Cancel:focus {
+  background-color: #d51f2a;
+}
+
+/* Đảm bảo kích thước các button luôn đồng nhất */
+.detailDiseaseGroup .modal-footer .btn_Accept,
+.detailDiseaseGroup .modal-footer .btn_Cancel,
+.detailDiseaseGroup .contain_img .btn_select_img {
+  width: 125px;
+}
+
+.detailDiseaseGroup .custom-bold {
+  font-weight: 600;
+}
+
+.detailDiseaseGroup .icon_information {
+  color: #03a9f4;
+}
+
+.detailDiseaseGroup .icon_edit_information {
+  color: #997852;
+}
+
+.detailDiseaseGroup .modal-footer .btn_Accept:hover {
+  transform: scale(1);
+  transform: translateY(0px);
+}
+
+.detailDiseaseGroup .modal-footer .btn_Accept {
+  padding: 0.35rem;
+  color: #ffffff;
+  border-radius: 6px;
+}

@@ -1,0 +1,49 @@
+.input-with-icon {
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  /* Màu nền xám */
+  border-radius: 20px;
+  /* Bo góc */
+  padding: 10px 15px;
+  /* Khoảng cách bên trong */
+  width: 100%;
+  /* Độ rộng chiếm toàn khung */
+  max-width: 400px;
+  /* Giới hạn độ rộng */
+  height: 50px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng */
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  /* Kích thước vùng chứa icon */
+  height: 40px;
+}
+
+.input-with-icon .icon {
+  width: 20px;
+  /* Kích thước icon */
+  height: 20px;
+}
+
+.input-field {
+  flex: 1;
+  /* Chiếm không gian còn lại */
+  border: none;
+  /* Loại bỏ viền */
+  background-color: transparent;
+  /* Nền trong suốt */
+  outline: none;
+  /* Loại bỏ viền khi focus */
+  font-size: 1rem;
+  /* Kích thước chữ */
+  color: #757575;
+  /* Màu chữ */
+  padding-left: 10px;
+  /* Khoảng cách giữa icon và chữ */
+}

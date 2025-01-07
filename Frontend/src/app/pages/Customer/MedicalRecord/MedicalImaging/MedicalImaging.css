@@ -1,0 +1,101 @@
+.medical-imaging-popup {
+  width: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  margin-top: 30px;
+  overflow: hidden;
+}
+
+.medical-imaging-popup .popup-header {
+  background-color: #348f6c;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Để đảm bảo nút đóng không ảnh hưởng đến căn giữa */
+  padding: 15px;
+}
+
+.medical-imaging-popup .popup-title {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center; /* Căn giữa theo chiều ngang */
+}
+
+.medical-imaging-popup .popup-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.medical-imaging-popup .popup-body {
+  padding: 20px;
+}
+
+.medical-imaging-popup .popup-section-title {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.medical-imaging-popup .medical-imaging-grid {
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* Căn giữa danh sách ảnh */
+  flex-wrap: wrap; /* Để ảnh tự xuống dòng nếu không đủ chỗ */
+  margin-bottom: 20px;
+}
+
+/* CSS cho ảnh */
+.medical-imaging-popup .medical-imaging-item {
+  width: fit-content;
+  height: 150px;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.medical-imaging-popup .medical-imaging-conclusion {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  resize: none;
+}
+
+.medical-imaging-popup .medical-imaging-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: right;
+}
+
+.divider {
+  border: none; /* Loại bỏ đường mặc định của <hr> */
+  border-top: 2px solid #000000; /* Đường gạch màu đen */
+  margin: 10px 0; /* Khoảng cách trên và dưới */
+}
+
+.medical-imaging-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu tối với độ trong suốt */
+  z-index: 900; /* Nằm dưới popup nhưng trên màn hình chính */
+}

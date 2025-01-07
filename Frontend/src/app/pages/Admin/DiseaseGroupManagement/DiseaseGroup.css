@@ -1,0 +1,95 @@
+.disease-group-management .title {
+  color: #348f6c;
+  font-weight: 500;
+}
+
+.disease-group-management .search {
+  height: 40px;
+}
+
+.disease-group-management .contain_Search {
+  position: absolute;
+  display: inline-block;
+}
+
+.disease-group-management .contain_Search .search {
+  width: 100%;
+  border: 1px solid grey;
+}
+
+.disease-group-management .contain_Search .icon_search {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  font-size: 20px;
+}
+
+.disease-group-management .filter {
+  height: 40px;
+}
+
+.disease-group-management .Add {
+  height: 40px;
+  border: none;
+  background-color: #348f6c;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.disease-group-management .row .contain_Table {
+  padding: 0 10px;
+}
+
+.disease-group-management .row .contain_Table .table {
+  margin-bottom: 100px;
+}
+
+.disease-group-management .row .contain_Table .contain_pagination {
+  display: flex;
+  justify-content: end;
+}
+
+.disease-group-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .page-item
+  .page-link:focus {
+  color: #ffffff;
+  background-color: #348f6c;
+  border-color: #348f6c;
+  box-shadow: none;
+}
+
+.disease-group-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .active
+  > .page-link {
+  background-color: #348f6c;
+  border-color: #348f6c;
+}
+
+.disease-group-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .page-item
+  .page-link-two:focus {
+  color: var(--bs-pagination-color);
+  background-color: #ffffff;
+}
+
+.disease-group-management .list_Action .icon_action {
+  font-size: 20px;
+  margin-right: 16px;
+}
+
+.disease-group-management .list_Action .icon_action {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+}
+
+.disease-group-management .list_Action .icon_delete {
+  color: #e34724;
+}

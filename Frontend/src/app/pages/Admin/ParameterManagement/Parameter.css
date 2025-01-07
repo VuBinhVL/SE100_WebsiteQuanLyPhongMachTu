@@ -1,0 +1,67 @@
+.parameter-management {
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.parameter-management .title {
+  color: #348f6c;
+  font-weight: bold;
+}
+
+.parameter-management .table-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.parameter-management .table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.parameter-management .table thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.parameter-management .table th,
+.parameter-management .table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.parameter-management .table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.parameter-management .table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.parameter-management .btn-edit {
+  background-color: #348f6c;
+  color: white;
+  font-weight: bold;
+}
+
+.parameter-management .btn-edit:hover {
+  background-color: #045435;
+}
+
+.parameter-management .form-control {
+  max-width: 150px;
+}
+
+.parameter-management .btn-secondary {
+  background-color: #d51f2a;
+  width: 90px;
+}
+
+.parameter-management .btn-success {
+  background-color: #348f6c;
+  color: white;
+  font-weight: bold;
+  width: 90px;
+}

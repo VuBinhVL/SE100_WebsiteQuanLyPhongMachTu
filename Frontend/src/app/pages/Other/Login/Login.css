@@ -1,0 +1,134 @@
+/* Tổng thể trang đăng ký */
+.login-page {
+  display: flex;
+  height: 100vh;
+  background-color: #348f6c; /* Màu nền xanh lá */
+}
+
+.login-page .login-left {
+  flex: 0.95;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-page .login-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.login-page .login-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.login-page .login-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 30px;
+  padding: 30px;
+  width: 500px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-page .login-form {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-page .form-header {
+  margin-bottom: 30px;
+}
+
+.login-page .form-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.login-page .nurse-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.login-page .form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-page .submit-button {
+  background-color: #ff4d4f; /* Màu đỏ */
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.login-page .submit-button:hover {
+  background-color: #d9363e; /* Màu đỏ đậm hơn khi hover */
+  transform: scale(1.05);
+}
+
+.login-page .submit-button:active {
+  background-color: #b02a2b; /* Màu khi nhấn */
+}
+
+/* Textbox */
+.login-page .textbox-container {
+  display: flex;
+  align-items: center;
+  background-color: #eaeaea;
+  padding: 10px 15px;
+  border-radius: 30px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login-page .textbox-container img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.login-page .textbox-container input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 1rem;
+  color: #666666;
+}
+
+.login-page .textbox-container input::placeholder {
+  color: #aaaaaa;
+}
+
+.login-page .form-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.login-page .form-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.login-page .form-link:hover {
+  text-decoration: underline;
+}

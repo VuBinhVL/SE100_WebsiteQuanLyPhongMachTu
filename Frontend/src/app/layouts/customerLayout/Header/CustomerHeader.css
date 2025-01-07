@@ -1,0 +1,199 @@
+/* Style cho thẻ header */
+.customer-header {
+  display: flex;
+  top: 0; /* Giữ header ở trên cùng khi cuộn */
+  z-index: 1000; /* Đảm bảo header luôn ở trên các phần tử khác */
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  height: fit-content;
+}
+
+/* Style cho logo hoặc phần div bên trong header */
+.customer-header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.customer-header .logo-img {
+  width: 70px;
+  height: 60px;
+  cursor: pointer;
+  /* Con trỏ dạng tay chỉ */
+}
+
+/* Style cho navigation */
+.customer-header .header-nav {
+  display: flex;
+}
+
+.customer-header .nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.customer-header .nav-item {
+  margin: 0 20px;
+  color: #348f6c;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Các danh mục khác dịch vụ */
+.customer-header .nav-links {
+  text-decoration: none;
+  color: #348f6c;
+}
+
+.customer-header .nav-links:hover {
+  color: #ffa07a;
+}
+
+/* Nút đăng nhập */
+#btn-dangnhap {
+  color: #348f6c;
+  border: 1.5px solid #348f6c;
+  border-radius: 30px;
+  padding: 0px 10px;
+}
+
+#btn-dangnhap:hover {
+  background-color: #fddde6;
+  /* Màu pastel */
+  color: #ffa07a;
+  /* Giữ màu chữ hồng */
+}
+
+/* Phần dịch vụ */
+.customer-header .nav-item.dropdown {
+  position: relative;
+  /* Để menu con căn chỉnh theo mục cha */
+}
+
+.customer-header .nav-item.dropdown .nav-link {
+  text-decoration: none;
+  color: #348f6c;
+}
+
+.customer-header .nav-item.dropdown .nav-link:hover {
+  color: #ffa07a;
+}
+
+/* Hiển thị menu con khi lướt chuột qua */
+.customer-header .nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Ẩn menu con mặc định */
+.customer-header .dropdown-menu {
+  display: none;
+  /* Ẩn menu con */
+  position: absolute;
+  /* Đặt menu con ngay dưới mục cha */
+  top: 100%;
+  /* Hiển thị ngay bên dưới mục cha */
+  left: 0;
+  background-color: #ffffff;
+  /* Nền trắng */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng nhẹ */
+  border-radius: 4px;
+  /* Bo góc */
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+  z-index: 1000;
+  /* Đảm bảo hiển thị trên các thành phần khác */
+}
+
+/* Style cho mục trong menu con */
+.customer-header .dropdown-item {
+  display: block;
+  padding: 8px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.customer-header .dropdown-item:hover {
+  color: #ffa07a !important;
+  /* Màu cam nhạt khi lướt qua */
+}
+
+.customer-header .nav-link::after {
+  content: "▼";
+  /* Mũi tên xuống */
+  font-size: 10px;
+  /* Kích thước mũi tên */
+  margin-left: 5px;
+  /* Khoảng cách giữa chữ và mũi tên */
+  margin-top: 5px;
+  color: inherit;
+  /* Giữ màu sắc giống với chữ */
+}
+
+/* Đăng nhập thành công */
+
+/* Avatar */
+.customer-header .nav-item .avatar {
+  padding: 0px; /* Khoảng cách giữa avatar và viền */
+  margin: -2px;
+  border-radius: 50%; /* Bo tròn để tạo hình tròn */
+  border: 1px solid #ddd; /* Viền mỏng */
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+}
+
+.customer-header .nav-item .avatar:hover {
+  border-color: #348f6c; /* Màu viền thay đổi khi hover */
+}
+
+/* Dropdown menu */
+.customer-header .nav-item .login-menu {
+  display: block; /* Hiển thị menu */
+  position: absolute; /* Vị trí tuyệt đối để menu hiển thị dưới avatar */
+  top: 50px; /* Cách avatar 50px */
+  right: 0; /* Căn lề phải */
+  background-color: #fff; /* Nền trắng */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  border-radius: 8px; /* Bo góc */
+  list-style: none; /* Xóa dấu đầu dòng */
+  margin: 0;
+  padding: 10px 0;
+  z-index: 1000; /* Hiển thị trên các phần tử khác */
+  width: 180px; /* Độ rộng cố định */
+}
+
+/* Item trong menu */
+.customer-header .nav-item .login-item {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #333; /* Màu chữ */
+  text-decoration: none;
+  display: block; /* Căn chỉnh cho toàn bộ item */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.customer-header .nav-item .login-item:hover {
+  background-color: #fddde6; /* Nền hồng nhạt khi hover */
+  color: #ffa07a; /* Màu chữ hồng cam khi hover */
+}
+
+/* Xóa gạch chân trong link */
+.customer-header .nav-item .login-item a {
+  text-decoration: none;
+  color: inherit; /* Kế thừa màu chữ từ item cha */
+}
+
+/* Khi dropdown menu được mở */
+.customer-header .nav-item .login-menu.open {
+  display: block;
+}

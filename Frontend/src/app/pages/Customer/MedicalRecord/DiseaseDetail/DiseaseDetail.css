@@ -1,0 +1,118 @@
+/* Tổng thể popup */
+.disease-detail-popup {
+  position: fixed;
+  margin-top: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  height: 500px;
+  min-width: 800px;
+  overflow: hidden;
+  overflow-y: auto; /* Thêm thanh cuộn dọc */
+}
+
+/* Header của popup */
+.disease-detail-popup .popup-header {
+  background-color: #348f6c;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Để đảm bảo nút đóng không ảnh hưởng đến căn giữa */
+  padding: 15px;
+}
+
+.disease-detail-popup .popup-title {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center; /* Căn giữa theo chiều ngang */
+}
+
+.disease-detail-popup .popup-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Section trong popup */
+.disease-detail-popup .popup-section {
+  padding: 20px;
+  padding-bottom: 0px;
+}
+
+.disease-detail-popup .section-title {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.disease-detail-popup .detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Bảng chi tiết */
+.disease-detail-popup .detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+}
+
+.disease-detail-popup .detail-table th,
+.disease-detail-popup .detail-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.disease-detail-popup .detail-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.disease-detail-popup .total {
+  text-align: right;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Footer */
+.disease-detail-popup .popup-footer {
+  padding: 15px;
+  text-align: right;
+  background-color: #f9f9f9;
+}
+
+.disease-detail-popup .grand-total {
+  color: #d32f2f;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.disease-info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu tối với độ trong suốt */
+  z-index: 900; /* Nằm dưới popup nhưng trên màn hình chính */
+}
+
+.divider {
+  border: none; /* Loại bỏ đường mặc định của <hr> */
+  border-top: 2px solid #000000; /* Đường gạch màu đen */
+  margin: 10px 0; /* Khoảng cách trên và dưới */
+}

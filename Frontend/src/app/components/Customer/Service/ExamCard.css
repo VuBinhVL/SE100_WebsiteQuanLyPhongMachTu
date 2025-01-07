@@ -1,0 +1,72 @@
+.exam-card {
+  width: 250px; /* Độ rộng cố định */
+  border: 1px solid #ccc; /* Viền nhẹ */
+  border-radius: 10px; /* Bo góc */
+  background-color: #f9f9f9; /* Nền nhạt */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  overflow: hidden; /* Đảm bảo bo góc ảnh */
+  text-align: center; /* Căn giữa nội dung */
+  margin: 15px; /* Khoảng cách giữa các thẻ */
+}
+
+.exam-card .exam-card-header {
+  background-color: #ffffff; /* Nền nhạt cho tiêu đề */
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333; /* Màu chữ */
+}
+
+.exam-card .exam-card-body {
+  padding: 15px;
+}
+
+.exam-card .exam-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Ảnh tròn */
+  margin: 0 auto 10px;
+  display: block;
+}
+
+.exam-card .exam-doctor {
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 5px;
+}
+
+.exam-card .exam-time,
+.exam-card .exam-date {
+  font-size: 14px;
+  margin: 9px 0;
+  color: #222;
+  font-weight: semi-bold;
+  text-align: left;
+}
+
+.exam-card .exam-card-footer {
+  padding: 10px;
+  background-color: #fff; /* Nền trắng */
+  border-top: 1px solid #ddd; /* Viền trên nhẹ */
+}
+
+.exam-card .exam-register-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #348f6c; /* Màu xanh */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.exam-card .exam-register-button:hover {
+  background-color: #2c7a5a; /* Màu xanh đậm khi hover */
+}
+
+.exam-card .exam-register-button:active {
+  background-color: #256a4b; /* Màu đậm hơn khi nhấn */
+}

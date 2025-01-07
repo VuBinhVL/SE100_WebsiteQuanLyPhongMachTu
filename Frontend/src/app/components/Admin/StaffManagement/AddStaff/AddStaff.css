@@ -1,0 +1,57 @@
+.Add {
+    height: 40px;
+    border: none;
+    background-color: #348F6C;
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.modal .contain_img .inner_img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* CSS mặc định cho các button */
+.modal-footer .btn_Accept,
+.contain_img .btn_select_img {
+    background-color: #348F6C;
+    border: 1px solid #348F6C !important;
+    width: 125px;
+}
+
+.modal-footer .btn_Cancel {
+    background-color: #D51F2A;
+    border: 1px solid #D51F2A !important;
+    width: 125px;
+}
+
+/* CSS hover cho các button */
+.modal-footer .btn_Accept:hover,
+.modal-footer .btn_Accept:active,
+.modal-footer .btn_Accept:focus,
+.contain_img .btn_select_img:hover,
+.contain_img .btn_select_img:active,
+.contain_img .btn_select_img:focus {
+    background-color: #348F6C !important;
+    border: 1px solid #348F6C;
+}
+
+.modal-footer .btn_Cancel:hover,
+.modal-footer .btn_Cancel:active,
+.modal-footer .btn_Cancel:focus {
+    background-color: #D51F2A;
+
+}
+
+/* Đảm bảo kích thước các button luôn đồng nhất */
+.modal-footer .btn_Accept,
+.modal-footer .btn_Cancel,
+.contain_img .btn_select_img {
+    width: 125px;
+}
+
+.custom-bold {
+    font-weight: 600;
+}

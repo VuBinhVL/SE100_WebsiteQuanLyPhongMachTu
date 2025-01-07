@@ -1,34 +1,34 @@
-.title {
+.Staff_Management .title {
     color: #348F6C;
     font-weight: 500;
 }
 
-.search {
+.Staff_Management .search {
     height: 40px
 }
 
-.contain_Search {
+.Staff_Management .contain_Search {
     position: absolute;
     display: inline-block;
 }
 
-.contain_Search .search {
+.Staff_Management .contain_Search .search {
     width: 100%;
     border: 1px solid grey;
 }
 
-.contain_Search .icon_search {
+.Staff_Management .contain_Search .icon_search {
     position: absolute;
     top: 20px;
     right: 15px;
     font-size: 20px;
 }
 
-.filter {
+.Staff_Management .filter {
     height: 40px;
 }
 
-.Add {
+.Staff_Management .Add {
     height: 40px;
     border: none;
     background-color: #348F6C;
@@ -36,49 +36,47 @@
     font-weight: 500;
 }
 
-.row .contain_Table {
+.Staff_Management .row .contain_Table {
     padding: 0 10px;
 }
 
-.row .contain_Table .table {
+.Staff_Management .row .contain_Table .table {
     margin-bottom: 100px;
 }
 
-.Home .row .contain_Table .contain_pagination {
+.Staff_Management .row .contain_Table .contain_pagination {
     display: flex;
     justify-content: end;
 }
 
-.Home .row .contain_Table .contain_pagination .page-item .page-link:focus {
+.Staff_Management .row .contain_Table .contain_pagination .page-item .page-link:focus {
     color: #FFFFFF;
     background-color: #348F6C;
     border-color: #348F6C;
     box-shadow: none;
 }
 
-.Home .row .contain_Table .contain_pagination .active>.page-link {
+.Staff_Management .row .contain_Table .contain_pagination .active>.page-link {
     background-color: #348F6C;
     border-color: #348F6C;
 }
 
-.Home .row .contain_Table .contain_pagination .page-item .page-link-two:focus {
+.Staff_Management .row .contain_Table .contain_pagination .page-item .page-link-two:focus {
     color: var(--bs-pagination-color);
     background-color: #FFFFFF;
 }
 
-.list_Action .icon_action {
+.Staff_Management .list_Action .icon_action {
     font-size: 20px;
     margin-right: 16px;
 }
 
-.list_Action .icon_authorise {
+.Staff_Management .list_Action .icon_authorise {
     color: #0F9918;
 }
 
-.list_Action .icon_information {
-    color: #03A9F4;
-}
 
-.list_Action .icon_delete {
+
+.Staff_Management .list_Action .icon_delete {
     color: #E34724;
 }

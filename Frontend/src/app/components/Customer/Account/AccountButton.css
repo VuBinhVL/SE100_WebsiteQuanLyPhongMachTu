@@ -1,0 +1,21 @@
+.account-button {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px; /* Bo góc */
+  cursor: pointer;
+  min-width: 100px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.account-button:hover {
+  opacity: 0.9; /* Hiệu ứng làm mờ nhẹ khi hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng */
+}
+
+.account-button:active {
+  transform: scale(0.98); /* Hiệu ứng nhấn nút */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Bóng bên trong */
+}
