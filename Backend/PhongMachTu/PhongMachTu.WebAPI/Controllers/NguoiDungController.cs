@@ -9,12 +9,12 @@ namespace PhongMachTu.WebAPI.Controllers
 {
     [Route("api")]
     [ApiController]
-    public class AccessController : ControllerBase
+    public class NguoiDungController : ControllerBase
     {
 
         private readonly IBenhNhanService _benhNhanService;
         private readonly INguoiDungService _nguoiDungService;
-        public AccessController(IBenhNhanService benhNhanService, INguoiDungService nguoiDungService)
+        public NguoiDungController(IBenhNhanService benhNhanService, INguoiDungService nguoiDungService)
         {
             _benhNhanService = benhNhanService;
             _nguoiDungService = nguoiDungService;
@@ -71,7 +71,21 @@ namespace PhongMachTu.WebAPI.Controllers
         {
             try
             {
-                var rs = await _nguoiDungService.ChangePasswordAsync(HttpContext,data);
+                var rs = await _nguoiDungService.ChangePasswordAsync(HttpContext, data);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
+        [HttpPut("update-info")]
+        public async Task<IActionResult> UpdateThongTinCaNhanAsync(Request_UpdateThongTinCaNhanDTO data)
+        {
+            try
+            {
+                var rs = await _nguoiDungService.UpdateThongTinCaNhanAsync(HttpContext, data);
                 return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
             }
             catch (Exception e)

@@ -28,6 +28,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> ForgotPasswordAsync(Request_ForgotPasswordDTO data);
         Task<Request_HienThiThongTinNguoiDungDTO> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
         Task<ResponeMessage> ChangePasswordAsync(HttpContext httpContext, Request_ChangePasswordDTO data);
+        Task<ResponeMessage> UpdateThongTinCaNhanAsync(HttpContext httpContext, Request_UpdateThongTinCaNhanDTO data);
 
     }
 
@@ -209,6 +210,41 @@ namespace PhongMachTu.Service
             findNguoiDung.MatKhau = EncryptionHelper.Encrypt(data.MatKhauMoi);
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Thay đổi mật khẩu thành công");
+        }
+
+        public async Task<ResponeMessage> UpdateThongTinCaNhanAsync(HttpContext httpContext, Request_UpdateThongTinCaNhanDTO data)
+        {
+            var findNguoiDung = await GetNguoiDungByHttpContext(httpContext);
+            if (findNguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+
+            var findNguoiDungByEmail = (await _nguoiDungRepository.FindAsync(u=>u.Email == data.Email && u.Id!=findNguoiDung.Id)).FirstOrDefault();
+            if (findNguoiDungByEmail != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest,"Email đã có người sử dụng");
+            }
+
+            var findNguoiDungByPhone = (await _nguoiDungRepository.FindAsync(u => u.SoDienThoai == data.SoDienThoai && u.Id != findNguoiDung.Id)).FirstOrDefault();
+            if (findNguoiDungByPhone != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Số điện thoại đã có người sử dụng");
+            }
+
+            if (!string.IsNullOrEmpty(data.Image))
+            {
+                findNguoiDung.Image = data.Image;
+            }
+
+            findNguoiDung.HoTen = data.HoTen;
+            findNguoiDung.GioiTinh = data.GioiTinh;
+            findNguoiDung.Email = data.Email;
+            findNguoiDung.SoDienThoai = data.SoDienThoai;
+            findNguoiDung.NgaySinh = data.NgaySinh;
+            findNguoiDung.DiaChi = data.DiaChi;
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Cập nhật thông tin cá nhân thành công");
         }
     }
 }
