@@ -6,7 +6,7 @@ import { TiEdit } from "react-icons/ti";
 import "./DetailStaff.css";
 import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { formatDate } from "../../../../utils/FormatDate/FormatDate";
+import { formatDate } from "../../../../utils/FormatDate/formatDate";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 
 export default function DetailStaff(props) {
