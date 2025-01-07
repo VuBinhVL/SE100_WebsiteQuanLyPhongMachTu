@@ -58,7 +58,7 @@ export default function DetailDiseaseGroup(props) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { tenNhomBenh, id } = dataForm;
+    const { tenNhomBenh } = dataForm;
     // Validate dữ liệu trước khi gửi
     if (!tenNhomBenh) {
       showErrorMessageBox("Hãy điền đầy đủ thông tin");
@@ -116,7 +116,6 @@ export default function DetailDiseaseGroup(props) {
 
   const idModal = `idModal${item.id}`;
   const idspecificModal = `#idModal${item.id}`;
-
   return (
     <>
       <a>
@@ -127,7 +126,7 @@ export default function DetailDiseaseGroup(props) {
         />
       </a>
       <div
-        className="detailPatien modal fade"
+        className="detailMedicineGroup modal fade"
         id={idModal}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -139,7 +138,7 @@ export default function DetailDiseaseGroup(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="staticBackdropLabel">
-                {editStatus ? "Edit Patient" : "Detail Patient"}
+                {editStatus ? "Sửa thông tin nhóm bệnh" : "Thông tin nhóm bệnh"}
               </h5>
               <button
                 type="button"
@@ -163,7 +162,7 @@ export default function DetailDiseaseGroup(props) {
                     name="tenNhomBenh"
                     id="tenNhomBenh"
                     type="text"
-                    value={dataForm.tenNhomBenh}
+                    value={item.tenNhomBenh}
                     onChange={handleChange}
                     readOnly={!editStatus}
                   />
@@ -177,14 +176,14 @@ export default function DetailDiseaseGroup(props) {
                   className="btn btn-secondary btn_Cancel"
                   onClick={handleCancel}
                 >
-                  Cancel
+                  Hủy
                 </button>
                 <button
                   type="button"
                   className="btn-primary btn_Accept"
                   onClick={handleSubmit}
                 >
-                  Accept
+                  Lưu
                 </button>
               </div>
             ) : (

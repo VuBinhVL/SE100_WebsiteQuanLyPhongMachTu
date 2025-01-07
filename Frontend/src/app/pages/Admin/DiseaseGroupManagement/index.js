@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { fetchGet } from "../../../lib/httpHandler";
 import AddDiseaseGroup from "../../../components/Admin/DiseaseGroupManagement/AddDiseaseGroup/AddDiseaseGroup";
 import { IoIosSearch } from "react-icons/io";
-import { FaLock } from "react-icons/fa";
 import "./DiseaseGroup.css";
 import DetailDiseaseGroup from "../../../components/Admin/DiseaseGroupManagement/DetailDiseaseGroup/DetailDiseaseGroup";
 import DeleteDiseaseGroup from "../../../components/Admin/DiseaseGroupManagement/DeleteDiseaseGroup/DeleteDiseaseGroup";

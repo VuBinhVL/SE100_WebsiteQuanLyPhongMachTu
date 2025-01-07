@@ -81,8 +81,8 @@
   margin-right: 16px;
 }
 
-.disease-group .list_Action .icon_Lock {
-  color: #ffc107;
+.disease-group .list_Action .icon_information {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 }
 
 .disease-group .list_Action .icon_delete {
