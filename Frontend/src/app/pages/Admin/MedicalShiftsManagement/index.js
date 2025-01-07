@@ -59,10 +59,34 @@ export default function MedicalShift() {
   };
   // hàm lấy các khung giờ
   const getSlot = () => {
-    const slot = listShift.map((item) => {
-      return convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc);
+    const slotSet = new Set(
+      listShift.map((item) => convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc))
+    );
+    const slotArray = Array.from(slotSet);
+
+    // Hàm chuyển đổi time slot thành số phút kể từ nửa đêm
+    const timeSlotToMinutes = (timeSlot) => {
+      const [start, end] = timeSlot.split(' - ');
+      const [startHours, startMinutes] = start.split(':').map(Number);
+      const [endHours, endMinutes] = end.split(':').map(Number);
+      return {
+        start: startHours * 60 + startMinutes,
+        end: endHours * 60 + endMinutes
+      };
+    };
+
+    // Sắp xếp mảng theo thứ tự thời gian
+    slotArray.sort((a, b) => {
+      const aMinutes = timeSlotToMinutes(a);
+      const bMinutes = timeSlotToMinutes(b);
+
+      if (aMinutes.start !== bMinutes.start) {
+        return aMinutes.start - bMinutes.start;
+      }
+      return aMinutes.end - bMinutes.end;
     });
-    return slot;
+
+    return slotArray;
   };
   // Hàm xử lý tìm kiếm
   const handleSearch = (e) => {
@@ -103,8 +127,8 @@ export default function MedicalShift() {
       const lowercasedSearch = searchValue.toLowerCase();
       filteredList = filteredList.filter(
         (item) =>
-          item.bacSiKham.toLowerCase().includes(lowercasedSearch) ||
-          item.sdt.includes(lowercasedSearch)
+          item.bacSiKham?.toLowerCase().includes(lowercasedSearch) ||
+          item.sdt?.includes(lowercasedSearch)
       );
     }
 
