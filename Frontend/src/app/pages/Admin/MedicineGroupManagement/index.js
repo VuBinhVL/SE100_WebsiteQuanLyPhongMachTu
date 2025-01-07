@@ -4,7 +4,7 @@ import AddMedicineGroup from "../../../components/Admin/MedicineGroupManagement/
 import { IoIosSearch } from "react-icons/io";
 import { FaLock } from "react-icons/fa";
 import "./MedicineGroup.css";
-import DetailPatien from "../../../components/Admin/PatienManagement/DetailPatien/DetailPatien";
+import DetailMedicineGroup from "../../../components/Admin/MedicineGroupManagement/DetailMedicineGroup/DetailMedicineGroup";
 import DeleteMedicineGroup from "../../../components/Admin/MedicineGroupManagement/DeleteMedicineGroup/DeleteMedicineGroup";
 
 export default function MedicineGroup() {
@@ -52,7 +52,7 @@ export default function MedicineGroup() {
   return (
     // <>đây là trang loại thuốc</>
     <>
-      <div className="Patiens_Management">
+      <div className="medicine-group-management">
         <div className="title py-3 fs-5 mb-2">
           Số lượng loại thuốc: {listPatienShow.length}
         </div>
@@ -64,7 +64,7 @@ export default function MedicineGroup() {
                   onChange={handleSearch}
                   value={dataSearch}
                   className="search rounded-2 px-3"
-                  placeholder="Enter your name or phone number"
+                  placeholder="Nhập tên loại thuốc cần tìm"
                 />
                 <IoIosSearch className="icon_search translate-middle-y text-secondary" />
               </div>
@@ -93,7 +93,7 @@ export default function MedicineGroup() {
 
                       <td>
                         <div className="list_Action">
-                          <DetailPatien
+                          <DetailMedicineGroup
                             item={item}
                             setListPatien={setListPatien}
                             listPatien={listPatien}

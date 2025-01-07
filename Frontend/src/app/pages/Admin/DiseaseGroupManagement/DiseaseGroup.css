@@ -1,34 +1,34 @@
-.disease-group .title {
+.disease-group-management .title {
   color: #348f6c;
   font-weight: 500;
 }
 
-.disease-group .search {
+.disease-group-management .search {
   height: 40px;
 }
 
-.disease-group .contain_Search {
+.disease-group-management .contain_Search {
   position: absolute;
   display: inline-block;
 }
 
-.disease-group .contain_Search .search {
+.disease-group-management .contain_Search .search {
   width: 100%;
   border: 1px solid grey;
 }
 
-.disease-group .contain_Search .icon_search {
+.disease-group-management .contain_Search .icon_search {
   position: absolute;
   top: 20px;
   right: 15px;
   font-size: 20px;
 }
 
-.disease-group .filter {
+.disease-group-management .filter {
   height: 40px;
 }
 
-.disease-group .Add {
+.disease-group-management .Add {
   height: 40px;
   border: none;
   background-color: #348f6c;
@@ -36,20 +36,20 @@
   font-weight: 500;
 }
 
-.disease-group .row .contain_Table {
+.disease-group-management .row .contain_Table {
   padding: 0 10px;
 }
 
-.disease-group .row .contain_Table .table {
+.disease-group-management .row .contain_Table .table {
   margin-bottom: 100px;
 }
 
-.disease-group .row .contain_Table .contain_pagination {
+.disease-group-management .row .contain_Table .contain_pagination {
   display: flex;
   justify-content: end;
 }
 
-.disease-group
+.disease-group-management
   .row
   .contain_Table
   .contain_pagination
@@ -61,12 +61,17 @@
   box-shadow: none;
 }
 
-.disease-group .row .contain_Table .contain_pagination .active > .page-link {
+.disease-group-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .active
+  > .page-link {
   background-color: #348f6c;
   border-color: #348f6c;
 }
 
-.disease-group
+.disease-group-management
   .row
   .contain_Table
   .contain_pagination
@@ -76,15 +81,15 @@
   background-color: #ffffff;
 }
 
-.disease-group .list_Action .icon_action {
+.disease-group-management .list_Action .icon_action {
   font-size: 20px;
   margin-right: 16px;
 }
 
-.disease-group .list_Action .icon_information {
+.disease-group-management .list_Action .icon_action {
   color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 }
 
-.disease-group .list_Action .icon_delete {
+.disease-group-management .list_Action .icon_delete {
   color: #e34724;
 }

@@ -1,31 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GrCircleInformation } from "react-icons/gr";
-import { IoIosArrowDown } from "react-icons/io";
-import { useState } from "react";
 import { TiEdit } from "react-icons/ti";
-import "./DetailDiseaseGroup.css";
 import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { formatDate } from "../../../../utils/FormatDate/FormatDate";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import "./DetailMedicineGroup.css";
 
-export default function DetailDiseaseGroup(props) {
+export default function DetailMedicineGroup(props) {
   const [editStatus, setEditStatus] = useState(false);
   // data chi tiết bệnh nhân gốc (được gọi từ api)
   const [informationPatient, setInformationPatient] = useState({});
   // item truyền từ props qua
   const { listPatien, setListPatien, item } = props;
   // state quản lý data của formform
-  const [dataForm, setDataForm] = useState({});
+  const [dataForm, setDataForm] = useState({
+    id: 0, // Lấy id  là 0
+  });
 
   useEffect(() => {
-    const uri = `/api/admin/quan-li-nhom-benh/get?id=${item.id}`;
+    const uri = `/api/admin/quan-li-loai-thuoc/detail?id=${item.id}`;
     fetchGet(
       uri,
       (sus) => {
         setInformationPatient(sus);
         // lấy data gán vào cho newInformation
-        const { tenNhomBenh, ...newInformation } = sus;
+        const { tenLoaiThuoc, ...newInformation } = sus;
         setDataForm(newInformation);
       },
       (fail) => {
@@ -53,14 +52,14 @@ export default function DetailDiseaseGroup(props) {
     // quay lại trạng thái detail information
     setEditStatus(!editStatus);
     // clear data đã thay đổi
-    const { tenNhomBenh, ...newInformation } = informationPatient;
+    const { tenLoaiThuoc, ...newInformation } = informationPatient;
     setDataForm(newInformation);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { tenNhomBenh } = dataForm;
+    const { tenLoaiThuoc } = dataForm;
     // Validate dữ liệu trước khi gửi
-    if (!tenNhomBenh) {
+    if (!tenLoaiThuoc) {
       showErrorMessageBox("Hãy điền đầy đủ thông tin");
       return;
     }
@@ -69,7 +68,7 @@ export default function DetailDiseaseGroup(props) {
 
   // Hàm lấy danh sách
   const fetchPatientList = () => {
-    const uri = "/api/admin/quan-li-nhom-benh";
+    const uri = "/api/admin/quan-li-loai-thuoc";
     fetchGet(
       uri,
       (data) => {
@@ -85,7 +84,7 @@ export default function DetailDiseaseGroup(props) {
   };
 
   const EditPatient = () => {
-    const uri = "/api/admin/quan-li-nhom-benh/edit";
+    const uri = "/api/admin/quan-li-loai-thuoc/edit";
     const updatedDataForm = { ...dataForm }; // Lưu trữ giá trị mới trước khi gọi API
     fetchPut(
       uri,
@@ -138,7 +137,9 @@ export default function DetailDiseaseGroup(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="staticBackdropLabel">
-                {editStatus ? "Sửa thông tin nhóm bệnh" : "Thông tin nhóm bệnh"}
+                {editStatus
+                  ? "Sửa thông tin loại thuốc"
+                  : "Thông tin loại thuốc"}
               </h5>
               <button
                 type="button"
@@ -152,17 +153,17 @@ export default function DetailDiseaseGroup(props) {
               <form className="me-5 w-75">
                 <div className="form-group mb-3 d-flex align-items-center">
                   <label
-                    htmlFor="hoTen"
+                    htmlFor="tenLoaiThuoc"
                     className="form-label col-4 custom-bold"
                   >
-                    Tên nhóm bệnh:
+                    Tên loại thuốc:
                   </label>
                   <input
                     className="form-control rounded-3"
-                    name="tenNhomBenh"
-                    id="tenNhomBenh"
+                    name="tenLoaiThuoc"
+                    id="tenLoaiThuoc"
                     type="text"
-                    value={item.tenNhomBenh}
+                    value={dataForm.tenLoaiThuoc || item.tenLoaiThuoc}
                     onChange={handleChange}
                     readOnly={!editStatus}
                   />

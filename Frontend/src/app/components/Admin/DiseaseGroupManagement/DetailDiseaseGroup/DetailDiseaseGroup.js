@@ -126,7 +126,7 @@ export default function DetailDiseaseGroup(props) {
         />
       </a>
       <div
-        className="detailMedicineGroup modal fade"
+        className="detailDiseaseGroup modal fade"
         id={idModal}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -162,7 +162,7 @@ export default function DetailDiseaseGroup(props) {
                     name="tenNhomBenh"
                     id="tenNhomBenh"
                     type="text"
-                    value={item.tenNhomBenh}
+                    value={dataForm.tenNhomBenh || item.tenNhomBenh}
                     onChange={handleChange}
                     readOnly={!editStatus}
                   />

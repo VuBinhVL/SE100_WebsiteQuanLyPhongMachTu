@@ -54,7 +54,7 @@ export default function DiseaseGroup() {
   return (
     // <>đây là trang quản lý loại bệnh</>
     <>
-      <div className="disease-group">
+      <div className="disease-group-management">
         <div className="title py-3 fs-5 mb-2">
           Số lượng nhóm bệnh: {listPatienShow.length}
         </div>
