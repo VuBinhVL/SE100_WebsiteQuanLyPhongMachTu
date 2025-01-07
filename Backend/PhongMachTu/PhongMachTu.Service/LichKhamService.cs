@@ -14,7 +14,7 @@ namespace PhongMachTu.Service
 {
     public interface ILichKhamService
     {
-        Task<IEnumerable<LichKhamDTO>> HienThiDanhSachLichKhamPhiaAdmin();
+        Task<IEnumerable<LichKhamDTO>> HienThiDanhSachLichKhamPhiaAdmin(int CaKhamId);
         Task<IEnumerable<TrangThaiLichKham>> GetTrangThaiLichKham();
     }
     public class LichKhamService : ILichKhamService
@@ -33,9 +33,9 @@ namespace PhongMachTu.Service
             return listTrangThaiLichKham;
         }
 
-        public async Task<IEnumerable<LichKhamDTO>> HienThiDanhSachLichKhamPhiaAdmin()
+        public async Task<IEnumerable<LichKhamDTO>> HienThiDanhSachLichKhamPhiaAdmin(int CaKhamId)
         {
-            return await _lichKhamRepository.GetListLichKhamDTOsAsync();
+            return await _lichKhamRepository.GetListLichKhamDTOsAsync(CaKhamId);
 
            
 

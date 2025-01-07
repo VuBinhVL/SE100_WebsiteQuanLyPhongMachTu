@@ -13,7 +13,7 @@ namespace PhongMachTu.DataAccess.Repositories
 {
 	public interface ILichKhamRepository : IRepository<LichKham>
 	{
-        Task<IEnumerable<LichKhamDTO>> GetListLichKhamDTOsAsync();
+        Task<IEnumerable<LichKhamDTO>> GetListLichKhamDTOsAsync(int CaKhamId);
     }
 	public class LichKhamRepository : RepositoryBase<LichKham>, ILichKhamRepository
 	{
@@ -23,15 +23,16 @@ namespace PhongMachTu.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<LichKhamDTO>> GetListLichKhamDTOsAsync()
+        public async Task<IEnumerable<LichKhamDTO>> GetListLichKhamDTOsAsync(int CaKhamId)
         {
             return await _context.LichKhams
                 .Include(ck => ck.CaKham) 
                 .Include(ck => ck.BenhNhan) 
-                .Include(ck => ck.TrangThaiLichKham) 
+                .Include(ck => ck.TrangThaiLichKham)
+                .Where(ck => ck.CaKhamId == CaKhamId)
                 .Select(ck => new LichKhamDTO
                 {
-                    IdCaKham = ck.CaKhamId,
+               
                     STT = ck.SoThuTu, 
                     TenBenhNhan = ck.BenhNhan.HoTen, 
                     TenTrangThai = ck.TrangThaiLichKham.TenTrangThai,
