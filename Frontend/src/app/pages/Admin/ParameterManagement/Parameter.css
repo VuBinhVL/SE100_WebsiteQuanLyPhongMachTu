@@ -1,95 +1,67 @@
-.Patiens_Management .title {
+.parameter-management {
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.parameter-management .title {
   color: #348f6c;
-  font-weight: 500;
+  font-weight: bold;
 }
 
-.Patiens_Management .search {
-  height: 40px;
+.parameter-management .table-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.Patiens_Management .contain_Search {
-  position: absolute;
-  display: inline-block;
-}
-
-.Patiens_Management .contain_Search .search {
+.parameter-management .table {
   width: 100%;
-  border: 1px solid grey;
+  border-collapse: collapse;
 }
 
-.Patiens_Management .contain_Search .icon_search {
-  position: absolute;
-  top: 20px;
-  right: 15px;
-  font-size: 20px;
+.parameter-management .table thead {
+  background-color: #007bff;
+  color: white;
 }
 
-.Patiens_Management .filter {
-  height: 40px;
+.parameter-management .table th,
+.parameter-management .table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
 }
 
-.Patiens_Management .Add {
-  height: 40px;
-  border: none;
+.parameter-management .table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.parameter-management .table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.parameter-management .btn-edit {
   background-color: #348f6c;
-  color: #ffffff;
-  font-weight: 500;
+  color: white;
+  font-weight: bold;
 }
 
-.Patiens_Management .row .contain_Table {
-  padding: 0 10px;
+.parameter-management .btn-edit:hover {
+  background-color: #045435;
 }
 
-.Patiens_Management .row .contain_Table .table {
-  margin-bottom: 100px;
+.parameter-management .form-control {
+  max-width: 150px;
 }
 
-.Patiens_Management .row .contain_Table .contain_pagination {
-  display: flex;
-  justify-content: end;
+.parameter-management .btn-secondary {
+  background-color: #d51f2a;
+  width: 90px;
 }
 
-.Patiens_Management
-  .row
-  .contain_Table
-  .contain_pagination
-  .page-item
-  .page-link:focus {
-  color: #ffffff;
+.parameter-management .btn-success {
   background-color: #348f6c;
-  border-color: #348f6c;
-  box-shadow: none;
-}
-
-.Patiens_Management
-  .row
-  .contain_Table
-  .contain_pagination
-  .active
-  > .page-link {
-  background-color: #348f6c;
-  border-color: #348f6c;
-}
-
-.Patiens_Management
-  .row
-  .contain_Table
-  .contain_pagination
-  .page-item
-  .page-link-two:focus {
-  color: var(--bs-pagination-color);
-  background-color: #ffffff;
-}
-
-.Patiens_Management .list_Action .icon_action {
-  font-size: 20px;
-  margin-right: 16px;
-}
-
-.Patiens_Management .list_Action .icon_Lock {
-  color: #ffc107;
-}
-
-.Patiens_Management .list_Action .icon_delete {
-  color: #e34724;
+  color: white;
+  font-weight: bold;
+  width: 90px;
 }
