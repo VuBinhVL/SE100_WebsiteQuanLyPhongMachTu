@@ -41,11 +41,6 @@ export default function UserRecordList() {
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const recordsPerPage = 10; // Số hồ sơ trên mỗi trang
   const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // const currentRecords = recordList.slice(
-  //   indexOfFirstRecord,
-  //   indexOfLastRecord
-  // );
   const totalPages = Math.ceil(recordList.length / recordsPerPage);
 
   const handlePageChange = (pageNumber) => {

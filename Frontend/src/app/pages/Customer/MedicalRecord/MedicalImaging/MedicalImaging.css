@@ -1,9 +1,14 @@
 .medical-imaging-popup {
-  width: 80%;
-  margin: 20px auto;
+  width: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  margin-top: 30px;
   overflow: hidden;
 }
 
@@ -24,15 +29,14 @@
 }
 
 .medical-imaging-popup .popup-close {
-  position: absolute; /* Định vị nút đóng */
-  right: 15px; /* Cách mép phải 15px */
-  top: 50%; /* Căn giữa theo chiều dọc */
-  transform: translateY(-50%); /* Đảm bảo nút đóng nằm giữa */
   background: none;
   border: none;
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .medical-imaging-popup .popup-body {
@@ -48,12 +52,16 @@
 .medical-imaging-popup .medical-imaging-grid {
   display: flex;
   gap: 10px;
+  justify-content: center; /* Căn giữa danh sách ảnh */
+  flex-wrap: wrap; /* Để ảnh tự xuống dòng nếu không đủ chỗ */
   margin-bottom: 20px;
 }
 
+/* CSS cho ảnh */
 .medical-imaging-popup .medical-imaging-item {
-  width: 150px;
+  width: fit-content;
   height: 150px;
+  align-items: center;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -74,4 +82,20 @@
   font-weight: bold;
   color: #333;
   text-align: right;
+}
+
+.divider {
+  border: none; /* Loại bỏ đường mặc định của <hr> */
+  border-top: 2px solid #000000; /* Đường gạch màu đen */
+  margin: 10px 0; /* Khoảng cách trên và dưới */
+}
+
+.medical-imaging-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu tối với độ trong suốt */
+  z-index: 900; /* Nằm dưới popup nhưng trên màn hình chính */
 }

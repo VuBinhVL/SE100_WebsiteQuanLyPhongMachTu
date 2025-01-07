@@ -1,6 +1,7 @@
 /* Tổng thể popup */
 .disease-detail-popup {
   position: fixed;
+  margin-top: 30px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -19,8 +20,9 @@
   background-color: #348f6c;
   color: #ffffff;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative; /* Để đảm bảo nút đóng không ảnh hưởng đến căn giữa */
   padding: 15px;
 }
 
@@ -99,7 +101,7 @@
   font-weight: bold;
 }
 
-.disease-detail-popup .popup-overlay {
+.disease-info-overlay {
   position: fixed;
   top: 0;
   left: 0;

@@ -17,11 +17,24 @@ export default function DetailRecord() {
     setSelectedDiseaseId(diseaseId);
     setIsPopupVisible(true);
   };
-
   // Đóng popup
   const handleClosePopup = () => {
     setIsPopupVisible(false);
   };
+
+  //Phục vụ cho việc xem chi tiết chụp chiếu
+  const [selectedImagingId, setSelectedImagingId] = useState(null);
+  const [isMedicalImagingVisible, setIsMedicalImagingVisible] = useState(false);
+  const handleOpenMedicalImaging = (diseaseId) => {
+    setSelectedImagingId(diseaseId); // Lưu Id vào state
+    setIsMedicalImagingVisible(true); // Hiển thị popup
+  };
+
+  // Hàm để đóng popup MedicalImaging
+  const handleCloseMedicalImaging = () => {
+    setIsMedicalImagingVisible(false);
+  };
+
   //Gọi API để lấy thông tin
   useEffect(() => {
     if (id) {
@@ -49,6 +62,14 @@ export default function DetailRecord() {
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
+  };
+
+  //Đinh dạng tiền
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+    }).format(value);
   };
 
   // Tính toán các chỉ số phân trang
@@ -93,7 +114,7 @@ export default function DetailRecord() {
                 <td>{record.hoTenBacSi}</td>
                 <td>{record.tenBenhLy}</td>
                 <td>{formatDate(record.ngayKham)}</td>
-                <td>{record.tongTien}</td>
+                <td>{formatCurrency(record.tongTien)} đ</td>
                 <td className="d-flex gap-2 justify-content-center align-items-center">
                   <button
                     type="button"
@@ -109,6 +130,7 @@ export default function DetailRecord() {
                     data-toggle="tooltip"
                     title="Xem ảnh chụp chiếu"
                     type="button"
+                    onClick={() => handleOpenMedicalImaging(record.id)} // Truyền Id
                   >
                     Ảnh chụp chiếu
                   </button>
@@ -139,6 +161,14 @@ export default function DetailRecord() {
         <DiseaseDetail
           diseaseId={selectedDiseaseId}
           onClose={handleClosePopup}
+        />
+      )}
+
+      {/* Hiển thị popup của chụp chiếu */}
+      {isMedicalImagingVisible && (
+        <MedicalImaging
+          diseaseId={selectedImagingId}
+          onClose={handleCloseMedicalImaging}
         />
       )}
     </div>

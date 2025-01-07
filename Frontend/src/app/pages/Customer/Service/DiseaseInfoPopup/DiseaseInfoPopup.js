@@ -34,9 +34,9 @@ export default function DiseaseInfoPopup({ diseaseId, onClose }) {
       {/* Popup */}
       <div className="disease-info-popup">
         <div className="popup-header">
-          <h3 className="popup-title">
+          <h4 className="popup-title">
             {diseaseDetails?.tenBenhLy || "Loading..."}
-          </h3>
+          </h4>
           <button className="popup-close" onClick={onClose}>
             X
           </button>

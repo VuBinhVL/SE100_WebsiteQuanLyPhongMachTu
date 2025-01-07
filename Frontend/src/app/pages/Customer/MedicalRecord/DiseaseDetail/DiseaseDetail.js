@@ -67,7 +67,7 @@ export default function DiseaseDetail({ diseaseId, onClose }) {
       <div className="disease-info-overlay"></div>
       <div className="disease-detail-popup">
         <div className="popup-header">
-          <h2 className="popup-title">CHI TIẾT BỆNH LÍ KHÁM</h2>
+          <h2 className="popup-title">Chi tiết bệnh lý khám</h2>
           <button className="popup-close" onClick={onClose}>
             X
           </button>
