@@ -18,6 +18,7 @@ function DeleteShift(props) {
                     showSuccessMessageBox(sus.message)
                     const newShift = listShift.filter((newItem) => newItem.id !== item.id);
                     setListShift(newShift)
+
                 },
                 (fail) => {
                     alert(fail.message);
