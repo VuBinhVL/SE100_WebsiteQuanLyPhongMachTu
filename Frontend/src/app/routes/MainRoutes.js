@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PageNotFound from "../layouts/adminLayout/PageNotFound";
+import Forbidden from "../layouts/adminLayout/Forbidden";
 import LayoutAdmin from "../layouts/adminLayout";
 import Staff from "../pages/Admin/UsersManagement/Staffs";
 import DashBoard from "../pages/Admin/DashBoard";
@@ -59,6 +60,8 @@ export default function MainRoutes() {
           <Route path="disease-group" element={<DiseaseGroup />} />
           <Route path="parameter" element={<Parameter />} />
         </Route>
+        {/* Route cho trang Forbidden*/}
+        <Route path="/forbidden" element={<Forbidden />} />
         {/* Trang không tìm thấy */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
