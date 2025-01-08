@@ -21,5 +21,6 @@ namespace PhongMachTu.Common.DTOs.Request.LichKhamAdmin
         public string TrangThai { get; set; }
         public string TenBacSi { get; set; }
         public string TenChuyenMon { get; set; }
+        public DateTime? NgaySinhBN  { get; set; }
     }
 }
