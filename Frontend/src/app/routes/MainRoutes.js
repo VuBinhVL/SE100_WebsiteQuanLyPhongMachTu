@@ -24,6 +24,10 @@ import Parameter from "../pages/Admin/ParameterManagement";
 import DiseaseGroup from "../pages/Admin/DiseaseGroupManagement";
 import MedicineGroup from "../pages/Admin/MedicineGroupManagement";
 import MedicineManagement from "../pages/Admin/MedicinesManagement/MedicineManagement";
+import LayoutStaff from "../layouts/staffLayout";
+import Patient from "../pages/Staff/PatienManagement";
+import MedicalshiftOfStaff from "../pages/Staff/MedicalShiftManagement/MedicalShifts";
+import Appointment from "../pages/Staff/MedicalShiftManagement/Appointment";
 
 export default function MainRoutes() {
   return (
@@ -59,6 +63,16 @@ export default function MainRoutes() {
           <Route path="medicine-group" element={<MedicineGroup />} />
           <Route path="disease-group" element={<DiseaseGroup />} />
           <Route path="parameter" element={<Parameter />} />
+        </Route>
+        {/* Layout Nhân viên */}
+        <Route path="/Staff" element={<LayoutStaff />}>
+          <Route index element={<Patient />} />
+          <Route path="appointment" element={<Appointment />} />
+          <Route path="medicalshiftOfStaff" element={<MedicalshiftOfStaff />} />
+          <Route
+            path="information-management"
+            element={<InformationManagement />}
+          />
         </Route>
         {/* Route cho trang Forbidden*/}
         <Route path="/forbidden" element={<Forbidden />} />
