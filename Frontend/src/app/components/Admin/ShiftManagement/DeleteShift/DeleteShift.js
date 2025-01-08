@@ -4,20 +4,25 @@ import { MdDelete } from "react-icons/md";
 import { fetchDelete } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showDeleteMessageBox } from "../../../MessageBox/DeleteMesssageBox/showDeleteMessageBox";
+import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 function DeleteShift(props) {
     // const [isVisibility, setIsVisibility] = useState(false);
     const { setListShift, listShift } = props;
     const { item } = props;
     const handleDelete = () => {
         showDeleteMessageBox("Bạn có chắc muốn xóa không", () => {
+            if (item.bacSiKham) {
+                showErrorMessageBox("Không thể xóa ca khám vì đã có bác sĩ đăng kí")
+                return;
+            }
             const uri = `/api/admin/quan-li-ca-kham/delete?id=${item.id}`;
             fetchDelete(
                 uri, "",
-                (sus) => {
+                async (sus) => {
                     // console.log(">>>>>>.check sus", sus)
                     showSuccessMessageBox(sus.message)
                     const newShift = listShift.filter((newItem) => newItem.id !== item.id);
-                    setListShift(newShift)
+                    await setListShift(newShift)
                 },
                 (fail) => {
                     alert(fail.message);

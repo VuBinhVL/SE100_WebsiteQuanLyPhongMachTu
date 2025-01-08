@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { GrCircleInformation } from "react-icons/gr";
-import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { TiEdit } from "react-icons/ti";
 import "./DetailShift.css";
 import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { formatDate } from "../../../../utils/FormatDate/FormatDate";
+import { formatDate } from "../../../../utils/FormatDate/formatDate";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 
 export default function DetailShift(props) {
@@ -15,55 +14,28 @@ export default function DetailShift(props) {
   // data chi tiết bệnh nhân gốc (được gọi từ api)
   const [informationShift, setInformationShift] = useState({});
   // item truyền từ props qua
-  const { listPatien, setListPatien, item } = props;
-  const { specialization, setSpecialization } = props;
-  // state quản lý data của formform
+  const { listShift, setListShift, item } = props;
+  // state quản lý data của form
   const [dataForm, setDataForm] = useState({});
   // console.log(">>>>>>>check item", item)
   useEffect(() => {
     const uri = `/api/admin/quan-li-ca-kham/detail?id=${item.id}`;
+    // const uri = "/api/admin/quan-li-ca-kham/detail?id=2";
     fetchGet(
       uri,
       (sus) => {
         setInformationShift(sus);
-        // lấy data gán vào cho newInformation
-        const {
-          chuyenMon,
-          chuyenMonId,
-          hoSoBenhAns,
-          isLock,
-          matKhau,
-          suChoPheps,
-          tenTaiKhoan,
-          vaiTro,
-          vaiTroId,
-          ...newInformation
-        } = sus;
-        setDataForm(newInformation);
+        setDataForm(sus);
+        console.log(">>>>>>> Chạy vào detail")
       },
       (fail) => {
-        showErrorMessageBox(fail.message);
+        alert(fail.message);
       },
       () => {
         alert("Có lỗi xảy ra");
       }
     );
-  }, []);
-  useEffect(() => {
-    const uri = "/api/admin/quan-li-nhom-benh";
-    fetchGet(
-      uri,
-      (sus) => {
-        setSpecialization(sus);
-      },
-      (fail) => {
-        showErrorMessageBox(fail.message);
-      },
-      () => {
-        alert("Có lỗi xảy ra");
-      }
-    );
-  }, []);
+  }, [listShift]);
   const handleChange = (e) => {
     const value = e.target.value;
     const name = e.target.name;
@@ -80,97 +52,35 @@ export default function DetailShift(props) {
     // quay lại trạng thái detail information
     setEditStatus(!editStatus);
     // clear data đã thay đổi
-    const {
-      chuyenMon,
-      chuyenMonId,
-      hoSoBenhAns,
-      isLock,
-      matKhau,
-      suChoPheps,
-      tenTaiKhoan,
-      vaiTro,
-      vaiTroId,
-      ...newInformation
-    } = informationShift;
-    setDataForm(newInformation);
+    setDataForm(informationShift);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { hoTen, gioiTinh, ngaySinh, soDienThoai, email, diaChi, image, id } =
-      dataForm;
+    const { soLuongBenhNhanToiDa } = dataForm;
     // Validate dữ liệu trước khi gửi
     if (
-      !hoTen ||
-      !gioiTinh ||
-      !ngaySinh ||
-      !soDienThoai ||
-      !email ||
-      !diaChi ||
-      !image
+      !soLuongBenhNhanToiDa
     ) {
-      // alert("Please fill in all the required fields!");
       showErrorMessageBox("Please fill in all the required fields!");
       return;
     }
-
-    if (!email.endsWith("@gmail.com")) {
-      // alert("Email must end with @gmail.com");
-      showErrorMessageBox("Email must end with @gmail.com");
+    if (soLuongBenhNhanToiDa <= 0) {
+      showErrorMessageBox("The number of patients must be greater than 0!");
       return;
     }
-    // Kiểm tra số điện thoại
-    if (!/^\d+$/.test(soDienThoai)) {
-      // alert("Phone number must be a number");
-      showErrorMessageBox("Phone number must be a number");
+    if (soLuongBenhNhanToiDa < item.soLuongBenhNhanDaDangKi) {
+      showErrorMessageBox("The number of patients must be greater than or equal to the number of registered patients.!");
       return;
     }
-
-    // Kiểm tra độ dài số điện thoại
-    if (soDienThoai.length < 10 || soDienThoai.length > 11) {
-      // alert("Phone number must be between 10 and 11 digits");
-      showErrorMessageBox("Phone number must be between 10 and 11 digits");
-      return;
-    }
-    // Kiểm tra ngày sinh
-    const ngaySinhDate = new Date(ngaySinh);
-    const currentDate = new Date();
-    const minDate = new Date("1950-01-01");
-
-    if (ngaySinhDate >= currentDate) {
-      // alert("Date of birth must be before today");
-      showErrorMessageBox("Date of birth must be before today");
-      return;
-    }
-
-    if (ngaySinhDate < minDate) {
-      // alert("Date of birth must be after 1950");
-      showErrorMessageBox("Date of birth must be after 1950");
-      return;
-    }
-    // Kiểm tra tính duy nhất của số điện thoại và email
-    for (const element of listPatien) {
-      if (element.soDienThoai === soDienThoai && element.id !== id) {
-        // alert("Phone number already exists");
-        showErrorMessageBox("Phone number already exists");
-        return;
-      }
-      if (element.email === email && element.id !== id) {
-        // alert("Email already exists");
-        showErrorMessageBox("Email already exists");
-        return;
-      }
-    }
-
-    EditPatient();
+    EditShift();
   };
-  console.log(">>>>>>>>check listPatien", listPatien);
-  // Hàm lấy danh sách nhân viên
-  const fetchPatientList = () => {
-    const uri = "/api/admin/quan-li-benh-nhan";
+  // Hàm lấy danh sách ca khám
+  const fetchShiftList = () => {
+    const uri = "/api/admin/quan-li-ca-kham";
     fetchGet(
       uri,
       (data) => {
-        setListPatien(data); // Cập nhật danh sách nhân viên
+        setListShift(data); // Cập nhật danh sách nhân viên
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -180,22 +90,23 @@ export default function DetailShift(props) {
       }
     );
   };
-  const EditPatient = () => {
-    const uri = "/api/admin/quan-li-benh-nhan/update";
-    const updatedDataForm = { ...dataForm }; // Lưu trữ giá trị mới trước khi gọi API
+  const EditShift = () => {
+    const uri = "/api/admin/quan-li-ca-kham/edit";
+    const newDataForm = dataForm;
+    const { bacSi, lichKhams, nhomBenh, ...updatedDataForm } = dataForm;
     fetchPut(
       uri,
-      dataForm,
+      updatedDataForm,
       (sus) => {
         // // Đóng modal
         // alert(sus.message);
         showSuccessMessageBox(sus.message);
         // Cập nhật dataForm với giá trị mới
-        setDataForm(updatedDataForm);
+        setDataForm(newDataForm);
         // quay lại trang detail information
         handleEditInformation();
-        // cập nhật ui ở trang quản lý nhân viên
-        fetchPatientList();
+        // cập nhật ui ở trang ca khám 
+        fetchShiftList();
       },
       (fail) => {
         showErrorMessageBox(fail.message);
@@ -208,11 +119,16 @@ export default function DetailShift(props) {
   const handleClsoe = () => {
     setEditStatus(false);
   };
-
-  const idModal = `idModal${item.id}`;
-  const idspecificModal = `#idModal${item.id}`;
-  // console.log(">>>>>>>.check DataForm", dataForm)
-  // console.log(">>>>>>>.check specialization", specialization)
+  const convertTimeToSlot = (timeStart, timeEnd) => {
+    if (!timeStart || !timeEnd) {
+      return "";
+    }
+    return `${timeStart.slice(0, 5)} - ${timeEnd.slice(0, 5)}`;
+  };
+  const idModal = `idModal${item.id}_${item.id}`;
+  const idspecificModal = `#idModal${item.id}_${item.id}`;
+  console.log(">>>>>>>.check DataForm", dataForm)
+  // console.log(">>>>>>>.check informationShift", informationShift)
 
   return (
     <>
@@ -236,7 +152,7 @@ export default function DetailShift(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title fs-4" id="staticBackdropLabel">
-                {editStatus ? "Edit Patient" : "Detail Patient"}
+                {editStatus ? "Edit Shift" : "Detail Shift"}
               </h5>
               <button
                 type="button"
@@ -247,7 +163,7 @@ export default function DetailShift(props) {
               ></button>
             </div>
             <div className="modal-body d-flex justify-content-center">
-              <form className="me-5 w-75">
+              <form className="w-75">
                 <div className="form-group mb-3 d-flex align-items-center">
                   <label
                     htmlFor="tenCaKham"
@@ -261,9 +177,8 @@ export default function DetailShift(props) {
                     id="tenCaKham"
                     type="text"
                     placeholder="Enter full name"
-                    value={dataForm.hoTen}
-                    onChange={handleChange}
-                    readOnly={!editStatus}
+                    value={dataForm.tenCaKham}
+                    readOnly
                   />
                 </div>
                 <div className="form-group mb-3 d-flex align-items-center position-relative">
@@ -273,31 +188,14 @@ export default function DetailShift(props) {
                   >
                     Time Slot:
                   </label>
-                  {editStatus ? (
-                    <select
-                      id="khungGio"
-                      name="khungGio"
-                      className="form-control rounded-3 "
-                      defaultValue={"DEFAULT"}
-                      onChange={handleChange}
-                    >
-                      <option value="DEFAULT" hidden disabled>
-                        Enter Time Slot
-                      </option>
-                      <option value="morning">07:00 - 11:00</option>
-                      <option value="afternoon">13:00 - 17:00</option>
-                    </select>
-                  ) : (
-                    <input
-                      type="text"
-                      id="khungGio"
-                      name="khungGio"
-                      className="form-control rounded-3"
-                      value={dataForm.gioiTinh}
-                      readOnly
-                    />
-                  )}
-                  <IoIosArrowDown className="position-absolute end-0 me-3" />
+                  <input
+                    type="text"
+                    id="khungGio"
+                    name="khungGio"
+                    className="form-control rounded-3"
+                    value={convertTimeToSlot(dataForm.thoiGianBatDau, dataForm.thoiGianKetThuc)}
+                    readOnly
+                  />
                 </div>
                 <div className="form-group mb-3 d-flex align-items-center">
                   <label
@@ -306,27 +204,15 @@ export default function DetailShift(props) {
                   >
                     Consultation Date:
                   </label>
-                  {editStatus ? (
-                    <input
-                      type="date"
-                      id="ngayKham"
-                      name="ngayKham"
-                      className="form-control rounded-3"
-                      defaultValue={formatDate(dataForm.ngaySinh)}
-                      onChange={handleChange}
-                      readOnly={!editStatus}
-                    />
-                  ) : (
-                    <input
-                      type="date"
-                      id="ngayKham"
-                      name="ngayKham"
-                      className="form-control rounded-3"
-                      value={formatDate(dataForm.ngaySinh)}
-                      onChange={handleChange}
-                      readOnly={!editStatus}
-                    />
-                  )}
+
+                  <input
+                    type="date"
+                    id="ngayKham"
+                    name="ngayKham"
+                    className="form-control rounded-3"
+                    value={formatDate(dataForm.ngayKham)}
+                    readOnly
+                  />
                 </div>
                 <div className="form-group mb-3 d-flex align-items-center position-relative">
                   <label
@@ -335,37 +221,14 @@ export default function DetailShift(props) {
                   >
                     Disease Group:
                   </label>
-                  {editStatus ? (
-                    <select
-                      id="tenNhomBenh"
-                      name="tenNhomBenh"
-                      className="form-control rounded-3"
-                      value={dataForm.chuyenMonId}
-                      onChange={handleChange}
-                    >
-                      {specialization &&
-                        specialization.length > 0 &&
-                        specialization.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.tenNhomBenh}
-                          </option>
-                        ))}
-                    </select>
-                  ) : (
-                    <input
-                      type="text"
-                      id="tenNhomBenh"
-                      name="tenNhomBenh"
-                      className="form-control rounded-3"
-                      value={
-                        specialization.find(
-                          (spec) => spec.id == dataForm.tenNhomBenh
-                        )?.tenNhomBenh || "ABC"
-                      }
-                      readOnly={!editStatus}
-                    />
-                  )}
-                  <IoIosArrowDown className="position-absolute end-0 me-3" />
+                  <input
+                    type="text"
+                    id="tenNhomBenh"
+                    name="tenNhomBenh"
+                    className="form-control rounded-3"
+                    value={item.tenNhomBenh}
+                    readOnly
+                  />
                 </div>
                 <div className="form-group mb-3 d-flex align-items-center">
                   <label
@@ -380,7 +243,7 @@ export default function DetailShift(props) {
                     type="text"
                     className="form-control rounded-3"
                     placeholder="Enter your Email"
-                    value={dataForm.email}
+                    value={dataForm.soLuongBenhNhanToiDa}
                     onChange={handleChange}
                     readOnly={!editStatus}
                   />
@@ -398,9 +261,8 @@ export default function DetailShift(props) {
                     type="text"
                     className="form-control rounded-3"
                     placeholder="Enter your address"
-                    value={dataForm.diaChi}
-                    onChange={handleChange}
-                    readOnly={!editStatus}
+                    value={item.bacSiKham}
+                    readOnly
                   />
                 </div>
               </form>
@@ -423,9 +285,9 @@ export default function DetailShift(props) {
                 </button>
               </div>
             ) : (
-              <div className="contain_Edit d-flex align-items-center mb-3 ms-3">
+              <div className="contain_Edit d-flex align-items-center mb-5">
                 <h4 className="title_edit fs-6 mb-0 me-2">
-                  Edit patient information
+                  Edit shift information
                 </h4>
                 <button
                   className="bg-white border-0 p-0"

@@ -3,13 +3,14 @@ import { IoIosSearch } from "react-icons/io";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchGet } from "../../../lib/httpHandler";
-import { formatDate } from "../../../utils/FormatDate/FormatDate.js";
+import { formatDate } from "../../../utils/FormatDate/formatDate.js";
 import "./MedicalShift.css";
 import AddShift from "../../../components/Admin/ShiftManagement/AddShift/AddShift";
 import { FaCalendarAlt } from "react-icons/fa";
 import DeleteShift from "../../../components/Admin/ShiftManagement/DeleteShift/DeleteShift.js";
 import DetailShift from "../../../components/Admin/ShiftManagement/DetailShift/DetailShift.js";
 import ListAppointment from "../../../components/Admin/ShiftManagement/appointmentManagement/ListAppointment.js";
+import DetailAppointment from "../../../components/Admin/ShiftManagement/DetailAppointment/DetailAppointment.js";
 export default function MedicalShift() {
   const [listShift, setListShift] = useState([]);
   const [listShiftShow, setListShiftShow] = useState([]);
@@ -23,9 +24,8 @@ export default function MedicalShift() {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return `${year}-${month < 10 ? `0${month}` : month}-${
-      day < 10 ? `0${day}` : day
-    }`;
+    return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day
+      }`;
   };
   const [daySearch, setDaySearch] = useState(getCurrentDate());
   // hàm này dùng để khi load trang lên thì nó sẽ tự động search theo ngày hiện tại
@@ -60,10 +60,34 @@ export default function MedicalShift() {
   };
   // hàm lấy các khung giờ
   const getSlot = () => {
-    const slot = listShift.map((item) => {
-      return convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc);
+    const slotSet = new Set(
+      listShift.map((item) => convertTimeToSlot(item.thoiGianBatDau, item.thoiGianKetThuc))
+    );
+    const slotArray = Array.from(slotSet);
+
+    // Hàm chuyển đổi time slot thành số phút kể từ nửa đêm
+    const timeSlotToMinutes = (timeSlot) => {
+      const [start, end] = timeSlot.split(' - ');
+      const [startHours, startMinutes] = start.split(':').map(Number);
+      const [endHours, endMinutes] = end.split(':').map(Number);
+      return {
+        start: startHours * 60 + startMinutes,
+        end: endHours * 60 + endMinutes
+      };
+    };
+
+    // Sắp xếp mảng theo thứ tự thời gian
+    slotArray.sort((a, b) => {
+      const aMinutes = timeSlotToMinutes(a);
+      const bMinutes = timeSlotToMinutes(b);
+
+      if (aMinutes.start !== bMinutes.start) {
+        return aMinutes.start - bMinutes.start;
+      }
+      return aMinutes.end - bMinutes.end;
     });
-    return slot;
+
+    return slotArray;
   };
   // Hàm xử lý tìm kiếm
   const handleSearch = (e) => {
@@ -104,8 +128,8 @@ export default function MedicalShift() {
       const lowercasedSearch = searchValue.toLowerCase();
       filteredList = filteredList.filter(
         (item) =>
-          item.bacSiKham.toLowerCase().includes(lowercasedSearch) ||
-          item.sdt.includes(lowercasedSearch)
+          item.bacSiKham?.toLowerCase().includes(lowercasedSearch) ||
+          item.sdt?.includes(lowercasedSearch)
       );
     }
 
@@ -204,10 +228,10 @@ export default function MedicalShift() {
                       <td>{item.bacSiKham || "Chưa có ai đăng kí"}</td>
                       <td>
                         <div className="list_Action">
-                          {/* <FaLock className="icon_Lock icon_action fs-6" /> */}
-                          <ListAppointment item={item} />
 
-                          {/* <DetailShift item={item} setListShift={setListShift} listShift={listShift} /> */}
+                          <ListAppointment item={item} />
+                          {/* <DetailAppointment /> */}
+                          <DetailShift item={item} setListShift={setListShift} listShift={listShift} />
                           <DeleteShift
                             item={item}
                             setListShift={setListShift}

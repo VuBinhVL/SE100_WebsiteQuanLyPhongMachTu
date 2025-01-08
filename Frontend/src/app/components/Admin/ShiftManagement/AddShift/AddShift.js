@@ -6,7 +6,7 @@ import "./AddShift.css";
 import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { formatDate } from "../../../../utils/FormatDate/FormatDate";
+import { formatDate } from "../../../../utils/FormatDate/formatDate";
 export default function AddShift(props) {
   const { listShift, setListShift } = props;
   const [specialization, setSpecialization] = useState([]);
@@ -56,8 +56,6 @@ export default function AddShift(props) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // loại bỏ khoảng trắng ở đầu và cuối của tên ca khám
-    dataForm.tenCaKham = dataForm.tenCaKham.trim();
     const { tenCaKham, khungGio, ngayKham, soLuongBenhNhanToiDa, nhomBenhId } =
       dataForm;
 
@@ -72,6 +70,8 @@ export default function AddShift(props) {
       showErrorMessageBox("Please fill in all the required fields!");
       return;
     }
+    // loại bỏ khoảng trắng ở đầu và cuối của tên ca khám
+    dataForm.tenCaKham = dataForm.tenCaKham.trim();
     // tên ca khám phải là buổi sáng hoặc buổi chiều
     const validShifts = ["buổi sáng", "buổi chiều"];
     if (!validShifts.includes(tenCaKham.trim().toLowerCase())) {
@@ -136,7 +136,7 @@ export default function AddShift(props) {
       if (
         elementDate === ngayKhamDate &&
         element.tenCaKham.trim().toLowerCase() ===
-          newDataForm.tenCaKham.trim().toLowerCase()
+        newDataForm.tenCaKham.trim().toLowerCase()
       ) {
         showErrorMessageBox("The shift already exists on this day");
         return;
