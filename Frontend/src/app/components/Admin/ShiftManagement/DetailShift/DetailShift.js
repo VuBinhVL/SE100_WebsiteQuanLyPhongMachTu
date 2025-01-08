@@ -26,9 +26,10 @@ export default function DetailShift(props) {
       (sus) => {
         setInformationShift(sus);
         setDataForm(sus);
+        console.log(">>>>>>> Chạy vào detail")
       },
       (fail) => {
-        showErrorMessageBox(fail.message);
+        alert(fail.message);
       },
       () => {
         alert("Có lỗi xảy ra");

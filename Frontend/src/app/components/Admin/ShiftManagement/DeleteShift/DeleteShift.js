@@ -18,11 +18,11 @@ function DeleteShift(props) {
             const uri = `/api/admin/quan-li-ca-kham/delete?id=${item.id}`;
             fetchDelete(
                 uri, "",
-                (sus) => {
+                async (sus) => {
                     // console.log(">>>>>>.check sus", sus)
                     showSuccessMessageBox(sus.message)
                     const newShift = listShift.filter((newItem) => newItem.id !== item.id);
-                    setListShift(newShift)
+                    await setListShift(newShift)
                 },
                 (fail) => {
                     alert(fail.message);
