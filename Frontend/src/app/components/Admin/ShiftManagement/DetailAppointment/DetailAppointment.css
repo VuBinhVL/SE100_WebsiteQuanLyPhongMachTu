@@ -1,0 +1,90 @@
+.detailAppoinment .contain_img .inner_img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+/* CSS mặc định cho các button */
+.detailAppoinment .modal-footer .btn_Accept,
+.detailAppoinment .contain_img .btn_select_img {
+    background-color: #348F6C;
+    border: 1px solid #348F6C !important;
+    width: 125px;
+}
+
+.detailAppoinment .modal-footer .btn_Cancel {
+    background-color: #D51F2A;
+    border: 1px solid #D51F2A !important;
+    width: 125px;
+}
+
+/* CSS hover cho các button */
+.detailAppoinment .modal-footer .btn_Accept:hover,
+.detailAppoinment .modal-footer .btn_Accept:active,
+.detailAppoinment .modal-footer .btn_Accept:focus,
+.detailAppoinment .contain_img .btn_select_img:hover,
+.detailAppoinment .contain_img .btn_select_img:active,
+.detailAppoinment .contain_img .btn_select_img:focus {
+    background-color: #348F6C !important;
+    border: 1px solid #348F6C;
+}
+
+.detailAppoinment .modal-footer .btn_Cancel:hover,
+.detailAppoinment .modal-footer .btn_Cancel:active,
+.detailAppoinment .modal-footer .btn_Cancel:focus {
+    background-color: #D51F2A;
+
+}
+
+/* Đảm bảo kích thước các button luôn đồng nhất */
+.detailAppoinment .modal-footer .btn_Accept,
+.detailAppoinment .modal-footer .btn_Cancel,
+.detailAppoinment .contain_img .btn_select_img {
+    width: 125px;
+}
+
+.detailAppoinment .custom-bold {
+    font-weight: 600;
+}
+
+.icon_information {
+    color: #03A9F4;
+}
+
+.detailAppoinment .icon_edit_information {
+    color: #997852;
+}
+
+.detailAppoinment .modal-footer .btn_Accept:hover {
+    transform: scale(1.0);
+    transform: translateY(0px);
+}
+
+.detailAppoinment .modal-footer .btn_Accept {
+    padding: 0.35rem;
+    color: #FFFFFF;
+    border-radius: 6px;
+}
+
+.detailAppoinment .contain_Edit {
+    margin-left: 112px;
+}
+
+.detailAppoinment .modal-backdrop.show {
+    z-index: 1040;
+}
+
+.detailAppoinment .modal.show {
+    z-index: 1050;
+}
+
+.detailAppoinment .modal.modal-second {
+    z-index: 1060;
+}
+
+.detailAppoinment .formOne,
+.detailAppoinment .formTwo,
+.detailAppoinment .formThree {
+    width: 90%;
+}

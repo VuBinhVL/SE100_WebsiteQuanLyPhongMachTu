@@ -10,6 +10,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import DeleteShift from "../../../components/Admin/ShiftManagement/DeleteShift/DeleteShift.js";
 import DetailShift from "../../../components/Admin/ShiftManagement/DetailShift/DetailShift.js";
 import ListAppointment from "../../../components/Admin/ShiftManagement/appointmentManagement/ListAppointment.js";
+import DetailAppointment from "../../../components/Admin/ShiftManagement/DetailAppointment/DetailAppointment.js";
 export default function MedicalShift() {
   const [listShift, setListShift] = useState([]);
   const [listShiftShow, setListShiftShow] = useState([]);
@@ -229,7 +230,7 @@ export default function MedicalShift() {
                         <div className="list_Action">
 
                           <ListAppointment item={item} />
-
+                          {/* <DetailAppointment /> */}
                           <DetailShift item={item} setListShift={setListShift} listShift={listShift} />
                           <DeleteShift
                             item={item}

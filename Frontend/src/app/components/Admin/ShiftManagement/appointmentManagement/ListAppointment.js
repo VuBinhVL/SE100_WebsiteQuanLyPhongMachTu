@@ -6,6 +6,8 @@ import { MdAddCircle } from "react-icons/md";
 import { fetchGet } from "../../../../lib/httpHandler";
 import { IoIosSearch } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import DetailAppointment from "../DetailAppointment/DetailAppointment";
+import * as bootstrap from 'bootstrap';
 export default function ListAppointment(props) {
     const { item } = props;
     const idModal = `idModal${item.id}`;
@@ -15,6 +17,7 @@ export default function ListAppointment(props) {
     const [dataSearch, setDataSearch] = useState("");
     const [listStatus, setListStatus] = useState([]);
     const [filterStatus, setFilterStatus] = useState("DEFAULT");
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
     // Lấy danh sách lịch khám
     useEffect(() => {
         const uri = `/api/admin/quan-li-lich-kham?CaKhamId=${item.id}`;
@@ -94,7 +97,11 @@ export default function ListAppointment(props) {
 
         setListAppoinmentShow(filteredList);
     };
-
+    const handleOpenDetailAppointment = async (appointment) => {
+        await setSelectedAppointment(appointment);
+        const detailModal = new bootstrap.Modal(document.getElementById(`detailAppointmentModal_${appointment.id}`));
+        detailModal.show();
+    };
     console.log(">>>>>>>>>>>check listAppointment", listAppoinment);
     return (
         <>
@@ -155,7 +162,10 @@ export default function ListAppointment(props) {
                                                 <td>{"Không có"}</td>
                                                 <td>
                                                     <div className="list_Action">
-                                                        <GrCircleInformation className="icon_Action" title="Detail" />
+                                                        <a href="#" onClick={() => handleOpenDetailAppointment(item)}>
+                                                            <GrCircleInformation className="icon_information icon_action" />
+                                                        </a>
+
                                                         <MdAddCircle />
                                                     </div>
                                                 </td>
@@ -197,6 +207,10 @@ export default function ListAppointment(props) {
                     </div>
                 </div>
             </div>
+            {/* Modal Detail Appointment */}
+            {selectedAppointment && (
+                <DetailAppointment appointment={selectedAppointment} />
+            )}
         </>
     );
 }

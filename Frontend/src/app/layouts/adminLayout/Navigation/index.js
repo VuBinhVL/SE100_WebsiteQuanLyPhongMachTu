@@ -47,10 +47,8 @@ export default function Navigation() {
                 className="Parent nav-link d-flex align-items-center text-black fs-5 my-2"
                 aria-current="page"
                 data-bs-toggle="collapse"
-                href="#collapseExample"
                 role="button"
-                aria-expanded="false"
-                aria-controls="collapseExample"
+                aria-expanded={checkClick}
                 onClick={handleCheckClick}
               >
                 <FaUser className="fs-5 icon" />
@@ -63,7 +61,7 @@ export default function Navigation() {
                   )}
                 </span>
               </a>
-              <div className="collapse" id="collapseExample">
+              <div className={`collapse ${checkClick ? "show" : "hide"}`} id="collapseExample">
                 <div className="card card-body">
                   <div className="listUsers d-flex flex-column ">
                     <NavLink
