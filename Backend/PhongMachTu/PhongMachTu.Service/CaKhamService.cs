@@ -136,7 +136,7 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám cần xóa");
             }
 
-            var findLichKhamByCaKhamId = (await _lichKhamRepository.GetAllAsync()).Where(p => p.Id == id).FirstOrDefault();
+            var findLichKhamByCaKhamId = (await _lichKhamRepository.GetAllAsync()).Where(p => p.CaKhamId == findCaKham.Id).FirstOrDefault();
             if (findLichKhamByCaKhamId != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, $"Không thể xóa ca khám này vì có lịch khám có ID {findLichKhamByCaKhamId.Id} đang thuộc về");
