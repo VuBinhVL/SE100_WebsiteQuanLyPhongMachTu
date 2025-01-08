@@ -4,12 +4,15 @@ import { IoIosSearch } from "react-icons/io";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import AddMedicine from "../AddMedicine/AddMedicine";
 
 import "./MedicineManagement.css";
 
 export default function MedicineManagement() {
   const [listThuoc, setListThuoc] = useState([]); //Lưu trữ danh sách thuốc
   const [dataSearch, setDataSearch] = useState(""); //Phục vụ tìm kiếm thuốc
+  const [isModalOpen, setIsModalOpen] = useState(false); //Phục vụ cho việc mở view thêm thuốc
+
   // Lấy danh sách thuốc
   useEffect(() => {
     const uri = "/api/admin/quan-li-thuoc";
@@ -38,9 +41,8 @@ export default function MedicineManagement() {
     item.tenThuoc.toLowerCase().includes(dataSearch)
   );
 
-  //Xử lý hiển thị popup thêm
   const handleAdd = () => {
-    alert("Đã vào nút thêm");
+    setIsModalOpen(true); // Mở view thêm thuốc
   };
 
   //Xử lý nút xóa
@@ -143,6 +145,8 @@ export default function MedicineManagement() {
             </nav>
           </div>
         </div>
+        {/* Hiển thị popup view thêm thuốc */}
+        {isModalOpen && <AddMedicine onClose={() => setIsModalOpen(false)} />}
       </div>
     </>
   );
