@@ -65,7 +65,7 @@ export default function MainRoutes() {
           <Route path="parameter" element={<Parameter />} />
         </Route>
         {/* Layout Nhân viên */}
-        <Route path="/Staff" element={<LayoutStaff />}>
+        <Route path="/staff" element={<LayoutStaff />}>
           <Route index element={<Patient />} />
           <Route path="appointment" element={<Appointment />} />
           <Route path="medicalshiftOfStaff" element={<MedicalshiftOfStaff />} />
