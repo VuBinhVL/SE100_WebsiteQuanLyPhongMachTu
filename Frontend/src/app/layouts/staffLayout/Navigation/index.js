@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import "./NavigationOfStaff.css";
 import { FaUser } from "react-icons/fa";
-import { LiaBookSolid } from "react-icons/lia";
-import { GiMedicines } from "react-icons/gi";
-import { FaClipboardList } from "react-icons/fa";
-import { RxDashboard } from "react-icons/rx";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
-import { FaShieldVirus } from "react-icons/fa6";
-import { GiMedicinePills } from "react-icons/gi";
-import { IoSettings } from "react-icons/io5";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { LiaBookSolid } from "react-icons/lia";
 import { NavLink } from "react-router-dom";
+import { FaClipboardList } from "react-icons/fa";
+import "./NavigationOfStaff.css";
 export default function NavigationOfStaff() {
   const [checkClick, setCheckClick] = useState(false);
   const handleCheckClick = () => {
@@ -38,8 +32,18 @@ export default function NavigationOfStaff() {
                 aria-current="page"
                 end
               >
-                <LiaBookSolid className="fs-4 icon-examination icon" />
-                <span className="ms-3">Patients</span>
+                <FaUser className="fs-4 icon-patient icon" />
+                <span className="ms-3">Quản lý bệnh nhân</span>
+              </NavLink>
+            </li>
+            <li className="nav-item text-black fs-5 py-2 py-sm-0">
+              <NavLink
+                to="ExaminationForm"
+                className="nav-link d-flex align-items-center text-black fs-5 my-2"
+                aria-current="page"
+              >
+                <FaClipboardList className="fs-5 icon-medicalExaminationForm icon" />
+                <span className="ms-4">Quản lý phiếu khám bệnh</span>
               </NavLink>
             </li>
             <li className="nav-item text-black fs-5 py-2 py-sm-0">
@@ -51,8 +55,8 @@ export default function NavigationOfStaff() {
                 aria-expanded={checkClick}
                 onClick={handleCheckClick}
               >
-                <FaUser className="fs-5 icon" />
-                <span className="ms-4">Medical Shifts</span>
+                <LiaBookSolid className="fs-4 icon-examination icon" />
+                <span className="ms-4">Quản lý ca khám</span>
                 <span className="iconArrowRight">
                   {checkClick === true ? (
                     <IoIosArrowDown />
@@ -61,34 +65,35 @@ export default function NavigationOfStaff() {
                   )}
                 </span>
               </a>
-              <div className={`collapse ${checkClick ? "show" : "hide"}`} id="collapseExample">
+              <div
+                className={`collapse ${checkClick ? "show" : "hide"}`}
+                id="collapseExample"
+              >
                 <div className="card card-body">
                   <div className="listUsers d-flex flex-column ">
                     <NavLink
-                      to="medicalshiftOfStaff"
+                      to="examination-management"
                       className="itemStaffs itemOfListUsers my-2 py-2"
                     >
                       <span>
                         <GoDotFill className="icon_Bullet_point" />
                       </span>
-                      Medical Shifts
+                      Xem ca khám
                     </NavLink>
 
                     <NavLink
-                      to="appointment"
+                      to="examination-register"
                       className="itemPatiens itemOfListUsers my-2 py-2 "
                     >
                       <span>
                         <GoDotFill className="icon_Bullet_point" />
                       </span>
-                      Appointment
+                      Đăng ký ca khám
                     </NavLink>
                   </div>
                 </div>
               </div>
             </li>
-
-
           </ul>
         </div>
       </div>
