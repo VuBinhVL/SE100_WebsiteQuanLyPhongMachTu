@@ -108,12 +108,9 @@
   margin-right: 16px;
 }
 
-.examination-register .list_Action .icon_Lock {
-  color: #ffc107;
-}
-
-.examination-register .list_Action .icon_delete {
-  color: #e34724;
+.examination-register .list_Action .icon-register {
+  color: #348f6c;
+  font-size: 20px;
 }
 
 /* CSS cho checkbox */

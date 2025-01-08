@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./ExaminationRegister.css";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoMdPersonAdd } from "react-icons/io";
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
+import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import { showYesNoMessageBox } from "../../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox";
 import DetailExamination from "../DetailExamination/DetailExamination";
-import { fetchGet } from "../../../../lib/httpHandler";
+import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
 
 export default function ExaminationRegister() {
   const [listShift, setListShift] = useState([]); // Lưu danh sách ca khám
@@ -76,6 +79,31 @@ export default function ExaminationRegister() {
 
     return matchNgayKham && matchLoaiBenh && matchKhungGio && matchChuaDangKy;
   });
+
+  //Đăng ký ca khám
+  const handleRegister = async (id) => {
+    const data = {
+      caKhamId: id,
+    };
+    const result = await showYesNoMessageBox(
+      "Bạn có muốn đăng ký ca khám này không?"
+    );
+    if (result) {
+      //Gọi API để đăng ký
+      fetchPut(
+        `/api/admin/quan-li-ca-kham/dang-ky-ca-kham`,
+        data,
+        (response) => {
+          showSuccessMessageBox(response.message);
+        },
+        (err) => {
+          showErrorMessageBox(err.message);
+        },
+        () => showErrorMessageBox("Máy chủ mất kết nối")
+      );
+    } else {
+    }
+  };
 
   return (
     <div className="examination-register">
@@ -184,6 +212,10 @@ export default function ExaminationRegister() {
                         item={item}
                         setListShift={setListShift}
                         listShift={listShift}
+                      />
+                      <IoMdPersonAdd
+                        className="icon-register"
+                        onClick={() => handleRegister(item.id)} // Truyền id của item vào hàm handleDelete
                       />
                     </div>
                   </td>
