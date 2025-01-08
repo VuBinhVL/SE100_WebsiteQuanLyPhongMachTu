@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchGet } from "../../../../lib/httpHandler";
+import { fetchGet, fetchDelete } from "../../../../lib/httpHandler";
 import { IoIosSearch } from "react-icons/io";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -7,6 +7,9 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import AddMedicine from "../AddMedicine/AddMedicine";
 
 import "./MedicineManagement.css";
+import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
+import { showDeleteMessageBox } from "../../../../components/MessageBox/DeleteMesssageBox/showDeleteMessageBox";
 
 export default function MedicineManagement() {
   const [listThuoc, setListThuoc] = useState([]); //Lưu trữ danh sách thuốc
@@ -46,8 +49,22 @@ export default function MedicineManagement() {
   };
 
   //Xử lý nút xóa
-  const handleDelete = () => {
-    alert("Đã vào nút xóa");
+  const handleDelete = (id) => {
+    showDeleteMessageBox("Bạn có muốn xóa thuốc này không", () => {
+      //Gọi API để xóa thuốc
+      fetchDelete(
+        `/api/admin/quan-li-thuoc/delete?id=${id}`,
+        "",
+        (response) => {
+          showSuccessMessageBox(response.message);
+          setListThuoc((prevList) => prevList.filter((item) => item.id !== id));
+        },
+        (err) => {
+          showErrorMessageBox(err.messsage);
+        },
+        () => showErrorMessageBox("Máy chủ mất kết nối")
+      );
+    });
   };
 
   //Xử lý nút detail
@@ -106,7 +123,7 @@ export default function MedicineManagement() {
                           />
                           <MdDelete
                             className="icon-delete"
-                            onClick={handleDelete}
+                            onClick={() => handleDelete(item.id)} // Truyền id của item vào hàm handleDelete
                           />
                         </div>
                       </td>
@@ -114,7 +131,7 @@ export default function MedicineManagement() {
                   ))}
               </tbody>
             </table>
-            <nav className="contain_pagination">
+            {/* <nav className="contain_pagination">
               <ul className="pagination">
                 <li className="page-item">
                   <a className="page-link page-link-two" href="#">
@@ -142,7 +159,7 @@ export default function MedicineManagement() {
                   </a>
                 </li>
               </ul>
-            </nav>
+            </nav> */}
           </div>
         </div>
         {/* Hiển thị popup view thêm thuốc */}
