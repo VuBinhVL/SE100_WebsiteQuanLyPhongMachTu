@@ -1,0 +1,146 @@
+.medicine-management .title {
+  color: #348f6c;
+  font-weight: 500;
+}
+
+.medicine-management .search {
+  height: 40px;
+}
+
+.medicine-management .contain_Search {
+  position: absolute;
+  display: inline-block;
+}
+
+.medicine-management .contain_Search .search {
+  width: 100%;
+  border: 1px solid grey;
+}
+
+.medicine-management .contain_Search .icon_search {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  font-size: 20px;
+}
+
+.medicine-management .filter {
+  height: 40px;
+}
+
+.medicine-management .Add {
+  height: 40px;
+  border: none;
+  background-color: #348f6c;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.medicine-management .row .contain_Table {
+  padding: 0 10px;
+}
+
+.medicine-management .row .contain_Table .table {
+  margin-bottom: 100px;
+}
+
+.medicine-management .row .contain_Table .contain_pagination {
+  display: flex;
+  justify-content: end;
+}
+
+.medicine-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .page-item
+  .page-link:focus {
+  color: #ffffff;
+  background-color: #348f6c;
+  border-color: #348f6c;
+  box-shadow: none;
+}
+
+.medicine-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .active
+  > .page-link {
+  background-color: #348f6c;
+  border-color: #348f6c;
+}
+
+.medicine-management
+  .row
+  .contain_Table
+  .contain_pagination
+  .page-item
+  .page-link-two:focus {
+  color: var(--bs-pagination-color);
+  background-color: #ffffff;
+}
+
+/* CSS cho phần nút trong danh sách */
+.medicine-management .list_action {
+  display: flex;
+  gap: 10px; /* Khoảng cách giữa các nút */
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.medicine-management .icon-detail,
+.medicine-management .icon-delete {
+  font-size: 24px; /* Kích thước chung cho biểu tượng */
+  cursor: pointer; /* Hiển thị biểu tượng bàn tay khi hover */
+  transition: transform 0.2s ease, color 0.2s ease; /* Hiệu ứng hover */
+}
+
+.medicine-management .icon-detail {
+  color: #007bff; /* Màu xanh cho nút chi tiết */
+}
+
+.medicine-management .icon-delete {
+  color: #dc3545; /* Màu đỏ cho nút xóa */
+}
+
+/* Hiệu ứng khi hover */
+.medicine-management .icon-detail:hover {
+  color: #0056b3; /* Đậm hơn khi hover */
+  transform: scale(1.2); /* Phóng to nhẹ khi hover */
+}
+
+.medicine-management .icon-delete:hover {
+  color: #b52a37; /* Đậm hơn khi hover */
+  transform: scale(1.2); /* Phóng to nhẹ khi hover */
+}
+
+/* CSS cho nút thêm */
+.button_add {
+  display: inline-flex; /* Đặt thành flex để căn chỉnh icon và chữ */
+  align-items: center; /* Căn giữa icon và chữ theo chiều dọc */
+  gap: 8px; /* Khoảng cách giữa icon và chữ */
+  background-color: #33b884; /* Màu nền */
+  color: #ffffff; /* Màu chữ */
+  font-size: 16px; /* Kích thước chữ */
+  font-weight: 500; /* Độ dày chữ */
+  padding: 5px 20px; /* Khoảng cách bên trong nút */
+  border: none; /* Loại bỏ viền */
+  border-radius: 8px; /* Bo góc */
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+}
+
+.icon-add {
+  font-size: 20px; /* Kích thước của icon */
+}
+
+.medicine-management .icon-add {
+  font-size: 20px; /* Kích thước của icon */
+}
+
+/* Hiệu ứng khi hover */
+.medicine-management .button_add:hover {
+  background-color: #1c7a56; /* Màu nền đậm hơn khi hover */
+  transform: translateY(-2px); /* Nhấc nút lên nhẹ khi hover */
+}
