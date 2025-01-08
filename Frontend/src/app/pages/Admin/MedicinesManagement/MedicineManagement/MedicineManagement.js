@@ -38,7 +38,7 @@ export default function MedicineManagement() {
   };
   // Lọc danh sách thuốc
   const filteredThuoc = listThuoc.filter((item) =>
-    item.tenThuoc.toLowerCase().includes(dataSearch)
+    item.tenThuoc?.toLowerCase().includes(dataSearch)
   );
 
   const handleAdd = () => {
@@ -96,8 +96,8 @@ export default function MedicineManagement() {
                     <tr key={item.id}>
                       <td>{index + 1}</td>
                       <td>{item.tenThuoc}</td>
-                      <td>{item.soLuongTon}</td>
-                      <td>{item.giaNhap}</td>
+                      <td>{item.soLuongTon || item.soLuong}</td>
+                      <td>{item.giaNhap || item.donGia}</td>
                       <td>
                         <div className="list_action">
                           <IoIosInformationCircleOutline
@@ -146,7 +146,14 @@ export default function MedicineManagement() {
           </div>
         </div>
         {/* Hiển thị popup view thêm thuốc */}
-        {isModalOpen && <AddMedicine onClose={() => setIsModalOpen(false)} />}
+        {isModalOpen && (
+          <AddMedicine
+            onClose={() => setIsModalOpen(false)}
+            onAddMedicine={(newMedicine) => {
+              setListThuoc((prevList) => [...prevList, newMedicine]); // Thêm thuốc mới vào danh sách
+            }}
+          />
+        )}
       </div>
     </>
   );

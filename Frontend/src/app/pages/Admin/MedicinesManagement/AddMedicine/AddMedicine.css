@@ -105,8 +105,8 @@
 }
 
 .modal-overlay-add-medicine .inner-image {
-  width: 120px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   border: 2px solid #ccc;
   object-fit: cover; /* Đảm bảo ảnh lấp đầy khung tròn mà không bị méo */
   display: flex;
@@ -115,6 +115,23 @@
   margin-left: 10px;
   margin-bottom: 20px;
   overflow: hidden; /* Đảm bảo chỉ hiển thị phần nội dung nằm trong khung tròn */
+  background-color: #f8f8f8; /* Màu nền cho ảnh khi chưa có nội dung */
+}
+/* Input chọn ảnh (ẩn input gốc) */
+.modal-overlay-add-medicine #upload-avatar {
+  display: none;
+}
+
+.modal-overlay-add-medicine .change-photo {
+  display: inline-block;
+  background-color: #348f6c; /* Màu nền */
+  color: #ffffff; /* Màu chữ */
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px; /* Bo góc nút */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 /* Modal footer */
