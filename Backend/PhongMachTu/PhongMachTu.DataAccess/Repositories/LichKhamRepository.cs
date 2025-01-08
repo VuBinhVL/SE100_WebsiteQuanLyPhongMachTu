@@ -32,7 +32,7 @@ namespace PhongMachTu.DataAccess.Repositories
                 .Where(ck => ck.CaKhamId == CaKhamId)
                 .Select(ck => new LichKhamDTO
                 {
-               
+                    Id = ck.Id,
                     STT = ck.SoThuTu, 
                     TenBenhNhan = ck.BenhNhan.HoTen, 
                     TenTrangThai = ck.TrangThaiLichKham.TenTrangThai,
