@@ -1,0 +1,201 @@
+/* Modal overlay */
+.modal-overlay-detail-medicine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal container */
+.modal-overlay-detail-medicine .modal-container {
+  width: 80%;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+  padding: 20px;
+  position: relative;
+}
+
+/* Modal header */
+.modal-overlay-detail-medicine .modal-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-overlay-detail-medicine .modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-overlay-detail-medicine .modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Modal body */
+.modal-overlay-detail-medicine .modal-body {
+  display: flex;
+  gap: 20px; /* Khoảng cách giữa form và ảnh */
+}
+
+.modal-overlay-detail-medicine .form-container {
+  display: flex;
+  flex-direction: column;
+  width: 72%; /* Tăng độ rộng form */
+}
+
+/* Phần nhập thông tin */
+.modal-overlay-detail-medicine .form-group {
+  display: flex;
+  align-items: center; /* Căn giữa label và input theo chiều dọc */
+  justify-content: space-between; /* Tách label và input sang hai phía */
+  gap: 10px; /* Khoảng cách giữa label và input */
+  margin-bottom: 15px; /* Khoảng cách giữa các nhóm form */
+}
+
+/* Nhãn */
+.modal-overlay-detail-medicine .form-group label {
+  font-weight: bold; /* Nhấn mạnh chữ label */
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-overlay-detail-medicine .form-group input,
+.modal-overlay-detail-medicine .form-group select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  width: 70%;
+}
+
+/* Phần nhập liệu */
+.modal-overlay-detail-medicine .form-group input:focus,
+.modal-overlay-detail-medicine .form-group select:focus {
+  border-color: #007bff;
+}
+
+/* Container chứa ảnh */
+.modal-overlay-detail-medicine .image-container {
+  display: flex;
+  justify-content: center; /* Căn giữa ảnh theo chiều ngang */
+  align-items: center; /* Căn giữa ảnh theo chiều dọc */
+  flex-direction: column; /* Đảm bảo các phần tử bên trong xếp theo cột */
+  gap: 10px; /* Khoảng cách giữa ảnh và nút */
+}
+
+.modal-overlay-detail-medicine .inner-image {
+  width: 140px;
+  height: 140px;
+  border: 2px solid #ccc;
+  object-fit: cover; /* Đảm bảo ảnh lấp đầy khung tròn mà không bị méo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  overflow: hidden; /* Đảm bảo chỉ hiển thị phần nội dung nằm trong khung tròn */
+  background-color: #f8f8f8; /* Màu nền cho ảnh khi chưa có nội dung */
+}
+/* Input chọn ảnh (ẩn input gốc) */
+.modal-overlay-detail-medicine #upload-avatar {
+  display: none;
+}
+
+.modal-overlay-detail-medicine .change-photo {
+  display: inline-block;
+  background-color: #348f6c; /* Màu nền */
+  color: #ffffff; /* Màu chữ */
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px; /* Bo góc nút */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Modal footer */
+.modal-overlay-detail-medicine .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-overlay-detail-medicine .btn-cancel,
+.modal-overlay-detail-medicine .btn-accept,
+.modal-overlay-detail-medicine .btn-edit {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Nút hủy */
+.modal-overlay-detail-medicine .btn-cancel {
+  background-color: #d51f2a;
+  border: 1px solid #d51f2a;
+  width: 125px;
+  color: #ffffff;
+}
+
+.modal-overlay-detail-medicine .btn-cancel:hover {
+  background-color: rgb(226, 0, 23);
+}
+
+/* Nút Lưu */
+.modal-overlay-detail-medicine .btn-accept {
+  background-color: #348f6c;
+  border: 1px solid #348f6c;
+  width: 125px;
+  color: #ffffff;
+}
+
+.modal-overlay-detail-medicine .btn-accept:hover {
+  background-color: #12a66d;
+}
+
+/* CSS cho nút sửa */
+.modal-overlay-detail-medicine .btn-edit {
+  width: 125px;
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.modal-overlay-detail-medicine .btn-edit:hover {
+  background-color: #e0a800;
+}
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
