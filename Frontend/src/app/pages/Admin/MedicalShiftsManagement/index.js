@@ -3,7 +3,7 @@ import { IoIosSearch } from "react-icons/io";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchGet } from "../../../lib/httpHandler";
-import { formatDate } from "../../../utils/FormatDate/FormatDate.js";
+import { formatDate } from "../../../utils/FormatDate/formatDate.js";
 import "./MedicalShift.css";
 import AddShift from "../../../components/Admin/ShiftManagement/AddShift/AddShift";
 import { FaCalendarAlt } from "react-icons/fa";
@@ -24,9 +24,8 @@ export default function MedicalShift() {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return `${year}-${month < 10 ? `0${month}` : month}-${
-      day < 10 ? `0${day}` : day
-    }`;
+    return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day
+      }`;
   };
   const [daySearch, setDaySearch] = useState(getCurrentDate());
   // hàm này dùng để khi load trang lên thì nó sẽ tự động search theo ngày hiện tại
