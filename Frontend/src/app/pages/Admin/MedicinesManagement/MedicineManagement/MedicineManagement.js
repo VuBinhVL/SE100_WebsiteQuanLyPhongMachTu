@@ -28,6 +28,16 @@ export default function MedicineManagement() {
     );
   }, []);
 
+  //Tìm kiếm
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase(); // Chuyển chuỗi thành chữ thường để so sánh không phân biệt hoa thường
+    setDataSearch(value);
+  };
+  // Lọc danh sách thuốc
+  const filteredThuoc = listThuoc.filter((item) =>
+    item.tenThuoc.toLowerCase().includes(dataSearch)
+  );
+
   //Xử lý hiển thị popup thêm
   const handleAdd = () => {
     alert("Đã vào nút thêm");
@@ -48,14 +58,14 @@ export default function MedicineManagement() {
     <>
       <div className="medicine-management">
         <div className="title py-3 fs-5 mb-2">
-          Số lượng thuốc: {listThuoc.length}
+          Số lượng thuốc: {filteredThuoc.length}
         </div>
         <div className="row mx-0 my-0">
           <div className="col-12 pb-4 px-0 d-flex justify-content-between align-items-center mb-2">
             <div className="d-flex align-items-center col-10">
               <div className="contain_Search position-relative col-4 me-3">
                 <input
-                  //onChange={handleSearch}
+                  onChange={handleSearch}
                   value={dataSearch}
                   className="search rounded-2 px-3"
                   placeholder="Nhập tên thuốc muốn tìm"
@@ -79,9 +89,8 @@ export default function MedicineManagement() {
                 </tr>
               </thead>
               <tbody>
-                {listThuoc &&
-                  listThuoc.length > 0 &&
-                  listThuoc.map((item, index) => (
+                {filteredThuoc.length > 0 &&
+                  filteredThuoc.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
                       <td>{item.tenThuoc}</td>
