@@ -22,7 +22,7 @@ namespace PhongMachTu.Common.MyMiddlewares
 
         public async Task Invoke(HttpContext context, TokenStore tokenStore)
         {
-            if(context.User.Identity?.IsAuthenticated==false)
+            if(context.User.Identity?.IsAuthenticated==false || context.Request.Path.ToString()=="/api/login")
             {
                 await _next(context);
                 return;

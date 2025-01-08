@@ -25,7 +25,7 @@ namespace PhongMachTu.Service
         Task<IEnumerable<NguoiDung>> GetAllAsync();
         Task<ResponeMessage> DeleteBenhNhanByIdAsync(int? id);
         Task<NguoiDung> GetBenhNhanByIdAsync(int? id);
-        Task<ResponeMessage> LockAccountBenhNhanAsync(int id);
+        Task<ResponeMessage> LockAccountBenhNhanAsync(Request_LockAccountDTO data);
     }
 
     public class BenhNhanService : IBenhNhanService
@@ -246,16 +246,21 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Sửa thông tin bệnh nhân thành công");
         }
 
-        public async Task<ResponeMessage> LockAccountBenhNhanAsync(int id)
+        public async Task<ResponeMessage> LockAccountBenhNhanAsync(Request_LockAccountDTO data)
         {
-            var findBenhNhan = await _nguoiDungRepository.GetSingleByIdAsync(id);
+            var findBenhNhan = await _nguoiDungRepository.GetSingleByIdAsync(data.Id);
             if(findBenhNhan==null || findBenhNhan.VaiTroId != Const_VaiTro.VaiTro_Benh_NhanId)
             {
                 return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy bệnh nhân đã chọn");
             }
-            findBenhNhan.IsLock= true;
+            findBenhNhan.IsLock= data.IsLock;
+            string content = "Khóa tài khoản bệnh nhân thành công";
+            if (!data.IsLock)
+            {
+                content = "Mở khóa tài khoản bệnh nhân thành công";
+            }
             await _unitOfWork.CommitAsync();
-            return new ResponeMessage(HttpStatusCode.Ok,"Khóa tài khoản bệnh nhân thành công");
+            return new ResponeMessage(HttpStatusCode.Ok, content);
         }
     }
 }

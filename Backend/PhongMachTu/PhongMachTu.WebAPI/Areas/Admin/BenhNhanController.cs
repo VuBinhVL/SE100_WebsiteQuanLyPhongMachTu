@@ -99,7 +99,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             try
             {
-                var rs = await _benhNhanService.LockAccountBenhNhanAsync(data.Id);
+                var rs = await _benhNhanService.LockAccountBenhNhanAsync(data);
                 return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
             }
             catch (Exception ex)
