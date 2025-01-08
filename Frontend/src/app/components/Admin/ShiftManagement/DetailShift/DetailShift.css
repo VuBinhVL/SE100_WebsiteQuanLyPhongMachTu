@@ -48,7 +48,7 @@
     font-weight: 600;
 }
 
-.detailShift .icon_information {
+.icon_information {
     color: #03A9F4;
 }
 
@@ -65,4 +65,8 @@
     padding: 0.35rem;
     color: #FFFFFF;
     border-radius: 6px;
+}
+
+.detailShift .contain_Edit {
+    margin-left: 112px;
 }

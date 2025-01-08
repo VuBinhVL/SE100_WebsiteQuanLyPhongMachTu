@@ -56,8 +56,6 @@ export default function AddShift(props) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // loại bỏ khoảng trắng ở đầu và cuối của tên ca khám
-    dataForm.tenCaKham = dataForm.tenCaKham.trim();
     const { tenCaKham, khungGio, ngayKham, soLuongBenhNhanToiDa, nhomBenhId } =
       dataForm;
 
@@ -72,6 +70,8 @@ export default function AddShift(props) {
       showErrorMessageBox("Please fill in all the required fields!");
       return;
     }
+    // loại bỏ khoảng trắng ở đầu và cuối của tên ca khám
+    dataForm.tenCaKham = dataForm.tenCaKham.trim();
     // tên ca khám phải là buổi sáng hoặc buổi chiều
     const validShifts = ["buổi sáng", "buổi chiều"];
     if (!validShifts.includes(tenCaKham.trim().toLowerCase())) {

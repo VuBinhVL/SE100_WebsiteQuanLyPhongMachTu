@@ -6,6 +6,8 @@ import { MdAddCircle } from "react-icons/md";
 import { fetchGet } from "../../../../lib/httpHandler";
 import { IoIosSearch } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import DetailAppointment from "../DetailAppointment/DetailAppointment";
+import * as bootstrap from 'bootstrap';
 export default function ListAppointment(props) {
     const { item } = props;
     const idModal = `idModal${item.id}`;
@@ -13,15 +15,33 @@ export default function ListAppointment(props) {
     const [listAppoinment, setListAppoinment] = useState([]);
     const [listAppoinmentShow, setListAppoinmentShow] = useState([]);
     const [dataSearch, setDataSearch] = useState("");
-    const [listSpecialization, setListSpecialization] = useState([]);
-    const [filterSpecialization, setFilterSpecialization] = useState("DEFAULT");
+    const [listStatus, setListStatus] = useState([]);
+    const [filterStatus, setFilterStatus] = useState("DEFAULT");
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
     // Lấy danh sách lịch khám
     useEffect(() => {
-        const uri = "/api/admin/quan-li-lich-kham";
+        const uri = `/api/admin/quan-li-lich-kham?CaKhamId=${item.id}`;
         fetchGet(
             uri,
             (sus) => {
                 setListAppoinment(sus);
+
+            },
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
+            }
+        );
+    }, []);
+    // Lấy danh sách trạng thái
+    useEffect(() => {
+        const uri = "/api/admin/quan-li-lich-kham/trang-thai-lich-kham";
+        fetchGet(
+            uri,
+            (sus) => {
+                setListStatus(sus);
 
             },
             (fail) => {
@@ -43,12 +63,12 @@ export default function ListAppointment(props) {
     const handleSearch = (e) => {
         const value = e.target.value;
         setDataSearch(value);
-        applyFilterAndSearch(value, filterSpecialization);
+        applyFilterAndSearch(value, filterStatus);
     };
     // Hàm xử lý lọc
     const handleFilter = (e) => {
         const value = e.target.value;
-        // setFilterSpecialization(value);
+        setFilterStatus(value);
         applyFilterAndSearch(dataSearch, value);
     };
 
@@ -59,27 +79,35 @@ export default function ListAppointment(props) {
         // Lọc theo chuyên môn
         if (filterValue !== "DEFAULT" && filterValue !== "Tất cả") {
             filteredList = filteredList.filter(
-                (item) => item.chuyenMon.tenNhomBenh === filterValue
+                (item) => item.tenTrangThai === filterValue
             );
         }
-
-        // Tìm kiếm theo họ tên hoặc số điện thoại
+        // console.log(">>>>>>>>>>>check searchValue", searchValue);
+        // console.log(">>>>>>>>>>>check filteredList", filteredList);
+        // Tìm kiếm theo họ tên hoặc số thứ tự
         if (searchValue.trim()) {
             const lowercasedSearch = searchValue.toLowerCase();
+
             filteredList = filteredList.filter(
                 (item) =>
-                    item.hoTen.toLowerCase().includes(lowercasedSearch) ||
-                    item.soDienThoai.includes(lowercasedSearch)
+                    item.tenBenhNhan.toLowerCase().includes(lowercasedSearch) ||
+                    String(item.stt) === lowercasedSearch.trim()
             );
         }
 
         setListAppoinmentShow(filteredList);
     };
+    const handleOpenDetailAppointment = async (appointment) => {
+        await setSelectedAppointment(appointment);
+        const detailModal = new bootstrap.Modal(document.getElementById(`detailAppointmentModal_${appointment.id}`));
+        detailModal.show();
+    };
+    console.log(">>>>>>>>>>>check listAppointment", listAppoinment);
     return (
         <>
             {/* <!-- Button trigger modal --> */}
             <a href="#" className="contain_icon_listPointment" title="List Apppoinment">
-                <IoArrowForwardCircleOutline className="icon_listPointment  me-2" data-bs-toggle="modal" data-bs-target={idspecificModal} />
+                <IoArrowForwardCircleOutline className="icon_listPointment me-3" data-bs-toggle="modal" data-bs-target={idspecificModal} />
             </a>
             {/* <!-- Modal --> */}
             <div className="listPointment modal fade" id={idModal} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -105,8 +133,8 @@ export default function ListAppointment(props) {
                                         <option value="DEFAULT" hidden disabled>Filter by Status</option>
                                         <option value="Tất cả">Tất cả</option>
                                         {
-                                            listAppoinmentShow && listAppoinmentShow.length > 0 && listAppoinmentShow.map((item, index) => (
-                                                <option key={index} value={item.stt}>{item.stt}</option>
+                                            listStatus && listStatus.length > 0 && listStatus.map((item, index) => (
+                                                <option key={item.id} value={item.tenTrangThai}>{item.tenTrangThai}</option>
                                             ))
                                         }
                                     </select>
@@ -134,7 +162,10 @@ export default function ListAppointment(props) {
                                                 <td>{"Không có"}</td>
                                                 <td>
                                                     <div className="list_Action">
-                                                        <GrCircleInformation className="icon_Action" title="Detail" />
+                                                        <a href="#" onClick={() => handleOpenDetailAppointment(item)}>
+                                                            <GrCircleInformation className="icon_information icon_action" />
+                                                        </a>
+
                                                         <MdAddCircle />
                                                     </div>
                                                 </td>
@@ -176,6 +207,10 @@ export default function ListAppointment(props) {
                     </div>
                 </div>
             </div>
+            {/* Modal Detail Appointment */}
+            {selectedAppointment && (
+                <DetailAppointment appointment={selectedAppointment} />
+            )}
         </>
     );
 }
