@@ -1,15 +1,16 @@
+// piechart.js
 import React from 'react';
 import { PieChart as RePieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF'];
 
-const PieChart = ({ data }) => {
+const PieChart = ({ data, colors }) => {
   return (
     <RePieChart width={400} height={400}>
       <Pie
         data={data}
-        dataKey="value"
-        nameKey="name"
+        dataKey="phanTram" // Sử dụng phanTram như dataKey
+        nameKey="tenThuoc" // Sử dụng tenThuoc như nameKey
         cx="50%"
         cy="50%"
         outerRadius={150}
@@ -17,7 +18,7 @@ const PieChart = ({ data }) => {
         label
       >
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
         ))}
       </Pie>
       <Tooltip />

@@ -1,3 +1,4 @@
+// barChart.js
 import React from 'react';
 import { BarChart as ReBarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
@@ -14,11 +15,12 @@ const BarChart = ({ data, color }) => {
         bottom: 5,
       }}
     >
-      <XAxis dataKey="disease" />
+      <XAxis dataKey="tenBenhLy" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="count" fill={color || '#8884d8'} />
+      <Bar dataKey="soLuongBenhNhan" fill={color || '#8884d8'}
+       name="Số lượng bệnh nhân" /> 
     </ReBarChart>
   );
 };
