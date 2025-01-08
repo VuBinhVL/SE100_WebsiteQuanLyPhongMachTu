@@ -96,12 +96,11 @@ export default function MedicalExamList() {
       body,
       (sus) => {
         // Xử lý khi đăng ký thành công
-        showSuccessMessageBox(sus.message);
+        showSuccessMessageBox(sus);
       },
       (err) => {
-        console.log(err.message);
         // Xử lý khi có lỗi xảy ra
-        showErrorMessageBox(err.message);
+        showErrorMessageBox(err);
       },
       () => {
         // Xử lý khi không thể kết nối đến server

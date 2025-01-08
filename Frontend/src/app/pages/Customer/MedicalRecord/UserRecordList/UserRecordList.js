@@ -16,11 +16,10 @@ export default function UserRecordList() {
     fetchGet(
       uri,
       (data) => {
-        console.log(data);
         setrecordList(data);
       },
       (error) => {
-        showErrorMessageBox(error.message);
+        console.log("Không có hồ sơ bệnh án", error.messsage);
       },
       () => {
         showErrorMessageBox("Lỗi kết nối đến máy chủ");

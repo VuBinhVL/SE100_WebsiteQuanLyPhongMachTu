@@ -7,7 +7,6 @@ import DashBoard from "../pages/Admin/DashBoard";
 import Patien from "../pages/Admin/UsersManagement/Patiens";
 import ExaminationForm from "../pages/Admin/ExaminationFormsManagement";
 import MedicalShift from "../pages/Admin/MedicalShiftsManagement";
-import Medicine from "../pages/Admin/MedicinesManagement";
 import CustomerHome from "../pages/Customer/CustomerHome";
 import Doctor from "../pages/Customer/Doctor";
 import Register from "../pages/Other/Register/Register";
@@ -23,6 +22,7 @@ import InformationManagement from "../pages/Admin/InformationManagement/Informat
 import Parameter from "../pages/Admin/ParameterManagement";
 import DiseaseGroup from "../pages/Admin/DiseaseGroupManagement";
 import MedicineGroup from "../pages/Admin/MedicineGroupManagement";
+import MedicineManagement from "../pages/Admin/MedicinesManagement/MedicineManagement";
 
 export default function MainRoutes() {
   return (
@@ -50,7 +50,7 @@ export default function MainRoutes() {
           <Route path="patien" element={<Patien />} />
           <Route path="examinationform" element={<ExaminationForm />} />
           <Route path="medicalshift" element={<MedicalShift />} />
-          <Route path="medicine" element={<Medicine />} />
+          <Route path="medicine" element={<MedicineManagement />} />
           <Route
             path="information-management"
             element={<InformationManagement />}

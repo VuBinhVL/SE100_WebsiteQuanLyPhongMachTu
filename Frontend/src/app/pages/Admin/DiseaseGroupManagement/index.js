@@ -38,10 +38,8 @@ export default function DiseaseGroup() {
     // Tìm kiếm theo họ tên hoặc số điện thoại
     if (searchValue.trim()) {
       const lowercasedSearch = searchValue.toLowerCase();
-      filteredList = filteredList.filter(
-        (item) =>
-          item.hoTen.toLowerCase().includes(lowercasedSearch) ||
-          item.soDienThoai.includes(lowercasedSearch)
+      filteredList = filteredList.filter((item) =>
+        item.tenNhomBenh.toLowerCase().includes(lowercasedSearch)
       );
     }
     setlistDiseaseGroupShow(filteredList);
