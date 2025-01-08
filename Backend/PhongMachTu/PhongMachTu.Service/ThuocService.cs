@@ -65,7 +65,7 @@ namespace PhongMachTu.Service
 			{
 				Id = findThuoc.Id,
 				TenThuoc = findThuoc.TenThuoc,
-				Image = findThuoc.Images,
+				Images = findThuoc.Images,
 				SoLuongTon = findThuoc.SoLuongTon,
 				GiaNhap =  findThuoc.GiaNhap,
 				NgaySanXuat = findThuoc.NgaySanXuat,

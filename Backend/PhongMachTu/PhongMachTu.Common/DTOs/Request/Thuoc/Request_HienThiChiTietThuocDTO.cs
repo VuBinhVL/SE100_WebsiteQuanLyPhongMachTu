@@ -10,7 +10,7 @@ namespace PhongMachTu.Common.DTOs.Request.Thuoc
     {
         public int Id { get; set; }
         public string TenThuoc  { get; set; }
-        public string? Image { get; set; }
+        public string? Images { get; set; }
         public int SoLuongTon { get; set; }
         public int GiaNhap { get; set; }
         public DateTime NgaySanXuat { get; set; }
