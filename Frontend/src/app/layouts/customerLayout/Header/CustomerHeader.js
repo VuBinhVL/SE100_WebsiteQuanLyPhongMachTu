@@ -31,6 +31,10 @@ export default function CustomerHeader() {
     fetchGet(
       uri,
       (data) => {
+        if (data.image === "no_img.png") {
+          data.image =
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjT_C1CiFUhnOHmAO4XmgiCvnn36NGG2YLw&s";
+        }
         setImage(data.image || ""); // Gán ảnh đại diện nếu có
       },
       (error) => {

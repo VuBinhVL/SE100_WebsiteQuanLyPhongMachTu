@@ -6,11 +6,17 @@ import Button from "../../../components/Customer/Account/AccountButton"; // Comp
 import ChangePassword from "../../Customer/Account/ChangePassword/ChangePassword"; //  ChangePassword
 import { showErrorMessageBox } from "../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox"; // ErrorMessageBox
 import { showSuccessMessageBox } from "../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox"; // ErrorMessageBox
-import { fetchGet } from "../../../lib/httpHandler"; // API
+import {
+  fetchGet,
+  fetchUpload,
+  fetchPut,
+  BE_ENPOINT,
+} from "../../../lib/httpHandler"; // API
 
 export default function InformationManagement() {
   const [isEditing, setIsEditing] = useState(false); // Trạng thái chỉnh sửa
   const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái hiển thị popup
+  const [initialAvatar, setInitialAvatar] = useState(""); // Lưu giá trị avatar ban đầu từ API
   const [information, setInformation] = useState({
     hoTen: "",
     gioiTinh: "",
@@ -47,7 +53,7 @@ export default function InformationManagement() {
       uri,
       (data) => {
         console.log(data);
-        setAvatar(data.avatar || ""); // Gán ảnh đại diện nếu có
+        setAvatar(data.image || ""); // Gán ảnh đại diện nếu có
         setInformation({
           hoTen: data.hoTen || "",
           gioiTinh: data.gioiTinh || "",
@@ -82,7 +88,35 @@ export default function InformationManagement() {
   //Nút lưu thông tin
   const handleSave = () => {
     console.log("Thông tin đã được lưu!");
-    setIsEditing(false); // Quay lại trạng thái không chỉnh sửa
+
+    //Chuẩn bị data
+    const dataToSend = {
+      hoTen: information.hoTen,
+      gioiTinh: information.gioiTinh,
+      soDienThoai: information.soDienThoai,
+      ngaySinh: information.ngaySinh, // Chuyển ngày sinh về định dạng YYYY-MM-DD
+      email: information.email,
+      diaChi: information.diaChi,
+      image: avatar !== initialAvatar ? avatar : null, // Nếu avatar không thay đổi, đặt là null
+    };
+
+    const uri = "/api/update-info";
+    console.log(dataToSend);
+    //Gọi API cập nhật thông tin
+    fetchPut(
+      uri,
+      dataToSend,
+      (success) => {
+        showSuccessMessageBox("Cập nhật thông tin thành công!");
+        setIsEditing(false); // Thoát chế độ chỉnh sửa
+      },
+      (fail) => {
+        showErrorMessageBox(fail.message); // Thông báo lỗi từ server
+      },
+      () => {
+        showErrorMessageBox("Không thể kết nối đến server"); // Xử lý lỗi kết nối
+      }
+    );
   };
 
   //Mở popup đổi mật khẩu
@@ -93,6 +127,30 @@ export default function InformationManagement() {
   //Đóng popup đổi mật khẩu
   const handleClosePopup = () => {
     setIsPopupOpen(false); // Đóng popup
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    // Upload ảnh lên server
+    fetchUpload(
+      "/api/asset/upload-image", // Endpoint upload
+      formData,
+      (data) => {
+        // showSuccessMessageBox("Ảnh đã được upload thành công!");
+        setAvatar(`${BE_ENPOINT}/api/asset/view-image/${data.fileName}`); // Cập nhật ảnh đại diện
+      },
+      (fail) => {
+        showErrorMessageBox(fail.message); // Thông báo lỗi
+      },
+      (exception) => {
+        console.error("Không thể kết nối đến sever"); // Xử lý lỗi sập server
+      }
+    );
   };
 
   return (
@@ -106,11 +164,26 @@ export default function InformationManagement() {
           </button>
           <div className="information-wrapper">
             <img
-              src={information.image}
+              src={
+                avatar ||
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjT_C1CiFUhnOHmAO4XmgiCvnn36NGG2YLw&s"
+              }
               alt="Avatar"
               className="information-avatar"
             />
-            {isEditing && <button className="change-photo">Chọn ảnh</button>}
+            {isEditing && (
+              <div>
+                <label htmlFor="upload-avatar" className="change-photo">
+                  Chọn ảnh
+                </label>
+                <input
+                  type="file"
+                  id="upload-avatar"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange} // Gọi hàm upload ảnh khi chọn tệp
+                />
+              </div>
+            )}
             <div class="info-container">
               <p class="info-item">
                 <b>Vai trò:</b> {information.vaiTro}
@@ -144,6 +217,9 @@ export default function InformationManagement() {
                 placeholder="Nhập họ và tên"
                 value={information.hoTen}
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
+                onChange={(e) =>
+                  setInformation({ ...information, hoTen: e.target.value })
+                }
               />
               <div className="form-group">
                 <label className="input-label">Giới tính</label>
@@ -151,6 +227,9 @@ export default function InformationManagement() {
                   className="input-box"
                   value={information.gioiTinh}
                   disabled={!isEditing}
+                  onChange={(e) =>
+                    setInformation({ ...information, gioiTinh: e.target.value })
+                  }
                 >
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
@@ -165,6 +244,12 @@ export default function InformationManagement() {
                 value={information.soDienThoai}
                 placeholder="Nhập số điện thoại"
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
+                onChange={(e) =>
+                  setInformation({
+                    ...information,
+                    soDienThoai: e.target.value,
+                  })
+                }
               />
               <InputField
                 label="Ngày sinh"
@@ -175,6 +260,12 @@ export default function InformationManagement() {
                     : ""
                 } // Hiển thị dd/mm/yyyy
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
+                onChange={(e) =>
+                  setInformation({
+                    ...information,
+                    ngaySinh: formatDateToISO(e.target.value), // Cập nhật ngày sinh
+                  })
+                }
               />
             </div>
 
@@ -184,6 +275,9 @@ export default function InformationManagement() {
                 type="email"
                 value={information.email}
                 placeholder="Nhập email"
+                onChange={(e) =>
+                  setInformation({ ...information, email: e.target.value })
+                }
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
               />
               <InputField
@@ -191,6 +285,9 @@ export default function InformationManagement() {
                 value={information.diaChi}
                 type="text"
                 placeholder="Nhập địa chỉ"
+                onChange={(e) =>
+                  setInformation({ ...information, diaChi: e.target.value })
+                }
                 disabled={!isEditing} // Không thể sửa nếu không ở chế độ chỉnh sửa
               />
             </div>

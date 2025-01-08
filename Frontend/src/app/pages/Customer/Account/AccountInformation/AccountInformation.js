@@ -50,6 +50,10 @@ export default function AccountInformation() {
     fetchGet(
       uri,
       (data) => {
+        if (data.image === "no_img.png") {
+          data.image =
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjT_C1CiFUhnOHmAO4XmgiCvnn36NGG2YLw&s";
+        }
         setInitialAvatar(data.image || null); // Lưu giá trị avatar ban đầu
         setAvatar(data.image || null); // Gán ảnh đại diện nếu có
 
