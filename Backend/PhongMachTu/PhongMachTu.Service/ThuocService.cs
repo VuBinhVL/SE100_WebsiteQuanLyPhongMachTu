@@ -91,14 +91,7 @@ namespace PhongMachTu.Service
 				return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thuốc");
 			}
 
-			if (request.NgaySanXuat > request.HanSuDung)
-			{
-				return new ResponeMessage(HttpStatusCode.BadRequest, "Ngày sản xuất không thể lớn hơn hạn sử dụng");
-			}
-			if (request.SoLuongTon < 0)
-			{
-				return new ResponeMessage(HttpStatusCode.BadRequest, "Số lượng tồn không thể nhỏ hơn 0");
-			}
+			
 			var findLoaiThuoc = await _loaiThuocRepository.GetSingleByIdAsync(request.LoaiThuocId);
 			if (findLoaiThuoc == null)
 			{
