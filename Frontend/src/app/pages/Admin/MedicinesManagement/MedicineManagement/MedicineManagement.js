@@ -5,7 +5,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import AddMedicine from "../AddMedicine/AddMedicine";
-
+import DetailMedicine from "../DetailMedicine/DetailMedicine";
 import "./MedicineManagement.css";
 import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
@@ -15,6 +15,8 @@ export default function MedicineManagement() {
   const [listThuoc, setListThuoc] = useState([]); //Lưu trữ danh sách thuốc
   const [dataSearch, setDataSearch] = useState(""); //Phục vụ tìm kiếm thuốc
   const [isModalOpen, setIsModalOpen] = useState(false); //Phục vụ cho việc mở view thêm thuốc
+  const [isModalOpenDetail, setIsModalOpenDetail] = useState(false); //Phục vụ cho việc mở view detail
+  const [selectedMedicineId, setSelectedMedicineId] = useState(null); // Lưu ID thuốc được chọn
 
   // Lấy danh sách thuốc
   useEffect(() => {
@@ -22,7 +24,6 @@ export default function MedicineManagement() {
     fetchGet(
       uri,
       (sus) => {
-        console.log(sus);
         setListThuoc(sus);
       },
       (fail) => {
@@ -44,6 +45,7 @@ export default function MedicineManagement() {
     item.tenThuoc?.toLowerCase().includes(dataSearch)
   );
 
+  //Thêm thuốc
   const handleAdd = () => {
     setIsModalOpen(true); // Mở view thêm thuốc
   };
@@ -60,7 +62,7 @@ export default function MedicineManagement() {
           setListThuoc((prevList) => prevList.filter((item) => item.id !== id));
         },
         (err) => {
-          showErrorMessageBox(err.messsage);
+          showErrorMessageBox(err.message);
         },
         () => showErrorMessageBox("Máy chủ mất kết nối")
       );
@@ -68,8 +70,12 @@ export default function MedicineManagement() {
   };
 
   //Xử lý nút detail
-  const handleDetail = () => {
-    alert("Đã vào nút detail");
+  const handleUpdateMedicine = (updatedMedicine) => {
+    setListThuoc((prevList) =>
+      prevList.map((medicine) =>
+        medicine.id === updatedMedicine.id ? updatedMedicine : medicine
+      )
+    );
   };
 
   return (
@@ -119,8 +125,12 @@ export default function MedicineManagement() {
                         <div className="list_action">
                           <IoIosInformationCircleOutline
                             className="icon-detail"
-                            onClick={handleDetail}
+                            onClick={() => {
+                              setSelectedMedicineId(item.id); // Lưu ID thuốc được chọn
+                              setIsModalOpenDetail(true); // Mở modal
+                            }}
                           />
+
                           <MdDelete
                             className="icon-delete"
                             onClick={() => handleDelete(item.id)} // Truyền id của item vào hàm handleDelete
@@ -169,6 +179,15 @@ export default function MedicineManagement() {
             onAddMedicine={(newMedicine) => {
               setListThuoc((prevList) => [...prevList, newMedicine]); // Thêm thuốc mới vào danh sách
             }}
+          />
+        )}
+
+        {/* Hiển thị popup view detail thuốc */}
+        {isModalOpenDetail && (
+          <DetailMedicine
+            onClose={() => setIsModalOpenDetail(false)}
+            id={selectedMedicineId} // Truyền ID thuốc được chọn
+            onUpdate={handleUpdateMedicine}
           />
         )}
       </div>
