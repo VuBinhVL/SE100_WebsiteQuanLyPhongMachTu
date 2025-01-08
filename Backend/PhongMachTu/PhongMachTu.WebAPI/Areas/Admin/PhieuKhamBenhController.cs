@@ -36,7 +36,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             try
             {
                 var rs = await _phieuKhamBenhService.AddPhieuKhamBenhAsync(data);
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
             }
             catch (Exception ex)
             {

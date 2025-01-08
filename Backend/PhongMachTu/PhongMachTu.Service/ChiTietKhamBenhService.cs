@@ -3,6 +3,7 @@ using PhongMachTu.Common.DTOs.Request.ChupChieu;
 using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.Common.DTOs.Respone.ChiTietKhamBenh;
 using PhongMachTu.DataAccess.Infrastructure;
+using PhongMachTu.DataAccess.Models;
 using PhongMachTu.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
@@ -114,6 +115,18 @@ namespace PhongMachTu.Service
                 });
             }
 
+            var findChiTietDonThuocs = await _chiTietDonThuocRepository.FindWithIncludeAsync(c=>c.ChiTietKhamBenhId==id,c=>c.Thuoc);
+            foreach(var ctdt in findChiTietDonThuocs)
+            {
+                rsp.ChiTietDonThuocs.Add(new Respone_ChiTietKhamBenhDTO.Respone_ChiTietDonThuocDTO()
+                {
+                    ChiTietKhamBenhId=ctdt.ChiTietKhamBenhId,
+                    ThuocId=ctdt.ThuocId,
+                    TenThuoc = ctdt.Thuoc.TenThuoc,
+                    SoLuong=ctdt.SoLuong,
+                    DonGia= ctdt.DonGia
+                });
+            }
             return rsp;
         }
     }

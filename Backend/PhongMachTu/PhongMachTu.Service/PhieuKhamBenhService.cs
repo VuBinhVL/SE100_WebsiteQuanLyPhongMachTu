@@ -27,8 +27,10 @@ namespace PhongMachTu.Service
         private readonly IChiTietDonThuocRepository _chiTietDonThuocRepository;
         private readonly ICaKhamRepository _caKhamRepository;
         private readonly IChiTietKhamBenhRepository _chiTietKhamBenhRepository;
+        private readonly IChupChieuRepository _chupChieuRepository;
+        private readonly IChiTietXetNghiemRepository _chiTietXetNghiemRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public PhieuKhamBenhService(IPhieuKhamBenhRepository phieuKhamBenhRepository, ILichKhamRepository lichKhamRepository, INguoiDungRepository nguoiDungRepository, IChiTietDonThuocRepository chiTietDonThuocRepository, ICaKhamRepository caKhamRepository,IChiTietKhamBenhRepository chiTietKhamBenhRepository, IUnitOfWork unitOfWork)
+        public PhieuKhamBenhService(IPhieuKhamBenhRepository phieuKhamBenhRepository, ILichKhamRepository lichKhamRepository, INguoiDungRepository nguoiDungRepository, IChiTietDonThuocRepository chiTietDonThuocRepository, ICaKhamRepository caKhamRepository,IChiTietKhamBenhRepository chiTietKhamBenhRepository,IChupChieuRepository chupChieuRepository,IChiTietXetNghiemRepository chiTietXetNghiemRepository, IUnitOfWork unitOfWork)
         {
             _phieuKhamBenhRepository = phieuKhamBenhRepository;
             _lichKhamRepository = lichKhamRepository;
@@ -36,6 +38,8 @@ namespace PhongMachTu.Service
             _chiTietDonThuocRepository = chiTietDonThuocRepository;
             _caKhamRepository = caKhamRepository;
             _chiTietKhamBenhRepository = chiTietKhamBenhRepository;
+            _chupChieuRepository = chupChieuRepository;
+            _chiTietXetNghiemRepository = chiTietXetNghiemRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -105,8 +109,13 @@ namespace PhongMachTu.Service
             rsp.GioiTinh = findBenhNhan.GioiTinh;
             rsp.NgaySinh = findBenhNhan.NgaySinh;
             rsp.DiaChi = findBenhNhan.DiaChi;
-            rsp.NgayTao = findPKB.NgayTao;
+            rsp.ThoiGianKham = findPKB.NgayTao;
             rsp.TenBacSiKham = findBacSi.HoTen;
+            rsp.DaThanhToan = findLichKham.TrangThaiLichKhamId == Const_TrangThaiLichKham.Hoan_Tat;
+            rsp.TienKham = 0;
+            rsp.TienThuoc = 0;
+            rsp.TienXetNghiem = 0;
+            rsp.TienChupChieu = 0;
 
             var findChiTietKhamBenhs = await _chiTietKhamBenhRepository.FindWithIncludeAsync(c => c.PhieuKhamBenhId == id, c => c.BenhLy);
 
@@ -119,17 +128,24 @@ namespace PhongMachTu.Service
                     GiaKham = ctkb.GiaKham,
                 });
 
-                var findChiTietDonThuocs = await _chiTietDonThuocRepository.FindWithIncludeAsync(c => c.ChiTietKhamBenhId == ctkb.Id,c=>c.Thuoc);
+                rsp.TienKham += ctkb.GiaKham;
+
+               var findChiTietDonThuocs = await _chiTietDonThuocRepository.FindWithIncludeAsync(c => c.ChiTietKhamBenhId == ctkb.Id,c=>c.Thuoc);
                 foreach(var ctdt in findChiTietDonThuocs)
                 {
-                    rsp.ChiTietDonThuocs.Add(new Respone_PhieukhamBenhDTO.Respone_ChiTietDonThuocDTO()
-                    {
-                        ChiTietKhamBenhId=ctkb.Id,
-                        ThuocId = ctdt.ThuocId,
-                        TenThuoc= ctdt.Thuoc.TenThuoc,
-                        SoLuong= ctdt.SoLuong,
-                        DonGia=ctdt.DonGia
-                    });
+                    rsp.TienThuoc += ctdt.DonGia;
+                }
+
+                var findChupchieus = await _chupChieuRepository.FindAsync(c => c.ChiTietKhamBenhId == ctkb.Id);
+                foreach(var chupchieu in findChupchieus)
+                {
+                    rsp.TienChupChieu += chupchieu.Gia;
+                }
+
+                var findChiTietXetNghiems = await _chiTietXetNghiemRepository.FindAsync(c=>c.ChiTietKhamBenhId==ctkb.Id);
+                foreach(var ctxn in findChiTietXetNghiems)
+                {
+                    rsp.TienXetNghiem += ctxn.GiaXetNghiem;
                 }
             }
             return rsp;

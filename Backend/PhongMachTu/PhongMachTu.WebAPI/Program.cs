@@ -226,7 +226,7 @@ app.UseCors(); // Áp dụng CORS
 
 
 app.UseAuthentication();
-app.UseMiddleware<TokenValidationMiddleware>();//phải dùng cái này ở dưới authen vì authen có nhiệm vụ handle token
+//app.UseMiddleware<TokenValidationMiddleware>();//phải dùng cái này ở dưới authen vì authen có nhiệm vụ handle token
 app.UseAuthorization();
 
 
