@@ -4,9 +4,9 @@ import { GrLogout } from "react-icons/gr";
 import { Link, useNavigate } from "react-router-dom";
 import { sIsLoggedIn } from "../../../../store";
 import { MdArrowDropDown } from "react-icons/md";
-import "./Header.css";
+import "./HeaderOfStaff.css";
 
-export default function Header() {
+export default function HeaderOfStaff() {
   const navigate = useNavigate();
   const isLoggedInValue = sIsLoggedIn.use();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function Header() {
             <div className="custom-dropdown-menu">
               <Link
                 className="dropdown-item d-flex align-items-center"
-                to="/admin/information-management"
+                to="/staff/information-management"
               >
                 <FaUserCog className="me-2 fs-5" />
                 Thông tin tài khoản

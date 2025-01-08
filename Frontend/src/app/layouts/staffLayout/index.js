@@ -1,9 +1,9 @@
-import React from "react";
-import Header from "../adminLayout/Header/index";
+
 import "./LayoutStaff.css"
 import { Outlet } from "react-router-dom";
 import Footer from "../adminLayout/Footer/index";
 import NavigationOfStaff from "./Navigation";
+import HeaderOfStaff from "./Header";
 export default function LayoutStaff() {
     return (
         <>
@@ -15,7 +15,7 @@ export default function LayoutStaff() {
                         </div>
                         <div className="section_right col-9">
                             <div className="header d-flex align-items-center py-3 px-4">
-                                <Header />
+                                <HeaderOfStaff />
                             </div>
                             <div className="content px-4 py-3">
                                 <Outlet />

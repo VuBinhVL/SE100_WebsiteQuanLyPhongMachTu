@@ -33,7 +33,7 @@ export default function NavigationOfStaff() {
           <ul className="nav nav-pills flex-column">
             <li className="nav-item text-black fs-5 py-2 py-sm-0">
               <NavLink
-                to="/Staff"
+                to="/staff"
                 className="nav-link d-flex align-items-center text-black fs-5 my-2"
                 aria-current="page"
                 end
