@@ -27,8 +27,10 @@ export default function Login() {
       (sus) => {
         if (sus.roleName === "Bệnh Nhân") {
           navigate("/");
-        } else {
+        } else if (sus.roleName === "Chủ Phòng Mạch") {
           navigate("/admin");
+        } else {
+          navigate("/staff");
         }
         sIsLoggedIn.set(true);
         localStorage.setItem("jwtToken", sus.token);
