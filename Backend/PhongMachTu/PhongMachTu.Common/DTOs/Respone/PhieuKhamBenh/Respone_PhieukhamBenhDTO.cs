@@ -13,6 +13,6 @@ namespace PhongMachTu.Common.DTOs.Respone.PhieuKhamBenh
         public string ?TenBacSi { get; set; }
         public DateTime NgayTao { get; set; }
         public string? SoDienThoai { get; set; }
-        public string? TenTrangThaiLichKham { get; set; }
+        public string? TenTrangThaiPKB { get; set; }
     }
 }
