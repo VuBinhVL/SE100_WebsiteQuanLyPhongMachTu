@@ -21,10 +21,11 @@ export default function ExaminationManagementStaff() {
 
   // Gọi API lấy danh sách ca khám
   useEffect(() => {
-    const uri = "/api/admin/quan-li-ca-kham";
+    const uri = "/api/admin/quan-li-ca-kham/my-self";
     fetchGet(
       uri,
       (res) => {
+        console.log(res);
         setListShift(res);
       },
       (err) => showErrorMessageBox(err.message),

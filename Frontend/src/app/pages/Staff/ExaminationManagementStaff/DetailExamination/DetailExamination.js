@@ -39,6 +39,7 @@ export default function DetailExamination(props) {
     fetchGet(
       uri,
       (data) => {
+        console.log(data);
         setListShift(data); // Cập nhật danh sách nhân viên
       },
       (fail) => {
