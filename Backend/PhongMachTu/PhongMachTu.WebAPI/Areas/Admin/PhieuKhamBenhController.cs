@@ -44,5 +44,23 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
         }
 
+        [HttpGet("detail")]
+        public async Task<IActionResult> DetailPhieuKhamBenhAsync(int id)
+        {
+            try
+            {
+                var rsp = await _phieuKhamBenhService.DetailPhieuKhamBenhAsync(id);
+                if (rsp == null)
+                {
+                    return NotFound();
+                }
+                return Ok(rsp);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
     }
 }

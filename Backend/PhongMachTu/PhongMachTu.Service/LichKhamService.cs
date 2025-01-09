@@ -45,7 +45,7 @@ namespace PhongMachTu.Service
         {
             if(lichKhamId <= 0)
             {
-                throw new Exception("Id không hợp lệ");
+                throw new Exception("ThuocId không hợp lệ");
             }
             var findLichKham = await _lichKhamRepository.GetSingleByIdAsync(lichKhamId);
             if (findLichKham == null)

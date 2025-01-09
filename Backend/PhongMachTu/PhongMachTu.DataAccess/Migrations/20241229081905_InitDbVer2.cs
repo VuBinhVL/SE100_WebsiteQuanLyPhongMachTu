@@ -119,7 +119,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_LoaiXetNghiems_DonViTinhs_DonViTinhId",
                         column: x => x.DonViTinhId,
                         principalTable: "DonViTinhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -143,7 +143,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_Thuocs_LoaiThuocs_LoaiThuocId",
                         column: x => x.LoaiThuocId,
                         principalTable: "LoaiThuocs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -165,7 +165,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_BenhLys_NhomBenhs_NhomBenhId",
                         column: x => x.NhomBenhId,
                         principalTable: "NhomBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -194,12 +194,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_NguoiDungs_NhomBenhs_ChuyenMonId",
                         column: x => x.ChuyenMonId,
                         principalTable: "NhomBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_NguoiDungs_VaiTros_VaiTroId",
                         column: x => x.VaiTroId,
                         principalTable: "VaiTros",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -219,12 +219,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_ChiTietPhieuNhapThuocs_PhieuNhapThuocs_PhieuNhapThuocId",
                         column: x => x.PhieuNhapThuocId,
                         principalTable: "PhieuNhapThuocs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_ChiTietPhieuNhapThuocs_Thuocs_ThuocId",
                         column: x => x.ThuocId,
                         principalTable: "Thuocs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -247,7 +247,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_CaKhams_NguoiDungs_BacSiId",
                         column: x => x.BacSiId,
                         principalTable: "NguoiDungs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -267,12 +267,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_HoSoBenhAns_NguoiDungs_BenhNhanId",
                         column: x => x.BenhNhanId,
                         principalTable: "NguoiDungs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_HoSoBenhAns_NhomBenhs_NhomBenhId",
                         column: x => x.NhomBenhId,
                         principalTable: "NhomBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -289,12 +289,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_SuChoPheps_ChucNangs_ChucNangId",
                         column: x => x.ChucNangId,
                         principalTable: "ChucNangs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_SuChoPheps_NguoiDungs_NguoiDungId",
                         column: x => x.NguoiDungId,
                         principalTable: "NguoiDungs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -314,12 +314,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_LichKhams_CaKhams_CaKhamId",
                         column: x => x.CaKhamId,
                         principalTable: "CaKhams",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_LichKhams_TrangThaiLichKhams_TrangThaiLichKhamId",
                         column: x => x.TrangThaiLichKhamId,
                         principalTable: "TrangThaiLichKhams",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -338,7 +338,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_PhieuKhamBenhs_LichKhams_LichKhamId",
                         column: x => x.LichKhamId,
                         principalTable: "LichKhams",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -359,12 +359,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_ChiTietKhamBenhs_BenhLys_BenhLyId",
                         column: x => x.BenhLyId,
                         principalTable: "BenhLys",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_ChiTietKhamBenhs_PhieuKhamBenhs_PhieuKhamBenhId",
                         column: x => x.PhieuKhamBenhId,
                         principalTable: "PhieuKhamBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -384,12 +384,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_ChiTietDonThuocs_ChiTietKhamBenhs_ChiTietKhamBenhId",
                         column: x => x.ChiTietKhamBenhId,
                         principalTable: "ChiTietKhamBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_ChiTietDonThuocs_Thuocs_ThuocId",
                         column: x => x.ThuocId,
                         principalTable: "Thuocs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -406,12 +406,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_ChiTietHoSoBenhAns_ChiTietKhamBenhs_ChiTietKhamBenhId",
                         column: x => x.ChiTietKhamBenhId,
                         principalTable: "ChiTietKhamBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_ChiTietHoSoBenhAns_HoSoBenhAns_HoSoBenhAnId",
                         column: x => x.HoSoBenhAnId,
                         principalTable: "HoSoBenhAns",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -431,12 +431,12 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_ChiTietXetNghiems_ChiTietKhamBenhs_ChiTietKhamBenhId",
                         column: x => x.ChiTietKhamBenhId,
                         principalTable: "ChiTietKhamBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                     table.ForeignKey(
                         name: "FK_ChiTietXetNghiems_LoaiXetNghiems_LoaiXetNghiemId",
                         column: x => x.LoaiXetNghiemId,
                         principalTable: "LoaiXetNghiems",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateTable(
@@ -457,7 +457,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         name: "FK_ChupChieus_ChiTietKhamBenhs_ChiTietKhamBenhId",
                         column: x => x.ChiTietKhamBenhId,
                         principalTable: "ChiTietKhamBenhs",
-                        principalColumn: "Id");
+                        principalColumn: "ThuocId");
                 });
 
             migrationBuilder.CreateIndex(

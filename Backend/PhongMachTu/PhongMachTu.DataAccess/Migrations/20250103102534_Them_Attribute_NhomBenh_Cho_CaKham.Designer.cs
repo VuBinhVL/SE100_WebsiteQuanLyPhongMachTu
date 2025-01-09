@@ -26,11 +26,11 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.BenhLy", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("GiaThamKhao")
                         .HasColumnType("int");
@@ -53,7 +53,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("NhomBenhId");
 
@@ -62,11 +62,11 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.CaKham", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int?>("BacSiId")
                         .HasColumnType("int");
@@ -91,7 +91,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<TimeSpan>("ThoiGianKetThuc")
                         .HasColumnType("time");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("BacSiId");
 
@@ -142,11 +142,11 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.ChiTietKhamBenh", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("BenhLyId")
                         .HasColumnType("int");
@@ -161,7 +161,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<int>("PhieuKhamBenhId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("BenhLyId");
 
@@ -222,29 +222,29 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.ChucNang", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<string>("TenChucNang")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("ChucNangs");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.ChupChieu", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("ChiTietKhamBenhId")
                         .HasColumnType("int");
@@ -262,7 +262,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasMaxLength(1500)
                         .HasColumnType("nvarchar(1500)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("ChiTietKhamBenhId");
 
@@ -271,29 +271,29 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.DonViTinh", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<string>("TenDonViTinh")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("DonViTinhs");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.HoSoBenhAn", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("BenhNhanId")
                         .HasColumnType("int");
@@ -304,7 +304,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<int>("NhomBenhId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("BenhNhanId");
 
@@ -315,11 +315,11 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.LichKham", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("BenhNhanId")
                         .HasColumnType("int");
@@ -333,7 +333,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<int>("TrangThaiLichKhamId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("BenhNhanId");
 
@@ -346,29 +346,29 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.LoaiThuoc", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<string>("TenLoaiThuoc")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("LoaiThuocs");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.LoaiXetNghiem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("DonViTinhId")
                         .HasColumnType("int");
@@ -381,7 +381,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("DonViTinhId");
 
@@ -390,11 +390,11 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.NguoiDung", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int?>("ChuyenMonId")
                         .HasColumnType("int");
@@ -445,7 +445,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<int>("VaiTroId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("ChuyenMonId");
 
@@ -456,29 +456,29 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.NhomBenh", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<string>("TenNhomBenh")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("NhomBenhs");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.PhieuKhamBenh", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("LichKhamId")
                         .HasColumnType("int");
@@ -486,7 +486,7 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("LichKhamId");
 
@@ -495,16 +495,16 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.PhieuNhapThuoc", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<DateTime>("NgayNhap")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("PhieuNhapThuocs");
                 });
@@ -526,11 +526,11 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.ThamSo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<double>("HeSoBan")
                         .HasColumnType("float");
@@ -541,18 +541,18 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<int>("SoPhutNgungDangKyTruocKetThuc")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("ThamSos");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.Thuoc", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<int>("GiaNhap")
                         .HasColumnType("int");
@@ -580,7 +580,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.HasIndex("LoaiThuocId");
 
@@ -589,29 +589,29 @@ namespace PhongMachTu.DataAccess.Migrations
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.TrangThaiLichKham", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<string>("TenTrangThai")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("TrangThaiLichKhams");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.VaiTro", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ThuocId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThuocId"), 1L, 1);
 
                     b.Property<string>("ChucNangIdsDefault")
                         .IsRequired()
@@ -623,7 +623,7 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ThuocId");
 
                     b.ToTable("VaiTros");
                 });
