@@ -15,9 +15,9 @@ namespace PhongMachTu.Service
 {
     public interface IPhieuKhamBenhService
     {
-        Task<IEnumerable<PhieuKhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync();
+        Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync();
         Task<ResponeMessage> AddPhieuKhamBenhAsync(Request_AddPhieuKhamBenhDTO data);
-        Task<Respone_PhieukhamBenhDTO> DetailPhieuKhamBenhAsync(int id);
+        Task<Respone_DetailPhieukhamBenhDTO> DetailPhieuKhamBenhAsync(int id);
     }
     public class PhieuKhamBenhService : IPhieuKhamBenhService
     {
@@ -68,14 +68,26 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Tạo phiếu khám bệnh thành công");
         }
 
-        public async Task<IEnumerable<PhieuKhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync()
+        public async Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync()
         {
-            var listPhieuKhamBenh = await _phieuKhamBenhRepository.GetListPhieuKhamBenhDTOsAsync();
-
-            return listPhieuKhamBenh;
+            var findPKBs = await _phieuKhamBenhRepository.GetAllWithIncludeAsync(p=>p.LichKham,p=>p.LichKham.TrangThaiLichKham,p=>p.LichKham.BenhNhan,p=>p.LichKham.CaKham.BacSi);
+            List<Respone_PhieukhamBenhDTO> list = new List<Respone_PhieukhamBenhDTO>();
+            foreach (var item in findPKBs)
+            {
+                list.Add(new Respone_PhieukhamBenhDTO()
+                {
+                  Id=item.Id,
+                    TenBenhNhan=item.LichKham.BenhNhan.HoTen,
+                    TenBacSi = item.LichKham.CaKham.BacSi.HoTen,
+                    NgayTao = item.NgayTao,
+                    SoDienThoai= item.LichKham.BenhNhan.SoDienThoai,
+                    TenTrangThaiLichKham=item.LichKham.TrangThaiLichKham.TenTrangThai
+                });
+            }
+            return list;
         }
 
-        public async Task<Respone_PhieukhamBenhDTO> DetailPhieuKhamBenhAsync(int id)
+        public async Task<Respone_DetailPhieukhamBenhDTO> DetailPhieuKhamBenhAsync(int id)
         {
             var findPKB = await _phieuKhamBenhRepository.GetSingleByIdAsync(id);
             if (findPKB == null)
@@ -103,7 +115,7 @@ namespace PhongMachTu.Service
                 return null;
             }
 
-            var rsp = new Respone_PhieukhamBenhDTO();
+            var rsp = new Respone_DetailPhieukhamBenhDTO();
             rsp.HinhAnhBenhNhan = findBenhNhan.Image;
             rsp.HoTenBenhNhan = findBenhNhan.HoTen;
             rsp.GioiTinh = findBenhNhan.GioiTinh;
@@ -121,7 +133,7 @@ namespace PhongMachTu.Service
 
             foreach(var ctkb in findChiTietKhamBenhs)
             {
-                rsp.ChiTietKhamBenhs.Add(new Respone_PhieukhamBenhDTO.Respone_ChiTietKhamBenhDTO()
+                rsp.ChiTietKhamBenhs.Add(new Respone_DetailPhieukhamBenhDTO.Respone_ChiTietKhamBenhDTO()
                 {
                     Id = ctkb.Id,
                     TenBenhLy = ctkb.BenhLy.TenBenhLy,
