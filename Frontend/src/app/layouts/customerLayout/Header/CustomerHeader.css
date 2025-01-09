@@ -197,3 +197,64 @@
 .customer-header .nav-item .login-menu.open {
   display: block;
 }
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+  /* Header */
+  .customer-header {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  /* Logo */
+  .logo {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .logo-img {
+    width: 150px; /* Giảm kích thước logo */
+  }
+
+  /* Navigation menu */
+  .header-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    padding: 0;
+    gap: 10px;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Dropdown menu */
+  .dropdown-menu {
+    position: static;
+    display: block;
+    background: none;
+    padding: 0;
+  }
+
+  .dropdown-item {
+    padding: 10px 15px;
+    text-align: center;
+  }
+
+  /* Avatar */
+  .avatar {
+    width: 40px; /* Điều chỉnh kích thước ảnh đại diện */
+    height: 40px;
+  }
+
+  /* Nút Đăng nhập */
+  #btn-dangnhap {
+    margin-top: 10px;
+  }
+}

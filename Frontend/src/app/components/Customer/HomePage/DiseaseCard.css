@@ -32,3 +32,27 @@
   line-height: 1.5;
   color: #e0e0e0; /* Màu chữ mô tả */
 }
+
+@media (max-width: 768px) {
+  .service-card {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    padding: 15px; /* Giảm padding */
+    margin: 10px auto; /* Căn giữa và thêm khoảng cách */
+  }
+
+  .service-card-img img {
+    width: 40px; /* Giảm kích thước ảnh */
+    height: 40px;
+    margin-bottom: 10px; /* Giảm khoảng cách dưới ảnh */
+  }
+
+  .service-card-title {
+    font-size: 1rem; /* Giảm kích thước font chữ tiêu đề */
+    margin-bottom: 8px; /* Giảm khoảng cách */
+  }
+
+  .service-card-description {
+    font-size: 0.8rem; /* Giảm kích thước font chữ mô tả */
+    line-height: 1.3; /* Giảm khoảng cách giữa các dòng */
+  }
+}

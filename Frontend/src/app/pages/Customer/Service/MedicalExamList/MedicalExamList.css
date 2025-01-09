@@ -3,6 +3,8 @@
   background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px 0px 0px;
+  margin: auto;
+  max-width: 1700px;
 }
 
 /* Phần giới thiệu  */
@@ -180,4 +182,75 @@
 .medical-exam-list-page .day-filter:hover {
   border-color: #348f6c;
   background-color: #e8f5e9;
+}
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang */
+  .medical-exam-list-page {
+    padding: 20px 10px;
+    max-width: 100%;
+  }
+
+  /* Phần giới thiệu */
+  .medical-exam-list-page .medical-exam-list-section {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .medical-exam-list-page .medical-exam-list-title {
+    font-size: 1.8rem; /* Giảm kích thước chữ */
+  }
+
+  .medical-exam-list-page .medical-exam-list-description {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    margin-bottom: 20px;
+  }
+
+  .medical-exam-list-page .medical-exam-list-image img {
+    width: 100%; /* Đảm bảo ảnh không vượt khung */
+    height: auto;
+  }
+
+  /* Section 2 */
+  .medical-exam-list-page .medical-exam-list-highlight {
+    padding: 20px 10px;
+  }
+
+  .medical-exam-list-page .medical-exam-list-highlight-title {
+    font-size: 1.5rem; /* Giảm kích thước chữ */
+  }
+
+  /* Lưới danh sách ca khám */
+  .medical-exam-list-page .medical-exam-list-grid {
+    grid-template-columns: repeat(1, 1fr); /* Chuyển sang 1 cột */
+    gap: 15px; /* Giảm khoảng cách giữa các mục */
+  }
+
+  /* Pagination */
+  .medical-exam-list-page .pagination-button {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  /* Phần tìm kiếm và lọc */
+  .medical-exam-list-page .filter-section {
+    flex-direction: column; /* Xếp dọc các phần tử */
+    gap: 10px;
+  }
+
+  .medical-exam-list-page .search-bar-container {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+
+  .medical-exam-list-page .search-bar {
+    font-size: 14px; /* Giảm kích thước chữ */
+    padding: 8px 35px 8px 8px; /* Giảm padding */
+  }
+
+  .medical-exam-list-page .day-filter {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    font-size: 14px; /* Giảm kích thước chữ */
+  }
 }

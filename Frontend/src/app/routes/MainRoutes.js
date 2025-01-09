@@ -1,33 +1,33 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PageNotFound from "../layouts/adminLayout/PageNotFound";
-import Forbidden from "../layouts/adminLayout/Forbidden";
 import LayoutAdmin from "../layouts/adminLayout";
-import Staff from "../pages/Admin/UsersManagement/Staffs";
-import DashBoard from "../pages/Admin/DashBoard";
-import Patien from "../pages/Admin/UsersManagement/Patiens";
-import ExaminationForm from "../pages/Admin/ExaminationFormsManagement";
-import MedicalShift from "../pages/Admin/MedicalShiftsManagement";
-import CustomerHome from "../pages/Customer/CustomerHome";
-import Doctor from "../pages/Customer/Doctor";
-import Register from "../pages/Other/Register/Register";
-import Login from "../pages/Other/Login";
+import Forbidden from "../layouts/adminLayout/Forbidden";
+import PageNotFound from "../layouts/adminLayout/PageNotFound";
 import LayoutCustomer from "../layouts/customerLayout";
-import ForgetPassword from "../pages/Other/ForgetPassword";
-import AccountInformation from "../pages/Customer/Account/AccountInformation";
-import UserRecordList from "../pages/Customer/MedicalRecord/UserRecordList";
-import DetailRecord from "../pages/Customer/MedicalRecord/DetailRecord";
-import ReviewPiceList from "../pages/Customer/Service/ReviewPriceList";
-import MedicalExamList from "../pages/Customer/Service/MedicalExamList";
-import InformationManagement from "../pages/Admin/InformationManagement/InformationManagement";
-import Parameter from "../pages/Admin/ParameterManagement";
+import LayoutStaff from "../layouts/staffLayout";
+import DashBoard from "../pages/Admin/DashBoard";
 import DiseaseGroup from "../pages/Admin/DiseaseGroupManagement";
+import ExaminationForm from "../pages/Admin/ExaminationFormsManagement";
+import InformationManagement from "../pages/Admin/InformationManagement/InformationManagement";
+import MedicalShift from "../pages/Admin/MedicalShiftsManagement";
 import MedicineGroup from "../pages/Admin/MedicineGroupManagement";
 import MedicineManagement from "../pages/Admin/MedicinesManagement/MedicineManagement";
-import LayoutStaff from "../layouts/staffLayout";
-import Patient from "../pages/Staff/PatienManagement";
-import MedicalshiftOfStaff from "../pages/Staff/MedicalShiftManagement/MedicalShifts";
-import Appointment from "../pages/Staff/MedicalShiftManagement/Appointment";
+import Parameter from "../pages/Admin/ParameterManagement";
+import Patien from "../pages/Admin/UsersManagement/Patiens";
+import Staff from "../pages/Admin/UsersManagement/Staffs";
+import AccountInformation from "../pages/Customer/Account/AccountInformation";
+import CustomerHome from "../pages/Customer/CustomerHome";
+import Doctor from "../pages/Customer/Doctor";
+import DetailRecord from "../pages/Customer/MedicalRecord/DetailRecord";
+import UserRecordList from "../pages/Customer/MedicalRecord/UserRecordList";
+import MedicalExamList from "../pages/Customer/Service/MedicalExamList";
+import ReviewPiceList from "../pages/Customer/Service/ReviewPriceList";
+import ForgetPassword from "../pages/Other/ForgetPassword";
+import Login from "../pages/Other/Login";
+import Register from "../pages/Other/Register/Register";
+import ExaminationManagementStaff from "../pages/Staff/ExaminationManagementStaff/ExaminationManagementStaff";
+import ExaminationRegister from "../pages/Staff/ExaminationManagementStaff/ExaminationRegister";
+import MedicalExaminationCardStaff from "../pages/Staff/MedicalExaminationCardStaff";
 
 export default function MainRoutes() {
   return (
@@ -66,12 +66,22 @@ export default function MainRoutes() {
         </Route>
         {/* Layout Nhân viên */}
         <Route path="/staff" element={<LayoutStaff />}>
-          <Route index element={<Patient />} />
-          <Route path="appointment" element={<Appointment />} />
-          <Route path="medicalshiftOfStaff" element={<MedicalshiftOfStaff />} />
+          <Route index element={<Patien />} />
+          <Route
+            path="examination-register"
+            element={<ExaminationRegister />}
+          />
+          <Route
+            path="examination-management"
+            element={<ExaminationManagementStaff />}
+          />
           <Route
             path="information-management"
             element={<InformationManagement />}
+          />
+          <Route
+            path="medical-examination-card"
+            element={<MedicalExaminationCardStaff />}
           />
         </Route>
         {/* Route cho trang Forbidden*/}

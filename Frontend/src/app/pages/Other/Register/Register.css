@@ -3,6 +3,8 @@
   display: flex;
   height: 100vh;
   background-color: #348f6c; /* Màu nền xanh lá */
+  margin: auto;
+  max-width: 1700px;
 }
 
 .register-left {
@@ -131,4 +133,66 @@
 
 .register-page .form-link:hover {
   text-decoration: underline;
+}
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang */
+  .register-page {
+    flex-direction: column; /* Xếp dọc các phần */
+    height: auto;
+    padding: 20px 10px; /* Thêm khoảng cách */
+  }
+
+  .register-left {
+    flex: 1;
+    text-align: center; /* Căn giữa nội dung */
+    padding: 10px; /* Giảm padding */
+  }
+
+  .register-title {
+    font-size: 1rem; /* Giảm kích thước font chữ */
+  }
+
+  .register-right {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    padding: 20px; /* Giảm padding */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px; /* Giảm bo góc */
+  }
+
+  .register-form {
+    max-width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+
+  .form-title {
+    font-size: 1rem; /* Giảm kích thước font chữ */
+  }
+
+  /* Nút Submit */
+  .submit-button {
+    font-size: 0.9rem; /* Giảm kích thước font chữ */
+    padding: 8px 15px; /* Giảm padding */
+  }
+
+  /* Textbox */
+  .textbox-container {
+    padding: 8px 10px; /* Giảm padding */
+  }
+
+  .textbox-container input {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  /* Link dưới form */
+  .register-page .form-links {
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    gap: 5px;
+    text-align: center; /* Căn giữa nội dung */
+  }
+
+  .register-page .form-link {
+    font-size: 0.8rem; /* Giảm kích thước chữ */
+  }
 }

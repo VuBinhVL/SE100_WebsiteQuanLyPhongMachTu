@@ -47,3 +47,24 @@
 .error-button:hover {
   background-color: #e53935;
 }
+
+@media (max-width: 768px) {
+  .error-message-box .message-content {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    padding: 15px; /* Giảm padding */
+    border-radius: 10px; /* Giảm bo góc */
+  }
+
+  .error-message-box .message-icon img {
+    width: 60px; /* Giảm kích thước biểu tượng */
+  }
+
+  .error-message-box .message-title {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  .error-message-box .error-button {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    padding: 8px 15px; /* Giảm padding */
+  }
+}

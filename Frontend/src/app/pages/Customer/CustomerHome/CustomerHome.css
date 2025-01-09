@@ -3,6 +3,8 @@
   background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px;
+  margin: auto;
+  max-width: 1700px;
 }
 
 .homepage-container {
@@ -200,4 +202,85 @@
   max-width: 100%; /* Đảm bảo hình ảnh không vượt quá khung */
   height: 350px;
   width: 350px;
+}
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang */
+  .homepage {
+    padding: 20px 10px;
+  }
+
+  .homepage-container {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  /* Tiêu đề và mô tả */
+  .homepage-title {
+    font-size: 1.8rem;
+  }
+
+  .homepage-description {
+    font-size: 0.9rem;
+  }
+
+  /* Hình ảnh */
+  .homepage-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Các nút */
+  .homepage-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Phần dịch vụ */
+  .homepage-services {
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+
+  .homepage-services .card-description {
+    font-size: 0.8rem;
+  }
+
+  /* Phần giới thiệu */
+  .homepage-introduction {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .introduction-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Phần điều trị */
+  .treatment-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  /* Phần bác sĩ */
+  .staff-row {
+    flex-wrap: wrap; /* Cho phép các card xuống dòng */
+    justify-content: center;
+    animation: none; /* Tắt animation trên màn hình nhỏ */
+  }
+
+  /* Phần đặt lịch hẹn */
+  .homepage-booking {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .booking-image img {
+    width: 100%;
+    height: auto;
+  }
 }

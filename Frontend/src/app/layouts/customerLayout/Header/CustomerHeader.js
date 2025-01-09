@@ -81,11 +81,11 @@ export default function CustomerHeader() {
               Bác sĩ
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link to="/" className="nav-links">
               Bài viết
             </Link>
-          </li>
+          </li> */}
           {isLoggedInValue ? (
             // Khi đã đăng nhập, hiển thị avatar và dropdown
             <li className="nav-item">

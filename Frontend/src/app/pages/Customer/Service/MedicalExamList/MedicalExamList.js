@@ -4,6 +4,7 @@ import Anh from "../../../../assets/images/clinic1.png";
 import ExamCard from "../../../../components/Customer/Service/ExamCard"; // Component bạn đã tạo
 import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import { showYesNoMessageBox } from "../../../../components/MessageBox/YesNoMessageBox/showYesNoMessgeBox";
 import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import "./MedicalExamList.css";
 export default function MedicalExamList() {
@@ -88,25 +89,31 @@ export default function MedicalExamList() {
   });
 
   //Đăng ký ca khám
-  function registerExam(caKhamId) {
+  async function registerExam(caKhamId) {
     const uri = "/api/quan-li-ca-kham/dang-ky"; // Đường dẫn API
     const body = { caKhamId }; // Payload phải chứa trường "caKhamId"
-    fetchPost(
-      uri,
-      body,
-      (sus) => {
-        // Xử lý khi đăng ký thành công
-        showSuccessMessageBox(sus);
-      },
-      (err) => {
-        // Xử lý khi có lỗi xảy ra
-        showErrorMessageBox(err);
-      },
-      () => {
-        // Xử lý khi không thể kết nối đến server
-        showErrorMessageBox("Không thể kết nối đến server.");
-      }
+
+    const result = await showYesNoMessageBox(
+      "Bạn có muốn đăng ký ca khám này không?"
     );
+    if (result) {
+      fetchPost(
+        uri,
+        body,
+        (sus) => {
+          // Xử lý khi đăng ký thành công
+          showSuccessMessageBox(sus);
+        },
+        (err) => {
+          // Xử lý khi có lỗi xảy ra
+          showErrorMessageBox(err);
+        },
+        () => {
+          // Xử lý khi không thể kết nối đến server
+          showErrorMessageBox("Không thể kết nối đến server.");
+        }
+      );
+    }
   }
 
   // Phân trang
