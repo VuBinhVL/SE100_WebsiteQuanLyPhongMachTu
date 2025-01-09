@@ -55,13 +55,12 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy lịch khám đã chọn");
             }
-
-            var findPhieuKhamBenh = (await _phieuKhamBenhRepository.FindAsync(p => p.LichKhamId == data.LichKhamId)).FirstOrDefault();
-            if (findPhieuKhamBenh != null)
+            if (findLichKham.TrangThaiLichKhamId != Const_TrangThaiLichKham.Dang_Cho)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Phiếu khám bệnh cho lịch khám này đã tồn tại");
             }
 
+            findLichKham.TrangThaiLichKhamId = Const_TrangThaiLichKham.Dang_Kham;
             var pkb = new PhieuKhamBenh
             {
                 NgayTao = DateTime.Now,
