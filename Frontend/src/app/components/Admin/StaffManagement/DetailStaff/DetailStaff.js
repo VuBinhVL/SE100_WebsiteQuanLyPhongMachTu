@@ -328,8 +328,8 @@ export default function DetailStaff(props) {
                       <option value="DEFAULT" hidden disabled>
                         Enter your gender
                       </option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
+                      <option value="Nam">Nam</option>
+                      <option value="Nữ">Nữ</option>
                     </select>
                   ) : (
                     <input

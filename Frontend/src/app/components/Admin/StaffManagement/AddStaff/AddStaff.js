@@ -235,8 +235,8 @@ export default function AddStaff(props) {
                                     <label htmlFor="gioiTinh" className="form-label col-4 custom-bold">Gender:</label>
                                     <select id="gioiTinh" name="gioiTinh" className="form-control rounded-3 " defaultValue={'DEFAULT'} onChange={handleChange}>
                                         <option value="DEFAULT" hidden disabled>Enter your gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
                                     </select>
                                     <IoIosArrowDown className="position-absolute end-0 me-3" />
                                 </div>
