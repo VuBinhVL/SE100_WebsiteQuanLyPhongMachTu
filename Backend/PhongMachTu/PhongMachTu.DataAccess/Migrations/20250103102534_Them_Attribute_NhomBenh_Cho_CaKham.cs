@@ -25,7 +25,7 @@ namespace PhongMachTu.DataAccess.Migrations
                 table: "CaKhams",
                 column: "NhomBenhId",
                 principalTable: "NhomBenhs",
-                principalColumn: "ThuocId");
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
