@@ -9,5 +9,6 @@ namespace PhongMachTu.Common.DTOs.Request.BenhNhan
     public class Request_LockAccountDTO
     {
         public int Id { get; set; }
+        public bool IsLock { get; set; }
     }
 }
