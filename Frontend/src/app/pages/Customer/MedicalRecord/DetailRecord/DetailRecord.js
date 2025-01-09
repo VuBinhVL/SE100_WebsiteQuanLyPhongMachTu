@@ -10,6 +10,9 @@ export default function DetailRecord() {
   const { id } = useParams(); // Lấy id từ URL
   const [recordDetails, setRecordDetails] = useState([]);
 
+  // Bộ lọc theo ngày
+  const [filterDate, setFilterDate] = useState(""); // Lưu giá trị ngày được chọn
+
   //Phục vụ cho việc xem chi tiết khám bệnh
   const [selectedDiseaseId, setSelectedDiseaseId] = useState(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -17,7 +20,6 @@ export default function DetailRecord() {
     setSelectedDiseaseId(diseaseId);
     setIsPopupVisible(true);
   };
-  // Đóng popup
   const handleClosePopup = () => {
     setIsPopupVisible(false);
   };
@@ -30,7 +32,6 @@ export default function DetailRecord() {
     setIsMedicalImagingVisible(true); // Hiển thị popup
   };
 
-  // Hàm để đóng popup MedicalImaging
   const handleCloseMedicalImaging = () => {
     setIsMedicalImagingVisible(false);
   };
@@ -42,7 +43,6 @@ export default function DetailRecord() {
       fetchGet(
         uri,
         (data) => {
-          console.log(data); // Dữ liệu chi tiết của hồ sơ bệnh án
           setRecordDetails(data || []);
         },
         (error) => {
@@ -77,20 +77,44 @@ export default function DetailRecord() {
   const recordsPerPage = 6; // Số bệnh lý trên mỗi trang
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = recordDetails.slice(
+
+  // Áp dụng bộ lọc theo ngày
+  const filteredRecords = recordDetails.filter((record) => {
+    const matchDate = !filterDate || record.ngayKham.startsWith(filterDate); // Lọc theo ngày
+    return matchDate; // Có thể kết hợp với các bộ lọc khác ở đây
+  });
+
+  const currentRecords = filteredRecords.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
-  const totalPages = Math.ceil(recordDetails.length / recordsPerPage);
+  const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleFilterDateChange = (e) => {
+    setFilterDate(e.target.value); // Cập nhật ngày được chọn
   };
 
   return (
     <div className="detail-record-page">
       <div className="detail-record-header">
         <h2 className="detail-record-title">MÃ HỒ SƠ BỆNH ÁN: {id}</h2>
+      </div>
+
+      {/* Bộ lọc ngày */}
+      <div className="filter-date">
+        <label htmlFor="filterDate">Chọn ngày khám:</label>
+        <input
+          type="date"
+          id="filterDate"
+          name="filterDate"
+          className="filter-day-tool"
+          value={filterDate}
+          onChange={handleFilterDateChange}
+        />
       </div>
 
       {/* Danh sách các bệnh lý gặp phải */}
@@ -109,8 +133,7 @@ export default function DetailRecord() {
           <tbody>
             {currentRecords.map((record, index) => (
               <tr key={record.id}>
-                <td>{index + 1 + indexOfFirstRecord}</td>{" "}
-                {/* Đảm bảo số thứ tự đúng */}
+                <td>{index + 1 + indexOfFirstRecord}</td>
                 <td>{record.hoTenBacSi}</td>
                 <td>{record.tenBenhLy}</td>
                 <td>{formatDate(record.ngayKham)}</td>

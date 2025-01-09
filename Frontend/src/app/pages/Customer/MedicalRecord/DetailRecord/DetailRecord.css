@@ -132,6 +132,40 @@
   max-width: 1200px; /* Độ rộng tối đa */
 }
 
+/* Container của bộ lọc ngày */
+.detail-record-page .filter-date {
+  display: flex;
+  flex-direction: column; /* Xếp nhãn và input theo chiều dọc */
+  gap: 8px; /* Khoảng cách giữa nhãn và input */
+  margin-bottom: 20px; /* Khoảng cách phía dưới */
+  align-items: flex-start;
+  margin-left: 100px;
+}
+
+/* Nhãn của bộ lọc */
+.detail-record-page .filter-date label {
+  font-size: 14px; /* Kích thước chữ nhãn */
+  font-weight: bold; /* In đậm chữ nhãn */
+  color: #333; /* Màu chữ */
+}
+
+/* Input chọn ngày */
+.detail-record-page .filter-date .filter-day-tool {
+  padding: 10px; /* Khoảng cách bên trong */
+  font-size: 14px; /* Kích thước chữ */
+  border: 1px solid #ccc; /* Viền màu xám */
+  border-radius: 5px; /* Bo góc input */
+  outline: none; /* Loại bỏ viền mặc định */
+  transition: border-color 0.3s ease; /* Hiệu ứng viền khi focus */
+  width: 200px; /* Chiều rộng cố định */
+}
+
+/* Hiệu ứng khi focus vào input */
+.detail-record-page .filter-date .filter-day-tool:focus {
+  border-color: #348f6c; /* Màu viền khi focus */
+  box-shadow: 0 0 4px rgba(52, 143, 108, 0.5); /* Đổ bóng nhẹ khi focus */
+}
+
 /* Responsive cho màn hình nhỏ hơn 768px */
 @media (max-width: 768px) {
   /* Tổng thể trang */
@@ -182,5 +216,20 @@
     padding: 15px;
     margin: 15px auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .detail-record-page .filter-date {
+    flex-direction: column; /* Xếp nhãn và input theo chiều dọc */
+    align-items: flex-start; /* Căn nhãn và input sang trái */
+    margin-left: 0; /* Loại bỏ margin trái */
+  }
+
+  .detail-record-page .filter-date label {
+    margin-bottom: 5px; /* Khoảng cách giữa nhãn và input */
+    font-size: 12px; /* Giảm kích thước chữ nhãn */
+  }
+
+  .detail-record-page .filter-date .filter-day-tool {
+    width: 100%; /* Input chiếm toàn bộ chiều rộng */
+    max-width: 300px; /* Giới hạn chiều rộng tối đa */
   }
 }
