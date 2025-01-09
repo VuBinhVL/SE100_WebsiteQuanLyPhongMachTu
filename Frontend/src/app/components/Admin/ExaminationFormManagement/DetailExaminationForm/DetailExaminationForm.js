@@ -1,31 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GrCircleInformation } from "react-icons/gr";
-import { IoIosArrowDown } from "react-icons/io";
-import { useState } from "react";
-import { TiEdit } from "react-icons/ti";
-import "./DetailExaminationForm.css";
-import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
-import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
-import { formatDate } from "../../../../utils/FormatDate/formatDate";
-import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
-import { formatDateTime } from "../../../../utils/FormatDate/formatDateTime";
 import { IoMdAddCircle } from "react-icons/io";
+import "./DetailExaminationForm.css";
+import { fetchGet } from "../../../../lib/httpHandler";
+import { formatDate } from "../../../../utils/FormatDate/formatDate";
+import { formatDateTime } from "../../../../utils/FormatDate/formatDateTime";
+import { MdDelete } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 
 export default function DetailExaminationForm(props) {
-    const [inforDetailExamination, setInforDetailExamination] = useState({})
-    const { item, setListExaminationForm, listExaminationForm } = props
+    const [inforDetailExamination, setInforDetailExamination] = useState({});
+    const [details, setDetails] = useState([]);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [dataForm, setDataForm] = useState({ tenBenhLy: '', giaKham: '' });
+    const { item } = props;
 
     const idModal = `idModalDetailExaminationForm${item.id}`;
     const idspecificModal = `#idModalDetailExaminationForm${item.id}`;
 
-    //Lấy thông tin chi tiết phiếu khám bệnh
+    // Lấy thông tin chi tiết phiếu khám bệnh
     useEffect(() => {
         const uri = `/api/admin/quan-li-phieu-kham-benh/detail?id=${item.id}`;
         fetchGet(
             uri,
-            (sus) => {
-                setInforDetailExamination(sus);
-
+            async (sus) => {
+                await setInforDetailExamination(sus);
+                await setDetails(sus.chiTietKhamBenhs || []);
             },
             (fail) => {
                 alert(fail.message);
@@ -34,9 +35,29 @@ export default function DetailExaminationForm(props) {
                 alert("Có lỗi xảy ra");
             }
         );
-    }, []);
-    // console.log(">>>>>>>.check DataForm", dataForm)
-    console.log(">>>>>>>.check inforDetailExamination.chiTietKhamBenhs", inforDetailExamination.chiTietKhamBenhs)
+    }, [item.id]);
+
+    const handleOpenAdd = () => {
+        setShowAddModal(true);
+    };
+
+    const handleCloseAdd = () => {
+        setShowAddModal(false);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setDataForm({
+            ...dataForm,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = () => {
+        const newDetail = { id: Date.now(), ...dataForm };
+        setDetails([...details, newDetail]);
+        handleCloseAdd();
+    };
 
     return (
         <>
@@ -67,7 +88,6 @@ export default function DetailExaminationForm(props) {
                                 className="btn-close"
                                 data-bs-dismiss="modal"
                                 aria-label="Close"
-
                             ></button>
                         </div>
                         <div className="modal-body d-flex justify-content-center flex-column">
@@ -96,8 +116,13 @@ export default function DetailExaminationForm(props) {
 
                             {/* Chi tiết khám bệnh */}
                             <div className="details-section mb-4 p-3 border rounded bg-light">
-                                <h4 className="mb-3 d-flex align-items-center">2. Chi tiết khám bệnh
-                                    <span className="ms-2"><IoMdAddCircle className="icon_Add" /></span>
+                                <h4 className="mb-3 d-flex align-items-center">
+                                    2. Chi tiết khám bệnh
+                                    <span className="ms-2">
+                                        <a href="#" onClick={handleOpenAdd}>
+                                            <IoMdAddCircle className="icon_Add" />
+                                        </a>
+                                    </span>
                                 </h4>
                                 <table className="table table-hover">
                                     <thead className="table-light">
@@ -110,15 +135,23 @@ export default function DetailExaminationForm(props) {
                                     </thead>
                                     <tbody>
                                         {
-                                            inforDetailExamination && inforDetailExamination.chiTietKhamBenhs && inforDetailExamination.chiTietKhamBenhs.length > 0 &&
-                                            inforDetailExamination.chiTietKhamBenhs.map((item, index) => (
+                                            details.map((item, index) => (
                                                 <tr key={item.id}>
                                                     <td>{index + 1}</td>
                                                     <td>{item.tenBenhLy}</td>
                                                     <td>{item.giaKham}</td>
                                                     <td>
-                                                        <button className="btn btn-success btn-sm me-2">✔️</button>
-                                                        <button className="btn btn-danger btn-sm">🗑️</button>
+                                                        <a href="#">
+                                                            <MdEdit
+                                                                className="icon_edit icon_action" />
+                                                        </a>
+                                                        <a href="#" >
+                                                            <GrCircleInformation className="icon_information icon_action" />
+                                                        </a>
+                                                        <a href="#" >
+                                                            <MdDelete className="icon_delete icon_action" />
+                                                        </a>
+
                                                     </td>
                                                 </tr>
                                             ))
@@ -129,7 +162,7 @@ export default function DetailExaminationForm(props) {
 
                             {/* Tổng tiền */}
                             <div className="total-info mb-4 p-3 border rounded bg-light">
-                                <h4 className="mb-3">3.Tổng chi phí</h4>
+                                <h4 className="mb-3">3. Tổng chi phí</h4>
                                 <p><b>Tiền xét nghiệm:</b> {inforDetailExamination.tienXetNghiem}</p>
                                 <p><b>Tiền chụp chiếu:</b> {inforDetailExamination.tienChupChieu}</p>
                                 <p><b>Tiền khám:</b> {inforDetailExamination.tienKham}</p>
@@ -142,8 +175,44 @@ export default function DetailExaminationForm(props) {
                             <div className="popup-footer text-end">
                                 <button className="btn btn-primary">Xác nhận thanh toán</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
+            {/* Modal thêm chi tiết khám bệnh */}
+            <div className={`modal fade ${showAddModal ? 'show' : ''}`} id="addExaminationDetailModal" tabIndex="-1" aria-labelledby="addExaminationDetailModalLabel" aria-hidden={!showAddModal} style={{ display: showAddModal ? 'block' : 'none', zIndex: 1055 }}>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="addExaminationDetailModalLabel">Thêm Chi Tiết Khám Bệnh</h5>
+                            <button type="button" className="btn-close" onClick={handleCloseAdd}></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="mb-3">
+                                <label className="form-label">Tên Bệnh Lý</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="tenBenhLy"
+                                    value={dataForm.tenBenhLy}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Giá Khám</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="giaKham"
+                                    value={dataForm.giaKham}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={handleCloseAdd}>Đóng</button>
+                            <button type="button" className="btn btn-primary" onClick={handleSubmit}>Lưu</button>
                         </div>
                     </div>
                 </div>

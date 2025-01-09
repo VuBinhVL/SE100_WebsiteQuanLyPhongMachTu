@@ -266,7 +266,6 @@ export default function ListAppointment(props) {
                 <div>
                     <DetailAppointment appointment={selectedAppointment} />
                 </div>
-
             )}
         </>
     );

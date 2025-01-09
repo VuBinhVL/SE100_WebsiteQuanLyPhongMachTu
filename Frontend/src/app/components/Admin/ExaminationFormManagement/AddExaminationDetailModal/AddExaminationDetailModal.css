@@ -1,0 +1,90 @@
+.AddExaminationDetailModal .contain_img .inner_img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+/* CSS mặc định cho các button */
+.AddExaminationDetailModal .modal-footer .btn_Accept,
+.AddExaminationDetailModal .contain_img .btn_select_img {
+    background-color: #348F6C;
+    border: 1px solid #348F6C !important;
+    width: 125px;
+}
+
+.AddExaminationDetailModal .modal-footer .btn_Cancel {
+    background-color: #D51F2A;
+    border: 1px solid #D51F2A !important;
+    width: 125px;
+}
+
+/* CSS hover cho các button */
+.AddExaminationDetailModal .modal-footer .btn_Accept:hover,
+.AddExaminationDetailModal .modal-footer .btn_Accept:active,
+.AddExaminationDetailModal .modal-footer .btn_Accept:focus,
+.AddExaminationDetailModal .contain_img .btn_select_img:hover,
+.AddExaminationDetailModal .contain_img .btn_select_img:active,
+.AddExaminationDetailModal .contain_img .btn_select_img:focus {
+    background-color: #348F6C !important;
+    border: 1px solid #348F6C;
+}
+
+.AddExaminationDetailModal .modal-footer .btn_Cancel:hover,
+.AddExaminationDetailModal .modal-footer .btn_Cancel:active,
+.AddExaminationDetailModal .modal-footer .btn_Cancel:focus {
+    background-color: #D51F2A;
+
+}
+
+/* Đảm bảo kích thước các button luôn đồng nhất */
+.AddExaminationDetailModal .modal-footer .btn_Accept,
+.AddExaminationDetailModal .modal-footer .btn_Cancel,
+.AddExaminationDetailModal .contain_img .btn_select_img {
+    width: 125px;
+}
+
+.AddExaminationDetailModal .custom-bold {
+    font-weight: 600;
+}
+
+.icon_information {
+    color: #03A9F4;
+}
+
+.AddExaminationDetailModal .icon_edit_information {
+    color: #997852;
+}
+
+.AddExaminationDetailModal .modal-footer .btn_Accept:hover {
+    transform: scale(1.0);
+    transform: translateY(0px);
+}
+
+.AddExaminationDetailModal .modal-footer .btn_Accept {
+    padding: 0.35rem;
+    color: #FFFFFF;
+    border-radius: 6px;
+}
+
+.AddExaminationDetailModal .contain_Edit {
+    margin-left: 112px;
+}
+
+.AddExaminationDetailModal .modal-backdrop.show {
+    z-index: 1040;
+}
+
+.AddExaminationDetailModal .modal.show {
+    z-index: 1050;
+}
+
+.AddExaminationDetailModal .modal.modal-second {
+    z-index: 1060;
+}
+
+.AddExaminationDetailModal .formOne,
+.AddExaminationDetailModal .formTwo,
+.AddExaminationDetailModal .formThree {
+    width: 90%;
+}

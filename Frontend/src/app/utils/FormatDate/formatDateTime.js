@@ -1,7 +1,16 @@
 export function formatDateTime(date) {
+    if (!date) {
+        return 'Invalid date';
+    }
+
     if (typeof date === 'string') {
         date = new Date(date);
     }
+
+    if (isNaN(date.getTime())) {
+        return 'Invalid date';
+    }
+
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const year = date.getFullYear();
