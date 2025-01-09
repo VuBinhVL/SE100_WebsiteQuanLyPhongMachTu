@@ -4,9 +4,13 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { showErrorMessageBox } from "../../../components/MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { fetchGet, fetchPut } from "../../../lib/httpHandler";
+import DetailExaminationForm from "../../../components/Admin/ExaminationFormManagement/DetailExaminationForm/DetailExaminationForm";
+import DeleteExaminationForm from "../../../components/Admin/ExaminationFormManagement/DeleteExaminationForm/DeleteExaminationForm";
 
 export default function MedicalExaminationCardStaff() {
   const [listShift, setListShift] = useState([]); // Lưu danh sách ca khám
+  const [listExaminationForm, setListExaminationForm] = useState([]);
+  const [listExaminationFormShow, setListExaminationFormShow] = useState([]);
   const [dataSearch, setDataSearch] = useState(""); // Lưu dữ liệu tìm kiếm
   const [filters, setFilters] = useState({
     tenTrangThaiPKB: "Tất cả", // Lưu trạng thái phiếu khám bệnh
@@ -25,6 +29,22 @@ export default function MedicalExaminationCardStaff() {
     );
   }, []);
 
+  // api lấy danh sách biểu mẫu khám bệnh
+  useEffect(() => {
+    const uri = "/api/admin/quan-li-phieu-kham-benh";
+    fetchGet(
+      uri,
+      (sus) => {
+        setListExaminationForm(sus);
+      },
+      (fail) => {
+        alert(fail.message);
+      },
+      () => {
+        alert("Có lỗi xảy ra");
+      }
+    );
+  }, []);
   // Chuyển đổi ngày
   const formatDateTimeToDisplay = (dateTimeString) => {
     if (!dateTimeString) return ""; // Nếu không có giá trị, trả về chuỗi rỗng
@@ -120,12 +140,16 @@ export default function MedicalExaminationCardStaff() {
 
                   <td>
                     <div className="list_Action">
-                      {/* <DetailExamination
+                      <DetailExaminationForm
                         item={item}
-                        setListShift={setListShift}
-                        listShift={listShift}
+                        setListExaminationForm={setListExaminationForm}
+                        listExaminationForm={listExaminationForm}
                       />
-                      <ListAppointment item={item} /> */}
+                      <DeleteExaminationForm
+                        item={item}
+                        setListExaminationForm={setListExaminationForm}
+                        listExaminationForm={listExaminationForm}
+                      />
                     </div>
                   </td>
                 </tr>
