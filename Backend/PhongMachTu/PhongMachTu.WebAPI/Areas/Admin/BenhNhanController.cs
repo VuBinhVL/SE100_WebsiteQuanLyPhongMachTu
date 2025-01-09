@@ -32,7 +32,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
         [HttpGet("detail")]
         public async Task<IActionResult> GetBenhNhanByIdAsync(int id)
         {
@@ -94,5 +94,18 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
         }
 
+        [HttpPut("lock")]
+        public async Task<IActionResult> LockAccountBenhNhanAsync([FromBody] Request_LockAccountDTO data)
+        {
+            try
+            {
+                var rs = await _benhNhanService.LockAccountBenhNhanAsync(data.Id);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
 }

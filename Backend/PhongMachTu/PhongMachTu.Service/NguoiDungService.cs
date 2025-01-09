@@ -101,6 +101,17 @@ namespace PhongMachTu.Service
                 };
             }
 
+
+            if (nguoiDung.IsLock)
+            {
+
+                return new Respone_Login()
+                {
+                    HttpStatusCode = HttpStatusCode.BadRequest,
+                    Message = "Tài khoản của bạn đang bị khóa"
+                };
+            }
+
             nguoiDung.VaiTro = await _vaiTroRepository.GetSingleByIdAsync(nguoiDung.VaiTroId);
             nguoiDung.SuChoPheps = await _suChoPhepRepository.FindWithIncludeAsync(s => s.NguoiDungId == nguoiDung.Id, c => c.ChucNang);
             var token = GenerateJwtToken(nguoiDung);
