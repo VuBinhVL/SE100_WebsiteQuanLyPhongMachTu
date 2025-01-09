@@ -91,5 +91,19 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             }
         }
 
+        [HttpGet("xac-nhan-thanh-toan")]
+        public async Task<IActionResult> XacNhanThanhToanAsync(int id)
+        {
+            try
+            {
+                var rs = await _phieuKhamBenhService.XacNhanThanhToanAsync(id);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
     }
 }
