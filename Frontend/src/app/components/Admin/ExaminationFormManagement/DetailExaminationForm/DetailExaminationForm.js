@@ -9,6 +9,8 @@ import { formatDateTime } from "../../../../utils/FormatDate/formatDateTime";
 import { MdDelete } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { MdModeEditOutline } from "react-icons/md";
+import { TiEdit } from "react-icons/ti";
 import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 import { showYesNoMessageBox } from "../../../MessageBox/YesNoMessageBox/showYesNoMessgeBox";
 import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
@@ -25,6 +27,7 @@ export default function DetailExaminationForm(props) {
     const idModal = `idModalDetailExaminationForm${item.id}`;
     const idspecificModal = `#idModalDetailExaminationForm${item.id}`;
     const [chiTietBenhLy, setChiTietBenhLy] = useState({})
+    const [selectedImage, setSelectedImage] = useState(null);
 
     // Lấy thông tin chi tiết phiếu khám bệnh
     useEffect(() => {
@@ -114,7 +117,16 @@ export default function DetailExaminationForm(props) {
         document.getElementById("benhly").value = "DEFAULT";
         document.getElementById("hoTen").value = "";
     };
-
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSelectedImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     // Gọi API Thanh toán
     const handlePaymentConfirmation = async () => {
         const uri =
@@ -166,12 +178,11 @@ export default function DetailExaminationForm(props) {
         e.preventDefault(); // Ngăn chặn reload trang
 
         // Lấy giá trị từ input
-        const hinhAnhInput = document.getElementById("hinhAnh").value;
         const ketLuanInput = document.getElementById("ketLuan").value;
         const giaChupChieuInput = document.getElementById("giaChupChieu").value;
 
         // Kiểm tra dữ liệu nhập vào
-        if (!hinhAnhInput || !ketLuanInput || !giaChupChieuInput || isNaN(giaChupChieuInput) || giaChupChieuInput <= 0) {
+        if (!selectedImage || !ketLuanInput || !giaChupChieuInput || isNaN(giaChupChieuInput) || giaChupChieuInput <= 0) {
             showErrorMessageBox("Vui lòng nhập đầy đủ và hợp lệ thông tin chụp chiếu.");
             return;
         }
@@ -179,7 +190,7 @@ export default function DetailExaminationForm(props) {
         // Tạo một đối tượng chi tiết chụp chiếu mới
         const newChupChieu = {
             id: Date.now(), // Giả lập ID duy nhất
-            images: hinhAnhInput,
+            images: selectedImage,
             ketLuan: ketLuanInput,
             gia: parseFloat(giaChupChieuInput), // Chuyển giá trị thành số
         };
@@ -191,11 +202,11 @@ export default function DetailExaminationForm(props) {
         }));
 
         // Reset form sau khi thêm thành công
+        setSelectedImage(null);
         document.getElementById("hinhAnh").value = "";
         document.getElementById("ketLuan").value = "";
         document.getElementById("giaChupChieu").value = "";
     };
-
     const handleThemChiTietXetNghiem = (e) => {
         e.preventDefault(); // Ngăn chặn reload trang
 
@@ -325,11 +336,6 @@ export default function DetailExaminationForm(props) {
                             <div className="details-section mb-4 p-3 border rounded bg-light">
                                 <h4 className="mb-3 d-flex align-items-center">
                                     2. Chi tiết khám bệnh
-                                    <span className="ms-2">
-                                        <a href="#">
-                                            <IoMdAddCircle className="icon_Add" />
-                                        </a>
-                                    </span>
                                 </h4>
 
                                 {/*  Thêm thuốc*/}
@@ -422,6 +428,7 @@ export default function DetailExaminationForm(props) {
                                         <div>
                                             <h5>1. Chi tiết chụp chiếu</h5>
                                             <form className="me-5 w-75">
+
                                                 <div className="form-group mb-3 d-flex align-items-center position-relative">
                                                     <label
                                                         htmlFor="hinhAnh"
@@ -433,11 +440,13 @@ export default function DetailExaminationForm(props) {
                                                         className="form-control rounded-3"
                                                         name="hinhAnh"
                                                         id="hinhAnh"
-                                                        type="text"
-                                                        placeholder="Nhập URL hình ảnh"
+                                                        type="file"
+                                                        accept="image/*"
+                                                        onChange={handleImageChange}
                                                         required
                                                     />
                                                 </div>
+
                                                 <div className="form-group mb-3 d-flex align-items-center">
                                                     <label
                                                         htmlFor="ketLuan"
@@ -486,6 +495,7 @@ export default function DetailExaminationForm(props) {
                                                         <th>Hình ảnh</th>
                                                         <th>Kết luận</th>
                                                         <th>Giá</th>
+                                                        <th>Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -495,6 +505,16 @@ export default function DetailExaminationForm(props) {
                                                             <td><img src={chupChieu.images} alt="Chi tiết bệnh lý" className="anhChupChieu" /></td>
                                                             <td>{chupChieu.ketLuan}</td>
                                                             <td>{chupChieu.gia}</td>
+                                                            <td>
+
+                                                                <a href="#">
+                                                                    <MdDelete className="icon_delete icon_action" />
+                                                                </a>
+                                                                <a href="#">
+                                                                    <MdModeEditOutline className="icon_edit icon_action" />
+                                                                </a>
+
+                                                            </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -586,6 +606,7 @@ export default function DetailExaminationForm(props) {
                                                         <th>Kết quả</th>
                                                         <th>Đánh giá</th>
                                                         <th>Giá xét nghiệm</th>
+                                                        <th>Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -596,6 +617,15 @@ export default function DetailExaminationForm(props) {
                                                             <td>{xetNghiem.ketQua}</td>
                                                             <td>{xetNghiem.danhGia}</td>
                                                             <td>{xetNghiem.giaXetNghiem}</td>
+                                                            <td>
+
+                                                                <a href="#">
+                                                                    <MdDelete className="icon_delete icon_action" />
+                                                                </a>
+                                                                <a href="#">
+                                                                    <MdModeEditOutline className="icon_edit icon_action" />
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -670,6 +700,7 @@ export default function DetailExaminationForm(props) {
                                                         <th>Tên thuốc</th>
                                                         <th>Số lượng</th>
                                                         <th>Đơn giá</th>
+                                                        <th>Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -679,6 +710,14 @@ export default function DetailExaminationForm(props) {
                                                             <td>{thuoc.tenThuoc}</td>
                                                             <td>{thuoc.soLuong}</td>
                                                             <td>{thuoc.donGia}</td>
+                                                            <td>
+                                                                <a href="#">
+                                                                    <MdDelete className="icon_delete icon_action" />
+                                                                </a>
+                                                                <a href="#">
+                                                                    <MdModeEditOutline className="icon_edit icon_action" />
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
