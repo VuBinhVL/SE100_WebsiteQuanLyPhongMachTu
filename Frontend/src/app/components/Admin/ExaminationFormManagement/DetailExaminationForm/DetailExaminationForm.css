@@ -1,68 +1,107 @@
-.detailExaminationForm .contain_img .inner_img {
-    width: 150px;
-    height: 150px;
+.detailExaminationForm .personal_information,
+.detailExaminationForm .details-section,
+.detailExaminationForm .total-info,
+.detailExaminationForm .popup-footer {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.detailExaminationForm .personal_information h4,
+.detailExaminationForm .details-section h4 {
     margin-bottom: 15px;
+    color: #333;
+}
+
+.detailExaminationForm .record-info {
+    display: flex;
+    align-items: center;
+}
+
+.detailExaminationForm .patient-photo {
+    margin-right: 20px;
+    text-align: center;
+}
+
+.detailExaminationForm .patient-photo img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
 }
 
-/* CSS mặc định cho các button */
-.detailExaminationForm .modal-footer .btn_Accept,
-.detailExaminationForm .contain_img .btn_select_img {
-    background-color: #348F6C;
-    border: 1px solid #348F6C !important;
-    width: 125px;
+.detailExaminationForm .patient-details p {
+    margin: 5px 0;
+    color: #555;
 }
 
-.detailExaminationForm .modal-footer .btn_Cancel {
-    background-color: #D51F2A;
-    border: 1px solid #D51F2A !important;
-    width: 125px;
+.detailExaminationForm .patient-details p b {
+    color: #333;
 }
 
-/* CSS hover cho các button */
-.detailExaminationForm .modal-footer .btn_Accept:hover,
-.detailExaminationForm .modal-footer .btn_Accept:active,
-.detailExaminationForm .modal-footer .btn_Accept:focus,
-.detailExaminationForm .contain_img .btn_select_img:hover,
-.detailExaminationForm .contain_img .btn_select_img:active,
-.detailExaminationForm .contain_img .btn_select_img:focus {
-    background-color: #348F6C !important;
-    border: 1px solid #348F6C;
+.detailExaminationForm .details-section table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.detailExaminationForm .modal-footer .btn_Cancel:hover,
-.detailExaminationForm .modal-footer .btn_Cancel:active,
-.detailExaminationForm .modal-footer .btn_Cancel:focus {
-    background-color: #D51F2A;
-
+.detailExaminationForm .details-section th,
+.detailExaminationForm .details-section td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-/* Đảm bảo kích thước các button luôn đồng nhất */
-.detailExaminationForm .modal-footer .btn_Accept,
-.detailExaminationForm .modal-footer .btn_Cancel,
-.detailExaminationForm .contain_img .btn_select_img {
-    width: 125px;
+.detailExaminationForm .details-section th {
+    background-color: #f1f1f1;
+    color: #333;
 }
 
-.detailExaminationForm .custom-bold {
-    font-weight: 600;
+.detailExaminationForm .details-section td {
+    color: #555;
 }
 
-.detailExaminationForm .icon_information {
-    color: #03A9F4;
+.detailExaminationForm .details-section .btn-check,
+.detailExaminationForm .details-section .btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 5px;
 }
 
-.detailExaminationForm .icon_edit_information {
-    color: #997852;
+.detailExaminationForm .details-section .btn-check:hover,
+.detailExaminationForm .details-section .btn-delete:hover {
+    color: #007bff;
 }
 
-.detailExaminationForm .modal-footer .btn_Accept:hover {
-    transform: scale(1.0);
-    transform: translateY(0px);
+.detailExaminationForm .total-info p {
+    margin: 5px 0;
+    color: #555;
 }
 
-.detailExaminationForm .modal-footer .btn_Accept {
-    padding: 0.35rem;
-    color: #FFFFFF;
-    border-radius: 6px;
+.detailExaminationForm .total-info p b {
+    color: #333;
+}
+
+.detailExaminationForm .popup-footer {
+    text-align: right;
+}
+
+.detailExaminationForm .confirm-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detailExaminationForm .confirm-button:hover {
+    background-color: #0056b3;
+}
+
+.detailExaminationForm .icon_Add {
+    color: #348F6C;
 }
