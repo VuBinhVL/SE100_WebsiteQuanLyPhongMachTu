@@ -91,7 +91,8 @@ namespace PhongMachTu.Service
                 TenNhomBenh = findNhomBenh.TenNhomBenh,
                 TrangThai = findTrangThaiLichKham.TenTrangThai,
                 TenBacSi = findBacSi.HoTen,
-                TenChuyenMon = findNhomBenh.TenNhomBenh
+                TenChuyenMon = findNhomBenh.TenNhomBenh,
+                NgaySinhBN = findBenhNhan.NgaySinh
             };
 
             return rs;

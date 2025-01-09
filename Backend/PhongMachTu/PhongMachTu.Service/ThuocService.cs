@@ -16,7 +16,7 @@ namespace PhongMachTu.Service
 	{
 		Task<List<Thuoc>> GetAllAsync();
 
-		Task<Thuoc> GetByIdAsync(int id);
+		Task<Request_HienThiChiTietThuocDTO> GetByIdAsync(int id);
 
 		Task<ResponeMessage> UpdateThuoc(Request_UpdateThuocDTO? request);
 
@@ -48,10 +48,35 @@ namespace PhongMachTu.Service
 			return (await _thuocRepository.GetAllAsync()).ToList();
 		}
 
-		public async Task<Thuoc> GetByIdAsync(int id)
+		public async Task<Request_HienThiChiTietThuocDTO> GetByIdAsync(int id)
 		{
-			return await _thuocRepository.GetSingleByIdAsync(id);
-		}
+			var findThuoc = await _thuocRepository.GetSingleByIdAsync(id);
+			if (findThuoc == null)
+			{
+				throw new Exception("Không tìm thấy thuốc");
+			}
+			var findLoaiThuoc = await _loaiThuocRepository.GetSingleByIdAsync(findThuoc.LoaiThuocId);
+			if (findLoaiThuoc == null)
+			{
+				throw new Exception("Không tìm thấy loại thuốc");
+			}
+
+			var rs = new Request_HienThiChiTietThuocDTO
+			{
+				Id = findThuoc.Id,
+				TenThuoc = findThuoc.TenThuoc,
+				Images = findThuoc.Images,
+				SoLuongTon = findThuoc.SoLuongTon,
+				GiaNhap =  findThuoc.GiaNhap,
+				NgaySanXuat = findThuoc.NgaySanXuat,
+				HanSuDung = findThuoc.HanSuDung,
+				LoaiThuocId = findThuoc.LoaiThuocId,
+				TenLoaiThuoc = findLoaiThuoc.TenLoaiThuoc
+
+			};
+			return rs;
+
+        }
 
 		public async Task<ResponeMessage> UpdateThuoc(Request_UpdateThuocDTO? request)
 		{
@@ -66,14 +91,7 @@ namespace PhongMachTu.Service
 				return new ResponeMessage(HttpStatusCode.NotFound, "Không tìm thấy thuốc");
 			}
 
-			if (request.NgaySanXuat > request.HanSuDung)
-			{
-				return new ResponeMessage(HttpStatusCode.BadRequest, "Ngày sản xuất không thể lớn hơn hạn sử dụng");
-			}
-			if (request.SoLuongTon < 0)
-			{
-				return new ResponeMessage(HttpStatusCode.BadRequest, "Số lượng tồn không thể nhỏ hơn 0");
-			}
+			
 			var findLoaiThuoc = await _loaiThuocRepository.GetSingleByIdAsync(request.LoaiThuocId);
 			if (findLoaiThuoc == null)
 			{
@@ -82,9 +100,6 @@ namespace PhongMachTu.Service
 
 			findThuoc.TenThuoc = request.TenThuoc;
 			findThuoc.Images = request.Images;
-			findThuoc.SoLuongTon = request.SoLuongTon;
-			findThuoc.NgaySanXuat = request.NgaySanXuat;
-			findThuoc.HanSuDung = request.HanSuDung;
 			findThuoc.LoaiThuocId = request.LoaiThuocId;
 
 			await _unitOfWork.CommitAsync();
