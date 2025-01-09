@@ -3,6 +3,8 @@
   background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px 0px 0px;
+  margin: auto;
+  max-width: 1700px;
 }
 
 /* Phần giới thiệu  */
@@ -119,4 +121,59 @@
   font-size: 12px; /* Kích thước chữ nhỏ hơn */
   color: #555; /* Màu chữ xám */
   font-style: italic; /* Chữ in nghiêng */
+}
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang */
+  .price-page {
+    padding: 20px 10px;
+    max-width: 100%;
+  }
+
+  /* Phần giới thiệu */
+  .price-page .price-section {
+    flex-direction: column; /* Xếp chồng theo chiều dọc */
+    gap: 15px;
+    text-align: center;
+  }
+
+  .price-page .price-title {
+    font-size: 1.8rem; /* Giảm kích thước chữ */
+  }
+
+  .price-page .price-description {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    margin-bottom: 20px;
+  }
+
+  .price-page .price-image img {
+    width: 100%; /* Đảm bảo ảnh không vượt khung */
+    height: auto;
+  }
+
+  /* Section 2 */
+  .price-page .price-highlight {
+    padding: 20px 10px;
+  }
+
+  .price-page .price-highlight-title {
+    font-size: 1.5rem; /* Giảm kích thước chữ */
+  }
+
+  /* Bảng price-table */
+  .price-page .price-table {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    overflow-x: auto; /* Thêm thanh cuộn ngang nếu bảng quá lớn */
+    display: block; /* Đặt bảng ở dạng khối */
+  }
+
+  .price-page .price-table th,
+  .price-page .price-table td {
+    padding: 8px; /* Giảm khoảng cách */
+  }
+
+  .price-page .price-note {
+    font-size: 0.8rem; /* Giảm kích thước chữ */
+  }
 }

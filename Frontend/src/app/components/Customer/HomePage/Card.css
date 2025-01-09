@@ -43,3 +43,27 @@
   /* Màu chữ mô tả */
   line-height: 1.4;
 }
+
+@media (max-width: 768px) {
+  .item_card_serivce {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    padding: 15px; /* Giảm padding */
+    margin: 10px auto; /* Căn giữa và thêm khoảng cách */
+  }
+
+  .item_card_serivce .card-img img {
+    width: 60px; /* Giảm kích thước icon */
+    height: 60px;
+    margin-bottom: 10px; /* Giảm khoảng cách dưới icon */
+  }
+
+  .item_card_serivce .card-title {
+    font-size: 1rem; /* Giảm kích thước font chữ */
+    margin-bottom: 8px; /* Giảm khoảng cách */
+  }
+
+  .item_card_serivce .card-description {
+    font-size: 0.8rem; /* Giảm kích thước font chữ mô tả */
+    line-height: 1.2; /* Giảm khoảng cách giữa các dòng */
+  }
+}

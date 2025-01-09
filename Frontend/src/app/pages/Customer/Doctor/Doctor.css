@@ -3,6 +3,8 @@
   background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px 0px 0px;
+  margin: auto;
+  max-width: 1700px;
 }
 
 /* Phần giới thiệu bác sĩ */
@@ -79,4 +81,47 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   justify-items: center;
+}
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang bác sĩ */
+  .doctor-page {
+    padding: 20px 10px;
+  }
+
+  /* Phần giới thiệu bác sĩ */
+  .doctor-page .doctor-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .doctor-page .doctor-title {
+    font-size: 1.8rem;
+  }
+
+  .doctor-page .doctor-description {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .doctor-page .doctor-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Phần bác sĩ nổi bật */
+  .doctor-page .doctor-highlight {
+    padding: 20px 10px;
+    gap: 10px;
+  }
+
+  .doctor-page .highlight-title {
+    font-size: 1.5rem;
+  }
+
+  .doctor-page .doctor-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

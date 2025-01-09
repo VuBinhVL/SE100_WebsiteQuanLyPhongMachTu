@@ -3,6 +3,8 @@
   background-color: #348f6c;
   padding: 20px 40px;
   border-top: 1px solid #ddd;
+  max-width: 1700px;
+  margin: auto;
 }
 
 /* Container chính của footer */
@@ -63,4 +65,43 @@
   margin-top: 20px;
   font-size: 0.9rem;
   color: #ffffff;
+}
+
+/* Responsive cho màn hình điện thoại */
+@media (max-width: 768px) {
+  /* Làm các phần trong footer xếp chồng nhau */
+  #footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Điều chỉnh kích thước chữ */
+  #about-heading,
+  #contact-heading,
+  #working-hours-heading {
+    font-size: 1rem;
+  }
+
+  /* Điều chỉnh kích thước padding và margin */
+  .customer-footer {
+    padding: 10px 20px;
+  }
+
+  #footer-container > div {
+    margin-bottom: 20px;
+  }
+
+  /* Giảm kích thước danh sách */
+  #about-text,
+  #contact-list,
+  #working-hours-list {
+    font-size: 0.9rem;
+  }
+
+  /* Phần bản quyền */
+  #footer-copyright {
+    margin-top: 15px;
+    font-size: 0.8rem;
+  }
 }

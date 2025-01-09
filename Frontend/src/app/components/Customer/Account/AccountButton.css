@@ -19,3 +19,19 @@
   transform: scale(0.98); /* Hiệu ứng nhấn nút */
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Bóng bên trong */
 }
+
+@media (max-width: 768px) {
+  .account-button {
+    font-size: 14px; /* Giảm kích thước chữ */
+    padding: 8px 15px; /* Giảm padding */
+    min-width: 80px; /* Giảm chiều rộng tối thiểu */
+  }
+
+  .account-button:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Giảm hiệu ứng bóng */
+  }
+
+  .account-button:active {
+    transform: scale(0.96); /* Tăng độ nhấn khi click */
+  }
+}

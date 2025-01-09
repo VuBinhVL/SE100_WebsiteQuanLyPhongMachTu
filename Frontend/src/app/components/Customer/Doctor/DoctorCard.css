@@ -51,3 +51,27 @@
   font-size: 1rem;
   line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+  .doctor_card {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    margin: 10px auto; /* Căn giữa và thêm khoảng cách */
+  }
+
+  .doctor_card .doctor-image-container {
+    height: 150px; /* Giảm chiều cao ảnh */
+  }
+
+  .doctor_card .doctor-info {
+    padding: 10px; /* Giảm padding */
+  }
+
+  .doctor_card .doctor-name {
+    font-size: 1rem; /* Giảm kích thước font chữ */
+  }
+
+  .doctor_card .doctor-details {
+    font-size: 0.9rem; /* Giảm kích thước chữ trong danh sách */
+    line-height: 1.4; /* Giảm khoảng cách giữa các dòng */
+  }
+}

@@ -99,3 +99,57 @@
   background-color: rgba(0, 0, 0, 0.5); /* Màu tối với độ trong suốt */
   z-index: 900; /* Nằm dưới popup nhưng trên màn hình chính */
 }
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Popup hình ảnh y tế */
+  .medical-imaging-popup {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+    margin-top: 10px;
+    max-height: 90%; /* Giới hạn chiều cao tối đa */
+    overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung quá dài */
+  }
+
+  /* Header */
+  .medical-imaging-popup .popup-header {
+    padding: 10px;
+    font-size: 1.2rem; /* Giảm kích thước font */
+  }
+
+  .medical-imaging-popup .popup-title {
+    font-size: 1.2rem;
+  }
+
+  .medical-imaging-popup .popup-close {
+    font-size: 1.2rem;
+  }
+
+  /* Nội dung */
+  .medical-imaging-popup .popup-body {
+    padding: 15px;
+  }
+
+  .medical-imaging-popup .popup-section-title {
+    font-size: 1rem;
+  }
+
+  /* Lưới hình ảnh */
+  .medical-imaging-popup .medical-imaging-grid {
+    gap: 8px; /* Giảm khoảng cách giữa các ảnh */
+  }
+
+  .medical-imaging-popup .medical-imaging-item {
+    height: 120px; /* Giảm chiều cao ảnh */
+  }
+
+  /* Kết luận và giá */
+  .medical-imaging-popup .medical-imaging-conclusion {
+    height: 60px; /* Giảm chiều cao kết luận */
+    font-size: 0.9rem;
+  }
+
+  .medical-imaging-popup .medical-imaging-price {
+    font-size: 1rem; /* Giảm kích thước font giá */
+  }
+}

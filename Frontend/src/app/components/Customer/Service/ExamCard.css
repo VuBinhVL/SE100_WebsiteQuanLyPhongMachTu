@@ -70,3 +70,43 @@
 .exam-card .exam-register-button:active {
   background-color: #256a4b; /* Màu đậm hơn khi nhấn */
 }
+
+@media (max-width: 768px) {
+  .exam-card {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    margin: 10px auto; /* Căn giữa và thêm khoảng cách giữa các thẻ */
+  }
+
+  .exam-card .exam-card-header {
+    font-size: 12px; /* Giảm kích thước font chữ */
+    padding: 8px; /* Giảm padding */
+  }
+
+  .exam-card .exam-card-body {
+    padding: 10px; /* Giảm padding */
+  }
+
+  .exam-card .exam-image {
+    width: 80px; /* Giảm kích thước ảnh */
+    height: 80px;
+  }
+
+  .exam-card .exam-doctor {
+    font-size: 14px; /* Giảm kích thước font chữ */
+  }
+
+  .exam-card .exam-time,
+  .exam-card .exam-date {
+    font-size: 12px; /* Giảm kích thước font chữ */
+    margin: 5px 0; /* Giảm khoảng cách giữa các dòng */
+  }
+
+  .exam-card .exam-card-footer {
+    padding: 8px; /* Giảm padding */
+  }
+
+  .exam-card .exam-register-button {
+    padding: 8px 10px; /* Giảm padding */
+    font-size: 12px; /* Giảm kích thước font chữ */
+  }
+}

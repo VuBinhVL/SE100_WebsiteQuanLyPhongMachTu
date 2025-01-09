@@ -1,5 +1,7 @@
 .medical-record-page {
   background-color: #f5f5f5;
+  margin: auto;
+  max-width: 1700px;
 }
 
 .medical-record-page .medical-record-header {
@@ -64,4 +66,42 @@
   margin: 20px auto; /* Căn giữa và thêm khoảng cách bên ngoài */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
   max-width: 1200px; /* Độ rộng tối đa */
+}
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang */
+  .medical-record-page {
+    margin: 0 10px; /* Thêm khoảng cách hai bên */
+    max-width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
+  }
+
+  /* Tiêu đề hồ sơ y tế */
+  .medical-record-page .medical-record-header {
+    min-height: 80px; /* Giảm chiều cao tối thiểu */
+    padding-bottom: 10px; /* Giảm khoảng cách */
+    text-align: center;
+  }
+
+  .medical-record-page .medical-record-title {
+    font-size: 18px; /* Giảm kích thước font chữ */
+  }
+
+  /* Danh sách hồ sơ */
+  .medical-record-page .medical-section {
+    grid-template-columns: repeat(1, 1fr); /* Mỗi hàng hiển thị 1 hồ sơ */
+    gap: 15px; /* Giảm khoảng cách giữa các hồ sơ */
+  }
+
+  /* Phân trang */
+  .medical-record-page .pagination-button {
+    padding: 6px 10px; /* Giảm kích thước nút */
+    font-size: 12px;
+  }
+
+  /* Container danh sách hồ sơ */
+  .medical-record-page .record-container {
+    padding: 15px; /* Giảm khoảng cách bên trong */
+    margin: 15px auto; /* Giảm khoảng cách bên ngoài */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Giảm đổ bóng */
+  }
 }

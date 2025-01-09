@@ -3,6 +3,8 @@
   background-color: #348f6c; /* Nền xanh */
   color: #ffffff; /* Chữ trắng */
   padding: 50px 0px 0px 0px;
+  margin: auto;
+  max-width: 1700px;
 }
 
 .account-page .account-record-header {
@@ -169,4 +171,61 @@
 .account-page .change-password-button:hover {
   text-decoration: underline;
   color: #2c6f54;
+}
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Tổng thể trang */
+  .account-page {
+    padding: 20px 10px;
+  }
+
+  /* Phần nội dung chính */
+  .account-page .account-section {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  /* Phần bên trái: Avatar */
+  .account-page .account-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .account-page .account-avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Nút chỉnh sửa thông tin */
+  .account-page .edit-info-button {
+    font-size: 12px;
+  }
+
+  /* Phần bên phải: Form */
+  .account-page .account-right {
+    width: 100%;
+  }
+
+  .account-page .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .account-page .input-box {
+    width: 100%;
+  }
+
+  /* Căn chỉnh nút Hủy và Xác nhận */
+  .account-page .form-actions {
+    justify-content: center;
+  }
+
+  /* Nút đổi mật khẩu */
+  .account-page .change-password-button {
+    margin-left: 0;
+    text-align: center;
+    font-size: 12px;
+  }
 }

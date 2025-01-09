@@ -116,3 +116,64 @@
   border-top: 2px solid #000000; /* Đường gạch màu đen */
   margin: 10px 0; /* Khoảng cách trên và dưới */
 }
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Popup chi tiết */
+  .disease-detail-popup {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+    min-width: unset; /* Loại bỏ chiều rộng tối thiểu */
+    max-height: 90%; /* Giới hạn chiều cao tối đa */
+    padding: 10px;
+  }
+
+  /* Header */
+  .disease-detail-popup .popup-header {
+    padding: 10px;
+    font-size: 1.2rem; /* Giảm kích thước font */
+  }
+
+  .disease-detail-popup .popup-title {
+    font-size: 1.2rem; /* Giảm kích thước font */
+  }
+
+  .disease-detail-popup .popup-close {
+    font-size: 1.2rem; /* Giảm kích thước nút đóng */
+  }
+
+  /* Nội dung */
+  .disease-detail-popup .popup-section {
+    padding: 10px;
+  }
+
+  .disease-detail-popup .section-title {
+    font-size: 1rem;
+  }
+
+  .disease-detail-popup .detail-row {
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    gap: 10px; /* Thêm khoảng cách giữa các mục */
+  }
+
+  /* Bảng chi tiết */
+  .disease-detail-popup .detail-table {
+    font-size: 0.9rem;
+    overflow-x: auto; /* Thêm thanh cuộn ngang nếu bảng quá rộng */
+    display: block; /* Đặt bảng ở dạng khối */
+  }
+
+  .disease-detail-popup .detail-table th,
+  .disease-detail-popup .detail-table td {
+    padding: 6px;
+  }
+
+  /* Footer */
+  .disease-detail-popup .popup-footer {
+    padding: 10px;
+  }
+
+  .disease-detail-popup .grand-total {
+    font-size: 1.2rem; /* Giảm kích thước font */
+  }
+}

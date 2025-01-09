@@ -67,3 +67,32 @@
 .medical-record-card .view-details-button:hover {
   background-color: #0c1c44; /* Màu xanh đậm hơn khi hover */
 }
+
+@media (max-width: 768px) {
+  .medical-record-card {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    margin: 10px auto; /* Căn giữa và thêm khoảng cách giữa các thẻ */
+    padding: 8px; /* Giảm padding */
+  }
+
+  .medical-record-card .record-image {
+    height: 100px; /* Giảm chiều cao ảnh */
+    margin-bottom: 8px;
+  }
+
+  .medical-record-card .record-info {
+    margin-bottom: 8px; /* Giảm khoảng cách */
+  }
+
+  .medical-record-card .record-id,
+  .medical-record-card .record-date,
+  .medical-record-card .record-disease-type {
+    font-size: 12px; /* Giảm kích thước font chữ */
+    margin: 4px 0; /* Giảm khoảng cách giữa các dòng */
+  }
+
+  .medical-record-card .view-details-button {
+    font-size: 12px; /* Giảm kích thước font chữ */
+    padding: 6px 12px; /* Giảm padding */
+  }
+}

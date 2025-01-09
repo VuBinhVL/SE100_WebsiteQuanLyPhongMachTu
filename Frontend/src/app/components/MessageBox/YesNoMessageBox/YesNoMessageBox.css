@@ -69,3 +69,30 @@
 .yes-no-message-box .no-button:hover {
   background-color: #e53935;
 }
+
+@media (max-width: 768px) {
+  .yes-no-message-box .message-content {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    padding: 15px; /* Giảm padding */
+    border-radius: 10px; /* Giảm bo góc */
+  }
+
+  .yes-no-message-box .message-icon img {
+    width: 60px; /* Giảm kích thước biểu tượng */
+  }
+
+  .yes-no-message-box .message-title {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  .yes-no-message-box .button-group {
+    flex-direction: column; /* Xếp dọc các nút */
+    gap: 10px; /* Thêm khoảng cách giữa các nút */
+  }
+
+  .yes-no-message-box .button-group .yes-button,
+  .yes-no-message-box .button-group .no-button {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    padding: 8px 15px; /* Giảm padding */
+  }
+}

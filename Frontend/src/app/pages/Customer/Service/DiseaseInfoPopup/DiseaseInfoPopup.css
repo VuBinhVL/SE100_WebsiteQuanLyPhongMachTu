@@ -134,3 +134,64 @@
   margin: 20px 0; /* Khoảng cách trên dưới */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng mờ nhẹ */
 }
+
+/* Responsive cho màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  /* Popup thông tin chi tiết bệnh */
+  .disease-info-popup {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+    max-height: 90%; /* Giới hạn chiều cao tối đa */
+    padding: 10px;
+    overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung quá dài */
+  }
+
+  /* Header */
+  .disease-info-popup .popup-header {
+    padding: 10px;
+    font-size: 1.2rem; /* Giảm kích thước chữ */
+  }
+
+  .disease-info-popup .popup-title {
+    font-size: 1.2rem;
+  }
+
+  .disease-info-popup .popup-close {
+    font-size: 1.2rem;
+  }
+
+  /* Nội dung */
+  .disease-info-popup .popup-body {
+    padding: 15px;
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  .disease-info-popup .disease-image {
+    height: 120px; /* Giảm chiều cao ảnh */
+    margin-bottom: 15px; /* Thêm khoảng cách bên dưới ảnh */
+  }
+
+  .disease-info-popup .section-title {
+    font-size: 1rem;
+  }
+
+  .disease-info-popup .symptoms-list li {
+    font-size: 0.9rem;
+  }
+
+  /* Footer */
+  .disease-info-popup .popup-footer {
+    padding: 10px;
+  }
+
+  .disease-info-popup .schedule-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* Cảnh báo không có lịch hẹn */
+  .disease-info-popup .no-appointment-text {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    padding: 8px;
+  }
+}

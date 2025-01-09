@@ -35,3 +35,19 @@
   border-color: #348f6c; /* Màu viền khi focus */
   box-shadow: 0 0 4px rgba(52, 143, 108, 0.5); /* Hiệu ứng bóng */
 }
+
+@media (max-width: 768px) {
+  .account-textbox-input-field {
+    max-width: 100%; /* Chiếm toàn bộ chiều rộng màn hình nhỏ */
+    margin-bottom: 10px; /* Giảm khoảng cách giữa các input */
+  }
+
+  .account-textbox-input-field .input-label {
+    font-size: 12px; /* Giảm kích thước font chữ */
+  }
+
+  .account-textbox-input-field .input-box {
+    font-size: 14px; /* Giảm kích thước font chữ */
+    padding: 8px; /* Giảm padding */
+  }
+}
