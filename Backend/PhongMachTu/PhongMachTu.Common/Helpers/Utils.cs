@@ -9,6 +9,12 @@
             return Path.Combine(DesktopPath, "Uploads");
         }
 
+        public static string GetPathLog()
+        {
+            return Path.Combine(DesktopPath, "Logs");
+        }
+
+
         public static string RandomPassword()
         {
             Random random = new Random();
