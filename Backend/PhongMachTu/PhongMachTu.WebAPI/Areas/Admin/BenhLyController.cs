@@ -65,5 +65,11 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             var rs = await _benhLyService.DeleteBenhLy(id ?? -1);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
+        [HttpGet("benh-ly-theo-nhom-benh")]
+        public async Task<IActionResult> GetBenhLyTheoNhomBenh(int? id)
+        {
+            var rs = await _benhLyService.GetBenhLyByNhomBenh(id ?? -1);
+            return Ok(rs);
+        }
     }
 }

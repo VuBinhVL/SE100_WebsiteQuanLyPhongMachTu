@@ -23,6 +23,7 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DeleteBenhLy(int id);
         Task<IEnumerable<Request_HienThiBangGiaBenhLyDTO>> HienThiBangGiaBenhLy();
         Task<Request_HienThiChiTietBenhLyDTO> HienThiChiTietBenhLy(int benhLyId);
+        Task<IEnumerable<Request_BenhLyDTO>> GetBenhLyByNhomBenh(int nhomBenhId);
 
     }
     public class BenhLyService : IBenhLyService
@@ -189,6 +190,19 @@ namespace PhongMachTu.Service
             return chiTietBenhLy;
         }
 
-  
+        public async Task<IEnumerable<Request_BenhLyDTO>> GetBenhLyByNhomBenh(int nhomBenhId)
+        {
+            var findNhomBenhs = await _benhLyRepository.FindAsync(b=>b.NhomBenhId==nhomBenhId);
+            var list = new List<Request_BenhLyDTO>();
+            foreach(var item in findNhomBenhs)
+            {
+                list.Add(new Request_BenhLyDTO()
+                {
+                    Id=item.Id,
+                    TenBenhLy=item.TenBenhLy
+                });
+            }
+            return list;
+        }
     }
 }
