@@ -7,6 +7,8 @@ namespace PhongMachTu.WebAPI.Areas.Admin
 {
     [Area("ADMIN")]
     [Route("api/admin/quan-li-chi-tiet-kham-benh")]
+    [ApiController]
+
     public class ChiTietKhamBenhController : ControllerBase
     {
         private readonly IChiTietKhamBenhService _chiTietKhamBenhService;
