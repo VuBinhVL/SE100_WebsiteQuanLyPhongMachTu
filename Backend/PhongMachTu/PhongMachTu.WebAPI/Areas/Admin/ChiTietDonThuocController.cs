@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
+using PhongMachTu.Common.DTOs.Request.ChiTietDonThuoc;
 using PhongMachTu.Service;
 
 namespace PhongMachTu.WebAPI.Areas.Admin
@@ -29,5 +30,29 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+
+
+        [HttpPost("add-or-update")]
+        public async Task<IActionResult> AddOrUpdateChiTietDonThuocAsync(Request_AddOrUpdateChiTietDonThuocDTO data)
+        {
+            try
+            {
+                var rsp = await _chiTietDonThuocService.AddOrUpdateChiTietDonThuocAsync(data);
+                if (rsp.ResponeMessage.HttpStatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(new { message = rsp.ResponeMessage.Message });
+                }
+
+                return Ok(rsp);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
 }
+
+
+
