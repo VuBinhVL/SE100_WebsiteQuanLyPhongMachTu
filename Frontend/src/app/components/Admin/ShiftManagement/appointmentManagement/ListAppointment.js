@@ -220,7 +220,6 @@ export default function ListAppointment(props) {
                                                         <a href="#" onClick={() => handleAddEmxaminationForm(item)}>
                                                             <MdAddCircle className="icon_information icon_action" />
                                                         </a>
-
                                                     </div>
                                                 </td>
                                             </tr>

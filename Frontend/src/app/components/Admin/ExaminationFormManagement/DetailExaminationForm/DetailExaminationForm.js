@@ -8,14 +8,13 @@ import { formatDateTime } from "../../../../utils/FormatDate/formatDateTime";
 import { MdDelete } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import * as bootstrap from 'bootstrap';
+import DetailPathology from "../DetailPathology/DetailPathology";
 
 export default function DetailExaminationForm(props) {
     const [inforDetailExamination, setInforDetailExamination] = useState({});
-    const [details, setDetails] = useState([]);
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [dataForm, setDataForm] = useState({ tenBenhLy: '', giaKham: '' });
     const { item } = props;
-
+    const [selectedPathology, setSelectedPathology] = useState(null);
     const idModal = `idModalDetailExaminationForm${item.id}`;
     const idspecificModal = `#idModalDetailExaminationForm${item.id}`;
 
@@ -26,7 +25,6 @@ export default function DetailExaminationForm(props) {
             uri,
             async (sus) => {
                 await setInforDetailExamination(sus);
-                await setDetails(sus.chiTietKhamBenhs || []);
             },
             (fail) => {
                 alert(fail.message);
@@ -37,26 +35,15 @@ export default function DetailExaminationForm(props) {
         );
     }, [item.id]);
 
-    const handleOpenAdd = () => {
-        setShowAddModal(true);
-    };
-
-    const handleCloseAdd = () => {
-        setShowAddModal(false);
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setDataForm({
-            ...dataForm,
-            [name]: value
-        });
-    };
-
-    const handleSubmit = () => {
-        const newDetail = { id: Date.now(), ...dataForm };
-        setDetails([...details, newDetail]);
-        handleCloseAdd();
+    const handleOpenDetailAppointment = async (pathology) => {
+        if (pathology && pathology.id) {
+            console.log(">>>>>>>>>check pathology", pathology);
+            await setSelectedPathology(pathology);
+            const detailModal = new bootstrap.Modal(document.getElementById(`detailPathologyModal_${pathology.id}`));
+            detailModal.show();
+        } else {
+            console.error("Pathology is null or undefined");
+        }
     };
 
     return (
@@ -119,7 +106,7 @@ export default function DetailExaminationForm(props) {
                                 <h4 className="mb-3 d-flex align-items-center">
                                     2. Chi tiết khám bệnh
                                     <span className="ms-2">
-                                        <a href="#" onClick={handleOpenAdd}>
+                                        <a href="#">
                                             <IoMdAddCircle className="icon_Add" />
                                         </a>
                                     </span>
@@ -135,24 +122,30 @@ export default function DetailExaminationForm(props) {
                                     </thead>
                                     <tbody>
                                         {
-                                            details.map((item, index) => (
+                                            inforDetailExamination.chiTietKhamBenhs && inforDetailExamination.chiTietKhamBenhs.length > 0 && inforDetailExamination.chiTietKhamBenhs.map((item, index) => (
                                                 <tr key={item.id}>
                                                     <td>{index + 1}</td>
                                                     <td>{item.tenBenhLy}</td>
                                                     <td>{item.giaKham}</td>
                                                     <td>
-                                                        <a href="#">
-                                                            <MdEdit
-                                                                className="icon_edit icon_action" />
-                                                        </a>
-                                                        <a href="#" >
-                                                            <GrCircleInformation className="icon_information icon_action" />
-                                                        </a>
-                                                        <a href="#" >
-                                                            <MdDelete className="icon_delete icon_action" />
-                                                        </a>
+                                                        <div className="list_Action">
+                                                            <a href="#" onClick={() => handleOpenDetailAppointment(item)}>
+                                                                <GrCircleInformation className="icon_information icon_action" />
+                                                            </a>
+                                                            {/* <a href="#" onClick={() => handleAddEmxaminationForm(item)}>
+                                                            <MdAddCircle className="icon_information icon_action" />
+                                                        </a> */}
 
+                                                            {/* <a href="#">
+                                                                <MdEdit
+                                                                    className="icon_edit icon_action" />
+                                                            </a>
+                                                            <a href="#" >
+                                                                <MdDelete className="icon_delete icon_action" />
+                                                            </a> */}
+                                                        </div>
                                                     </td>
+
                                                 </tr>
                                             ))
                                         }
@@ -179,44 +172,12 @@ export default function DetailExaminationForm(props) {
                     </div>
                 </div>
             </div>
-
-            {/* Modal thêm chi tiết khám bệnh */}
-            <div className={`modal fade ${showAddModal ? 'show' : ''}`} id="addExaminationDetailModal" tabIndex="-1" aria-labelledby="addExaminationDetailModalLabel" aria-hidden={!showAddModal} style={{ display: showAddModal ? 'block' : 'none', zIndex: 1055 }}>
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="addExaminationDetailModalLabel">Thêm Chi Tiết Khám Bệnh</h5>
-                            <button type="button" className="btn-close" onClick={handleCloseAdd}></button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="mb-3">
-                                <label className="form-label">Tên Bệnh Lý</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="tenBenhLy"
-                                    value={dataForm.tenBenhLy}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Giá Khám</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="giaKham"
-                                    value={dataForm.giaKham}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={handleCloseAdd}>Đóng</button>
-                            <button type="button" className="btn btn-primary" onClick={handleSubmit}>Lưu</button>
-                        </div>
-                    </div>
+            {/* Modal Detail Appointment */}
+            {selectedPathology && (
+                <div>
+                    <DetailPathology pathology={selectedPathology} />
                 </div>
-            </div>
+            )}
         </>
     );
 }
