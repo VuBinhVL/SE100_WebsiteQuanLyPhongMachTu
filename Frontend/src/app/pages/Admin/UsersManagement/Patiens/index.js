@@ -120,7 +120,7 @@ export default function Patien() {
                   <th>STT</th>
                   <th>Full name</th>
                   <th>Gender</th>
-                  <th>Date of birth</th>
+                  <th>Age</th>
                   <th>Phone number</th>
                   <th>Address</th>
                   <th>IsLock</th>
