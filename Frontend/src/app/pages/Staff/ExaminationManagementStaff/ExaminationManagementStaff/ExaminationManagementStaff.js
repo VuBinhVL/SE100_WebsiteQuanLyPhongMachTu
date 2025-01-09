@@ -8,7 +8,7 @@ import { showErrorMessageBox } from "../../../../components/MessageBox/ErrorMess
 import { showSuccessMessageBox } from "../../../../components/MessageBox/SuccessMessageBox/showSuccessMessageBox";
 import ListAppointment from "../../../../components/Admin/ShiftManagement/appointmentManagement/ListAppointment";
 import { fetchGet, fetchPut } from "../../../../lib/httpHandler";
-import DetailExamination from "../DetailExamination/DetailExamination";
+import DetailExaminationMyself from "../DetailExaminationMyself/DetailExaminationMyself";
 
 export default function ExaminationManagementStaff() {
   const [listShift, setListShift] = useState([]); // Lưu danh sách ca khám
@@ -142,7 +142,7 @@ export default function ExaminationManagementStaff() {
                   <td>{formatDateToDisplay(item.ngayKham)}</td>
                   <td>
                     <div className="list_Action">
-                      <DetailExamination
+                      <DetailExaminationMyself
                         item={item}
                         setListShift={setListShift}
                         listShift={listShift}
