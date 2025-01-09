@@ -38,7 +38,7 @@ export default function NavigationOfStaff() {
             </li>
             <li className="nav-item text-black fs-5 py-2 py-sm-0">
               <NavLink
-                to="ExaminationForm"
+                to="medical-examination-card"
                 className="nav-link d-flex align-items-center text-black fs-5 my-2"
                 aria-current="page"
               >

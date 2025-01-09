@@ -27,6 +27,7 @@ import Login from "../pages/Other/Login";
 import Register from "../pages/Other/Register/Register";
 import ExaminationManagementStaff from "../pages/Staff/ExaminationManagementStaff/ExaminationManagementStaff";
 import ExaminationRegister from "../pages/Staff/ExaminationManagementStaff/ExaminationRegister";
+import MedicalExaminationCardStaff from "../pages/Staff/MedicalExaminationCardStaff";
 
 export default function MainRoutes() {
   return (
@@ -78,7 +79,10 @@ export default function MainRoutes() {
             path="information-management"
             element={<InformationManagement />}
           />
-          <Route path="examinationform" element={<ExaminationForm />} />
+          <Route
+            path="medical-examination-card"
+            element={<MedicalExaminationCardStaff />}
+          />
         </Route>
         {/* Route cho trang Forbidden*/}
         <Route path="/forbidden" element={<Forbidden />} />
