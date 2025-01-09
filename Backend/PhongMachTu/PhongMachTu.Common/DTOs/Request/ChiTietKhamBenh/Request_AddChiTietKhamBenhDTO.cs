@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace PhongMachTu.Common.DTOs.Request.ChiTietKhamBenh
 {
-    public class Request_AddChiTietKhamBenhDTO
+    public class Request_AddOrUpdateChiTietKhamBenhDTO
     {
+        public int Id { get;set; }//==-1 là insert
 
         [Required(ErrorMessage ="Chi tiết khám bệnh cần thuộc về 1 phiếu khám bệnh")]
         public int PhieuKhamBenhId { get; set; }
