@@ -32,5 +32,20 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteChiTietKhamBenhAsync(int id)
+        {
+            try
+            {
+                var rsp = await _chiTietKhamBenhService.DeleteChiTietKhamBenhAsync(id);
+                return StatusCode(rsp.HttpStatusCode, new { message = rsp.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
     }
 }
