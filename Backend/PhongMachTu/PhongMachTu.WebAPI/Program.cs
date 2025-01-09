@@ -69,6 +69,7 @@ builder.Services.AddScoped<IPhieuKhamBenhService, PhieuKhamBenhService>();
 builder.Services.AddScoped<IThongKeService, ThongKeService>();
 builder.Services.AddScoped<IChiTietKhamBenhService, ChiTietKhamBenhService>();
 builder.Services.AddScoped<IChupChieuService, ChupChieuService>();
+builder.Services.AddScoped<IChiTietDonThuocService, ChiTietDonThuocService>();
 
 //bổ trợ phần token
 builder.Services.AddMemoryCache();
