@@ -25,25 +25,25 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             _nhanVienService = nhanVienService;
         }
 
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            try
-            {
-                var list = new List<Respone_NhanVienDTO>();
-                var rs = await _nhanVienService.GetAllAsync();
-                foreach(var item in rs)
-                {
-                    list.Add(NhanVienMapper.Map_NguoiDungModel_To_Respone_NhanVienDTO(item));
-                }
-                return StatusCode(HttpStatusCode.Ok, rs);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
-            }
+        //[HttpGet("")]
+        //public async Task<IActionResult> GetAllAsync()
+        //{
+        //    try
+        //    {
+        //        var list = new List<Respone_NhanVienDTO>();
+        //        var rs = await _nhanVienService.GetAllAsync();
+        //        foreach(var item in rs)
+        //        {
+        //            list.Add(NhanVienMapper.Map_NguoiDungModel_To_Respone_NhanVienDTO(item));
+        //        }
+        //        return StatusCode(HttpStatusCode.Ok, rs);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+        //    }
            
-        }
+        //}
 
         [HttpGet("detail")]
       //  [Authorize(Policy = Const_ChucNang.Quan_Ly_Nhan_Vien_Edit)]
@@ -83,7 +83,7 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         }
 
 
-        [HttpPut("update-thong-tin-ca-nhan")]
+        [HttpPut("update")]
      //   [Authorize(Policy = Const_ChucNang.Quan_Ly_Nhan_Vien_Edit)]
         public async Task<IActionResult> UpdateThongTinCaNhanNhanVienAsync([FromBody] Request_UpdateThongTinCaNhanNhanVienDTO request)
         {
@@ -120,39 +120,39 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return BadRequest(new {message = "Có lỗi xảy ra từ hệ thống"});
             }
         }
-        [HttpGet("hien-thi-thong-tin-ca-nhan-ben-phia-admin")]
+        [HttpGet("thong-tin-ca-nhan")]
         public async Task<IActionResult> HienThiThongTinCaNhanBenPhiaAdminAsync()
         {
             try
             {
                 var rs = await _nhanVienService.HienThiThongTinCaNhanBenAdmin(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-        [HttpGet("hien-thi-form-sua-thong-tin-ca-nhan")]
+        [HttpGet("form-sua-thong-tin-ca-nhan")]
         public async Task<IActionResult> HienThiFormSuaThongTinCaNhanAsync()
         {
             try
             {
                 var rs = await _nhanVienService.HienThiFormSuaThongTinCaNhan(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
-        [HttpGet("hien-thi-danh-sach-nhan-vien")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiDanhSachNhanVienAsync()
         {
             try
             {
                 var rs = await _nhanVienService.HienThiDanhSachNhanVien();
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

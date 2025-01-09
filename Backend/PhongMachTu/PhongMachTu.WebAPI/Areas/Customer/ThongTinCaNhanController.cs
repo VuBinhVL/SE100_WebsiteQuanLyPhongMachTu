@@ -15,13 +15,13 @@ namespace PhongMachTu.WebAPI.Areas.Customer
         {
             _nguoiDungService = nguoiDungService;
         }
-        [HttpGet("hien-thi-thong-tin-ca-nhan")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiThongTinCaNhanAsync()
         {
             try
             {
                 var rs = await _nguoiDungService.HienThiThongTinNguoiDungAsync(HttpContext);
-                return StatusCode(rs.HttpStatusCode, rs.Message);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

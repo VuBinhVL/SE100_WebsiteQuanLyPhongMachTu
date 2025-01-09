@@ -72,6 +72,9 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.Property<DateTime>("NgayKham")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("NhomBenhId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SoLuongBenhNhanToiDa")
                         .HasColumnType("int");
 
@@ -89,6 +92,8 @@ namespace PhongMachTu.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BacSiId");
+
+                    b.HasIndex("NhomBenhId");
 
                     b.ToTable("CaKhams");
                 });
@@ -639,7 +644,15 @@ namespace PhongMachTu.DataAccess.Migrations
                         .HasForeignKey("BacSiId")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("PhongMachTu.DataAccess.Models.NhomBenh", "NhomBenh")
+                        .WithMany()
+                        .HasForeignKey("NhomBenhId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("BacSi");
+
+                    b.Navigation("NhomBenh");
                 });
 
             modelBuilder.Entity("PhongMachTu.DataAccess.Models.ChiTietDonThuoc", b =>

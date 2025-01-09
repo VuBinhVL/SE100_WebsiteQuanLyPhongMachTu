@@ -14,11 +14,23 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             _lichKhamService = lichkhamService;
         }
-        [HttpGet("hien-thi-danh-sach-lich-kham")]
-        public async Task<IActionResult> HienThiDanhSachLichKhamPhiaAdminAsync()
+        [HttpGet("")]
+        public async Task<IActionResult> HienThiDanhSachLichKhamPhiaAdminAsync(int CaKhamId)
         {
-            var rs = await _lichKhamService.HienThiDanhSachLichKhamPhiaAdmin();
-            return StatusCode(rs.HttpStatusCode, rs.Message);
+            var rs = await _lichKhamService.HienThiDanhSachLichKhamPhiaAdmin(CaKhamId);
+            return Ok(rs);
+        }
+        [HttpGet("trang-thai-lich-kham")]
+        public async Task<IActionResult> GetTrangThaiLichKhamAsync()
+        {
+            var rs = await _lichKhamService.GetTrangThaiLichKham();
+            return Ok(rs);
+        }
+        [HttpGet("chi-tiet-lich-kham")]
+        public async Task<IActionResult> HienThiChiTietLichKhamAsync(int lichKhamId)
+        {
+            var rs = await _lichKhamService.HienThiChiTietLichKhamAsync(lichKhamId);
+            return Ok(rs);
         }
     }
 }

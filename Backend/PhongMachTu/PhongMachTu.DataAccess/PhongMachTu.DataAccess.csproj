@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\PhongMachTu.Common\PhongMachTu.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhongMachTu.Common\PhongMachTu.Common.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -17,38 +17,59 @@ namespace PhongMachTu.Service
     public interface IHoSoBenhAnService
     {
         Task<List<HoSoBenhAn>> GetAllAsync();
-        Task<ResponeMessage> HienThiHoSoBenhAnAsync( HttpContext httpContext);
+        Task<IEnumerable<Request_HienThiHoSoBenhAnDTO>> HienThiHoSoBenhAnAsync( HttpContext httpContext);
     }
     public class HoSoBenhAnService : IHoSoBenhAnService
     {
-        private readonly IHoSoBenhAnRepository hoSoBenhAnRepository;
+        private readonly IHoSoBenhAnRepository _hoSoBenhAnRepository;
         private readonly INguoiDungService _nguoiDungService;
-        public HoSoBenhAnService(IHoSoBenhAnRepository _hoSoBenhAnRepository, INguoiDungService nguoiDungService)
+        public HoSoBenhAnService(IHoSoBenhAnRepository hoSoBenhAnRepository, INguoiDungService nguoiDungService)
         {
             _hoSoBenhAnRepository = hoSoBenhAnRepository;
             _nguoiDungService = nguoiDungService;
         }
         public async Task<List<HoSoBenhAn>> GetAllAsync()
         {
-            return (await hoSoBenhAnRepository.GetAllAsync()).ToList();
+            return (await _hoSoBenhAnRepository.GetAllAsync()).ToList();
         }
-        public async Task<ResponeMessage> HienThiHoSoBenhAnAsync(HttpContext httpContext)
+        public async Task<IEnumerable<Request_HienThiHoSoBenhAnDTO>> HienThiHoSoBenhAnAsync(HttpContext httpContext)
         {
+            // Lấy thông tin người dùng từ HttpContext
             var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+
             if (nguoiDung == null)
             {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+                throw new Exception("Không tìm thấy thông tin người dùng.");
             }
-            var findBenhNhan = (await hoSoBenhAnRepository.GetAllAsync()).Where(d => d.BenhNhanId == nguoiDung.Id).FirstOrDefault();
-            var rs = new Request_HienThiHoSoBenhAnDTO()
+
+            // Lấy danh sách hồ sơ bệnh án bao gồm cả thông tin nhóm bệnh và người dùng
+            var allHoSoBenhAn = await _hoSoBenhAnRepository.GetAllWithIncludeAsync(h => h.NhomBenh, h => h.BenhNhan);
+
+            // Lọc hồ sơ theo Id của bệnh nhân
+            var findBenhNhan = allHoSoBenhAn
+                .Where(d => d.BenhNhanId == nguoiDung.Id)
+                .ToList();
+
+            // Kiểm tra nếu không tìm thấy hồ sơ
+            if (!findBenhNhan.Any())
             {
-                Id = findBenhNhan.Id,
-                NgayTao = findBenhNhan.NgayTao
-            };
-            // Chuyển đổi đối tượng thành JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+                throw new Exception("Không tìm thấy hồ sơ bệnh án cho người dùng.");
+            }
+
+            // Chuyển đổi danh sách hồ sơ sang DTO
+            var result = findBenhNhan.Select(h => new Request_HienThiHoSoBenhAnDTO
+            {
+                IdBN = h.BenhNhanId,
+                Id = h.Id,
+                NhomBenh = h.NhomBenh?.TenNhomBenh ?? "Không xác định",
+                NgayTao = h.NgayTao
+            });
+
+            return result;
         }
 
-        }
+
+
+
+    }
 }

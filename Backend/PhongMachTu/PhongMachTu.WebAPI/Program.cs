@@ -47,6 +47,7 @@ builder.Services.AddScoped<IThuocRepository, ThuocRepository>();
 builder.Services.AddScoped<ITrangThaiLichKhamRepository, TrangThaiLichKhamRepository>();
 builder.Services.AddScoped<IVaiTroRepository, VaiTroRepository>();
 builder.Services.AddScoped<IThamSoRepository, ThamSoRepository>();
+builder.Services.AddScoped<IThongKeRepository, ThongKeRepository>();
 
 //Đăng ký service
 builder.Services.AddScoped<IDonViTinhService, DonViTinhService>();
@@ -65,6 +66,11 @@ builder.Services.AddScoped<IHoSoBenhAnService, HoSoBenhAnService>();
 builder.Services.AddScoped<IChiTietHoSoBenhAnService, ChiTietHoSoBenhAnService>();
 builder.Services.AddScoped<ILichKhamService, LichKhamService>();
 builder.Services.AddScoped<IPhieuKhamBenhService, PhieuKhamBenhService>();
+builder.Services.AddScoped<IThongKeService, ThongKeService>();
+builder.Services.AddScoped<IChiTietKhamBenhService, ChiTietKhamBenhService>();
+builder.Services.AddScoped<IChupChieuService, ChupChieuService>();
+builder.Services.AddScoped<IChiTietDonThuocService, ChiTietDonThuocService>();
+builder.Services.AddScoped<IChiTietXetNghiemService, ChiTietXetNghiemService>();
 
 //bổ trợ phần token
 builder.Services.AddMemoryCache();
@@ -222,7 +228,7 @@ app.UseCors(); // Áp dụng CORS
 
 
 app.UseAuthentication();
-app.UseMiddleware<TokenValidationMiddleware>();//phải dùng cái này ở dưới authen vì authen có nhiệm vụ handle token
+//app.UseMiddleware<TokenValidationMiddleware>();//phải dùng cái này ở dưới authen vì authen có nhiệm vụ handle token
 app.UseAuthorization();
 
 

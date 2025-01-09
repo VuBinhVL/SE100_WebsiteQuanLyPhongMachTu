@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Service;
+using System.Net.Http;
 
 namespace PhongMachTu.WebAPI.Areas.Admin
 {
@@ -16,24 +17,24 @@ namespace PhongMachTu.WebAPI.Areas.Admin
         {
             _caKhamService = caKhamService;
         }
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            var rs = await _caKhamService.GetAllAsync();
-            if (!rs.Any())
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new { message = "Không có dữ liệu" });
-            }
+        //[HttpGet("")]
+        //public async Task<IActionResult> GetAllAsync()
+        //{
+        //    var rs = await _caKhamService.GetAllAsync();
+        //    if (!rs.Any())
+        //    {
+        //        return StatusCode(StatusCodes.Status404NotFound, new { message = "Không có dữ liệu" });
+        //    }
 
-            return StatusCode(StatusCodes.Status200OK, rs);
-        }
+        //    return StatusCode(StatusCodes.Status200OK, rs);
+        //}
         [HttpPost("add")]
         public async Task<IActionResult> AddCaKhamAsync(Request_AddCaKhamDTO? request)
         {
             var rs = await _caKhamService.AddCaKham(request);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
-        [HttpGet("getbyid")]
+        [HttpGet("detail")]
         public async Task<IActionResult> GetCaKhamByIdAsync(int? id)
         {
             var rs = await _caKhamService.GetByIdAsync(id ?? -1);
@@ -56,18 +57,54 @@ namespace PhongMachTu.WebAPI.Areas.Admin
             var rs = await _caKhamService.DeleteCaKham(id ?? -1);
             return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
         }
-        [HttpGet("hien-thi-danh-sach-ca-kham")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiDanhSachCaKhamPhiaAdminAsync()
         {
             try
             {
                 var rs = await _caKhamService.HienThiDanhSachCaKhamPhiaAdmin();
-                return StatusCode(rs.HttpStatusCode, rs);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+        [HttpPut("dang-ky-ca-kham")]
+        public async Task<IActionResult> DangKyCaKhamAsync(Request_DangKyCaKhamChoBacSiDTO request)
+        {
+            try
+            {
+                var rs = await _caKhamService.DangKyCaKhamChoBacSiAsync( request, HttpContext);
+                return StatusCode(rs.HttpStatusCode, new { message = rs.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
+
+        [HttpGet("my-self")]
+        public async Task<IActionResult> GetCaKhamsMySelfAsync()
+        {
+            try
+            {
+                var rs = await _caKhamService.GetCaKhamsMySelfAsync(HttpContext);
+                if (rs == null)
+                {
+                    return Unauthorized();
+                }
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
     }
 }
+
+
+

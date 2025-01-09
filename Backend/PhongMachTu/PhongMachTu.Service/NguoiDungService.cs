@@ -26,8 +26,10 @@ namespace PhongMachTu.Service
         Task<Respone_Login> LoginAsync(Request_LoginDTO data);
         Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext);
         Task<ResponeMessage> ForgotPasswordAsync(Request_ForgotPasswordDTO data);
-        Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
-        
+        Task<Request_HienThiThongTinNguoiDungDTO> HienThiThongTinNguoiDungAsync(HttpContext httpContext);
+        Task<ResponeMessage> ChangePasswordAsync(HttpContext httpContext, Request_ChangePasswordDTO data);
+        Task<ResponeMessage> UpdateThongTinCaNhanAsync(HttpContext httpContext, Request_UpdateThongTinCaNhanDTO data);
+
     }
 
     public class NguoiDungService : INguoiDungService
@@ -41,7 +43,7 @@ namespace PhongMachTu.Service
         private readonly TokenStore _tokenStore;
         private readonly IUnitOfWork _unitOfWork;
 
-        public NguoiDungService(INguoiDungRepository nguoiDungRepository,IConfiguration configuration,IVaiTroRepository vaiTroRepository, ISuChoPhepRepository suChoPhepRepository, TokenStore tokenStore,IMailService mailService,IUnitOfWork unitOfWork)
+        public NguoiDungService(INguoiDungRepository nguoiDungRepository, IConfiguration configuration, IVaiTroRepository vaiTroRepository, ISuChoPhepRepository suChoPhepRepository, TokenStore tokenStore, IMailService mailService, IUnitOfWork unitOfWork)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _configuration = configuration;
@@ -56,7 +58,7 @@ namespace PhongMachTu.Service
         {
             var nguoidungs = await _nguoiDungRepository.GetAllAsync();
             var findNguoiDungByTenTaiKhoan = nguoidungs.Where(u => ParseHelpers.ParseTaiKhoan(u.TenTaiKhoan).Contains(data.TenTaiKhoan)).FirstOrDefault();
-            if (findNguoiDungByTenTaiKhoan == null|| findNguoiDungByTenTaiKhoan.Email != data.Email)
+            if (findNguoiDungByTenTaiKhoan == null || findNguoiDungByTenTaiKhoan.Email != data.Email)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Tên tài khoản hoặc Email không hợp lệ");
             }
@@ -65,7 +67,7 @@ namespace PhongMachTu.Service
             findNguoiDungByTenTaiKhoan.MatKhau = EncryptionHelper.Encrypt(passNew);
             _nguoiDungRepository.Update(findNguoiDungByTenTaiKhoan);
             await _unitOfWork.CommitAsync();
-            var rsSend =  await _mailService.SendEmailAsync(data.Email, "Quên mật khẩu", $"<h5>Mật khẩu mới của bạn là: {passNew}</h5>");
+            var rsSend = await _mailService.SendEmailAsync(data.Email, "Quên mật khẩu", $"<h5>Mật khẩu mới của bạn là: {passNew}</h5>");
             if (rsSend)
             {
                 return new ResponeMessage(HttpStatusCode.Ok, "Mật khẩu mới đã được gửi vào email của bạn");
@@ -75,8 +77,15 @@ namespace PhongMachTu.Service
 
         public async Task<NguoiDung> GetNguoiDungByHttpContext(HttpContext httpContext)
         {
-            var userId = int.Parse(httpContext.User.FindFirst("UserId")?.Value);
-            return await _nguoiDungRepository.GetSingleByIdAsync(userId);
+            try
+            {
+                var userId = int.Parse(httpContext.User.FindFirst("UserId")?.Value);
+                return await _nguoiDungRepository.GetSingleByIdAsync(userId);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<Respone_Login> LoginAsync(Request_LoginDTO data)
@@ -89,6 +98,17 @@ namespace PhongMachTu.Service
                 {
                     HttpStatusCode = HttpStatusCode.BadRequest,
                     Message = "Tên tài khoản hoặc mật khẩu không chính xác"
+                };
+            }
+
+
+            if (nguoiDung.IsLock)
+            {
+
+                return new Respone_Login()
+                {
+                    HttpStatusCode = HttpStatusCode.BadRequest,
+                    Message = "Tài khoản của bạn đang bị khóa"
                 };
             }
 
@@ -160,13 +180,10 @@ namespace PhongMachTu.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<ResponeMessage> HienThiThongTinNguoiDungAsync(HttpContext httpContext)
+        public async Task<Request_HienThiThongTinNguoiDungDTO> HienThiThongTinNguoiDungAsync(HttpContext httpContext)
         {
             var nguoiDung = await GetNguoiDungByHttpContext(httpContext);
-            if (nguoiDung == null)
-            {
-                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
-            }
+
             var rs = new Request_HienThiThongTinNguoiDungDTO()
             {
                 TenNguoiDung = nguoiDung.HoTen,
@@ -174,14 +191,72 @@ namespace PhongMachTu.Service
                 SoDienThoai = nguoiDung.SoDienThoai,
                 GioiTinh = nguoiDung.GioiTinh,
                 NgaySinh = nguoiDung.NgaySinh,
-                DiaChi = nguoiDung.DiaChi
+                DiaChi = nguoiDung.DiaChi,
+                Image = nguoiDung.Image
             };
-            // Chuyển đổi đối tượng thành JSON
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(rs);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+
+            return rs;
+
+
         }
 
-       
+        public async Task<ResponeMessage> ChangePasswordAsync(HttpContext httpContext, Request_ChangePasswordDTO data)
+        {
+            var findNguoiDung = await GetNguoiDungByHttpContext(httpContext);
+            if (findNguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+
+            if (data.MatKhauMoi != data.MatKhauNhapLai)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Mật khẩu mới và mật khẩu nhập lại không khớp");
+            }
+
+            if (findNguoiDung.MatKhau != EncryptionHelper.Encrypt(data.MatKhauHienTai))
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Mật khẩu hiện tại không chính xác");
+            }
+
+            findNguoiDung.MatKhau = EncryptionHelper.Encrypt(data.MatKhauMoi);
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Thay đổi mật khẩu thành công");
+        }
+
+        public async Task<ResponeMessage> UpdateThongTinCaNhanAsync(HttpContext httpContext, Request_UpdateThongTinCaNhanDTO data)
+        {
+            var findNguoiDung = await GetNguoiDungByHttpContext(httpContext);
+            if (findNguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+
+            var findNguoiDungByEmail = (await _nguoiDungRepository.FindAsync(u=>u.Email == data.Email && u.Id!=findNguoiDung.Id)).FirstOrDefault();
+            if (findNguoiDungByEmail != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest,"Email đã có người sử dụng");
+            }
+
+            var findNguoiDungByPhone = (await _nguoiDungRepository.FindAsync(u => u.SoDienThoai == data.SoDienThoai && u.Id != findNguoiDung.Id)).FirstOrDefault();
+            if (findNguoiDungByPhone != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Số điện thoại đã có người sử dụng");
+            }
+
+            if (!string.IsNullOrEmpty(data.Image))
+            {
+                findNguoiDung.Image = data.Image;
+            }
+
+            findNguoiDung.HoTen = data.HoTen;
+            findNguoiDung.GioiTinh = data.GioiTinh;
+            findNguoiDung.Email = data.Email;
+            findNguoiDung.SoDienThoai = data.SoDienThoai;
+            findNguoiDung.NgaySinh = data.NgaySinh;
+            findNguoiDung.DiaChi = data.DiaChi;
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Cập nhật thông tin cá nhân thành công");
+        }
     }
 }
 

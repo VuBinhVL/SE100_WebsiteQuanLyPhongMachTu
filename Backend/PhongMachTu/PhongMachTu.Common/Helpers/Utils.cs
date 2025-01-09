@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PhongMachTu.Common.Helpers
+﻿namespace PhongMachTu.Common.Helpers
 {
     public static class Utils
     {
         public static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+        public static string GetPathUpload()
+        {
+            return Path.Combine(DesktopPath, "Uploads");
+        }
+
+        public static string GetPathLog()
+        {
+            return Path.Combine(DesktopPath, "Logs");
+        }
+
 
         public static string RandomPassword()
         {
@@ -22,8 +27,5 @@ namespace PhongMachTu.Common.Helpers
             }
             return new string(result);
         }
-
-
-
     }
 }

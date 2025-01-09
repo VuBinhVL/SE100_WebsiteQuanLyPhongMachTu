@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Asn1.Ocsp;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Common.DTOs.Respone;
+using PhongMachTu.Common.DTOs.Respone.CaKham;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.DataAccess.Models;
 using PhongMachTu.DataAccess.Repositories;
@@ -20,9 +22,12 @@ namespace PhongMachTu.Service
         Task<CaKham> GetByIdAsync(int id);
         Task<ResponeMessage> UpdateCaKham(Request_UpdateCaKhamDTO? request);
         Task<ResponeMessage> DeleteCaKham(int id);
-        Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data,HttpContext httpContext);
+        Task<ResponeMessage> DangKyCaKhamAsync(Request_DangKyCaKhamDTO data, HttpContext httpContext);
+        Task<ResponeMessage> DangKyCaKhamChoBacSiAsync(Request_DangKyCaKhamChoBacSiDTO data, HttpContext httpContext);
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
-        Task<ResponeMessage> HienThiDanhSachCaKhamPhiaAdmin();
+        Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> HienThiDanhSachCaKhamPhiaAdmin();
+        Task<IEnumerable<Respone_CaKhamMySelfDTO>> GetCaKhamsMySelfAsync(HttpContext httpContext);
+
     }
     public class CaKhamService : ICaKhamService
     {
@@ -32,8 +37,9 @@ namespace PhongMachTu.Service
         private readonly INguoiDungRepository _bacSiRepository;
         private readonly INguoiDungService _nguoiDungService;
         private readonly IThamSoRepository _thamSoRepository;
+        private readonly IMailService _mailService;
 
-        public CaKhamService(ICaKhamRepository caKhamRepository, IUnitOfWork unitOfWork, INguoiDungRepository bacSiRepository, ILichKhamRepository lichKhamRepository,INguoiDungService nguoiDungService, IThamSoRepository thamSoRepository)
+        public CaKhamService(ICaKhamRepository caKhamRepository, IUnitOfWork unitOfWork, INguoiDungRepository bacSiRepository, ILichKhamRepository lichKhamRepository, INguoiDungService nguoiDungService, IThamSoRepository thamSoRepository, IMailService mailService)
         {
             _caKhamRepository = caKhamRepository;
             _unitOfWork = unitOfWork;
@@ -41,6 +47,7 @@ namespace PhongMachTu.Service
             _lichKhamRepository = lichKhamRepository;
             _nguoiDungService = nguoiDungService;
             _thamSoRepository = thamSoRepository;
+            _mailService = mailService;
         }
         public async Task<ResponeMessage> AddCaKham(Request_AddCaKhamDTO caKham)
         {
@@ -49,21 +56,23 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Dữ liệu không hợp lệ");
             }
 
-            var findBacSiId = (await _bacSiRepository.GetAllAsync()).Where(d => d.Id == caKham.BacSiId).FirstOrDefault();
-            // Kiểm tra BacSiId có tồn tại
-            var bacSiExists = await _bacSiRepository.GetSingleByIdAsync(caKham.BacSiId ?? -1);
-            if (bacSiExists == null)
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Bác sĩ không tồn tại");
-            }
+            //var findBacSiId = (await _bacSiRepository.GetAllAsync()).Where(d => d.Id == caKham.BacSiId).FirstOrDefault();
+            //// Kiểm tra BacSiId có tồn tại
+            //var bacSiExists = await _bacSiRepository.GetSingleByIdAsync(caKham.BacSiId ?? -1);
+            //if (bacSiExists == null)
+            //{
+            //    return new ResponeMessage(HttpStatusCode.BadRequest, "Bác sĩ không tồn tại");
+            //}
+
             await _caKhamRepository.AddAsync(new CaKham()
             {
+                NhomBenhId = caKham.NhomBenhId,
                 TenCaKham = caKham.TenCaKham,
                 ThoiGianBatDau = caKham.ThoiGianBatDau,
                 ThoiGianKetThuc = caKham.ThoiGianKetThuc,
                 NgayKham = caKham.NgayKham,
                 SoLuongBenhNhanToiDa = caKham.SoLuongBenhNhanToiDa,
-                BacSiId = caKham.BacSiId,
+                BacSiId = null,
 
             });
             await _unitOfWork.CommitAsync();
@@ -71,7 +80,7 @@ namespace PhongMachTu.Service
             return new ResponeMessage(HttpStatusCode.Ok, "Thêm ca khám thành công");
         }
 
-       
+
         public async Task<List<CaKham>> GetAllAsync()
         {
             return (await _caKhamRepository.GetAllAsync()).ToList();
@@ -106,7 +115,7 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám cần sửa");
             }
             // Kiểm tra BacSiId có tồn tại
-            var bacSiExists = await _bacSiRepository.GetSingleByIdAsync(request.BacSiId??-1);
+            var bacSiExists = await _bacSiRepository.GetSingleByIdAsync(request.BacSiId ?? -1);
             if (bacSiExists == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Bác sĩ không tồn tại");
@@ -130,7 +139,7 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám cần xóa");
             }
 
-            var findLichKhamByCaKhamId = (await _lichKhamRepository.GetAllAsync()).Where(p => p.Id == id).FirstOrDefault();
+            var findLichKhamByCaKhamId = (await _lichKhamRepository.GetAllAsync()).Where(p => p.CaKhamId == findCaKham.Id).FirstOrDefault();
             if (findLichKhamByCaKhamId != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, $"Không thể xóa ca khám này vì có lịch khám có ID {findLichKhamByCaKhamId.Id} đang thuộc về");
@@ -148,7 +157,13 @@ namespace PhongMachTu.Service
                 return new ResponeMessage(HttpStatusCode.Unauthorized, "");
             }
             var findCaKham = (await _caKhamRepository.FindAsync(c => c.Id == data.CaKhamId && c.BacSiId != null)).FirstOrDefault();
+
             if (findCaKham == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám cần đăng ký");
+            }
+            var findBacSi = await _bacSiRepository.GetSingleWithIncludesAsync(b => b.Id == findCaKham.BacSiId, n => n.ChuyenMon);
+            if (findBacSi == null || findBacSi.ChuyenMonId == null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám cần đăng ký");
             }
@@ -156,13 +171,13 @@ namespace PhongMachTu.Service
             var findLichKhams = await _lichKhamRepository.FindAsync(l => l.CaKhamId == data.CaKhamId);
 
 
-            if (findCaKham.SoLuongBenhNhanToiDa<=findLichKhams.Count())
+            if (findCaKham.SoLuongBenhNhanToiDa <= findLichKhams.Count())
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Xin lỗi.Ca khám hiện đang quá tải");
             }
 
             var findLichKhamByBenhNhanId = findLichKhams.Where(p => p.BenhNhanId == nguoiDung.Id).FirstOrDefault();
-            if(findLichKhamByBenhNhanId != null)
+            if (findLichKhamByBenhNhanId != null)
             {
                 return new ResponeMessage(HttpStatusCode.BadRequest, "Bạn đã đăng ký ca khám này rồi");
             }
@@ -175,13 +190,106 @@ namespace PhongMachTu.Service
             }
             await _lichKhamRepository.AddAsync(new LichKham()
             {
-                SoThuTu= findLichKhams.Count() + 1,
+                SoThuTu = findLichKhams.Count() + 1,
                 CaKhamId = data.CaKhamId,
                 TrangThaiLichKhamId = Const_TrangThaiLichKham.Dang_Cho,
                 BenhNhanId = nguoiDung.Id,
             });
+
+            var thoiGianBatDau = findCaKham.ThoiGianBatDau.ToString(@"hh\:mm");
+            var thoiGianKetThuc = findCaKham.ThoiGianKetThuc.ToString(@"hh\:mm");
+            var ngayKham = findCaKham.NgayKham.ToString("dd/MM/yyyy");
+
+            var sendMail = await _mailService.SendEmailAsync(nguoiDung.Email,
+     "Đăng ký ca khám thành công",
+     $@"
+    <html>
+        <head>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    background-color: #f9f9f9;
+                }}
+                .container {{
+                    max-width: 600px;
+                    margin: 20px auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                }}
+                h2 {{
+                    text-align: center;
+                    color: #333;
+                }}
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }}
+                td {{
+                    padding: 8px;
+                    border: 1px solid #ddd;
+                    font-size: 14px;
+                    color: #555;
+                }}
+                strong {{
+                    color: #333;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Thông Báo Đăng Ký Khám Bệnh</h2>
+                <table>
+                    <tr>
+                        <td>Tên bệnh nhân</td>
+                        <td><strong>{nguoiDung?.HoTen ?? "N/A"}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Tên ca khám</td>
+                        <td><strong>{findCaKham?.TenCaKham ?? "N/A"}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Thời gian bắt đầu</td>
+                        <td><strong>{thoiGianBatDau}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Thời gian kết thúc</td>
+                        <td><strong>{thoiGianKetThuc}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Ngày khám</td>
+                        <td><strong>{ngayKham}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Bác sĩ khám</td>
+                        <td><strong>{findCaKham?.BacSi?.HoTen ?? "N/A"}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Nhóm bệnh khám</td>
+                        <td><strong>{findBacSi?.ChuyenMon?.TenNhomBenh ?? "N/A"}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Số thứ tự khám</td>
+                        <td><strong>{findLichKhams?.Count() + 1}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </body>
+    </html>
+");
+
             await _unitOfWork.CommitAsync();
-            return new ResponeMessage(HttpStatusCode.Ok, $"Đăng ký ca khám thành công, số thứ tự của bạn là {findLichKhams.Count() + 1}");
+
+            if (sendMail)
+            {
+                return new ResponeMessage(HttpStatusCode.Ok, $"Đăng ký ca khám thành công, thông tin chi tiết đã gửi tới Email {nguoiDung.Email}");
+            }
+            else
+            {
+                return new ResponeMessage(HttpStatusCode.Ok, $"Đăng ký ca khám thành công, số thứ tự của bạn là {findLichKhams.Count() + 1}");
+            }
         }
 
         public bool ConThoiHanDangKy(CaKham cakham, int soPhutNgungDangKyTruocKetThuc)
@@ -201,23 +309,64 @@ namespace PhongMachTu.Service
             return await _caKhamRepository.GetCaKhamDaDangKyAsync();
         }
 
-        public async Task<ResponeMessage> HienThiDanhSachCaKhamPhiaAdmin()
+        public async Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> HienThiDanhSachCaKhamPhiaAdmin()
         {
             // Lấy danh sách ca khám từ repository
-            var caKhamList = await _caKhamRepository.GetCaKhamsWithTenBacSiAndTenNhomBenhAsync();
 
-            // Kiểm tra nếu danh sách ca khám là null hoặc không có ca khám nào
-            if (caKhamList == null || !caKhamList.Any())
-            {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy danh sách ca khám.");
-            }
 
-           
-
-            // Chuyển đổi kết quả sang JSON và trả về trong ResponeMessage
-            var responseJson = Newtonsoft.Json.JsonConvert.SerializeObject(caKhamList);
-            return new ResponeMessage(HttpStatusCode.Ok, responseJson);
+            return await _caKhamRepository.GetCaKhamsWithTenBacSiAndTenNhomBenhAsync(); ;
         }
 
+        public async Task<ResponeMessage> DangKyCaKhamChoBacSiAsync(Request_DangKyCaKhamChoBacSiDTO data, HttpContext httpContext)
+        {
+            var nguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (nguoiDung == null)
+            {
+                return new ResponeMessage(HttpStatusCode.Unauthorized, "");
+            }
+            var findCaKham = await _caKhamRepository.GetSingleByIdAsync(data.CaKhamId);
+            if (findCaKham == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám");
+            }
+            
+            if (findCaKham.BacSiId != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Ca khám đã có bác sĩ đăng kí");
+            }
+
+            if (findCaKham.NhomBenhId != nguoiDung.ChuyenMonId)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Ca khám không phù hợp chuyên môn của bạn");
+            }
+            findCaKham.BacSiId = nguoiDung.Id;
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok, "Đăng kí ca khám thành công");
+        }
+
+        public async Task<IEnumerable<Respone_CaKhamMySelfDTO>> GetCaKhamsMySelfAsync(HttpContext httpContext)
+        {
+            var findNguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (findNguoiDung == null)
+            {
+                return null;
+            }
+
+            var findCakhams = await _caKhamRepository.FindAsync(c => c.BacSiId == findNguoiDung.Id);
+            List<Respone_CaKhamMySelfDTO> list = new List<Respone_CaKhamMySelfDTO>();
+            foreach (var item in findCakhams)
+            {
+                list.Add(new Respone_CaKhamMySelfDTO()
+                {
+                    Id=item.Id,
+                    TenCaKham=item.TenCaKham,
+                    ThoiGianBatDau=item.ThoiGianBatDau,
+                    ThoiGianKetThuc=item.ThoiGianKetThuc,
+                    NgayKham=item.NgayKham
+                });
+            }
+
+            return list;
+        }
     }
 }

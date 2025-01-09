@@ -35,7 +35,7 @@ namespace PhongMachTu.WebAPI.Areas.Customer
         }
 
 
-        [HttpGet("hien-thi-ca-kham-da-dang-ky")]
+        [HttpGet("")]
         public async Task<IActionResult> HienThiCaKhamDaDangKyAsync()
         {
             try
