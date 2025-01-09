@@ -3,11 +3,14 @@ import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import "./ListAppointment.css"
 import { GrCircleInformation } from "react-icons/gr";
 import { MdAddCircle } from "react-icons/md";
-import { fetchGet } from "../../../../lib/httpHandler";
+import { fetchGet, fetchPost } from "../../../../lib/httpHandler";
 import { IoIosSearch } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+
 import DetailAppointment from "../DetailAppointment/DetailAppointment";
 import * as bootstrap from 'bootstrap';
+import { showSuccessMessageBox } from "../../../MessageBox/SuccessMessageBox/showSuccessMessageBox";
+import { showErrorMessageBox } from "../../../MessageBox/ErrorMessageBox/showErrorMessageBox";
 export default function ListAppointment(props) {
     const { item } = props;
     const idModal = `idModal${item.id}`;
@@ -102,6 +105,55 @@ export default function ListAppointment(props) {
         const detailModal = new bootstrap.Modal(document.getElementById(`detailAppointmentModal_${appointment.id}`));
         detailModal.show();
     };
+    const fetchAppointmentList = () => {
+        const uri = `/api/admin/quan-li-lich-kham?CaKhamId=${item.id}`;
+        fetchGet(
+            uri,
+            (sus) => {
+                setListAppoinment(sus);
+
+            },
+            (fail) => {
+                alert(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
+            }
+        );
+    }
+    const AddExamination = (appointment) => {
+        const uri = "/api/admin/quan-li-phieu-kham-benh/add";
+        const data = {
+            LichKhamId: appointment.id
+        }
+        fetchPost(
+            uri,
+            data
+            ,
+            (sus) => {
+                showSuccessMessageBox(sus.message);
+                // lấy lại data
+                fetchAppointmentList();
+            },
+            (fail) => {
+                console.log(">>>>>>>>.check fail", fail)
+                showErrorMessageBox(fail.message);
+            },
+            () => {
+                alert("Có lỗi xảy ra");
+            }
+        );
+    }
+    const handleAddEmxaminationForm = (appointment) => {
+        const status = "Đang chờ"
+        if (appointment.tenTrangThai.trim().toLowerCase() === status.trim().toLowerCase()) {
+            AddExamination(appointment)
+        } else {
+            showErrorMessageBox("Lịch khám này đã có phiếu khám bệnh")
+            return;
+        }
+
+    }
     console.log(">>>>>>>>>>>check listAppointment", listAppoinment);
     return (
         <>
@@ -165,8 +217,10 @@ export default function ListAppointment(props) {
                                                         <a href="#" onClick={() => handleOpenDetailAppointment(item)}>
                                                             <GrCircleInformation className="icon_information icon_action" />
                                                         </a>
+                                                        <a href="#" onClick={() => handleAddEmxaminationForm(item)}>
+                                                            <MdAddCircle className="icon_information icon_action" />
+                                                        </a>
 
-                                                        <MdAddCircle />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -209,7 +263,10 @@ export default function ListAppointment(props) {
             </div>
             {/* Modal Detail Appointment */}
             {selectedAppointment && (
-                <DetailAppointment appointment={selectedAppointment} />
+                <div>
+                    <DetailAppointment appointment={selectedAppointment} />
+                </div>
+
             )}
         </>
     );
