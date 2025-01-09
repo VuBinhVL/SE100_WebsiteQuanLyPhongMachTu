@@ -113,6 +113,13 @@
   font-size: 20px;
 }
 
+.examination-register .list_Action .icon_action:hover {
+  cursor: pointer;
+}
+
+.examination-register .list_Action .icon-register {
+  cursor: pointer;
+}
 /* CSS cho checkbox */
 /* Container tổng */
 .examination-register .checkbox-container {
