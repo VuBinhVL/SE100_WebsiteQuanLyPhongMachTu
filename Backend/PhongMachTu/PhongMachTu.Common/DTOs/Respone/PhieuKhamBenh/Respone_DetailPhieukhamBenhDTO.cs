@@ -38,7 +38,7 @@ namespace PhongMachTu.Common.DTOs.Respone.PhieuKhamBenh
         public int TienChupChieu { get; set; }
         public int TienKham { get; set; }
         public int TienThuoc { get; set; }
-        public bool DaThanhToan { get; set; }
+        public string ? TenTrangThai { get; set; }
 
     }
 }

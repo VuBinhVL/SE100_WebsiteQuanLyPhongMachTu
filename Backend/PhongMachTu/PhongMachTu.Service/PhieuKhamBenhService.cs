@@ -99,7 +99,7 @@ namespace PhongMachTu.Service
             {
                 return null;
             }
-            var findLichKham = await _lichKhamRepository.GetSingleByIdAsync(findPKB.LichKhamId);
+            var findLichKham = await _lichKhamRepository.GetSingleWithIncludesAsync(l=>l.Id==findPKB.LichKhamId,l=>l.TrangThaiLichKham);
             if (findLichKham == null)
             {
                 return null;
@@ -128,7 +128,7 @@ namespace PhongMachTu.Service
             rsp.DiaChi = findBenhNhan.DiaChi;
             rsp.ThoiGianKham = findPKB.NgayTao;
             rsp.TenBacSiKham = findBacSi.HoTen;
-            rsp.DaThanhToan = findLichKham.TrangThaiLichKhamId == Const_TrangThaiLichKham.Hoan_Tat;
+            rsp.TenTrangThai = findLichKham.TrangThaiLichKham.TenTrangThai;
             rsp.TienKham = 0;
             rsp.TienThuoc = 0;
             rsp.TienXetNghiem = 0;
