@@ -21,6 +21,7 @@ namespace PhongMachTu.Service
         Task<Respone_DetailPhieukhamBenhDTO> DetailPhieuKhamBenhAsync(int id);
         Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhsByUserCurAsync(HttpContext httpContext);
 
+        Task<ResponeMessage> XacNhanThanhToanAsync(int id);
     }
     public class PhieuKhamBenhService : IPhieuKhamBenhService
     {
@@ -33,8 +34,12 @@ namespace PhongMachTu.Service
         private readonly IChupChieuRepository _chupChieuRepository;
         private readonly IChiTietXetNghiemRepository _chiTietXetNghiemRepository;
         private readonly INguoiDungService _nguoiDungService;
+        private readonly IHoSoBenhAnRepository _hoSoBenhAnRepository;
+        private readonly IChiTietHoSoBenhAnRepository _chiTietHoSoBenhAnRepository;
+        private readonly IThamSoRepository _thamSoRepository;
+        private readonly IThuocRepository _thuocRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public PhieuKhamBenhService(IPhieuKhamBenhRepository phieuKhamBenhRepository, ILichKhamRepository lichKhamRepository, INguoiDungRepository nguoiDungRepository, IChiTietDonThuocRepository chiTietDonThuocRepository, ICaKhamRepository caKhamRepository,IChiTietKhamBenhRepository chiTietKhamBenhRepository,IChupChieuRepository chupChieuRepository,IChiTietXetNghiemRepository chiTietXetNghiemRepository,INguoiDungService nguoiDungService, IUnitOfWork unitOfWork)
+        public PhieuKhamBenhService(IPhieuKhamBenhRepository phieuKhamBenhRepository, ILichKhamRepository lichKhamRepository, INguoiDungRepository nguoiDungRepository, IChiTietDonThuocRepository chiTietDonThuocRepository, ICaKhamRepository caKhamRepository, IChiTietKhamBenhRepository chiTietKhamBenhRepository, IChupChieuRepository chupChieuRepository, IChiTietXetNghiemRepository chiTietXetNghiemRepository, INguoiDungService nguoiDungService, IHoSoBenhAnRepository hoSoBenhAnRepository, IChiTietHoSoBenhAnRepository chiTietHoSoBenhAnRepository, IThamSoRepository thamSoRepository, IThuocRepository thuocRepository, IUnitOfWork unitOfWork)
         {
             _phieuKhamBenhRepository = phieuKhamBenhRepository;
             _lichKhamRepository = lichKhamRepository;
@@ -44,7 +49,11 @@ namespace PhongMachTu.Service
             _chiTietKhamBenhRepository = chiTietKhamBenhRepository;
             _chupChieuRepository = chupChieuRepository;
             _chiTietXetNghiemRepository = chiTietXetNghiemRepository;
-            _nguoiDungService=nguoiDungService;
+            _nguoiDungService = nguoiDungService;
+            _hoSoBenhAnRepository = hoSoBenhAnRepository;
+            _chiTietHoSoBenhAnRepository = chiTietHoSoBenhAnRepository;
+            _thamSoRepository = thamSoRepository;
+            _thuocRepository = thuocRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -74,18 +83,18 @@ namespace PhongMachTu.Service
 
         public async Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync()
         {
-            var findPKBs = await _phieuKhamBenhRepository.GetAllWithIncludeAsync(p=>p.LichKham,p=>p.LichKham.TrangThaiLichKham,p=>p.LichKham.BenhNhan,p=>p.LichKham.CaKham.BacSi);
+            var findPKBs = await _phieuKhamBenhRepository.GetAllWithIncludeAsync(p => p.LichKham, p => p.LichKham.TrangThaiLichKham, p => p.LichKham.BenhNhan, p => p.LichKham.CaKham.BacSi);
             List<Respone_PhieukhamBenhDTO> list = new List<Respone_PhieukhamBenhDTO>();
             foreach (var item in findPKBs)
             {
                 list.Add(new Respone_PhieukhamBenhDTO()
                 {
-                  Id=item.Id,
-                    TenBenhNhan=item.LichKham.BenhNhan.HoTen,
+                    Id = item.Id,
+                    TenBenhNhan = item.LichKham.BenhNhan.HoTen,
                     TenBacSi = item.LichKham.CaKham.BacSi.HoTen,
                     NgayTao = item.NgayTao,
-                    SoDienThoai= item.LichKham.BenhNhan.SoDienThoai,
-                    TenTrangThaiPKB=item.LichKham.TrangThaiLichKham.TenTrangThai
+                    SoDienThoai = item.LichKham.BenhNhan.SoDienThoai,
+                    TenTrangThaiPKB = item.LichKham.TrangThaiLichKham.TenTrangThai
                 });
             }
             return list;
@@ -98,7 +107,7 @@ namespace PhongMachTu.Service
             {
                 return null;
             }
-            var findLichKham = await _lichKhamRepository.GetSingleWithIncludesAsync(l=>l.Id==findPKB.LichKhamId,l=>l.TrangThaiLichKham);
+            var findLichKham = await _lichKhamRepository.GetSingleWithIncludesAsync(l => l.Id == findPKB.LichKhamId, l => l.TrangThaiLichKham);
             if (findLichKham == null)
             {
                 return null;
@@ -135,7 +144,7 @@ namespace PhongMachTu.Service
 
             var findChiTietKhamBenhs = await _chiTietKhamBenhRepository.FindWithIncludeAsync(c => c.PhieuKhamBenhId == id, c => c.BenhLy);
 
-            foreach(var ctkb in findChiTietKhamBenhs)
+            foreach (var ctkb in findChiTietKhamBenhs)
             {
                 rsp.ChiTietKhamBenhs.Add(new Respone_DetailPhieukhamBenhDTO.Respone_ChiTietKhamBenhDTO()
                 {
@@ -146,20 +155,20 @@ namespace PhongMachTu.Service
 
                 rsp.TienKham += ctkb.GiaKham;
 
-               var findChiTietDonThuocs = await _chiTietDonThuocRepository.FindWithIncludeAsync(c => c.ChiTietKhamBenhId == ctkb.Id,c=>c.Thuoc);
-                foreach(var ctdt in findChiTietDonThuocs)
+                var findChiTietDonThuocs = await _chiTietDonThuocRepository.FindWithIncludeAsync(c => c.ChiTietKhamBenhId == ctkb.Id, c => c.Thuoc);
+                foreach (var ctdt in findChiTietDonThuocs)
                 {
                     rsp.TienThuoc += ctdt.DonGia;
                 }
 
                 var findChupchieus = await _chupChieuRepository.FindAsync(c => c.ChiTietKhamBenhId == ctkb.Id);
-                foreach(var chupchieu in findChupchieus)
+                foreach (var chupchieu in findChupchieus)
                 {
                     rsp.TienChupChieu += chupchieu.Gia;
                 }
 
-                var findChiTietXetNghiems = await _chiTietXetNghiemRepository.FindAsync(c=>c.ChiTietKhamBenhId==ctkb.Id);
-                foreach(var ctxn in findChiTietXetNghiems)
+                var findChiTietXetNghiems = await _chiTietXetNghiemRepository.FindAsync(c => c.ChiTietKhamBenhId == ctkb.Id);
+                foreach (var ctxn in findChiTietXetNghiems)
                 {
                     rsp.TienXetNghiem += ctxn.GiaXetNghiem;
                 }
@@ -174,7 +183,7 @@ namespace PhongMachTu.Service
             {
                 return null;
             }
-            var findPKBs = (await _phieuKhamBenhRepository.GetAllWithIncludeAsync(p => p.LichKham,p=>p.LichKham.CaKham, p => p.LichKham.TrangThaiLichKham, p => p.LichKham.BenhNhan)).Where(p=>p.LichKham.CaKham.BacSiId==findNguoiDung.Id);
+            var findPKBs = (await _phieuKhamBenhRepository.GetAllWithIncludeAsync(p => p.LichKham, p => p.LichKham.CaKham, p => p.LichKham.TrangThaiLichKham, p => p.LichKham.BenhNhan)).Where(p => p.LichKham.CaKham.BacSiId == findNguoiDung.Id);
             List<Respone_PhieukhamBenhDTO> list = new List<Respone_PhieukhamBenhDTO>();
             foreach (var item in findPKBs)
             {
@@ -189,6 +198,66 @@ namespace PhongMachTu.Service
             }
             return list;
 
+        }
+
+        public async Task<ResponeMessage> XacNhanThanhToanAsync(int id)
+        {
+            var findPKB = await _phieuKhamBenhRepository.GetSingleWithIncludesAsync(p => p.Id == id, p => p.LichKham, p => p.LichKham.CaKham);
+            if (findPKB == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy phiếu khám bệnh");
+            }
+
+            //check đã thanh toán hay hủy chưa
+            if (findPKB.LichKham.TrangThaiLichKhamId == Const_TrangThaiLichKham.Da_Huy)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không thể thanh toán do phiếu khám bệnh đã bị hủy");
+            }
+            if (findPKB.LichKham.TrangThaiLichKhamId == Const_TrangThaiLichKham.Hoan_Tat)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Phiếu khám bệnh đã thanh toán trước đó rồi");
+            }
+
+            var findCTKBs = await _chiTietKhamBenhRepository.FindAsync(c => c.PhieuKhamBenhId == id);
+
+            //xử lý tồn kho của thuốc
+            foreach (var ctkb in findCTKBs)
+            {
+                var findCTDTs = await _chiTietDonThuocRepository.FindWithIncludeAsync(t => t.ChiTietKhamBenhId == ctkb.Id, t => t.Thuoc);
+                foreach (var ctdt in findCTDTs)
+                {
+                    if (ctdt.SoLuong > ctdt.Thuoc.SoLuongTon)
+                    {
+                        return new ResponeMessage(HttpStatusCode.BadRequest, $"{ctdt.Thuoc.TenThuoc} chỉ còn {ctdt.Thuoc.SoLuongTon}");
+                    }
+                    ctdt.Thuoc.SoLuongTon -= ctdt.SoLuong;
+                }
+            }
+
+            //xử lý hồ sơ bệnh án.
+            var findHoSoBenhAnByNhomBenh = (await _hoSoBenhAnRepository.FindAsync(h => h.NhomBenhId == findPKB.LichKham.CaKham.NhomBenhId)).FirstOrDefault();
+            if (findHoSoBenhAnByNhomBenh == null)
+            {
+                findHoSoBenhAnByNhomBenh = await _hoSoBenhAnRepository.AddAsync(new HoSoBenhAn()
+                {
+                    NgayTao = findPKB.NgayTao,
+                    BenhNhanId = findPKB.LichKham.BenhNhanId,
+                    NhomBenhId = findPKB.LichKham.CaKham.NhomBenhId
+                });
+            }
+            foreach (var ctkb in findCTKBs)
+            {
+                await _chiTietHoSoBenhAnRepository.AddAsync(new ChiTietHoSoBenhAn()
+                {
+                    HoSoBenhAn = findHoSoBenhAnByNhomBenh,
+                    ChiTietKhamBenhId = ctkb.Id
+                });
+            }
+
+            //chuyển trạng thái
+            findPKB.LichKham.TrangThaiLichKhamId = Const_TrangThaiLichKham.Hoan_Tat;
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok,"Thanh toán thành công");
         }
     }
 }

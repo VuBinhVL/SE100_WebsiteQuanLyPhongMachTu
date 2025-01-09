@@ -62,7 +62,7 @@ namespace PhongMachTu.Service
                 };
             }
 
-            var findLichKham = await _lichKhamRepository.GetSingleByIdAsync(findPKB.LichKhamId);
+            var findLichKham = await _lichKhamRepository.GetSingleWithIncludesAsync(l=>l.Id==findPKB.LichKhamId,l=>l.CaKham);
             if (findLichKham == null)
             {
                 return new Respone_AddOrUpdateChiTietKhamBenhDTO()
@@ -89,6 +89,15 @@ namespace PhongMachTu.Service
                     ResponeMessage = new ResponeMessage(HttpStatusCode.BadRequest, "Có lỗi xảy ra do không tìm thấy bệnh lý đã chọn"),
                 };
             }
+
+            if (findLichKham.CaKham.NhomBenhId != findBenhLy.Id)
+            {
+                return new Respone_AddOrUpdateChiTietKhamBenhDTO()
+                {
+                    ResponeMessage = new ResponeMessage(HttpStatusCode.BadRequest, "Bệnh lý đã chọn không thuộc chuyên môn của bác sĩ đang khám"),
+                };
+            }
+
 
             if (data.Id == -1)//add
             {
