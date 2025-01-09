@@ -109,3 +109,8 @@
 .detailExaminationForm .icon_edit {
     color: #FFC107;
 }
+
+.detailExaminationForm .anhChupChieu {
+    width: 100px;
+    height: 100px;
+}

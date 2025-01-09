@@ -21,8 +21,10 @@ export default function DetailExaminationForm(props) {
     const { item } = props;
     const [benhLyList, setbenhLyList] = useState([]); // Đảm bảo là mảng
     const [nhomBenhId, setNhomBenhId] = useState(-1);
+    const [selectedPathology, setSelectedPathology] = useState(null);
     const idModal = `idModalDetailExaminationForm${item.id}`;
     const idspecificModal = `#idModalDetailExaminationForm${item.id}`;
+    const [chiTietBenhLy, setChiTietBenhLy] = useState({})
 
     // Lấy thông tin chi tiết phiếu khám bệnh
     useEffect(() => {
@@ -129,6 +131,141 @@ export default function DetailExaminationForm(props) {
         }
     };
 
+    const getInformation = (pathology) => {
+        const uri = `/api/admin/quan-li-chi-tiet-kham-benh/detail?id=${pathology.id}`;
+        fetchGet(
+            uri,
+            (sus) => {
+                console.log("Thông tin chi tiết bệnh lý:", sus);
+                setChiTietBenhLy(sus);
+            },
+            (fail) => {
+                console.error(
+                    "Lỗi khi gọi API chi tiết bệnh lý:",
+                    fail.message
+                );
+            },
+            () => {
+                console.error(
+                    "Máy chủ mất kết nối khi gọi API chi tiết bệnh lý"
+                );
+            }
+        );
+    };
+    console.log(">>>>>>>>>>>>>.check chi tiết bệnh lý", chiTietBenhLy)
+    const handleShowPathologyDetail = (pathology) => {
+        getInformation(pathology);
+        setSelectedPathology(pathology);
+    };
+
+    const handleHidePathologyDetail = () => {
+        setSelectedPathology(null);
+        setChiTietBenhLy({});
+    };
+    const handleThemChiTietChupChieu = (e) => {
+        e.preventDefault(); // Ngăn chặn reload trang
+
+        // Lấy giá trị từ input
+        const hinhAnhInput = document.getElementById("hinhAnh").value;
+        const ketLuanInput = document.getElementById("ketLuan").value;
+        const giaChupChieuInput = document.getElementById("giaChupChieu").value;
+
+        // Kiểm tra dữ liệu nhập vào
+        if (!hinhAnhInput || !ketLuanInput || !giaChupChieuInput || isNaN(giaChupChieuInput) || giaChupChieuInput <= 0) {
+            showErrorMessageBox("Vui lòng nhập đầy đủ và hợp lệ thông tin chụp chiếu.");
+            return;
+        }
+
+        // Tạo một đối tượng chi tiết chụp chiếu mới
+        const newChupChieu = {
+            id: Date.now(), // Giả lập ID duy nhất
+            images: hinhAnhInput,
+            ketLuan: ketLuanInput,
+            gia: parseFloat(giaChupChieuInput), // Chuyển giá trị thành số
+        };
+
+        // Cập nhật danh sách chi tiết chụp chiếu
+        setChiTietBenhLy((prevDetails) => ({
+            ...prevDetails,
+            chupChieus: [...prevDetails.chupChieus, newChupChieu],
+        }));
+
+        // Reset form sau khi thêm thành công
+        document.getElementById("hinhAnh").value = "";
+        document.getElementById("ketLuan").value = "";
+        document.getElementById("giaChupChieu").value = "";
+    };
+
+    const handleThemChiTietXetNghiem = (e) => {
+        e.preventDefault(); // Ngăn chặn reload trang
+
+        // Lấy giá trị từ input
+        const tenXetNghiemInput = document.getElementById("tenXetNghiem").value;
+        const ketQuaInput = document.getElementById("ketQua").value;
+        const danhGiaInput = document.getElementById("danhGia").value;
+        const giaXetNghiemInput = document.getElementById("giaXetNghiem").value;
+
+        // Kiểm tra dữ liệu nhập vào
+        if (!tenXetNghiemInput || !ketQuaInput || !danhGiaInput || !giaXetNghiemInput || isNaN(giaXetNghiemInput) || giaXetNghiemInput <= 0) {
+            showErrorMessageBox("Vui lòng nhập đầy đủ và hợp lệ thông tin xét nghiệm.");
+            return;
+        }
+
+        // Tạo một đối tượng chi tiết xét nghiệm mới
+        const newXetNghiem = {
+            id: Date.now(), // Giả lập ID duy nhất
+            tenXetNghiem: tenXetNghiemInput,
+            ketQua: ketQuaInput,
+            danhGia: danhGiaInput,
+            giaXetNghiem: parseFloat(giaXetNghiemInput), // Chuyển giá trị thành số
+        };
+
+        // Cập nhật danh sách chi tiết xét nghiệm
+        setChiTietBenhLy((prevDetails) => ({
+            ...prevDetails,
+            chiTietXetNghiems: [...prevDetails.chiTietXetNghiems, newXetNghiem],
+        }));
+
+        // Reset form sau khi thêm thành công
+        document.getElementById("tenXetNghiem").value = "";
+        document.getElementById("ketQua").value = "";
+        document.getElementById("danhGia").value = "";
+        document.getElementById("giaXetNghiem").value = "";
+    };
+
+    const handleThemChiTietDonThuoc = (e) => {
+        e.preventDefault(); // Ngăn chặn reload trang
+
+        // Lấy giá trị từ input
+        const tenThuocInput = document.getElementById("tenThuoc").value;
+        const soLuongInput = document.getElementById("soLuong").value;
+        const donGiaInput = document.getElementById("donGia").value;
+
+        // Kiểm tra dữ liệu nhập vào
+        if (!tenThuocInput || !soLuongInput || isNaN(soLuongInput) || soLuongInput <= 0 || !donGiaInput || isNaN(donGiaInput) || donGiaInput <= 0) {
+            showErrorMessageBox("Vui lòng nhập đầy đủ và hợp lệ thông tin đơn thuốc.");
+            return;
+        }
+
+        // Tạo một đối tượng chi tiết đơn thuốc mới
+        const newDonThuoc = {
+            id: Date.now(), // Giả lập ID duy nhất
+            tenThuoc: tenThuocInput,
+            soLuong: parseInt(soLuongInput), // Chuyển giá trị thành số
+            donGia: parseFloat(donGiaInput), // Chuyển giá trị thành số
+        };
+
+        // Cập nhật danh sách chi tiết đơn thuốc
+        setChiTietBenhLy((prevDetails) => ({
+            ...prevDetails,
+            chiTietDonThuocs: [...prevDetails.chiTietDonThuocs, newDonThuoc],
+        }));
+
+        // Reset form sau khi thêm thành công
+        document.getElementById("tenThuoc").value = "";
+        document.getElementById("soLuong").value = "";
+        document.getElementById("donGia").value = "";
+    };
     return (
         <>
             <a href="#">
@@ -174,27 +311,12 @@ export default function DetailExaminationForm(props) {
                                         <p>Ảnh bệnh nhân</p>
                                     </div>
                                     <div className="patient-details">
-                                        <p>
-                                            <b>Họ tên: </b> {inforDetailExamination.hoTenBenhNhan}
-                                        </p>
-                                        <p>
-                                            <b>Giới tính: </b>
-                                            {inforDetailExamination.gioiTinh}
-                                        </p>
-                                        <p>
-                                            <b>Ngày sinh: </b>{" "}
-                                            {formatDate(inforDetailExamination.ngaySinh)}
-                                        </p>
-                                        <p>
-                                            <b>Địa chỉ: </b> {inforDetailExamination.diaChi}
-                                        </p>
-                                        <p>
-                                            <b>Thời gian khám: </b>{" "}
-                                            {formatDateTime(inforDetailExamination.thoiGianKham)}
-                                        </p>
-                                        <p>
-                                            <b>Bác sĩ khám: </b> {inforDetailExamination.tenBacSiKham}
-                                        </p>
+                                        <p><b>Họ tên: </b> {inforDetailExamination.hoTenBenhNhan}</p>
+                                        <p><b>Giới tính: </b>{inforDetailExamination.gioiTinh}</p>
+                                        <p><b>Ngày sinh: </b> {formatDate(inforDetailExamination.ngaySinh)}</p>
+                                        <p><b>Địa chỉ: </b> {inforDetailExamination.diaChi}</p>
+                                        <p><b>Thời gian khám: </b> {formatDateTime(inforDetailExamination.thoiGianKham)}</p>
+                                        <p><b>Bác sĩ khám: </b> {inforDetailExamination.tenBacSiKham}</p>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +325,11 @@ export default function DetailExaminationForm(props) {
                             <div className="details-section mb-4 p-3 border rounded bg-light">
                                 <h4 className="mb-3 d-flex align-items-center">
                                     2. Chi tiết khám bệnh
-                                    <span className="ms-2"></span>
+                                    <span className="ms-2">
+                                        <a href="#">
+                                            <IoMdAddCircle className="icon_Add" />
+                                        </a>
+                                    </span>
                                 </h4>
 
                                 {/*  Thêm thuốc*/}
@@ -275,10 +401,7 @@ export default function DetailExaminationForm(props) {
                                                 <td>{item.tenBenhLy}</td>
                                                 <td>{item.giaKham}</td>
                                                 <td>
-                                                    <a href="#">
-                                                        <MdEdit className="icon_edit icon_action" />
-                                                    </a>
-                                                    <a href="#">
+                                                    <a href="#" onClick={() => handleShowPathologyDetail(item)}>
                                                         <GrCircleInformation className="icon_information icon_action" />
                                                     </a>
                                                     <a href="#">
@@ -290,6 +413,281 @@ export default function DetailExaminationForm(props) {
                                     </tbody>
                                 </table>
                             </div>
+
+                            {/* Chi tiết bệnh lý */}
+                            {selectedPathology && (
+                                <div className="pathology-detail mb-4 p-3 border rounded bg-light">
+                                    <h4 className="mb-3">Chi tiết bệnh lý</h4>
+                                    {chiTietBenhLy.chupChieus && chiTietBenhLy.chupChieus.length > 0 && (
+                                        <div>
+                                            <h5>1. Chi tiết chụp chiếu</h5>
+                                            <form className="me-5 w-75">
+                                                <div className="form-group mb-3 d-flex align-items-center position-relative">
+                                                    <label
+                                                        htmlFor="hinhAnh"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Hình ảnh:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="hinhAnh"
+                                                        id="hinhAnh"
+                                                        type="text"
+                                                        placeholder="Nhập URL hình ảnh"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="ketLuan"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Kết luận:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="ketLuan"
+                                                        id="ketLuan"
+                                                        type="text"
+                                                        placeholder="Nhập kết luận"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="giaChupChieu"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Giá:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="giaChupChieu"
+                                                        id="giaChupChieu"
+                                                        type="number"
+                                                        placeholder="Nhập giá"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="d-flex justify-content-end me-3 mb-3">
+                                                    <button
+                                                        onClick={handleThemChiTietChupChieu}
+                                                        className="btn btn-primary"
+                                                    >
+                                                        Thêm
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <table className="table table-hover table-bordered">
+                                                <thead className="table-light">
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Hình ảnh</th>
+                                                        <th>Kết luận</th>
+                                                        <th>Giá</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {chiTietBenhLy.chupChieus.map((chupChieu, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td><img src={chupChieu.images} alt="Chi tiết bệnh lý" className="anhChupChieu" /></td>
+                                                            <td>{chupChieu.ketLuan}</td>
+                                                            <td>{chupChieu.gia}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+                                    {chiTietBenhLy.chiTietXetNghiems && chiTietBenhLy.chiTietXetNghiems.length > 0 && (
+                                        <div>
+                                            <h5>2. Chi tiết xét nghiệm</h5>
+                                            <form className="me-5 w-75">
+                                                <div className="form-group mb-3 d-flex align-items-center position-relative">
+                                                    <label
+                                                        htmlFor="tenXetNghiem"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Tên xét nghiệm:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="tenXetNghiem"
+                                                        id="tenXetNghiem"
+                                                        type="text"
+                                                        placeholder="Nhập tên xét nghiệm"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="ketQua"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Kết quả:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="ketQua"
+                                                        id="ketQua"
+                                                        type="text"
+                                                        placeholder="Nhập kết quả"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="danhGia"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Đánh giá:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="danhGia"
+                                                        id="danhGia"
+                                                        type="text"
+                                                        placeholder="Nhập đánh giá"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="giaXetNghiem"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Giá xét nghiệm:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="giaXetNghiem"
+                                                        id="giaXetNghiem"
+                                                        type="number"
+                                                        placeholder="Nhập giá xét nghiệm"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="d-flex justify-content-end me-3 mb-3">
+                                                    <button
+                                                        onClick={handleThemChiTietXetNghiem}
+                                                        className="btn btn-primary"
+                                                    >
+                                                        Thêm
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <table className="table table-hover table-bordered">
+                                                <thead className="table-light">
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên xét nghiệm</th>
+                                                        <th>Kết quả</th>
+                                                        <th>Đánh giá</th>
+                                                        <th>Giá xét nghiệm</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {chiTietBenhLy.chiTietXetNghiems.map((xetNghiem, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{xetNghiem.tenXetNghiem}</td>
+                                                            <td>{xetNghiem.ketQua}</td>
+                                                            <td>{xetNghiem.danhGia}</td>
+                                                            <td>{xetNghiem.giaXetNghiem}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+                                    {chiTietBenhLy.chiTietDonThuocs && chiTietBenhLy.chiTietDonThuocs.length > 0 && (
+                                        <div>
+                                            <h5>3. Chi tiết đơn thuốc</h5>
+                                            <form className="me-5 w-75">
+                                                <div className="form-group mb-3 d-flex align-items-center position-relative">
+                                                    <label
+                                                        htmlFor="tenThuoc"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Tên thuốc:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="tenThuoc"
+                                                        id="tenThuoc"
+                                                        type="text"
+                                                        placeholder="Nhập tên thuốc"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="soLuong"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Số lượng:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="soLuong"
+                                                        id="soLuong"
+                                                        type="number"
+                                                        placeholder="Nhập số lượng"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3 d-flex align-items-center">
+                                                    <label
+                                                        htmlFor="donGia"
+                                                        className="form-label col-4 custom-bold"
+                                                    >
+                                                        Đơn giá:
+                                                    </label>
+                                                    <input
+                                                        className="form-control rounded-3"
+                                                        name="donGia"
+                                                        id="donGia"
+                                                        type="number"
+                                                        placeholder="Nhập đơn giá"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="d-flex justify-content-end me-3 mb-3">
+                                                    <button
+                                                        onClick={handleThemChiTietDonThuoc}
+                                                        className="btn btn-primary"
+                                                    >
+                                                        Thêm
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <table className="table table-hover table-bordered">
+                                                <thead className="table-light">
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Tên thuốc</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Đơn giá</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {chiTietBenhLy.chiTietDonThuocs.map((thuoc, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{thuoc.tenThuoc}</td>
+                                                            <td>{thuoc.soLuong}</td>
+                                                            <td>{thuoc.donGia}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+                                    <button className="btn btn-secondary" onClick={handleHidePathologyDetail}>Ẩn</button>
+                                </div>
+                            )}
 
                             {/* Tổng tiền */}
                             <div className="total-info mb-4 p-3 border rounded bg-light">
