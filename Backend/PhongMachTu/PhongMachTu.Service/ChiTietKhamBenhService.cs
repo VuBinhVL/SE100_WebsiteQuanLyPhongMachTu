@@ -1,4 +1,5 @@
 ﻿using PhongMachTu.Common.ConstValue;
+using PhongMachTu.Common.DTOs.Request.ChupChieu;
 using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.Common.DTOs.Respone.ChiTietKhamBenh;
 using PhongMachTu.DataAccess.Infrastructure;

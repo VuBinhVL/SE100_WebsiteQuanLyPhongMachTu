@@ -45,5 +45,24 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddChupChieuAsync(Request_AddChupChieuDTO data)
+        {
+            try
+            {
+                var rsp = await _chupChieuService.AddChupChieuAsync(data);
+                if (rsp.ResponeMessage.HttpStatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(new { message = rsp.ResponeMessage.Message });
+                }
+
+                return Ok(new {message= rsp.ResponeMessage.Message,idAdd = rsp.IdAdd });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
     }
 }
