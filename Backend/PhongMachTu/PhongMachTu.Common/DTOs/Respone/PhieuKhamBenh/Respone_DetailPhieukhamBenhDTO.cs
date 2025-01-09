@@ -27,6 +27,7 @@ namespace PhongMachTu.Common.DTOs.Respone.PhieuKhamBenh
         public string? DiaChi { get; set; }
         public DateTime ThoiGianKham { get; set; }
         public string? TenBacSiKham { get; set; }
+        public int NhomBenhId { get; set; }
         public List<Respone_ChiTietKhamBenhDTO> ?ChiTietKhamBenhs { get; set; }
 
         public Respone_DetailPhieukhamBenhDTO()

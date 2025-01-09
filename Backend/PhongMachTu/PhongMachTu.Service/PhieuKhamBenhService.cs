@@ -136,6 +136,7 @@ namespace PhongMachTu.Service
             rsp.DiaChi = findBenhNhan.DiaChi;
             rsp.ThoiGianKham = findPKB.NgayTao;
             rsp.TenBacSiKham = findBacSi.HoTen;
+            rsp.NhomBenhId = findBacSi.ChuyenMonId??-1;
             rsp.TenTrangThai = findLichKham.TrangThaiLichKham.TenTrangThai;
             rsp.TienKham = 0;
             rsp.TienThuoc = 0;
