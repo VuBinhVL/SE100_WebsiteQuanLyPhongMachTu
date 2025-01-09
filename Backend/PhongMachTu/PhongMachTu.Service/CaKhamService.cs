@@ -3,6 +3,7 @@ using Org.BouncyCastle.Asn1.Ocsp;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.CaKham;
 using PhongMachTu.Common.DTOs.Respone;
+using PhongMachTu.Common.DTOs.Respone.CaKham;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.DataAccess.Models;
 using PhongMachTu.DataAccess.Repositories;
@@ -25,6 +26,8 @@ namespace PhongMachTu.Service
         Task<ResponeMessage> DangKyCaKhamChoBacSiAsync(Request_DangKyCaKhamChoBacSiDTO data, HttpContext httpContext);
         Task<IEnumerable<Request_HienThiCaKhamDTO>> GetCaKhamDaDangKyAsync();
         Task<IEnumerable<Request_CaKhamCoSLBNDaDangKiDTO>> HienThiDanhSachCaKhamPhiaAdmin();
+        Task<IEnumerable<Respone_CaKhamMySelfDTO>> GetCaKhamsMySelfAsync(HttpContext httpContext);
+
     }
     public class CaKhamService : ICaKhamService
     {
@@ -329,6 +332,31 @@ namespace PhongMachTu.Service
             findCaKham.BacSiId = nguoiDung.Id;
             await _unitOfWork.CommitAsync();
             return new ResponeMessage(HttpStatusCode.Ok, "Đăng kí ca khám thành công");
+        }
+
+        public async Task<IEnumerable<Respone_CaKhamMySelfDTO>> GetCaKhamsMySelfAsync(HttpContext httpContext)
+        {
+            var findNguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (findNguoiDung == null)
+            {
+                return null;
+            }
+
+            var findCakhams = await _caKhamRepository.FindAsync(c => c.BacSiId == findNguoiDung.Id);
+            List<Respone_CaKhamMySelfDTO> list = new List<Respone_CaKhamMySelfDTO>();
+            foreach (var item in findCakhams)
+            {
+                list.Add(new Respone_CaKhamMySelfDTO()
+                {
+                    Id=item.Id,
+                    TenCaKham=item.TenCaKham,
+                    ThoiGianBatDau=item.ThoiGianBatDau,
+                    ThoiGianKetThuc=item.ThoiGianKetThuc,
+                    NgayKham=item.NgayKham
+                });
+            }
+
+            return list;
         }
     }
 }

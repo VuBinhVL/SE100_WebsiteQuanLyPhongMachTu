@@ -83,5 +83,28 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+
+        [HttpGet("my-self")]
+        public async Task<IActionResult> GetCaKhamsMySelfAsync()
+        {
+            try
+            {
+                var rs = await _caKhamService.GetCaKhamsMySelfAsync(HttpContext);
+                if (rs == null)
+                {
+                    return Unauthorized();
+                }
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
     }
 }
+
+
+
