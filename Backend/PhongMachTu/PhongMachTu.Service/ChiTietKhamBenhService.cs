@@ -3,6 +3,7 @@ using PhongMachTu.Common.DTOs.Request.ChiTietKhamBenh;
 using PhongMachTu.Common.DTOs.Request.ChupChieu;
 using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.Common.DTOs.Respone.ChiTietKhamBenh;
+using PhongMachTu.Common.DTOs.Respone.ChiTietXetNghiem;
 using PhongMachTu.Common.DTOs.Respone.ChupChieu;
 using PhongMachTu.DataAccess.Infrastructure;
 using PhongMachTu.DataAccess.Models;
@@ -20,6 +21,7 @@ namespace PhongMachTu.Service
         Task<Respone_ChiTietKhamBenhDTO> DetailChiTietKhamBenhAsync(int id);
         Task<ResponeMessage> DeleteChiTietKhamBenhAsync(int id);
         Task<Respone_AddOrUpdateChiTietKhamBenhDTO> AddOrUpdateChiTietKhamBenhAsync(Request_AddOrUpdateChiTietKhamBenhDTO data);
+        Task<ResponeMessage> UpdateGhiChuForChiTietKhamBenhAsync(Request_UpdateGhiChuForChiTietKhamBenhDTO data);
     }
     public class ChiTietKhamBenhService : IChiTietKhamBenhService
     {
@@ -229,6 +231,25 @@ namespace PhongMachTu.Service
                 });
             }
             return rsp;
+        }
+
+        public async Task<ResponeMessage> UpdateGhiChuForChiTietKhamBenhAsync(Request_UpdateGhiChuForChiTietKhamBenhDTO data)
+        {
+            var findCTKB = await _chiTietKhamBenhRepository.GetSingleWithIncludesAsync(c => c.Id == data.ChiTietKhamBenhId, c => c.PhieuKhamBenh, c => c.PhieuKhamBenh.LichKhamId);
+
+            if (findCTKB == null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy chi tiết khám bệnh hiện tại");
+            }
+
+            if (findCTKB.PhieuKhamBenh.LichKham.TrangThaiLichKhamId != Const_TrangThaiLichKham.Dang_Kham)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Chỉ có thể chỉnh sửa khi phiếu khám bệnh có trạng thái là đang khám");
+            }
+
+            findCTKB.GhiChu = data.GhiChu;
+            await _unitOfWork.CommitAsync();
+            return new ResponeMessage(HttpStatusCode.Ok,"Cập nhật ghi chú thành công");
         }
     }
 }

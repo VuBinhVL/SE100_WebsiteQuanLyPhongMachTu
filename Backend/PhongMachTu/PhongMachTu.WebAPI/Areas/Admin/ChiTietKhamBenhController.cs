@@ -67,6 +67,21 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                 return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
             }
         }
+
+        [HttpPost("update-ghi-chu")]
+        public async Task<IActionResult> UpdateGhiChuForChiTietKhamBenhAsync(Request_UpdateGhiChuForChiTietKhamBenhDTO data)
+        {
+            try
+            {
+                var rsp = await _chiTietKhamBenhService.UpdateGhiChuForChiTietKhamBenhAsync(data);
+                return StatusCode(rsp.HttpStatusCode, new { message = rsp.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+        
     }
 }
 
