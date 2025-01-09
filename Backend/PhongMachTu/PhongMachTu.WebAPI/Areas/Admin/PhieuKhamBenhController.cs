@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.PhieuKhamBenh;
 using PhongMachTu.Service;
@@ -55,6 +56,34 @@ namespace PhongMachTu.WebAPI.Areas.Admin
                     return NotFound();
                 }
                 return Ok(rsp);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError, HttpStatusCode.HeThongGapSuCo);
+            }
+        }
+
+        [HttpGet("my-self")]
+        public async Task<IActionResult> GetListPhieuKhamBenhsMySelfAsync()
+        {
+            try
+            {
+                var rs = await _phieuKhamBenhService.GetListPhieuKhamBenhsByUserCurAsync(HttpContext);
+                if (rs == null)
+                {
+                    return Unauthorized();
+                }
+                var data = rs
+                        .Select(pkb => new
+                        {
+                            pkb.Id,
+                            pkb.TenBenhNhan,
+                            pkb.NgayTao,
+                            pkb.SoDienThoai,
+                            pkb.TenTrangThaiPKB
+                        }).ToList();
+
+                return Ok(data);
             }
             catch (Exception ex)
             {

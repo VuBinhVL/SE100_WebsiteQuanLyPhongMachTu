@@ -1,4 +1,5 @@
-﻿using PhongMachTu.Common.ConstValue;
+﻿using Microsoft.AspNetCore.Http;
+using PhongMachTu.Common.ConstValue;
 using PhongMachTu.Common.DTOs.Request.PhieuKhamBenh;
 using PhongMachTu.Common.DTOs.Respone;
 using PhongMachTu.Common.DTOs.Respone.PhieuKhamBenh;
@@ -18,6 +19,8 @@ namespace PhongMachTu.Service
         Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhDTOsAsync();
         Task<ResponeMessage> AddPhieuKhamBenhAsync(Request_AddPhieuKhamBenhDTO data);
         Task<Respone_DetailPhieukhamBenhDTO> DetailPhieuKhamBenhAsync(int id);
+        Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhsByUserCurAsync(HttpContext httpContext);
+
     }
     public class PhieuKhamBenhService : IPhieuKhamBenhService
     {
@@ -29,8 +32,9 @@ namespace PhongMachTu.Service
         private readonly IChiTietKhamBenhRepository _chiTietKhamBenhRepository;
         private readonly IChupChieuRepository _chupChieuRepository;
         private readonly IChiTietXetNghiemRepository _chiTietXetNghiemRepository;
+        private readonly INguoiDungService _nguoiDungService;
         private readonly IUnitOfWork _unitOfWork;
-        public PhieuKhamBenhService(IPhieuKhamBenhRepository phieuKhamBenhRepository, ILichKhamRepository lichKhamRepository, INguoiDungRepository nguoiDungRepository, IChiTietDonThuocRepository chiTietDonThuocRepository, ICaKhamRepository caKhamRepository,IChiTietKhamBenhRepository chiTietKhamBenhRepository,IChupChieuRepository chupChieuRepository,IChiTietXetNghiemRepository chiTietXetNghiemRepository, IUnitOfWork unitOfWork)
+        public PhieuKhamBenhService(IPhieuKhamBenhRepository phieuKhamBenhRepository, ILichKhamRepository lichKhamRepository, INguoiDungRepository nguoiDungRepository, IChiTietDonThuocRepository chiTietDonThuocRepository, ICaKhamRepository caKhamRepository,IChiTietKhamBenhRepository chiTietKhamBenhRepository,IChupChieuRepository chupChieuRepository,IChiTietXetNghiemRepository chiTietXetNghiemRepository,INguoiDungService nguoiDungService, IUnitOfWork unitOfWork)
         {
             _phieuKhamBenhRepository = phieuKhamBenhRepository;
             _lichKhamRepository = lichKhamRepository;
@@ -40,6 +44,7 @@ namespace PhongMachTu.Service
             _chiTietKhamBenhRepository = chiTietKhamBenhRepository;
             _chupChieuRepository = chupChieuRepository;
             _chiTietXetNghiemRepository = chiTietXetNghiemRepository;
+            _nguoiDungService=nguoiDungService;
             _unitOfWork = unitOfWork;
         }
 
@@ -81,7 +86,7 @@ namespace PhongMachTu.Service
                     TenBacSi = item.LichKham.CaKham.BacSi.HoTen,
                     NgayTao = item.NgayTao,
                     SoDienThoai= item.LichKham.BenhNhan.SoDienThoai,
-                    TenTrangThaiLichKham=item.LichKham.TrangThaiLichKham.TenTrangThai
+                    TenTrangThaiPKB=item.LichKham.TrangThaiLichKham.TenTrangThai
                 });
             }
             return list;
@@ -163,5 +168,28 @@ namespace PhongMachTu.Service
             return rsp;
         }
 
+        public async Task<IEnumerable<Respone_PhieukhamBenhDTO>> GetListPhieuKhamBenhsByUserCurAsync(HttpContext httpContext)
+        {
+            var findNguoiDung = await _nguoiDungService.GetNguoiDungByHttpContext(httpContext);
+            if (findNguoiDung == null)
+            {
+                return null;
+            }
+            var findPKBs = (await _phieuKhamBenhRepository.GetAllWithIncludeAsync(p => p.LichKham,p=>p.LichKham.CaKham, p => p.LichKham.TrangThaiLichKham, p => p.LichKham.BenhNhan)).Where(p=>p.LichKham.CaKham.BacSiId==findNguoiDung.Id);
+            List<Respone_PhieukhamBenhDTO> list = new List<Respone_PhieukhamBenhDTO>();
+            foreach (var item in findPKBs)
+            {
+                list.Add(new Respone_PhieukhamBenhDTO()
+                {
+                    Id = item.Id,
+                    TenBenhNhan = item.LichKham.BenhNhan.HoTen,
+                    NgayTao = item.NgayTao,
+                    SoDienThoai = item.LichKham.BenhNhan.SoDienThoai,
+                    TenTrangThaiPKB = item.LichKham.TrangThaiLichKham.TenTrangThai
+                });
+            }
+            return list;
+
+        }
     }
 }
