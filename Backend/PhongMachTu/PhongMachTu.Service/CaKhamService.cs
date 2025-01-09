@@ -324,10 +324,20 @@ namespace PhongMachTu.Service
             {
                 return new ResponeMessage(HttpStatusCode.Unauthorized, "");
             }
-            var findCaKham = (await _caKhamRepository.FindAsync(c => c.Id == data.CaKhamId && c.BacSiId != null && c.NhomBenhId == nguoiDung.ChuyenMonId)).FirstOrDefault();
+            var findCaKham = await _caKhamRepository.GetSingleByIdAsync(data.CaKhamId);
             if (findCaKham == null)
             {
-                return new ResponeMessage(HttpStatusCode.BadRequest, "Ca khám đã có bác sĩ đăng kí hoặc không phù hợp chuyên môn của bạn");
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Không tìm thấy ca khám");
+            }
+            
+            if (findCaKham.BacSiId != null)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Ca khám đã có bác sĩ đăng kí");
+            }
+
+            if (findCaKham.NhomBenhId != nguoiDung.ChuyenMonId)
+            {
+                return new ResponeMessage(HttpStatusCode.BadRequest, "Ca khám không phù hợp chuyên môn của bạn");
             }
             findCaKham.BacSiId = nguoiDung.Id;
             await _unitOfWork.CommitAsync();
