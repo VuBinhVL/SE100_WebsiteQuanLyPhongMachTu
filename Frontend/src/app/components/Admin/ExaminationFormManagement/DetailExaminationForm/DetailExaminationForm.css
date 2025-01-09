@@ -1,0 +1,107 @@
+.detailExaminationForm .personal_information,
+.detailExaminationForm .details-section,
+.detailExaminationForm .total-info,
+.detailExaminationForm .popup-footer {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.detailExaminationForm .personal_information h4,
+.detailExaminationForm .details-section h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.detailExaminationForm .record-info {
+    display: flex;
+    align-items: center;
+}
+
+.detailExaminationForm .patient-photo {
+    margin-right: 20px;
+    text-align: center;
+}
+
+.detailExaminationForm .patient-photo img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.detailExaminationForm .patient-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.detailExaminationForm .patient-details p b {
+    color: #333;
+}
+
+.detailExaminationForm .details-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detailExaminationForm .details-section th,
+.detailExaminationForm .details-section td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.detailExaminationForm .details-section th {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.detailExaminationForm .details-section td {
+    color: #555;
+}
+
+.detailExaminationForm .details-section .btn-check,
+.detailExaminationForm .details-section .btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.detailExaminationForm .details-section .btn-check:hover,
+.detailExaminationForm .details-section .btn-delete:hover {
+    color: #007bff;
+}
+
+.detailExaminationForm .total-info p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.detailExaminationForm .total-info p b {
+    color: #333;
+}
+
+.detailExaminationForm .popup-footer {
+    text-align: right;
+}
+
+.detailExaminationForm .confirm-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detailExaminationForm .confirm-button:hover {
+    background-color: #0056b3;
+}
+
+.detailExaminationForm .icon_Add {
+    color: #348F6C;
+}
